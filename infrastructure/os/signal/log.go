@@ -8,5 +8,6 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 )
 
-var kasdLog = logger.RegisterSubSystem("KASD")
+var kasdLog = logger.RegisterSubSystem("RUPX")
+
 
