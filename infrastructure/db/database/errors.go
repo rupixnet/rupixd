@@ -10,3 +10,4 @@ var ErrNotFound = errors.New("not found")
 func IsNotFoundError(err error) bool {
 	return errors.Is(err, ErrNotFound)
 }
+

@@ -2,9 +2,9 @@ package grpcserver
 
 import (
 	"context"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server/grpcserver/protowire"
-	"github.com/kaspanet/kaspad/util/panics"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
+	"github.com/rupixnet/rupixd/util/panics"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/encoding/gzip"
@@ -81,3 +81,4 @@ func (p *p2pServer) Connect(address string) (server.Connection, error) {
 
 	return connection, nil
 }
+

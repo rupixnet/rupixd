@@ -65,3 +65,4 @@ func ScanHexFile(filePath string) <-chan []byte {
 
 	return c
 }
+

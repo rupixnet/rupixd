@@ -1,9 +1,9 @@
 package reachabilitymanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/model/testapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
 )
 
 type testReachabilityManager struct {
@@ -38,3 +38,4 @@ func (t *testReachabilityManager) GetAllNodes(root *externalapi.DomainHash) ([]*
 func NewTestReachabilityManager(manager model.ReachabilityManager) testapi.TestReachabilityManager {
 	return &testReachabilityManager{reachabilityManager: manager.(*reachabilityManager)}
 }
+

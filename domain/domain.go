@@ -5,15 +5,15 @@ import (
 	"sync/atomic"
 	"unsafe"
 
-	"github.com/kaspanet/kaspad/domain/consensusreference"
+	"github.com/rupixnet/rupixd/domain/consensusreference"
 
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/miningmanager"
-	"github.com/kaspanet/kaspad/domain/miningmanager/mempool"
-	"github.com/kaspanet/kaspad/domain/prefixmanager"
-	"github.com/kaspanet/kaspad/domain/prefixmanager/prefix"
-	infrastructuredatabase "github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/miningmanager"
+	"github.com/rupixnet/rupixd/domain/miningmanager/mempool"
+	"github.com/rupixnet/rupixd/domain/prefixmanager"
+	"github.com/rupixnet/rupixd/domain/prefixmanager/prefix"
+	infrastructuredatabase "github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/pkg/errors"
 )
 
@@ -225,3 +225,4 @@ func New(consensusConfig *consensus.Config, mempoolConfig *mempool.Config, db in
 	domainInstance.miningManager = miningManagerFactory.NewMiningManager(consensusReference, &consensusConfig.Params, mempoolConfig)
 	return domainInstance, nil
 }
+

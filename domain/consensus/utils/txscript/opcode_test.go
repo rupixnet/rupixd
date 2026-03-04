@@ -181,3 +181,4 @@ func isOpUnknown(opcodeVal int) bool {
 	return opcodeVal >= 0xb2 && opcodeVal <= 0xf9 || opcodeVal == 0xfc ||
 		opcodeVal == 0xa6 || opcodeVal == 0xa7
 }
+

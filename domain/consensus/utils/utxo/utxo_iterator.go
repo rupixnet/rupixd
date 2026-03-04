@@ -1,7 +1,7 @@
 package utxo
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -77,3 +77,4 @@ func (uci *utxoCollectionIterator) Close() error {
 	uci.pairs = nil
 	return nil
 }
+

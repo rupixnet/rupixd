@@ -1,13 +1,13 @@
 package blockrelay
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	peerpkg "github.com/kaspanet/kaspad/app/protocol/peer"
-	"github.com/kaspanet/kaspad/app/protocol/protocolerrors"
-	"github.com/kaspanet/kaspad/domain"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/infrastructure/config"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
+	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
+	"github.com/rupixnet/rupixd/domain"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"sync/atomic"
 )
 
@@ -160,3 +160,4 @@ func HandlePruningPointAndItsAnticoneRequests(context PruningPointAndItsAnticone
 		}
 	}
 }
+

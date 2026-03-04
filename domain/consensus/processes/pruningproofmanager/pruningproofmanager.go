@@ -1,23 +1,23 @@
 package pruningproofmanager
 
 import (
-	consensusDB "github.com/kaspanet/kaspad/domain/consensus/database"
-	"github.com/kaspanet/kaspad/domain/consensus/datastructures/blockheaderstore"
-	"github.com/kaspanet/kaspad/domain/consensus/datastructures/blockrelationstore"
-	"github.com/kaspanet/kaspad/domain/consensus/datastructures/ghostdagdatastore"
-	"github.com/kaspanet/kaspad/domain/consensus/datastructures/reachabilitydatastore"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/processes/dagtopologymanager"
-	"github.com/kaspanet/kaspad/domain/consensus/processes/dagtraversalmanager"
-	"github.com/kaspanet/kaspad/domain/consensus/processes/ghostdagmanager"
-	"github.com/kaspanet/kaspad/domain/consensus/processes/reachabilitymanager"
-	"github.com/kaspanet/kaspad/domain/consensus/ruleerrors"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/hashset"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	"github.com/kaspanet/kaspad/util/staging"
+	consensusDB "github.com/rupixnet/rupixd/domain/consensus/database"
+	"github.com/rupixnet/rupixd/domain/consensus/datastructures/blockheaderstore"
+	"github.com/rupixnet/rupixd/domain/consensus/datastructures/blockrelationstore"
+	"github.com/rupixnet/rupixd/domain/consensus/datastructures/ghostdagdatastore"
+	"github.com/rupixnet/rupixd/domain/consensus/datastructures/reachabilitydatastore"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/processes/dagtopologymanager"
+	"github.com/rupixnet/rupixd/domain/consensus/processes/dagtraversalmanager"
+	"github.com/rupixnet/rupixd/domain/consensus/processes/ghostdagmanager"
+	"github.com/rupixnet/rupixd/domain/consensus/processes/reachabilitymanager"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/util/staging"
 	"github.com/pkg/errors"
 	"math/big"
 )
@@ -936,3 +936,4 @@ func (ppm *pruningProofManager) ApplyPruningPointProof(pruningPointProof *extern
 	ppm.consensusStateStore.StageTips(stagingArea, []*externalapi.DomainHash{pruningPoint})
 	return staging.CommitAllChanges(ppm.databaseContext, stagingArea)
 }
+

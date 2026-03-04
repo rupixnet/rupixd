@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 // OnConnectedHandler is a function that is to be called
@@ -44,3 +44,4 @@ type Connection interface {
 	SetOnInvalidMessageHandler(onInvalidMessageHandler OnInvalidMessageHandler)
 	Address() *net.TCPAddr
 }
+

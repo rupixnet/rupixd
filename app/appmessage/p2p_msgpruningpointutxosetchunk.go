@@ -1,6 +1,6 @@
 package appmessage
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // MsgPruningPointUTXOSetChunk represents a kaspa PruningPointUTXOSetChunk message
 type MsgPruningPointUTXOSetChunk struct {
@@ -34,3 +34,4 @@ type UTXOEntry struct {
 	BlockDAAScore   uint64
 	IsCoinbase      bool
 }
+

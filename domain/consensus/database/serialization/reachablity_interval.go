@@ -1,7 +1,7 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
 )
 
 func reachablityIntervalToDBReachablityInterval(reachabilityInterval *model.ReachabilityInterval) *DbReachabilityInterval {
@@ -17,3 +17,4 @@ func dbReachablityIntervalToReachablityInterval(dbReachabilityInterval *DbReacha
 		End:   dbReachabilityInterval.End,
 	}
 }
+

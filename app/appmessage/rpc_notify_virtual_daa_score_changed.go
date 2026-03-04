@@ -53,3 +53,4 @@ func NewVirtualDaaScoreChangedNotificationMessage(
 		VirtualDaaScore: virtualDaaScore,
 	}
 }
+

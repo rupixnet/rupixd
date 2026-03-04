@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // FinalityStore represents a store for finality data
@@ -11,3 +11,4 @@ type FinalityStore interface {
 	StageFinalityPoint(stagingArea *StagingArea, blockHash *externalapi.DomainHash, finalityPointHash *externalapi.DomainHash)
 	FinalityPoint(dbContext DBReader, stagingArea *StagingArea, blockHash *externalapi.DomainHash) (*externalapi.DomainHash, error)
 }
+

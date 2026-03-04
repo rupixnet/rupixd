@@ -3,7 +3,7 @@ package appmessage
 import (
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // TestRequestBlockLocator tests the MsgRequestBlockLocator API.
@@ -22,3 +22,4 @@ func TestRequestBlockLocator(t *testing.T) {
 			cmd, wantCmd)
 	}
 }
+

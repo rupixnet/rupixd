@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func TestTransactionPut(t *testing.T) {
@@ -494,3 +494,4 @@ func testTransactionRollbackUnlessClosed(t *testing.T, db database.Database, tes
 			"unexpectedly failed: %s", testName, err)
 	}
 }
+

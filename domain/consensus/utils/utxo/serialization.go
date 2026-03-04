@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/serialization"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/transactionid"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/serialization"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionid"
 	"github.com/pkg/errors"
 )
 
@@ -134,3 +134,4 @@ func deserializeUTXOEntry(r io.Reader) (externalapi.UTXOEntry, error) {
 
 	return NewUTXOEntry(amount, &scriptPubKey, isCoinbase, blockDAAScore), nil
 }
+

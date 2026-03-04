@@ -5,9 +5,9 @@ import (
 	"strings"
 	"sync/atomic"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 
-	"github.com/kaspanet/kaspad/app/protocol/protocolerrors"
+	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
 )
 
 var (
@@ -47,3 +47,4 @@ func (*FlowContext) HandleError(err error, flowName string, isStopping *uint32, 
 func (*FlowContext) IsRecoverableError(err error) bool {
 	return err == nil || errors.Is(err, router.ErrRouteClosed) || errors.As(err, &protocolerrors.ProtocolError{})
 }
+

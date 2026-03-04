@@ -1,7 +1,7 @@
 package integration
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/logger"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"os"
 	"testing"
 )
@@ -12,3 +12,4 @@ func TestMain(m *testing.M) {
 
 	os.Exit(m.Run())
 }
+

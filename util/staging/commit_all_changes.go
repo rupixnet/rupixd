@@ -1,8 +1,8 @@
 package staging
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"sync/atomic"
 )
 
@@ -30,3 +30,4 @@ var lastShardingID uint64
 func GenerateShardingID() model.StagingShardID {
 	return model.StagingShardID(atomic.AddUint64(&lastShardingID, 1))
 }
+

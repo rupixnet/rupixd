@@ -5,7 +5,7 @@
 package util
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/pkg/errors"
 	"math"
 	"strconv"
@@ -122,3 +122,4 @@ func (a Amount) String() string {
 func (a Amount) MulF64(f float64) Amount {
 	return round(float64(a) * f)
 }
+

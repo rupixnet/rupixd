@@ -118,3 +118,4 @@ func BenchmarkNewHeavyHashWriterBig(b *testing.B) {
 		hasher.Finalize()
 	}
 }
+

@@ -1,6 +1,6 @@
 package subnetworks
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 var (
 	// SubnetworkIDNative is the default subnetwork ID which is used for transactions without related payload data
@@ -25,3 +25,4 @@ func IsBuiltIn(id externalapi.DomainSubnetworkID) bool {
 func IsBuiltInOrNative(id externalapi.DomainSubnetworkID) bool {
 	return id == SubnetworkIDNative || IsBuiltIn(id)
 }
+

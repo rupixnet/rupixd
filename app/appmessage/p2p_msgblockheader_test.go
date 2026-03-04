@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // TestBlockHeader tests the MsgBlockHeader API.
@@ -63,3 +63,4 @@ func TestBlockHeader(t *testing.T) {
 			bh.PruningPoint, pruningPoint)
 	}
 }
+

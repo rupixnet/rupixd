@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func TestTransactionCloseErrors(t *testing.T) {
@@ -145,3 +145,4 @@ func TestTransactionCloseErrors(t *testing.T) {
 		}()
 	}
 }
+

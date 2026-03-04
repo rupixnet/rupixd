@@ -1,8 +1,8 @@
 package virtual
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // ContainsOnlyVirtualGenesis returns whether the given block hashes contain only the virtual
@@ -10,3 +10,4 @@ import (
 func ContainsOnlyVirtualGenesis(blockHashes []*externalapi.DomainHash) bool {
 	return len(blockHashes) == 1 && blockHashes[0].Equal(model.VirtualGenesisBlockHash)
 }
+

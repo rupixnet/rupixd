@@ -67,3 +67,4 @@ func FromBytes(serializedID []byte) (*ID, error) {
 	}
 	return newID, nil
 }
+

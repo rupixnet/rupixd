@@ -6,11 +6,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/client"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/keys"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/utils"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/client"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/keys"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/utils"
 	"github.com/pkg/errors"
 )
 
@@ -127,3 +127,4 @@ func send(conf *sendConfig) error {
 
 	return nil
 }
+

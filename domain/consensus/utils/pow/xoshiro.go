@@ -2,7 +2,7 @@ package pow
 
 import (
 	"encoding/binary"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"math/bits"
 )
 
@@ -35,3 +35,4 @@ func (x *xoShiRo256PlusPlus) Uint64() uint64 {
 	x.s3 = bits.RotateLeft64(x.s3, 45)
 	return res
 }
+

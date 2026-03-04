@@ -1,9 +1,9 @@
 package coinbasemanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"strconv"
 	"testing"
 )
@@ -124,3 +124,4 @@ func TestBuildSubsidyTable(t *testing.T) {
 	tableStr += "\n}"
 	t.Logf(tableStr)
 }
+

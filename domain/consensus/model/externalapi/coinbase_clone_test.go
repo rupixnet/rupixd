@@ -57,3 +57,4 @@ func TestDomainCoinbaseData_Clone(t *testing.T) {
 		}
 	}
 }
+

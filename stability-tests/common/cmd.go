@@ -5,8 +5,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/pkg/errors"
 )
 
@@ -30,3 +30,4 @@ func StartCmd(name string, args ...string) (*exec.Cmd, error) {
 func NetworkCliArgumentFromNetParams(params *dagconfig.Params) string {
 	return fmt.Sprintf("--%s", strings.TrimPrefix(params.Name, "kaspa-"))
 }
+

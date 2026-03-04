@@ -6,12 +6,12 @@ package txscript
 
 import (
 	"github.com/kaspanet/go-secp256k1"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/pkg/errors"
 
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/util"
 )
 
 // RawTxInSignature returns the serialized Schnorr signature for the input idx of
@@ -259,3 +259,4 @@ func SignTxOutput(dagParams *dagconfig.Params, tx *externalapi.DomainTransaction
 	// Merge scripts. with any previous data, if any.
 	return mergeScripts(dagParams, tx, idx, class, sigScript, previousScript)
 }
+

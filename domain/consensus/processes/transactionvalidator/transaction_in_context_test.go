@@ -31,3 +31,4 @@ func TestSequenceLocksActive(t *testing.T) {
 		}
 	}
 }
+

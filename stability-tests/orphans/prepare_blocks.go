@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/infrastructure/db/database/ldb"
-	"github.com/kaspanet/kaspad/stability-tests/common"
-	"github.com/kaspanet/kaspad/stability-tests/common/mine"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/infrastructure/db/database/ldb"
+	"github.com/rupixnet/rupixd/stability-tests/common"
+	"github.com/rupixnet/rupixd/stability-tests/common/mine"
 	"github.com/pkg/errors"
 )
 
@@ -60,3 +60,4 @@ func prepareBlocks() (blocks []*externalapi.DomainBlock, topBlock *externalapi.D
 
 	return blocks[:len(blocks)-1], blocks[len(blocks)-1], nil
 }
+

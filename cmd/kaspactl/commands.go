@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server/grpcserver/protowire"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
 )
 
 var commandTypes = []reflect.Type{
@@ -94,3 +94,4 @@ func (cd *commandDescription) help() string {
 	}
 	return sb.String()
 }
+

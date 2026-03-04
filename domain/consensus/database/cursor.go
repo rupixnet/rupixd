@@ -1,8 +1,8 @@
 package database
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/pkg/errors"
 )
 
@@ -68,3 +68,4 @@ func (d dbCursor) Close() error {
 func newDBCursor(cursor database.Cursor) model.DBCursor {
 	return &dbCursor{cursor: cursor}
 }
+

@@ -20,3 +20,4 @@ type Database interface {
 	// Close closes the database.
 	Close() error
 }
+

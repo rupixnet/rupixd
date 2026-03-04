@@ -189,3 +189,4 @@ func (b *Backend) Close() {
 func (b *Backend) Logger(subsystemTag string) *Logger {
 	return &Logger{LevelOff, subsystemTag, b, b.writeChan}
 }
+

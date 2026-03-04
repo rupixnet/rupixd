@@ -1,8 +1,8 @@
 package syncmanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 func (sm *syncManager) syncInfo(stagingArea *model.StagingArea) (*externalapi.SyncInfo, error) {
@@ -22,3 +22,4 @@ func (sm *syncManager) getHeaderCount(stagingArea *model.StagingArea) uint64 {
 func (sm *syncManager) getBlockCount(stagingArea *model.StagingArea) uint64 {
 	return sm.blockStore.Count(stagingArea)
 }
+

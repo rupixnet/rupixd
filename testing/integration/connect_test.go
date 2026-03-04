@@ -68,3 +68,4 @@ func isConnected(t *testing.T, appHarness1, appHarness2 *appHarness) bool {
 
 	return incomingConnected && outgoingConnected
 }
+

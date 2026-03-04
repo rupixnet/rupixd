@@ -4,10 +4,10 @@ import (
 	"time"
 
 	"github.com/kaspanet/go-secp256k1"
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/stability-tests/common"
-	"github.com/kaspanet/kaspad/stability-tests/common/rpc"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/stability-tests/common"
+	"github.com/rupixnet/rupixd/stability-tests/common/rpc"
+	"github.com/rupixnet/rupixd/util"
 	"github.com/pkg/errors"
 )
 
@@ -142,3 +142,4 @@ func mineBlock(syncerRPCAddress string, miningAddress util.Address) error {
 	}
 	return errors.Wrapf(kaspaMinerCmd.Wait(), "error with command '%s'", kaspaMinerCmd)
 }
+

@@ -1,7 +1,7 @@
 package appmessage
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // MaxInvPerRequestTransactionsMsg is the maximum number of hashes that can
@@ -29,3 +29,4 @@ func NewMsgRequestTransactions(ids []*externalapi.DomainTransactionID) *MsgReque
 		IDs: ids,
 	}
 }
+

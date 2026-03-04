@@ -1,8 +1,8 @@
 package consensusstatemanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 func (csm *consensusStateManager) isViolatingFinality(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash,
@@ -68,3 +68,4 @@ func (csm *consensusStateManager) isViolatingFinality(stagingArea *model.Staging
 
 	return false, false, nil
 }
+

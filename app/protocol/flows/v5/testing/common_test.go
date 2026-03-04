@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/kaspanet/kaspad/app/protocol/protocolerrors"
+	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
 	"github.com/pkg/errors"
 )
 
@@ -22,3 +22,4 @@ func checkFlowError(t *testing.T, err error, isProtocolError bool, shouldBan boo
 		t.Fatalf("Unexpected error. Expected error to contain '%s' but got: %+v", contains, err)
 	}
 }
+

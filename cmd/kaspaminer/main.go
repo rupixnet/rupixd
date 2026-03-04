@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/util"
 
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/version"
 
 	"github.com/pkg/errors"
 
 	_ "net/http/pprof"
 
-	"github.com/kaspanet/kaspad/infrastructure/os/signal"
-	"github.com/kaspanet/kaspad/util/panics"
-	"github.com/kaspanet/kaspad/util/profiling"
+	"github.com/rupixnet/rupixd/infrastructure/os/signal"
+	"github.com/rupixnet/rupixd/util/panics"
+	"github.com/rupixnet/rupixd/util/profiling"
 )
 
 func main() {
@@ -65,3 +65,4 @@ func printErrorAndExit(err error) {
 	fmt.Fprintf(os.Stderr, "%+v\n", err)
 	os.Exit(1)
 }
+

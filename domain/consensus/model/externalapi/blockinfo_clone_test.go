@@ -106,3 +106,4 @@ func TestBlockInfo_Clone(t *testing.T) {
 		}
 	}
 }
+

@@ -6,9 +6,9 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/client"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/server"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/client"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/server"
 	"github.com/pkg/errors"
 )
 
@@ -55,3 +55,4 @@ func broadcastReplacement(conf *broadcastConfig) error {
 
 	return nil
 }
+

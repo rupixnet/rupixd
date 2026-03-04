@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // VirtualBlockHash is a marker hash for the virtual block
 var VirtualBlockHash = externalapi.NewDomainHashFromByteArray(&[externalapi.DomainHashSize]byte{
@@ -17,3 +17,4 @@ var VirtualGenesisBlockHash = externalapi.NewDomainHashFromByteArray(&[externala
 	0xfe, 0xfe, 0xfe, 0xfe, 0xfe, 0xfe, 0xfe, 0xfe,
 	0xfe, 0xfe, 0xfe, 0xfe, 0xfe, 0xfe, 0xfe, 0xfe,
 })
+

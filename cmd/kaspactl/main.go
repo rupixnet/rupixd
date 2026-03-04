@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/version"
 	"os"
 	"time"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server/grpcserver/protowire"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
 
 	"github.com/pkg/errors"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/rpcclient/grpcclient"
+	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient/grpcclient"
 )
 
 func main() {
@@ -116,3 +116,4 @@ func printErrorAndExit(message string) {
 	fmt.Fprintf(os.Stderr, fmt.Sprintf("%s\n", message))
 	os.Exit(1)
 }
+

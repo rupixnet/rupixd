@@ -113,3 +113,4 @@ func (c *ConnectionManager) addConnectionRequest(address string, isPermanent boo
 func (c *ConnectionManager) RemoveConnection(address string) {
 	panic("unimplemented")
 }
+

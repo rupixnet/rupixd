@@ -104,3 +104,4 @@ func appDir(goos, appName string, roaming bool) string {
 func AppDir(appName string, roaming bool) string {
 	return appDir(runtime.GOOS, appName, roaming)
 }
+

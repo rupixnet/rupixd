@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/stability-tests/common/rpc"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/stability-tests/common/rpc"
 	"github.com/pkg/errors"
 )
 
@@ -21,3 +21,4 @@ func checkTopBlockIsTip(rpcClient *rpc.Client, topBlock *externalapi.DomainBlock
 
 	return nil
 }
+

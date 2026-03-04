@@ -22,3 +22,4 @@ func (c *ConnectionManager) checkIncomingConnections(incomingConnectionSet conne
 		}
 	}
 }
+

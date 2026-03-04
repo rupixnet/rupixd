@@ -60,3 +60,4 @@ func (msg *UTXOsChangedNotificationMessage) Command() MessageCommand {
 func NewUTXOsChangedNotificationMessage() *UTXOsChangedNotificationMessage {
 	return &UTXOsChangedNotificationMessage{}
 }
+

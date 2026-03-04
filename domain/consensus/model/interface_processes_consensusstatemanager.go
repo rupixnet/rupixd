@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // ConsensusStateManager manages the node's consensus state
 type ConsensusStateManager interface {
@@ -15,3 +15,4 @@ type ConsensusStateManager interface {
 	ReverseUTXODiffs(tipHash *externalapi.DomainHash, reversalData *UTXODiffReversalData) error
 	ResolveVirtual(maxBlocksToResolve uint64) (*externalapi.VirtualChangeSet, bool, error)
 }
+

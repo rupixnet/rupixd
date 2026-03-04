@@ -3,14 +3,14 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"math/big"
 	"os"
 	"time"
 
 	"github.com/jessevdk/go-flags"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/util/difficulty"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/util/difficulty"
 	"github.com/pkg/errors"
 )
 
@@ -215,3 +215,4 @@ func (networkFlags *NetworkFlags) overrideDAGParams() error {
 
 	return nil
 }
+

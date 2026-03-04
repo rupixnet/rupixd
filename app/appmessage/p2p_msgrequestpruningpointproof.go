@@ -14,3 +14,4 @@ func (msg *MsgRequestPruningPointProof) Command() MessageCommand {
 func NewMsgRequestPruningPointProof() *MsgRequestPruningPointProof {
 	return &MsgRequestPruningPointProof{}
 }
+

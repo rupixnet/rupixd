@@ -35,3 +35,4 @@ func (msg *StopNotifyingUTXOsChangedResponseMessage) Command() MessageCommand {
 func NewStopNotifyingUTXOsChangedResponseMessage() *StopNotifyingUTXOsChangedResponseMessage {
 	return &StopNotifyingUTXOsChangedResponseMessage{}
 }
+

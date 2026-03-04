@@ -1,9 +1,9 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/reachabilitydata"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/reachabilitydata"
 )
 
 // ReachablityDataToDBReachablityData converts ReachabilityData to DbReachabilityData
@@ -47,3 +47,4 @@ func DBReachablityDataToReachablityData(dbReachabilityData *DbReachabilityData) 
 
 	return reachabilitydata.New(children, parent, interval, futureCoveringSet), nil
 }
+

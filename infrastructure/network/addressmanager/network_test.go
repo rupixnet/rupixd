@@ -8,7 +8,7 @@ import (
 	"net"
 	"testing"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 // TestIPTypes ensures the various functions which determine the type of an IP
@@ -204,3 +204,4 @@ func TestGroupKey(t *testing.T) {
 		}
 	}
 }
+

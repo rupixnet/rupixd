@@ -3,7 +3,7 @@ package dagconfig_test
 import (
 	"testing"
 
-	. "github.com/kaspanet/kaspad/domain/dagconfig"
+	. "github.com/rupixnet/rupixd/domain/dagconfig"
 )
 
 // Define some of the required parameters for a user-registered
@@ -93,3 +93,4 @@ func TestRegister(t *testing.T) {
 		}
 	}
 }
+

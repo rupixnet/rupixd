@@ -48,3 +48,4 @@ type GetConnectedPeerInfoMessage struct {
 	TimeConnected             int64
 	IsIBDPeer                 bool
 }
+

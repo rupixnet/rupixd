@@ -14,3 +14,4 @@ func (msg *MsgRequestNextPruningPointUTXOSetChunk) Command() MessageCommand {
 func NewMsgRequestNextPruningPointUTXOSetChunk() *MsgRequestNextPruningPointUTXOSetChunk {
 	return &MsgRequestNextPruningPointUTXOSetChunk{}
 }
+

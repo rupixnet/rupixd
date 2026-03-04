@@ -12,15 +12,15 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	pb2 "github.com/kaspanet/kaspad/infrastructure/network/dnsseed/pb"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	pb2 "github.com/rupixnet/rupixd/infrastructure/network/dnsseed/pb"
 	"google.golang.org/grpc"
 
-	"github.com/kaspanet/kaspad/util/mstime"
+	"github.com/rupixnet/rupixd/util/mstime"
 
-	"github.com/kaspanet/kaspad/domain/dagconfig"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 )
 
 const (
@@ -168,3 +168,4 @@ func fromProtobufAddresses(proto []*pb2.NetAddress) []net.IP {
 
 	return addresses
 }
+

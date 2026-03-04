@@ -2,9 +2,9 @@ package pruningstore
 
 import (
 	"github.com/golang/protobuf/proto"
-	"github.com/kaspanet/kaspad/domain/consensus/database/serialization"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -237,3 +237,4 @@ func (ps *pruningStore) CommitImportedPruningPointUTXOSet(dbContext model.DBWrit
 
 	return nil
 }
+

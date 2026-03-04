@@ -1,11 +1,11 @@
 package acceptancedatastore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/database/serialization"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/lrucache"
-	"github.com/kaspanet/kaspad/util/staging"
+	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/lrucache"
+	"github.com/rupixnet/rupixd/util/staging"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -90,3 +90,4 @@ func (ads *acceptanceDataStore) deserializeAcceptanceData(acceptanceDataBytes []
 func (ads *acceptanceDataStore) hashAsKey(hash *externalapi.DomainHash) model.DBKey {
 	return ads.bucket.Key(hash.ByteSlice())
 }
+

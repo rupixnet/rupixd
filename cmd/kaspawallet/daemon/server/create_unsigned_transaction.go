@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/utxo"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/util"
 	"github.com/pkg/errors"
 )
 
@@ -362,3 +362,4 @@ func walletAddressesContain(addresses []*walletAddress, contain *walletAddress) 
 
 	return false
 }
+

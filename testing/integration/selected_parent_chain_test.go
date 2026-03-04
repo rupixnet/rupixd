@@ -3,10 +3,10 @@ package integration
 import (
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 )
 
 func TestVirtualSelectedParentChain(t *testing.T) {
@@ -104,3 +104,4 @@ func TestVirtualSelectedParentChain(t *testing.T) {
 			chain2TipHashString, lastAddedChainBlock)
 	}
 }
+

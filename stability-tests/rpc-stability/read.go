@@ -23,3 +23,4 @@ func readCommands() (<-chan string, error) {
 	})
 	return commandsChan, nil
 }
+

@@ -1,8 +1,8 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 	"github.com/pkg/errors"
 	"math"
 )
@@ -39,3 +39,4 @@ func DBUTXOEntryToUTXOEntry(dbUtxoEntry *DbUtxoEntry) (externalapi.UTXOEntry, er
 	}
 	return utxo.NewUTXOEntry(dbUtxoEntry.Amount, scriptPublicKey, dbUtxoEntry.IsCoinbase, dbUtxoEntry.BlockDaaScore), nil
 }
+

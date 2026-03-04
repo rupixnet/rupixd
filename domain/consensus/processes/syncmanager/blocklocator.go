@@ -1,9 +1,9 @@
 package syncmanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/database"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/database"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -120,3 +120,4 @@ func (sm *syncManager) createHeadersSelectedChainBlockLocator(stagingArea *model
 	locator = append(locator, lowHash)
 	return locator, nil
 }
+

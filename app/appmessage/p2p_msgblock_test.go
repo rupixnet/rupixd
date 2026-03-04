@@ -6,14 +6,14 @@ package appmessage
 
 import (
 	"github.com/davecgh/go-spew/spew"
-	"github.com/kaspanet/kaspad/util/mstime"
+	"github.com/rupixnet/rupixd/util/mstime"
 	"math"
 	"reflect"
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/subnetworks"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // TestBlock tests the MsgBlock API.
@@ -243,3 +243,4 @@ var blockOneBytes = []byte{
 var blockOneTxLocs = []TxLoc{
 	{TxStart: 186, TxLen: 162},
 }
+

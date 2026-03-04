@@ -1,8 +1,8 @@
 package blockstore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type blockStagingShard struct {
@@ -67,3 +67,4 @@ func (bss *blockStagingShard) commitCount(dbTx model.DBTransaction) error {
 func (bss *blockStagingShard) isStaged() bool {
 	return len(bss.toAdd) != 0 || len(bss.toDelete) != 0
 }
+

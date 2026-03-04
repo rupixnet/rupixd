@@ -25,3 +25,4 @@ func TestPing(t *testing.T) {
 			cmd, wantCmd)
 	}
 }
+

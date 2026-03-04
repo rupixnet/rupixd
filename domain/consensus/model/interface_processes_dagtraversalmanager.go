@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // DAGTraversalManager exposes methods for traversing blocks
 // in the DAG
@@ -19,3 +19,4 @@ type DAGTraversalManager interface {
 	CalculateChainPath(stagingArea *StagingArea, fromBlockHash, toBlockHash *externalapi.DomainHash) (
 		*externalapi.SelectedChainPath, error)
 }
+

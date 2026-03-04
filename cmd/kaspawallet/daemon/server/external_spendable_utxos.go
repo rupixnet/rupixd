@@ -3,10 +3,10 @@ package server
 import (
 	"context"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/util"
 )
 
 func (s *server) GetExternalSpendableUTXOs(_ context.Context, request *pb.GetExternalSpendableUTXOsRequest) (*pb.GetExternalSpendableUTXOsResponse, error) {
@@ -73,3 +73,4 @@ func isExternalUTXOSpendable(entry *appmessage.UTXOsByAddressesEntry, virtualDAA
 	}
 	return entry.UTXOEntry.BlockDAAScore+coinbaseMaturity < virtualDAAScore
 }
+

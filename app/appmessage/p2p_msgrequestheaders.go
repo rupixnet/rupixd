@@ -5,7 +5,7 @@
 package appmessage
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // MsgRequestHeaders implements the Message interface and represents a kaspa
@@ -32,3 +32,4 @@ func NewMsgRequstHeaders(lowHash, highHash *externalapi.DomainHash) *MsgRequestH
 		HighHash: highHash,
 	}
 }
+

@@ -6,12 +6,12 @@ package txscript
 
 import (
 	"bytes"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"reflect"
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/util"
 )
 
 // mustParseShortForm parses the passed short form script and returns the
@@ -566,3 +566,4 @@ func TestStringifyClass(t *testing.T) {
 		}
 	}
 }
+

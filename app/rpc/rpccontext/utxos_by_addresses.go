@@ -2,12 +2,12 @@ package rpccontext
 
 import (
 	"encoding/hex"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/util"
 	"github.com/pkg/errors"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain/utxoindex"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain/utxoindex"
 )
 
 // ConvertUTXOOutpointEntryPairsToUTXOsByAddressesEntries converts
@@ -55,3 +55,4 @@ func (ctx *Context) ConvertAddressStringsToUTXOsChangedNotificationAddresses(
 	}
 	return addresses, nil
 }
+

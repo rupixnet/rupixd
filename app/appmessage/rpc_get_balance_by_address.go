@@ -39,3 +39,4 @@ func NewGetBalanceByAddressResponse(Balance uint64) *GetBalanceByAddressResponse
 		Balance: Balance,
 	}
 }
+

@@ -225,3 +225,4 @@ func makeScriptNum(v []byte, scriptNumLen int) (scriptNum, error) {
 
 	return scriptNum(result), nil
 }
+

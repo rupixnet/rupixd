@@ -2,24 +2,24 @@ package transactionrelay_test
 
 import (
 	"errors"
-	"github.com/kaspanet/kaspad/app/protocol/flowcontext"
-	"github.com/kaspanet/kaspad/app/protocol/flows/v5/transactionrelay"
+	"github.com/rupixnet/rupixd/app/protocol/flowcontext"
+	"github.com/rupixnet/rupixd/app/protocol/flows/v5/transactionrelay"
 	"strings"
 	"testing"
 
-	"github.com/kaspanet/kaspad/app/protocol/protocolerrors"
-	"github.com/kaspanet/kaspad/domain"
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/testutils"
-	"github.com/kaspanet/kaspad/domain/miningmanager/mempool"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	"github.com/kaspanet/kaspad/util/panics"
+	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
+	"github.com/rupixnet/rupixd/domain"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
+	"github.com/rupixnet/rupixd/domain/miningmanager/mempool"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/util/panics"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/infrastructure/config"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 type mocTransactionsRelayContext struct {
@@ -194,3 +194,4 @@ func TestOnClosedIncomingRoute(t *testing.T) {
 		}
 	})
 }
+

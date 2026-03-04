@@ -4,8 +4,8 @@ import (
 	"path/filepath"
 
 	"github.com/jessevdk/go-flags"
-	"github.com/kaspanet/kaspad/infrastructure/config"
-	"github.com/kaspanet/kaspad/stability-tests/common"
+	"github.com/rupixnet/rupixd/infrastructure/config"
+	"github.com/rupixnet/rupixd/stability-tests/common"
 )
 
 const (
@@ -49,3 +49,4 @@ func parseConfig() error {
 
 	return nil
 }
+

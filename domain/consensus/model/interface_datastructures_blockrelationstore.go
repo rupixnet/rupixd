@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // BlockRelationStore represents a store of BlockRelations
 type BlockRelationStore interface {
@@ -11,3 +11,4 @@ type BlockRelationStore interface {
 	Has(dbContext DBReader, stagingArea *StagingArea, blockHash *externalapi.DomainHash) (bool, error)
 	UnstageAll(stagingArea *StagingArea)
 }
+

@@ -1,28 +1,28 @@
 package miningmanager_test
 
 import (
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/domain/consensusreference"
-	"github.com/kaspanet/kaspad/domain/miningmanager/model"
-	"github.com/kaspanet/kaspad/util"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/domain/consensusreference"
+	"github.com/rupixnet/rupixd/domain/miningmanager/model"
+	"github.com/rupixnet/rupixd/util"
+	"github.com/rupixnet/rupixd/version"
 	"reflect"
 	"strings"
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/miningmanager/mempool"
+	"github.com/rupixnet/rupixd/domain/miningmanager/mempool"
 
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/model/testapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/subnetworks"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/testutils"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/transactionhelper"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/utxo"
-	"github.com/kaspanet/kaspad/domain/miningmanager"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/domain/miningmanager"
 	"github.com/pkg/errors"
 )
 
@@ -1053,3 +1053,4 @@ func contains(transaction *externalapi.DomainTransaction, transactions []*extern
 	}
 	return false
 }
+

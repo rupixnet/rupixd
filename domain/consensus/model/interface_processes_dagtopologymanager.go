@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // DAGTopologyManager exposes methods for querying relationships
 // between blocks in the DAG
@@ -17,3 +17,4 @@ type DAGTopologyManager interface {
 
 	SetParents(stagingArea *StagingArea, blockHash *externalapi.DomainHash, parentHashes []*externalapi.DomainHash) error
 }
+

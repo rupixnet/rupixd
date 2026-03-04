@@ -69,3 +69,4 @@ func ExampleCheckEncode() {
 	// Output:
 	// Encoded Data: 182iP79GRURMp7oMHDU
 }
+

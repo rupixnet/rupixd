@@ -1,7 +1,7 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // BlockGHOSTDAGDataHashPairToDbBlockGhostdagDataHashPair converts *externalapi.BlockGHOSTDAGDataHashPair to *DbBlockGHOSTDAGDataHashPair
@@ -29,3 +29,4 @@ func DbBlockGHOSTDAGDataHashPairToBlockGHOSTDAGDataHashPair(dbPair *DbBlockGHOST
 		GHOSTDAGData: ghostdagData,
 	}, nil
 }
+

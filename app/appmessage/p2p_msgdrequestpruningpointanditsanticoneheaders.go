@@ -14,3 +14,4 @@ func (msg *MsgRequestPruningPointAndItsAnticone) Command() MessageCommand {
 func NewMsgRequestPruningPointAndItsAnticone() *MsgRequestPruningPointAndItsAnticone {
 	return &MsgRequestPruningPointAndItsAnticone{}
 }
+

@@ -1,6 +1,6 @@
 package server
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 type walletUTXO struct {
 	Outpoint  *externalapi.DomainOutpoint
@@ -13,3 +13,4 @@ type walletAddress struct {
 	cosignerIndex uint32
 	keyChain      uint8
 }
+

@@ -43,3 +43,4 @@ func NewGetHeadersResponseMessage(headers []string) *GetHeadersResponseMessage {
 		Headers: headers,
 	}
 }
+

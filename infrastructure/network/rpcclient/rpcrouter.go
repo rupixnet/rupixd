@@ -1,8 +1,8 @@
 package rpcclient
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	routerpkg "github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 type rpcRouter struct {
@@ -30,3 +30,4 @@ func buildRPCRouter() (*rpcRouter, error) {
 func (r *rpcRouter) outgoingRoute() *routerpkg.Route {
 	return r.router.OutgoingRoute()
 }
+

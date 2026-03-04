@@ -1,7 +1,7 @@
 package model
 
 import (
-	consensusexternalapi "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	consensusexternalapi "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // BlockTemplateBuilder builds block templates for miners to consume
@@ -10,3 +10,4 @@ type BlockTemplateBuilder interface {
 	ModifyBlockTemplate(newCoinbaseData *consensusexternalapi.DomainCoinbaseData,
 		blockTemplateToModify *consensusexternalapi.DomainBlockTemplate) (*consensusexternalapi.DomainBlockTemplate, error)
 }
+

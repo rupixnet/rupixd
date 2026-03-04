@@ -3,14 +3,14 @@ package blockvalidator_test
 import (
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
 
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/ruleerrors"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/testutils"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
 	"github.com/pkg/errors"
 )
 
@@ -238,3 +238,4 @@ func TestIsFinalizedTransaction(t *testing.T) {
 		checkForLockTimeAndSequence(2, constants.MaxTxInSequenceNum, true)
 	})
 }
+

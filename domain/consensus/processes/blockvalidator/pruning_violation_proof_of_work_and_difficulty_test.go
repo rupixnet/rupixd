@@ -7,18 +7,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/ruleerrors"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/blockheader"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/merkle"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/mining"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/pow"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/testutils"
-	"github.com/kaspanet/kaspad/util/difficulty"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/merkle"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/mining"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/pow"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
+	"github.com/rupixnet/rupixd/util/difficulty"
 	"github.com/pkg/errors"
 )
 
@@ -365,3 +365,4 @@ func (dm *mocDifficultyManager) StageDAADataAndReturnRequiredDifficulty(stagingA
 func (dm *mocDifficultyManager) EstimateNetworkHashesPerSecond(startHash *externalapi.DomainHash, windowSize int) (uint64, error) {
 	return 0, nil
 }
+

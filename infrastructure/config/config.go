@@ -18,12 +18,12 @@ import (
 
 	"github.com/btcsuite/go-socks/socks"
 	"github.com/jessevdk/go-flags"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	"github.com/kaspanet/kaspad/util"
-	"github.com/kaspanet/kaspad/util/network"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/util"
+	"github.com/rupixnet/rupixd/util/network"
+	"github.com/rupixnet/rupixd/version"
 	"github.com/pkg/errors"
 )
 
@@ -595,3 +595,4 @@ func createDefaultConfigFile(destinationPath string) error {
 
 	return err
 }
+

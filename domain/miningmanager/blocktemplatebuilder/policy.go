@@ -12,3 +12,4 @@ type policy struct {
 	// block template.
 	BlockMaxMass uint64
 }
+

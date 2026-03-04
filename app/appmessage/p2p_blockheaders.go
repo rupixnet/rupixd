@@ -17,3 +17,4 @@ func NewBlockHeadersMessage(blockHeaders []*MsgBlockHeader) *BlockHeadersMessage
 		BlockHeaders: blockHeaders,
 	}
 }
+

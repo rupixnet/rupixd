@@ -1,10 +1,10 @@
 package blockparentbuilder
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/hashset"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
 	"github.com/pkg/errors"
 )
 
@@ -242,3 +242,4 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 	}
 	return parents, nil
 }
+

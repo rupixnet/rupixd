@@ -1,9 +1,9 @@
 package difficultymanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/util/difficulty"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/util/difficulty"
 	"math"
 	"math/big"
 )
@@ -100,3 +100,4 @@ func (window blockWindow) averageTarget() *big.Int {
 	}
 	return averageTarget.Div(averageTarget, big.NewInt(int64(len(window))))
 }
+

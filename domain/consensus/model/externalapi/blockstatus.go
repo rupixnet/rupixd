@@ -47,3 +47,4 @@ var blockStatusStrings = map[BlockStatus]string{
 func (bs BlockStatus) String() string {
 	return blockStatusStrings[bs]
 }
+

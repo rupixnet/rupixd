@@ -44,3 +44,4 @@ func NewGetPeerAddressesResponseMessage(addresses []*GetPeerAddressesKnownAddres
 type GetPeerAddressesKnownAddressMessage struct {
 	Addr string
 }
+

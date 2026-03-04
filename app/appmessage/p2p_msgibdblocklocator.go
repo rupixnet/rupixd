@@ -1,7 +1,7 @@
 package appmessage
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // MsgIBDBlockLocator represents a kaspa ibdBlockLocator message
@@ -25,3 +25,4 @@ func NewMsgIBDBlockLocator(targetHash *externalapi.DomainHash,
 		BlockLocatorHashes: blockLocatorHashes,
 	}
 }
+

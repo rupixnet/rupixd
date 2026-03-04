@@ -18,3 +18,4 @@ func NewMsgPruningPoints(headers []*MsgBlockHeader) *MsgPruningPoints {
 		Headers: headers,
 	}
 }
+

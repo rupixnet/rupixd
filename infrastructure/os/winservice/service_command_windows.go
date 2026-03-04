@@ -176,3 +176,4 @@ func (s *Service) controlService(c svc.Cmd, to svc.State) error {
 
 	return nil
 }
+

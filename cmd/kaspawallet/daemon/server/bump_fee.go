@@ -3,11 +3,11 @@ package server
 import (
 	"context"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/pkg/errors"
 )
 
@@ -154,3 +154,4 @@ func (s *server) BumpFee(_ context.Context, request *pb.BumpFeeRequest) (*pb.Bum
 		Transactions: signedTransactions,
 	}, nil
 }
+

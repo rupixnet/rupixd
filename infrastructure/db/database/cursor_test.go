@@ -8,7 +8,7 @@ package database_test
 import (
 	"bytes"
 	"fmt"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"reflect"
 	"strings"
 	"testing"
@@ -343,3 +343,4 @@ func testCursorCloseFirstAndNext(t *testing.T, db database.Database, testName st
 		cursor.Next()
 	}()
 }
+

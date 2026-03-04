@@ -43,3 +43,4 @@ func NewGetBlockTemplateResponseMessage(block *RPCBlock, isSynced bool) *GetBloc
 		IsSynced: isSynced,
 	}
 }
+

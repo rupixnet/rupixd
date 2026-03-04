@@ -1,6 +1,6 @@
 package rpcclient
 
-import "github.com/kaspanet/kaspad/app/appmessage"
+import "github.com/rupixnet/rupixd/app/appmessage"
 
 // GetUTXOsByAddresses sends an RPC request respective to the function's name and returns the RPC server's response
 func (c *RPCClient) GetUTXOsByAddresses(addresses []string) (*appmessage.GetUTXOsByAddressesResponseMessage, error) {
@@ -18,3 +18,4 @@ func (c *RPCClient) GetUTXOsByAddresses(addresses []string) (*appmessage.GetUTXO
 	}
 	return getUTXOsByAddressesResponse, nil
 }
+

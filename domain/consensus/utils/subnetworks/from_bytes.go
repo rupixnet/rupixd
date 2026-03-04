@@ -1,7 +1,7 @@
 package subnetworks
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -15,3 +15,4 @@ func FromBytes(subnetworkIDBytes []byte) (*externalapi.DomainSubnetworkID, error
 	copy(domainSubnetworkID[:], subnetworkIDBytes)
 	return &domainSubnetworkID, nil
 }
+

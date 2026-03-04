@@ -35,3 +35,4 @@ func (msg *ResolveFinalityConflictResponseMessage) Command() MessageCommand {
 func NewResolveFinalityConflictResponseMessage() *ResolveFinalityConflictResponseMessage {
 	return &ResolveFinalityConflictResponseMessage{}
 }
+

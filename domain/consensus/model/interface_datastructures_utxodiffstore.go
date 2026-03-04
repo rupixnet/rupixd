@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // UTXODiffStore represents a store of UTXODiffs
 type UTXODiffStore interface {
@@ -12,3 +12,4 @@ type UTXODiffStore interface {
 	HasUTXODiffChild(dbContext DBReader, stagingArea *StagingArea, blockHash *externalapi.DomainHash) (bool, error)
 	Delete(stagingArea *StagingArea, blockHash *externalapi.DomainHash)
 }
+

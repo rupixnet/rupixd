@@ -78,3 +78,4 @@ func (b *Bucket) Key(suffix []byte) *Key {
 func (b *Bucket) Path() []byte {
 	return b.path
 }
+

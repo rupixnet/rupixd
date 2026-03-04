@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/infrastructure/config"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/infrastructure/config"
 )
 
 const (
@@ -70,3 +70,4 @@ func randomDirectory(t *testing.T) string {
 
 	return dir
 }
+

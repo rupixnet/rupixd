@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // HeadersSelectedChainStore represents a store of the headers selected chain
 type HeadersSelectedChainStore interface {
@@ -10,3 +10,4 @@ type HeadersSelectedChainStore interface {
 	GetIndexByHash(dbContext DBReader, stagingArea *StagingArea, blockHash *externalapi.DomainHash) (uint64, error)
 	GetHashByIndex(dbContext DBReader, stagingArea *StagingArea, index uint64) (*externalapi.DomainHash, error)
 }
+

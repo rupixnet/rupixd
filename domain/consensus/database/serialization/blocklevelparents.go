@@ -1,7 +1,7 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // DbBlockLevelParentsToDomainBlockLevelParents converts a DbBlockLevelParents to a BlockLevelParents
@@ -47,3 +47,4 @@ func DbParentsToDomainParents(dbParents []*DbBlockLevelParents) ([]externalapi.B
 	}
 	return domainParents, nil
 }
+

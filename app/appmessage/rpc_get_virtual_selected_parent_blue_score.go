@@ -36,3 +36,4 @@ func NewGetVirtualSelectedParentBlueScoreResponseMessage(blueScore uint64) *GetV
 		BlueScore: blueScore,
 	}
 }
+

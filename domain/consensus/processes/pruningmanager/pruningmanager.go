@@ -1,15 +1,15 @@
 package pruningmanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/multiset"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/utxo"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/virtual"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	"github.com/kaspanet/kaspad/util/staging"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/multiset"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/virtual"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/util/staging"
 	"github.com/pkg/errors"
 	"sort"
 )
@@ -1262,3 +1262,4 @@ func (pm *pruningManager) TrustedBlockAssociatedGHOSTDAGDataBlockHashes(stagingA
 
 	return blockHashes, nil
 }
+

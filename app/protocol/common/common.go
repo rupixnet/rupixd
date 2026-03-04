@@ -1,8 +1,8 @@
 package common
 
 import (
-	peerpkg "github.com/kaspanet/kaspad/app/protocol/peer"
-	routerpkg "github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"time"
 
 	"github.com/pkg/errors"
@@ -25,3 +25,4 @@ type Flow struct {
 
 // FlowInitializeFunc is a function that is used in order to initialize a flow
 type FlowInitializeFunc func(route *routerpkg.Route, peer *peerpkg.Peer) error
+

@@ -97,3 +97,4 @@ type DBBucket interface {
 	Key(suffix []byte) DBKey
 	Path() []byte
 }
+

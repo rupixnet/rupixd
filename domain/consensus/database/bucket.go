@@ -1,8 +1,8 @@
 package database
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func dbBucketToDatabaseBucket(bucket model.DBBucket) *database.Bucket {
@@ -37,3 +37,4 @@ func (d dbBucket) Path() []byte {
 func newDBBucket(bucket *database.Bucket) model.DBBucket {
 	return dbBucket{bucket: bucket}
 }
+

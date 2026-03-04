@@ -20,3 +20,4 @@ func (msg *MsgRequestNextHeaders) Command() MessageCommand {
 func NewMsgRequestNextHeaders() *MsgRequestNextHeaders {
 	return &MsgRequestNextHeaders{}
 }
+

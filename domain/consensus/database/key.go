@@ -1,8 +1,8 @@
 package database
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func dbKeyToDatabaseKey(key model.DBKey) *database.Key {
@@ -34,3 +34,4 @@ func (d dbKey) Suffix() []byte {
 func newDBKey(key *database.Key) model.DBKey {
 	return dbKey{key: key}
 }
+

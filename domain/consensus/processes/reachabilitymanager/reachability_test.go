@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type reachabilityDataStoreMock struct {
@@ -1036,3 +1036,4 @@ func TestReachabilityTreeNodeString(t *testing.T) {
 			"string. Want: %s, got: %s", expectedStr, str)
 	}
 }
+

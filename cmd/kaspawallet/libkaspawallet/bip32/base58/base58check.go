@@ -50,3 +50,4 @@ func CheckDecode(input string) (result []byte, version byte, err error) {
 	result = append(result, payload...)
 	return
 }
+

@@ -73,3 +73,4 @@ func Encode(b []byte) string {
 
 	return string(answer)
 }
+

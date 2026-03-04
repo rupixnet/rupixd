@@ -4,10 +4,10 @@ import (
 	"path/filepath"
 
 	"github.com/jessevdk/go-flags"
-	"github.com/kaspanet/kaspad/infrastructure/config"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	"github.com/kaspanet/kaspad/stability-tests/common"
-	"github.com/kaspanet/kaspad/stability-tests/common/rpc"
+	"github.com/rupixnet/rupixd/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/stability-tests/common"
+	"github.com/rupixnet/rupixd/stability-tests/common/rpc"
 )
 
 const (
@@ -57,3 +57,4 @@ func parseConfig() error {
 	common.InitBackend(backendLog, defaultLogFile, defaultErrLogFile)
 	return nil
 }
+

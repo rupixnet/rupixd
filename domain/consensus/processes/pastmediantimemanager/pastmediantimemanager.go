@@ -3,10 +3,10 @@ package pastmediantimemanager
 import (
 	"sort"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/sorters"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/sorters"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -100,3 +100,4 @@ func (pmtm *pastMedianTimeManager) windowMedianTimestamp(
 func (pmtm *pastMedianTimeManager) InvalidateVirtualPastMedianTimeCache() {
 	pmtm.virtualPastMedianTimeCache = 0
 }
+

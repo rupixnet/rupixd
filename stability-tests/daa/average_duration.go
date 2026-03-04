@@ -35,3 +35,4 @@ func (ad *averageDuration) add(duration time.Duration) {
 func (ad *averageDuration) toDuration() time.Duration {
 	return time.Duration(ad.average)
 }
+

@@ -1,8 +1,8 @@
 package ghostdagdatastore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type key struct {
@@ -50,3 +50,4 @@ func (gdss *ghostdagDataStagingShard) Commit(dbTx model.DBTransaction) error {
 func (gdss *ghostdagDataStagingShard) isStaged() bool {
 	return len(gdss.toAdd) != 0
 }
+

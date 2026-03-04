@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/pkg/errors"
 )
 
@@ -66,3 +66,4 @@ func validateKASAmountFormat(amount string) error {
 
 	return nil
 }
+

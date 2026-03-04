@@ -3,7 +3,7 @@ package addressmanager
 import (
 	"net"
 
-	"github.com/kaspanet/kaspad/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/config"
 )
 
 // Config is a descriptor which specifies the AddressManager instance configuration.
@@ -25,3 +25,4 @@ func NewConfig(cfg *config.Config) *Config {
 		Lookup:           cfg.Lookup,
 	}
 }
+

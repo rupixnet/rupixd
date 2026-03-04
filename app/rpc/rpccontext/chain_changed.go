@@ -1,9 +1,9 @@
 package rpccontext
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 )
 
 // ConvertVirtualSelectedParentChainChangesToChainChangedNotificationMessage converts
@@ -77,3 +77,4 @@ func (ctx *Context) getAndConvertAcceptedTransactionIDs(selectedParentChainChang
 
 	return acceptedTransactionIDs, nil
 }
+

@@ -57,3 +57,4 @@ type Consensus interface {
 	VirtualMergeDepthRoot() (*DomainHash, error)
 	IsNearlySynced() (bool, error)
 }
+

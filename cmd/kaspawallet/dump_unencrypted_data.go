@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/keys"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/utils"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/keys"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/utils"
 
 	"github.com/pkg/errors"
 )
@@ -75,3 +75,4 @@ func confirmDump() error {
 
 	return nil
 }
+

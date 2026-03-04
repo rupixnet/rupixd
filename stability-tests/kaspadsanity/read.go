@@ -41,3 +41,4 @@ func readArgs() <-chan []string {
 	})
 	return argsChan
 }
+

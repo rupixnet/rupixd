@@ -4,3 +4,4 @@ package externalapi
 type PruningPointProof struct {
 	Headers [][]BlockHeader
 }
+

@@ -1,7 +1,7 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -45,3 +45,4 @@ func uint32ToKType(n uint32) (externalapi.KType, error) {
 	}
 	return convertedN, nil
 }
+

@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/kaspanet/kaspad/stability-tests/common"
-	"github.com/kaspanet/kaspad/util/profiling"
+	"github.com/rupixnet/rupixd/stability-tests/common"
+	"github.com/rupixnet/rupixd/util/profiling"
 )
 
 const timeout = 5 * time.Second
@@ -33,3 +33,4 @@ func main() {
 		os.Exit(1)
 	}
 }
+

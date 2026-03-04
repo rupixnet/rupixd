@@ -293,3 +293,4 @@ func polyMod(values []int) int {
 
 	return checksum ^ 1
 }
+

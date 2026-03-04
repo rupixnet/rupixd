@@ -4,12 +4,12 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/infrastructure/config"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/id"
-	routerpkg "github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server/grpcserver"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/id"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver"
 	"github.com/pkg/errors"
 )
 
@@ -190,3 +190,4 @@ func (na *NetAdapter) P2PBroadcast(netConnections []*NetConnection, message appm
 	}
 	return nil
 }
+

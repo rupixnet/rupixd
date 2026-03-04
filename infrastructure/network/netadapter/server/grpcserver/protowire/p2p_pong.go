@@ -1,7 +1,7 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -27,3 +27,4 @@ func (x *KaspadMessage_Pong) fromAppMessage(msgPong *appmessage.MsgPong) error {
 	}
 	return nil
 }
+

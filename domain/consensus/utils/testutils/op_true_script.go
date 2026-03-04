@@ -1,9 +1,9 @@
 package testutils
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/pkg/errors"
 )
 
@@ -19,3 +19,4 @@ func OpTrueScript() (*externalapi.ScriptPublicKey, []byte) {
 	scriptPublicKey := &externalapi.ScriptPublicKey{Script: scriptPublicKeyScript, Version: constants.MaxScriptPublicKeyVersion}
 	return scriptPublicKey, redeemScript
 }
+

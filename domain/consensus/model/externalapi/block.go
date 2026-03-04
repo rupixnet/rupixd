@@ -82,3 +82,4 @@ type MutableBlockHeader interface {
 	SetTimeInMilliseconds(timeInMilliseconds int64)
 	SetHashMerkleRoot(hashMerkleRoot *DomainHash)
 }
+

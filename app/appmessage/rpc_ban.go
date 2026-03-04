@@ -37,3 +37,4 @@ func (msg *BanResponseMessage) Command() MessageCommand {
 func NewBanResponseMessage() *BanResponseMessage {
 	return &BanResponseMessage{}
 }
+

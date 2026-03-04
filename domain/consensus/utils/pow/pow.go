@@ -1,11 +1,11 @@
 package pow
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/hashes"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/serialization"
-	"github.com/kaspanet/kaspad/util/difficulty"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/hashes"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/serialization"
+	"github.com/rupixnet/rupixd/util/difficulty"
 
 	"github.com/pkg/errors"
 	"math/big"
@@ -110,3 +110,4 @@ func BlockLevel(header externalapi.BlockHeader, maxBlockLevel int) int {
 	}
 	return level
 }
+

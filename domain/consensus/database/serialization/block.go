@@ -1,7 +1,7 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // DomainBlockToDbBlock converts DomainBlocks to DbBlock
@@ -38,3 +38,4 @@ func DbBlockToDomainBlock(dbBlock *DbBlock) (*externalapi.DomainBlock, error) {
 		Transactions: domainTransactions,
 	}, nil
 }
+

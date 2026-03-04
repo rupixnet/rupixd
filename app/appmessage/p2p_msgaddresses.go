@@ -28,3 +28,4 @@ func NewMsgAddresses(addressList []*NetAddress) *MsgAddresses {
 		AddressList: addressList,
 	}
 }
+

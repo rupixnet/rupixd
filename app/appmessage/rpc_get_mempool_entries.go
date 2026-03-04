@@ -41,3 +41,4 @@ func NewGetMempoolEntriesResponseMessage(entries []*MempoolEntry) *GetMempoolEnt
 		Entries: entries,
 	}
 }
+

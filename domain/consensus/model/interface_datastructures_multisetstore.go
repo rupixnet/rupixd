@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // MultisetStore represents a store of Multisets
 type MultisetStore interface {
@@ -10,3 +10,4 @@ type MultisetStore interface {
 	Get(dbContext DBReader, stagingArea *StagingArea, blockHash *externalapi.DomainHash) (Multiset, error)
 	Delete(stagingArea *StagingArea, blockHash *externalapi.DomainHash)
 }
+

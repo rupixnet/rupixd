@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 func Test16IncomingConnections(t *testing.T) {
@@ -67,3 +67,4 @@ func ReceiveFromChanWhenDone(callback func()) <-chan struct{} {
 	})
 	return ch
 }
+

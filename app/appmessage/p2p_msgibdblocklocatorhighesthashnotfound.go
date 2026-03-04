@@ -14,3 +14,4 @@ func (msg *MsgIBDBlockLocatorHighestHashNotFound) Command() MessageCommand {
 func NewMsgIBDBlockLocatorHighestHashNotFound() *MsgIBDBlockLocatorHighestHashNotFound {
 	return &MsgIBDBlockLocatorHighestHashNotFound{}
 }
+

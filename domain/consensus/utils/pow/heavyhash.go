@@ -1,8 +1,8 @@
 package pow
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/hashes"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/hashes"
 	"math"
 )
 
@@ -89,3 +89,4 @@ func (mat *matrix) HeavyHash(hash *externalapi.DomainHash) *externalapi.DomainHa
 	writer.InfallibleWrite(res[:])
 	return writer.Finalize()
 }
+

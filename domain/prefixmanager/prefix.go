@@ -1,8 +1,8 @@
 package prefixmanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/prefixmanager/prefix"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/domain/prefixmanager/prefix"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 var activePrefixKey = database.MakeBucket(nil).Key([]byte("active-prefix"))
@@ -110,3 +110,4 @@ func SetPrefixAsActive(dataAccessor database.DataAccessor, prefix *prefix.Prefix
 func SetPrefixAsInactive(dataAccessor database.DataAccessor, prefix *prefix.Prefix) error {
 	return dataAccessor.Put(inactivePrefixKey, prefix.Serialize())
 }
+

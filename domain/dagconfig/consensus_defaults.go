@@ -1,7 +1,7 @@
 package dagconfig
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"time"
 )
 
@@ -85,3 +85,4 @@ const (
 
 	defaultMergeDepth = 3600
 )
+

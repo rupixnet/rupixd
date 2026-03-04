@@ -39,3 +39,4 @@ const (
 	// not-yet-accepted transactions.
 	UnacceptedDAAScore = math.MaxUint64
 )
+

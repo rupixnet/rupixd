@@ -1,9 +1,9 @@
 package daablocksstore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/database/binaryserialization"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/database/binaryserialization"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type daaBlocksStagingShard struct {
@@ -70,3 +70,4 @@ func (daass *daaBlocksStagingShard) isStaged() bool {
 		len(daass.daaScoreToDelete) != 0 ||
 		len(daass.daaAddedBlocksToDelete) != 0
 }
+

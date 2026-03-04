@@ -45,3 +45,4 @@ func NewGetBalancesByAddressesResponse(entries []*BalancesByAddressesEntry) *Get
 		Entries: entries,
 	}
 }
+

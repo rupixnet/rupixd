@@ -1,7 +1,7 @@
 package math_test
 
 import (
-	utilMath "github.com/kaspanet/kaspad/util/math"
+	utilMath "github.com/rupixnet/rupixd/util/math"
 	"math"
 	"testing"
 )
@@ -62,3 +62,4 @@ func TestMinUint32(t *testing.T) {
 		}
 	}
 }
+

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/network/rpcclient/grpcclient"
-	"github.com/kaspanet/kaspad/stability-tests/common"
-	"github.com/kaspanet/kaspad/util/panics"
-	"github.com/kaspanet/kaspad/util/profiling"
+	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient/grpcclient"
+	"github.com/rupixnet/rupixd/stability-tests/common"
+	"github.com/rupixnet/rupixd/util/panics"
+	"github.com/rupixnet/rupixd/util/profiling"
 	"github.com/pkg/errors"
 )
 
@@ -42,3 +42,4 @@ func main() {
 		panic(errors.Wrap(err, "error sending commands"))
 	}
 }
+

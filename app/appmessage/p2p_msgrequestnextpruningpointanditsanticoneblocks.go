@@ -20,3 +20,4 @@ func (msg *MsgRequestNextPruningPointAndItsAnticoneBlocks) Command() MessageComm
 func NewMsgRequestNextPruningPointAndItsAnticoneBlocks() *MsgRequestNextPruningPointAndItsAnticoneBlocks {
 	return &MsgRequestNextPruningPointAndItsAnticoneBlocks{}
 }
+

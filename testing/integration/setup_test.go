@@ -4,14 +4,14 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/dagconfig"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 
-	"github.com/kaspanet/kaspad/infrastructure/db/database/ldb"
+	"github.com/rupixnet/rupixd/infrastructure/db/database/ldb"
 
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 
-	"github.com/kaspanet/kaspad/app"
-	"github.com/kaspanet/kaspad/infrastructure/config"
+	"github.com/rupixnet/rupixd/app"
+	"github.com/rupixnet/rupixd/infrastructure/config"
 )
 
 type appHarness struct {
@@ -138,3 +138,4 @@ func openDB(cfg *config.Config) (database.Database, error) {
 	dbPath := filepath.Join(cfg.AppDir, "db")
 	return ldb.NewLevelDB(dbPath, 8)
 }
+

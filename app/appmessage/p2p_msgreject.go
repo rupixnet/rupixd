@@ -20,3 +20,4 @@ func NewMsgReject(reason string) *MsgReject {
 		Reason: reason,
 	}
 }
+

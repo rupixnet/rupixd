@@ -32,3 +32,4 @@ func (msg *ShutDownResponseMessage) Command() MessageCommand {
 func NewShutDownResponseMessage() *ShutDownResponseMessage {
 	return &ShutDownResponseMessage{}
 }
+

@@ -1,8 +1,8 @@
 package rpcclient
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	routerpkg "github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/pkg/errors"
 )
 
@@ -39,3 +39,4 @@ func (c *RPCClient) RegisterForVirtualSelectedParentChainChangedNotifications(in
 	})
 	return nil
 }
+

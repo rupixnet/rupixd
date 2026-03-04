@@ -36,3 +36,4 @@ func (dcd *DomainCoinbaseData) Equal(other *DomainCoinbaseData) bool {
 
 	return dcd.ScriptPublicKey.Equal(other.ScriptPublicKey)
 }
+

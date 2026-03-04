@@ -1,8 +1,8 @@
 package reachabilitydatastore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type reachabilityDataStagingShard struct {
@@ -51,3 +51,4 @@ func (rdss *reachabilityDataStagingShard) Commit(dbTx model.DBTransaction) error
 func (rdss *reachabilityDataStagingShard) isStaged() bool {
 	return len(rdss.reachabilityData) != 0 || rdss.reachabilityReindexRoot != nil
 }
+

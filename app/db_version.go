@@ -55,3 +55,4 @@ func versionFilePath(dbPath string) string {
 	dbVersionFileName := path.Join(dbPath, "version")
 	return dbVersionFileName
 }
+

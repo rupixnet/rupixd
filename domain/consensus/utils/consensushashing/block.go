@@ -3,10 +3,10 @@ package consensushashing
 import (
 	"io"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/serialization"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/serialization"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/hashes"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/hashes"
 	"github.com/pkg/errors"
 )
 
@@ -53,3 +53,4 @@ func serializeHeader(w io.Writer, header externalapi.BaseBlockHeader) error {
 	return serialization.WriteElements(w, header.HashMerkleRoot(), header.AcceptedIDMerkleRoot(), header.UTXOCommitment(), timestamp,
 		header.Bits(), header.Nonce(), header.DAAScore(), header.BlueScore(), blueWork, header.PruningPoint())
 }
+

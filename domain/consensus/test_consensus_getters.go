@@ -1,10 +1,10 @@
 package consensus
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/model/testapi"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func (tc *testConsensus) DatabaseContext() model.DBManager {
@@ -150,3 +150,4 @@ func (tc *testConsensus) DAABlocksStore() model.DAABlocksStore {
 func (tc *testConsensus) Consensus() externalapi.Consensus {
 	return tc
 }
+

@@ -3,12 +3,12 @@ package standalone
 import (
 	"time"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
 
 	"github.com/pkg/errors"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 // Routes holds the incoming and outgoing routes of a connection created by MinimalNetAdapter
@@ -67,3 +67,4 @@ func (r *Routes) WaitForDisconnect(timeout time.Duration) error {
 func (r *Routes) Disconnect() {
 	r.netConnection.Disconnect()
 }
+

@@ -1,10 +1,10 @@
 package blockrelay
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	peerpkg "github.com/kaspanet/kaspad/app/protocol/peer"
-	"github.com/kaspanet/kaspad/domain"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
+	"github.com/rupixnet/rupixd/domain"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 // PruningPointProofRequestsContext is the interface for the context needed for the HandlePruningPointProofRequests flow.
@@ -38,3 +38,4 @@ func HandlePruningPointProofRequests(context PruningPointProofRequestsContext, i
 		log.Debugf("Sent pruning point proof to %s", peer)
 	}
 }
+

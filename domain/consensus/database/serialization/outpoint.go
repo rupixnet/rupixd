@@ -1,7 +1,7 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // DomainOutpointToDbOutpoint converts DomainOutpoint to DbOutpoint
@@ -24,3 +24,4 @@ func DbOutpointToDomainOutpoint(dbOutpoint *DbOutpoint) (*externalapi.DomainOutp
 		Index:         dbOutpoint.Index,
 	}, nil
 }
+

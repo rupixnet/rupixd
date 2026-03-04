@@ -7,7 +7,7 @@ package addressmanager
 import (
 	"net"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 var (
@@ -263,3 +263,4 @@ func (am *AddressManager) GroupKey(na *appmessage.NetAddress) string {
 
 	return na.IP.Mask(net.CIDRMask(bits, 128)).String()
 }
+

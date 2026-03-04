@@ -1,10 +1,10 @@
 package mempoollimits
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/network/rpcclient"
-	"github.com/kaspanet/kaspad/stability-tests/common"
-	"github.com/kaspanet/kaspad/util/panics"
-	"github.com/kaspanet/kaspad/util/profiling"
+	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
+	"github.com/rupixnet/rupixd/stability-tests/common"
+	"github.com/rupixnet/rupixd/util/panics"
+	"github.com/rupixnet/rupixd/util/profiling"
 	"os"
 	"testing"
 )
@@ -109,3 +109,4 @@ func emptyOutMempool(t *testing.T, rpcClient *rpcclient.RPCClient) {
 		currentMempoolSize = getInfoResponse.MempoolSize
 	}
 }
+

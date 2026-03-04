@@ -4,12 +4,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	routerpkg "github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
-	"github.com/kaspanet/kaspad/infrastructure/network/rpcclient/grpcclient"
-	"github.com/kaspanet/kaspad/util/panics"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient/grpcclient"
+	"github.com/rupixnet/rupixd/util/panics"
+	"github.com/rupixnet/rupixd/version"
 	"github.com/pkg/errors"
 )
 
@@ -188,3 +188,4 @@ func (c *RPCClient) SetLogger(backend *logger.Backend, level logger.Level) {
 	log.SetLevel(level)
 	spawn = panics.GoroutineWrapperFunc(log)
 }
+

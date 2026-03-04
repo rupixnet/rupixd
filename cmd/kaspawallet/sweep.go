@@ -6,21 +6,21 @@ import (
 	"fmt"
 
 	"github.com/kaspanet/go-secp256k1"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/client"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet/serialization"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/utils"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/subnetworks"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/utxo"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/domain/miningmanager/mempool"
-	"github.com/kaspanet/kaspad/util"
-	"github.com/kaspanet/kaspad/util/txmass"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/client"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet/serialization"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/utils"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/domain/miningmanager/mempool"
+	"github.com/rupixnet/rupixd/util"
+	"github.com/rupixnet/rupixd/util/txmass"
 	"github.com/pkg/errors"
 )
 
@@ -240,3 +240,4 @@ func signWithSchnorrPrivateKey(params *dagconfig.Params, privateKeyBytes []byte,
 
 	return serializedDomainTransactions, nil
 }
+

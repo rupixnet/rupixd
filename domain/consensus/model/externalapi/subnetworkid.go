@@ -31,3 +31,4 @@ func (id *DomainSubnetworkID) Equal(other *DomainSubnetworkID) bool {
 
 	return *id == *other
 }
+

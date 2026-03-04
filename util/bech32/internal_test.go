@@ -74,3 +74,4 @@ func TestEncodeToBech32NotUInt5(t *testing.T) {
 		t.Errorf("encodeToBase32 unexpectedly succeeded")
 	}
 }
+

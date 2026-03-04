@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // ConsensusStateStore represents a store for the current consensus state
 type ConsensusStateStore interface {
@@ -21,3 +21,4 @@ type ConsensusStateStore interface {
 	ImportPruningPointUTXOSetIntoVirtualUTXOSet(dbContext DBWriter, pruningPointUTXOSetIterator externalapi.ReadOnlyUTXOSetIterator) error
 	FinishImportingPruningPointUTXOSet(dbContext DBWriter) error
 }
+

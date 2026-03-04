@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	"github.com/kaspanet/kaspad/stability-tests/common"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/stability-tests/common"
 	"github.com/pkg/errors"
 )
 
@@ -78,3 +78,4 @@ func handleDataDirArg(args []string, dataDir string) ([]string, error) {
 	}
 	return append([]string{"--appdir", dataDir}, args...), nil
 }
+

@@ -1,7 +1,7 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // DomainBlockStatusToDbBlockStatus converts model.BlockStatus to DbBlockStatus
@@ -15,3 +15,4 @@ func DomainBlockStatusToDbBlockStatus(domainBlockStatus externalapi.BlockStatus)
 func DbBlockStatusToDomainBlockStatus(dbBlockStatus *DbBlockStatus) externalapi.BlockStatus {
 	return externalapi.BlockStatus(dbBlockStatus.Status)
 }
+

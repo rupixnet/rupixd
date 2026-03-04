@@ -34,3 +34,4 @@ func (si *SyncInfo) Equal(other *SyncInfo) bool {
 
 	return true
 }
+

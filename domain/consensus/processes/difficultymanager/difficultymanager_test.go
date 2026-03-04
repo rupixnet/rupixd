@@ -4,17 +4,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kaspanet/kaspad/util/difficulty"
+	"github.com/rupixnet/rupixd/util/difficulty"
 
-	"github.com/kaspanet/kaspad/util/mstime"
+	"github.com/rupixnet/rupixd/util/mstime"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/testutils"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 )
 
 func TestDifficulty(t *testing.T) {
@@ -356,3 +356,4 @@ func compareBits(a uint32, b uint32) int {
 	bTarget := difficulty.CompactToBig(b)
 	return aTarget.Cmp(bTarget)
 }
+

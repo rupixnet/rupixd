@@ -1,7 +1,7 @@
 package utxo
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"testing"
 )
 
@@ -111,3 +111,4 @@ func TestUTXOEntry_Equal(t *testing.T) {
 		}
 	}
 }
+

@@ -2,7 +2,7 @@ package winservice
 
 import (
 	"github.com/btcsuite/winsvc/svc"
-	"github.com/kaspanet/kaspad/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/config"
 )
 
 // serviceMain checks whether we're being invoked as a service, and if so uses
@@ -38,3 +38,4 @@ func serviceMain(main MainFunc, description *ServiceDescription, cfg *config.Con
 func init() {
 	WinServiceMain = serviceMain
 }
+

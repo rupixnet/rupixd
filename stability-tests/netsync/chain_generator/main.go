@@ -5,8 +5,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/kaspanet/kaspad/stability-tests/common"
-	"github.com/kaspanet/kaspad/stability-tests/common/mine"
+	"github.com/rupixnet/rupixd/stability-tests/common"
+	"github.com/rupixnet/rupixd/stability-tests/common/mine"
 	"github.com/pkg/errors"
 )
 
@@ -55,3 +55,4 @@ func openFile(name string) (*os.File, error) {
 	f, err := os.Create(name)
 	return f, errors.WithStack(err)
 }
+

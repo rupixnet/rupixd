@@ -64,3 +64,4 @@ func TestBase58Check(t *testing.T) {
 	}
 
 }
+

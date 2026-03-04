@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // GHOSTDAGManager resolves and manages GHOSTDAG block data
 type GHOSTDAGManager interface {
@@ -10,3 +10,4 @@ type GHOSTDAGManager interface {
 		blockHashB *externalapi.DomainHash, ghostdagDataB *externalapi.BlockGHOSTDAGData) bool
 	GetSortedMergeSet(stagingArea *StagingArea, current *externalapi.DomainHash) ([]*externalapi.DomainHash, error)
 }
+

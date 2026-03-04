@@ -9,3 +9,4 @@ var ErrBlockNotInSelectedParentChain = errors.New("Block is not in selected pare
 // ErrReachedMaxTraversalAllowed is returned from AnticoneFromBlocks if `maxTraversalAllowed` was specified
 // and the traversal passed it
 var ErrReachedMaxTraversalAllowed = errors.New("Traversal searching for anticone passed the maxTraversalAllowed limit")
+

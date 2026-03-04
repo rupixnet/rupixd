@@ -1,8 +1,8 @@
 package model
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 )
 
 // Mempool maintains a set of known transactions that
@@ -41,3 +41,4 @@ type Mempool interface {
 	RevalidateHighPriorityTransactions() (validTransactions []*externalapi.DomainTransaction, err error)
 	IsTransactionOutputDust(output *externalapi.DomainTransactionOutput) bool
 }
+

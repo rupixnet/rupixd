@@ -86,3 +86,4 @@ func NewMerkleBranchHashWriter() HashWriter {
 	}
 	return HashWriter{blake}
 }
+

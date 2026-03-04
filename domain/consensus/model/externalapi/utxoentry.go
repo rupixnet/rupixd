@@ -18,3 +18,4 @@ type OutpointAndUTXOEntryPair struct {
 	Outpoint  *DomainOutpoint
 	UTXOEntry UTXOEntry
 }
+

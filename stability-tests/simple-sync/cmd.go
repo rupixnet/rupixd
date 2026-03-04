@@ -11,3 +11,4 @@ func killWithSigterm(cmd *exec.Cmd, commandName string) {
 		log.Criticalf("error sending SIGKILL to %s", commandName)
 	}
 }
+

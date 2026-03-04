@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/stability-tests/common"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/stability-tests/common"
 	"github.com/pkg/errors"
 )
 
@@ -30,3 +30,4 @@ func readBlocks() (<-chan *externalapi.DomainBlock, error) {
 
 	return c, nil
 }
+

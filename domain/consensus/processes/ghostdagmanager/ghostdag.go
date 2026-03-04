@@ -3,9 +3,9 @@ package ghostdagmanager
 import (
 	"math/big"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/util/difficulty"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/util/difficulty"
 	"github.com/pkg/errors"
 )
 
@@ -267,3 +267,4 @@ func (gm *ghostdagManager) blueAnticoneSize(stagingArea *model.StagingArea,
 	}
 	return 0, errors.Errorf("block %s is not in blue set of the given context", block)
 }
+

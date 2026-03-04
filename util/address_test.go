@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/util"
 )
 
 func TestAddresses(t *testing.T) {
@@ -457,3 +457,4 @@ func TestPrefixToString(t *testing.T) {
 		}
 	}
 }
+

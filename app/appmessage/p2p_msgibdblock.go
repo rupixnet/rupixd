@@ -29,3 +29,4 @@ func (msg *MsgIBDBlock) MaxPayloadLength(pver uint32) uint32 {
 func NewMsgIBDBlock(msgBlock *MsgBlock) *MsgIBDBlock {
 	return &MsgIBDBlock{MsgBlock: msgBlock}
 }
+

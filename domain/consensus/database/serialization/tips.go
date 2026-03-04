@@ -1,7 +1,7 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // TipsToDBTips converts a slice of hashes to DbTips
@@ -15,3 +15,4 @@ func TipsToDBTips(tips []*externalapi.DomainHash) *DbTips {
 func DBTipsToTips(dbTips *DbTips) ([]*externalapi.DomainHash, error) {
 	return DbHashesToDomainHashes(dbTips.Tips)
 }
+

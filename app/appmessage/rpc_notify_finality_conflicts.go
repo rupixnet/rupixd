@@ -70,3 +70,4 @@ func NewFinalityConflictResolvedNotificationMessage(finalityBlockHash string) *F
 		FinalityBlockHash: finalityBlockHash,
 	}
 }
+

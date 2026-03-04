@@ -2,13 +2,13 @@ package netadapter
 
 import (
 	"fmt"
-	"github.com/kaspanet/kaspad/app/appmessage"
-	routerpkg "github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/pkg/errors"
 	"sync/atomic"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/id"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/id"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server"
 )
 
 // NetConnection is a wrapper to a server connection for use by services external to NetAdapter
@@ -95,3 +95,4 @@ func (c *NetConnection) Disconnect() {
 func (c *NetConnection) SetOnInvalidMessageHandler(onInvalidMessageHandler server.OnInvalidMessageHandler) {
 	c.connection.SetOnInvalidMessageHandler(onInvalidMessageHandler)
 }
+

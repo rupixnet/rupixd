@@ -58,3 +58,4 @@ func parseIndex(indexString string) (uint32, error) {
 
 	return uint32(index), nil
 }
+

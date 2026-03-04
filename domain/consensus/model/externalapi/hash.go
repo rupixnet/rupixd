@@ -121,3 +121,4 @@ func HashesEqual(a, b []*DomainHash) bool {
 	}
 	return true
 }
+

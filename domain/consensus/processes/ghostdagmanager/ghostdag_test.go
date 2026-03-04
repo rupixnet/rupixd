@@ -9,15 +9,15 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/processes/ghostdag2"
-	"github.com/kaspanet/kaspad/domain/consensus/processes/ghostdagmanager"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/blockheader"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/testutils"
-	"github.com/kaspanet/kaspad/util/difficulty"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/processes/ghostdag2"
+	"github.com/rupixnet/rupixd/domain/consensus/processes/ghostdagmanager"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
+	"github.com/rupixnet/rupixd/util/difficulty"
 	"github.com/pkg/errors"
 )
 
@@ -458,3 +458,4 @@ func (b *blockHeadersStore) Delete(stagingArea *model.StagingArea, blockHash *ex
 func (b *blockHeadersStore) Count(*model.StagingArea) uint64 {
 	return uint64(len(b.dagMap))
 }
+

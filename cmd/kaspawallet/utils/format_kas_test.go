@@ -88,3 +88,4 @@ func TestValidateAmountFormat(t *testing.T) {
 		}
 	}
 }
+

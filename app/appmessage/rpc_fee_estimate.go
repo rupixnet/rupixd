@@ -45,3 +45,4 @@ func (msg *GetFeeEstimateResponseMessage) Command() MessageCommand {
 func NewGetFeeEstimateResponseMessage() *GetFeeEstimateResponseMessage {
 	return &GetFeeEstimateResponseMessage{}
 }
+

@@ -1,7 +1,7 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -39,3 +39,4 @@ func (x *KaspadMessage_RequestRelayBlocks) fromAppMessage(msgGetRelayBlocks *app
 	}
 	return nil
 }
+

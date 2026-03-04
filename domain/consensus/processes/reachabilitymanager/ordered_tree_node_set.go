@@ -1,8 +1,8 @@
 package reachabilitymanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // orderedTreeNodeSet is an ordered set of model.DomainHash ordered by the respectful intervals.
@@ -60,3 +60,4 @@ func (rt *reachabilityManager) findAncestorIndexOfNode(stagingArea *model.Stagin
 	}
 	return low - 1, true, nil
 }
+

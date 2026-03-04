@@ -1,8 +1,8 @@
 package testapi
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // TestBlockBuilder adds to the main BlockBuilder methods required by tests
@@ -21,3 +21,4 @@ type TestBlockBuilder interface {
 
 	SetNonceCounter(nonceCounter uint64)
 }
+

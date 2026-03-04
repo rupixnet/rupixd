@@ -5,10 +5,10 @@ import (
 	"sort"
 	"time"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -371,3 +371,4 @@ func (s *server) updateSyncingProgressLog(currProcessedAddresses, currMaxUsedAdd
 			s.maxProcessedAddressesForLog, s.maxUsedAddressesForLog, percentProcessed)
 	}
 }
+

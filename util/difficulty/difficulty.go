@@ -179,3 +179,4 @@ func GetHashrateString(target *big.Int, TargetTimePerBlock time.Duration) string
 	highPrecision := len(in) - ((len(in)-1)/3)*3
 	return in[:highPrecision] + "." + in[highPrecision:highPrecision+2] + postfix
 }
+

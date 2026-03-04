@@ -55,3 +55,4 @@ func TestKaspaNetStringer(t *testing.T) {
 		}
 	}
 }
+

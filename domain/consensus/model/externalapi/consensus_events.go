@@ -28,3 +28,4 @@ type SelectedChainPath struct {
 	Added   []*DomainHash
 	Removed []*DomainHash
 }
+

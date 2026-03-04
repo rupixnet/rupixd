@@ -5,7 +5,7 @@
 package appmessage
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // MsgRequestAnticone implements the Message interface and represents a kaspa
@@ -31,3 +31,4 @@ func NewMsgRequestAnticone(blockHash, contextHash *externalapi.DomainHash) *MsgR
 		ContextHash: contextHash,
 	}
 }
+

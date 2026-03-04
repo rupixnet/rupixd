@@ -1,7 +1,7 @@
 package utxo
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -220,3 +220,4 @@ func withDiff(this *mutableUTXODiff, diff *mutableUTXODiff) (*mutableUTXODiff, e
 
 	return clone, nil
 }
+

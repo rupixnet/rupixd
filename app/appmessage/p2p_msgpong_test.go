@@ -24,3 +24,4 @@ func TestPongLatest(t *testing.T) {
 			cmd, wantCmd)
 	}
 }
+

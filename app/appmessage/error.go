@@ -49,3 +49,4 @@ func RPCErrorf(format string, args ...interface{}) *RPCError {
 		Message: fmt.Sprintf(format, args...),
 	}
 }
+

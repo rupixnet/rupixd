@@ -1,7 +1,7 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -71,3 +71,4 @@ func (x *VirtualDaaScoreChangedNotificationMessage) toAppMessage() (appmessage.M
 		VirtualDaaScore: x.VirtualDaaScore,
 	}, nil
 }
+

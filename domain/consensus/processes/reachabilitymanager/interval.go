@@ -1,7 +1,7 @@
 package reachabilitymanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/pkg/errors"
 	"math"
 )
@@ -194,3 +194,4 @@ func exponentialFractions(sizes []uint64) []float64 {
 func intervalContains(ri *model.ReachabilityInterval, other *model.ReachabilityInterval) bool {
 	return ri.Start <= other.Start && other.End <= ri.End
 }
+

@@ -4,11 +4,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/server"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/server"
 
 	"github.com/pkg/errors"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
 	"google.golang.org/grpc"
 )
 
@@ -30,3 +30,4 @@ func Connect(address string) (pb.KaspawalletdClient, func(), error) {
 		conn.Close()
 	}, nil
 }
+

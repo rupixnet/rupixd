@@ -36,3 +36,4 @@ func NewGetCurrentNetworkResponseMessage(currentNetwork string) *GetCurrentNetwo
 		CurrentNetwork: currentNetwork,
 	}
 }
+

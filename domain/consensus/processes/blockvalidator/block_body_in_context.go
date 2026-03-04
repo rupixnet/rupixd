@@ -1,12 +1,12 @@
 package blockvalidator
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/ruleerrors"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/transactionhelper"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/virtual"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/virtual"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/pkg/errors"
 )
 
@@ -199,3 +199,4 @@ func (v *blockValidator) checkCoinbaseSubsidy(
 
 	return nil
 }
+

@@ -37,3 +37,4 @@ func (msg *AddPeerResponseMessage) Command() MessageCommand {
 func NewAddPeerResponseMessage() *AddPeerResponseMessage {
 	return &AddPeerResponseMessage{}
 }
+

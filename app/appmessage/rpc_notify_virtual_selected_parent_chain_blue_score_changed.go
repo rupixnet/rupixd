@@ -53,3 +53,4 @@ func NewVirtualSelectedParentBlueScoreChangedNotificationMessage(
 		VirtualSelectedParentBlueScore: virtualSelectedParentBlueScore,
 	}
 }
+

@@ -8,11 +8,11 @@ import (
 	"encoding/binary"
 	"strconv"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/subnetworks"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 const (
@@ -317,3 +317,4 @@ func NewRegistryMsgTx(version uint16, txIn []*TxIn, txOut []*TxOut, gasLimit uin
 
 	return NewSubnetworkMsgTx(version, txIn, txOut, &subnetworks.SubnetworkIDRegistry, 0, payload)
 }
+

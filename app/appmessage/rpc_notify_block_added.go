@@ -51,3 +51,4 @@ func NewBlockAddedNotificationMessage(block *RPCBlock) *BlockAddedNotificationMe
 		Block: block,
 	}
 }
+

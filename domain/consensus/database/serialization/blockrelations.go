@@ -1,7 +1,7 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
 )
 
 // DomainBlockRelationsToDbBlockRelations converts model.BlockRelations to DbBlockRelations
@@ -28,3 +28,4 @@ func DbBlockRelationsToDomainBlockRelations(dbBlockRelations *DbBlockRelations) 
 		Children: domainChildHashes,
 	}, nil
 }
+

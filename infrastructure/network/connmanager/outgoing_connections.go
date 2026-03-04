@@ -1,6 +1,6 @@
 package connmanager
 
-import "github.com/kaspanet/kaspad/app/appmessage"
+import "github.com/rupixnet/rupixd/app/appmessage"
 
 // checkOutgoingConnections goes over all activeOutgoing and makes sure they are still active.
 // Then it opens connections so that we have targetOutgoing active connections
@@ -59,3 +59,4 @@ func (c *ConnectionManager) checkOutgoingConnections(connSet connectionSet) {
 		c.seedFromDNS()
 	}
 }
+

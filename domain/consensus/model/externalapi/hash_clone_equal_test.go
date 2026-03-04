@@ -77,3 +77,4 @@ func TestDomainHash_Equal(t *testing.T) {
 		}
 	}
 }
+

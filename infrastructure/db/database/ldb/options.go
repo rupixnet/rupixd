@@ -7,7 +7,8 @@ import "github.com/syndtr/goleveldb/leveldb/opt"
 func Options() opt.Options {
 	return opt.Options{
 		Compression:            opt.NoCompression,
-		DisableSeeksCompaction: true,
+	//	DisableSeeksCompaction: true,
 		NoSync:                 true,
 	}
 }
+

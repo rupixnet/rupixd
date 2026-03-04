@@ -3,7 +3,7 @@ package flowcontext
 import (
 	"sync"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // SharedRequestedTransactions is a data structure that is shared between peers that
@@ -47,3 +47,4 @@ func NewSharedRequestedTransactions() *SharedRequestedTransactions {
 		transactions: make(map[externalapi.DomainTransactionID]struct{}),
 	}
 }
+

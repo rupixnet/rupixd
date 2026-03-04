@@ -13,3 +13,4 @@ func HashBlake2b(buf []byte) []byte {
 	hashedBuf := blake2b.Sum256(buf)
 	return hashedBuf[:]
 }
+

@@ -11,13 +11,13 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/subnetworks"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/transactionid"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionid"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // TestTx tests the MsgTx API.
@@ -259,3 +259,4 @@ func TestTxHashAndID(t *testing.T) {
 		t.Errorf("tx2ID and newTx2Hash should not be the same even for transaction with an empty signature")
 	}
 }
+

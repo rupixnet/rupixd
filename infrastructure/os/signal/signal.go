@@ -69,3 +69,4 @@ func InterruptRequested(interrupted <-chan struct{}) bool {
 
 	return false
 }
+

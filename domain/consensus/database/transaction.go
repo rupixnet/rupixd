@@ -1,8 +1,8 @@
 package database
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 type dbTransaction struct {
@@ -48,3 +48,4 @@ func (d *dbTransaction) RollbackUnlessClosed() error {
 func newDBTransaction(transaction database.Transaction) model.DBTransaction {
 	return &dbTransaction{transaction: transaction}
 }
+

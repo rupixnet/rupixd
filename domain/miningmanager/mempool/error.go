@@ -123,3 +123,4 @@ func extractRejectCode(err error) (RejectCode, bool) {
 
 	return RejectInvalid, false
 }
+

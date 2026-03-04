@@ -1,9 +1,9 @@
 package headersselectedchainstore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/database/binaryserialization"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/database/binaryserialization"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type headersSelectedChainStagingShard struct {
@@ -85,3 +85,4 @@ func (hscss *headersSelectedChainStagingShard) isStaged() bool {
 		len(hscss.addedByIndex) != 0 ||
 		len(hscss.addedByIndex) != 0
 }
+

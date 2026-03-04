@@ -1,11 +1,11 @@
 package rpchandlers
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/app/rpc/rpccontext"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/miningmanager/mempool"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/app/rpc/rpccontext"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/miningmanager/mempool"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/pkg/errors"
 )
 
@@ -37,3 +37,4 @@ func HandleSubmitTransaction(context *rpccontext.Context, _ *router.Router, requ
 	response := appmessage.NewSubmitTransactionResponseMessage(transactionID.String())
 	return response, nil
 }
+

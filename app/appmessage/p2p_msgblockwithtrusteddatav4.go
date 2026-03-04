@@ -18,3 +18,4 @@ func (msg *MsgBlockWithTrustedDataV4) Command() MessageCommand {
 func NewMsgBlockWithTrustedDataV4() *MsgBlockWithTrustedDataV4 {
 	return &MsgBlockWithTrustedDataV4{}
 }
+

@@ -7,13 +7,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/kaspanet/kaspad/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/config"
 
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/util"
 	"github.com/pkg/errors"
 
 	"github.com/jessevdk/go-flags"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/version"
 )
 
 const (
@@ -85,3 +85,4 @@ func parseConfig() (*configFlags, error) {
 
 	return cfg, nil
 }
+

@@ -1,7 +1,7 @@
 package appmessage
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // MsgRequestIBDBlocks implements the Message interface and represents a kaspa
@@ -24,3 +24,4 @@ func NewMsgRequestIBDBlocks(hashes []*externalapi.DomainHash) *MsgRequestIBDBloc
 		Hashes: hashes,
 	}
 }
+

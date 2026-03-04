@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kaspanet/kaspad/infrastructure/config"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/standalone"
+	"github.com/rupixnet/rupixd/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/standalone"
 )
 
 func connectToNode() *standalone.Routes {
@@ -26,3 +26,4 @@ func connectToNode() *standalone.Routes {
 	}
 	return routes
 }
+

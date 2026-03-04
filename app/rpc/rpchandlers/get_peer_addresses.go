@@ -4,9 +4,9 @@ import (
 	"net"
 	"strconv"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/app/rpc/rpccontext"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/app/rpc/rpccontext"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 // HandleGetPeerAddresses handles the respectively named RPC command
@@ -28,3 +28,4 @@ func HandleGetPeerAddresses(context *rpccontext.Context, _ *router.Router, _ app
 	response := appmessage.NewGetPeerAddressesResponseMessage(addressMessages, bannedAddressMessages)
 	return response, nil
 }
+

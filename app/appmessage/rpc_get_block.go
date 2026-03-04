@@ -39,3 +39,4 @@ func (msg *GetBlockResponseMessage) Command() MessageCommand {
 func NewGetBlockResponseMessage() *GetBlockResponseMessage {
 	return &GetBlockResponseMessage{}
 }
+

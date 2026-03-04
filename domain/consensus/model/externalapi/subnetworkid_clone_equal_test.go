@@ -97,3 +97,4 @@ func TestDomainSubnetworkID_Clone(t *testing.T) {
 		}
 	}
 }
+

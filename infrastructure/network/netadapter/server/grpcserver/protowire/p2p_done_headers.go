@@ -1,7 +1,7 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -15,3 +15,4 @@ func (x *KaspadMessage_DoneHeaders) toAppMessage() (appmessage.Message, error) {
 func (x *KaspadMessage_DoneHeaders) fromAppMessage(_ *appmessage.MsgDoneHeaders) error {
 	return nil
 }
+

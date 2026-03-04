@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/utils"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/utils"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/pkg/errors"
 	"github.com/tyler-smith/go-bip39"
 )
@@ -119,3 +119,4 @@ func encryptMnemonic(mnemonic string, password []byte) (*EncryptedMnemonic, erro
 		salt:   salt,
 	}, nil
 }
+

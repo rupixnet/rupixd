@@ -1,12 +1,12 @@
 package handshake
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/app/protocol/common"
-	peerpkg "github.com/kaspanet/kaspad/app/protocol/peer"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/app/protocol/common"
+	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/version"
 	"github.com/pkg/errors"
 )
 
@@ -87,3 +87,4 @@ func (flow *sendVersionFlow) start() error {
 	log.Debugf("Got verack")
 	return nil
 }
+

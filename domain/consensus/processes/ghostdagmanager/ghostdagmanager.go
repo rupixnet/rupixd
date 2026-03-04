@@ -1,8 +1,8 @@
 package ghostdagmanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // ghostdagManager resolves and manages GHOSTDAG block data
@@ -34,3 +34,4 @@ func New(
 		genesisHash:        genesisHash,
 	}
 }
+

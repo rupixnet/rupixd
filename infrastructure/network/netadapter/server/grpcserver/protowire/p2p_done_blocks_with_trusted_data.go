@@ -1,7 +1,7 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -15,3 +15,4 @@ func (x *KaspadMessage_DoneBlocksWithTrustedData) toAppMessage() (appmessage.Mes
 func (x *KaspadMessage_DoneBlocksWithTrustedData) fromAppMessage(_ *appmessage.MsgDoneBlocksWithTrustedData) error {
 	return nil
 }
+

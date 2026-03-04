@@ -3,18 +3,18 @@ package handshake
 import (
 	"sync/atomic"
 
-	"github.com/kaspanet/kaspad/domain"
+	"github.com/rupixnet/rupixd/domain"
 
-	"github.com/kaspanet/kaspad/app/protocol/common"
-	"github.com/kaspanet/kaspad/app/protocol/protocolerrors"
-	"github.com/kaspanet/kaspad/infrastructure/network/addressmanager"
+	"github.com/rupixnet/rupixd/app/protocol/common"
+	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
+	"github.com/rupixnet/rupixd/infrastructure/network/addressmanager"
 
-	"github.com/kaspanet/kaspad/infrastructure/config"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter"
+	"github.com/rupixnet/rupixd/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	peerpkg "github.com/kaspanet/kaspad/app/protocol/peer"
-	routerpkg "github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/pkg/errors"
 )
 
@@ -116,3 +116,4 @@ func handleError(err error, flowName string, isStopping *uint32, errChan chan er
 	}
 	panic(err)
 }
+

@@ -27,8 +27,8 @@ variable (either directly, or hidden in a library call).
 		"fmt"
 		"log"
 
-		"github.com/kaspanet/kaspad/util"
-		"github.com/kaspanet/kaspad/domain/dagconfig"
+		"github.com/rupixnet/rupixd/util"
+		"github.com/rupixnet/rupixd/domain/dagconfig"
 	)
 
 	var testnet = flag.Bool("testnet", false, "operate on the testnet Kaspa network")
@@ -61,3 +61,4 @@ standard network. As a general rule of thumb, all network parameters
 should be unique to the network, but parameter collisions can still occur.
 */
 package dagconfig
+

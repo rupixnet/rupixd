@@ -3,8 +3,8 @@ package ruleerrors
 import (
 	"fmt"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/pkg/errors"
 )
 
@@ -338,3 +338,4 @@ func NewErrInvalidTransactionsInNewBlock(invalidTransactions []InvalidTransactio
 		inner:   ErrInvalidTransactionsInNewBlock{invalidTransactions},
 	})
 }
+

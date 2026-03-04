@@ -56,3 +56,4 @@ func TestBinaryFreeList(t *testing.T) {
 func underlyingArrayAddress(buf []byte) uint64 {
 	return uint64((*reflect.SliceHeader)(unsafe.Pointer(&buf)).Data)
 }
+

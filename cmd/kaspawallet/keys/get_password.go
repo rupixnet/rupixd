@@ -40,3 +40,4 @@ func GetPassword(prompt string) string {
 
 	return string(p)
 }
+

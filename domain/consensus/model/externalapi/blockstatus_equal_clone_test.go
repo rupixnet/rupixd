@@ -85,3 +85,4 @@ func TestBlockStatus_Clone(t *testing.T) {
 		}
 	}
 }
+

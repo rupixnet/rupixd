@@ -29,3 +29,4 @@ func NewMsgPong(nonce uint64) *MsgPong {
 		Nonce: nonce,
 	}
 }
+

@@ -3,12 +3,12 @@ package headersselectedtipmanager_test
 import (
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
 
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/testutils"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/pkg/errors"
 )
 
@@ -77,3 +77,4 @@ func TestAddHeaderTip(t *testing.T) {
 		checkExpectedSelectedChain(expectedSelectedChain)
 	})
 }
+

@@ -12,7 +12,7 @@ interface. The functions are only exported while the tests are being run.
 package util
 
 import (
-	"github.com/kaspanet/kaspad/util/bech32"
+	"github.com/rupixnet/rupixd/util/bech32"
 	"golang.org/x/crypto/blake2b"
 )
 
@@ -66,3 +66,4 @@ func TstAddressSAddrP2SH(addr string) []byte {
 	_, decoded, _, _ := bech32.Decode(addr)
 	return decoded[:blake2b.Size256]
 }
+

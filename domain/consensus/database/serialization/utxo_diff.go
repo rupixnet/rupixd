@@ -1,8 +1,8 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 )
 
 // UTXODiffToDBUTXODiff converts UTXODiff to DbUtxoDiff
@@ -37,3 +37,4 @@ func DBUTXODiffToUTXODiff(diff *DbUtxoDiff) (externalapi.UTXODiff, error) {
 
 	return utxo.NewUTXODiffFromCollections(toAdd, toRemove)
 }
+

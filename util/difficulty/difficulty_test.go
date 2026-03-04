@@ -2,14 +2,14 @@ package difficulty_test
 
 import (
 	"fmt"
-	"github.com/kaspanet/kaspad/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus"
 	"math"
 	"math/big"
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/testutils"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/util/difficulty"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/util/difficulty"
 )
 
 func TestGetHashrateString(t *testing.T) {
@@ -112,3 +112,4 @@ func TestCompactToBig(t *testing.T) {
 		}
 	}
 }
+

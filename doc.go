@@ -27,3 +27,4 @@ systems and %LOCALAPPDATA%\kaspad\kaspad.conf on Windows. The -C (--configfile)
 flag can be used to override this location.
 */
 package main
+

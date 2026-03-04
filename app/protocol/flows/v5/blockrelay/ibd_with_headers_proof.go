@@ -2,12 +2,12 @@ package blockrelay
 
 import (
 	"fmt"
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/app/protocol/common"
-	"github.com/kaspanet/kaspad/app/protocol/protocolerrors"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/ruleerrors"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/app/protocol/common"
+	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/pkg/errors"
 	"time"
 )
@@ -442,3 +442,4 @@ func (flow *handleIBDFlow) fetchMissingUTXOSet(consensus externalapi.Consensus, 
 
 	return true, nil
 }
+

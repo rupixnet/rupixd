@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/kaspanet/kaspad/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/config"
 	"github.com/pkg/errors"
 
 	"github.com/jessevdk/go-flags"
@@ -476,3 +476,4 @@ func combineNetworkFlags(dst, src *config.NetworkFlags) {
 		dst.OverrideDAGParamsFile = src.OverrideDAGParamsFile
 	}
 }
+

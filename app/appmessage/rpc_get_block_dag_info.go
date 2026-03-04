@@ -42,3 +42,4 @@ func (msg *GetBlockDAGInfoResponseMessage) Command() MessageCommand {
 func NewGetBlockDAGInfoResponseMessage() *GetBlockDAGInfoResponseMessage {
 	return &GetBlockDAGInfoResponseMessage{}
 }
+

@@ -3,8 +3,8 @@ package libkaspawallet
 import (
 	"fmt"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet/bip32"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet/bip32"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/pkg/errors"
 	"github.com/tyler-smith/go-bip39"
 )
@@ -80,3 +80,4 @@ func versionFromParams(params *dagconfig.Params) ([4]byte, error) {
 
 	return [4]byte{}, errors.Errorf("unknown network %s", params.Name)
 }
+

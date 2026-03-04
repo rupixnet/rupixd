@@ -7,7 +7,7 @@ package bech32_test
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/kaspanet/kaspad/util/bech32"
+	"github.com/rupixnet/rupixd/util/bech32"
 )
 
 // This example demonstrates how to decode a bech32 encoded string.
@@ -40,3 +40,4 @@ func ExampleEncode() {
 	// Output:
 	// Encoded Data: customprefix!:::::q:ppzxzarpyp6x7grzv5sx2mnrdajx2epqd9h8gmeqgfjkx6pnxgc3swlew4
 }
+

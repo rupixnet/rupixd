@@ -1,7 +1,7 @@
 package connmanager
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
 )
 
 type connectionSet map[string]*netadapter.NetConnection
@@ -28,3 +28,4 @@ func convertToSet(connections []*netadapter.NetConnection) connectionSet {
 
 	return connSet
 }
+

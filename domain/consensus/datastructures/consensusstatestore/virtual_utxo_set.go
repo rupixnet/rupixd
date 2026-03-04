@@ -1,8 +1,8 @@
 package consensusstatestore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -74,3 +74,4 @@ func (css *consensusStateStore) ImportPruningPointUTXOSetIntoVirtualUTXOSet(dbCo
 
 	return nil
 }
+

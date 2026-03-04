@@ -1,8 +1,8 @@
 package finalitystore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type finalityStagingShard struct {
@@ -34,3 +34,4 @@ func (fss *finalityStagingShard) Commit(dbTx model.DBTransaction) error {
 func (fss *finalityStagingShard) isStaged() bool {
 	return len(fss.toAdd) == 0
 }
+

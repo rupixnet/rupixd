@@ -1,10 +1,11 @@
 package flowcontext
 
 import (
-	"github.com/kaspanet/kaspad/domain"
+	"github.com/rupixnet/rupixd/domain"
 )
 
 // Domain returns the Domain object associated to the flow context.
 func (f *FlowContext) Domain() domain.Domain {
 	return f.domain
 }
+

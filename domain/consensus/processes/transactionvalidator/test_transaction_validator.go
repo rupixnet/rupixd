@@ -1,9 +1,9 @@
 package transactionvalidator
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/testapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 )
 
 type testTransactionValidator struct {
@@ -22,3 +22,4 @@ func (tbv *testTransactionValidator) SigCache() *txscript.SigCache {
 func (tbv *testTransactionValidator) SetSigCache(sigCache *txscript.SigCache) {
 	tbv.sigCache = sigCache
 }
+

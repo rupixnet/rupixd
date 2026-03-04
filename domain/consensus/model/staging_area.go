@@ -62,3 +62,4 @@ func (sa *StagingArea) Commit(dbTx DBTransaction) error {
 
 	return nil
 }
+

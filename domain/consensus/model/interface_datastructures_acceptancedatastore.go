@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // AcceptanceDataStore represents a store of AcceptanceData
 type AcceptanceDataStore interface {
@@ -10,3 +10,4 @@ type AcceptanceDataStore interface {
 	Get(dbContext DBReader, stagingArea *StagingArea, blockHash *externalapi.DomainHash) (externalapi.AcceptanceData, error)
 	Delete(stagingArea *StagingArea, blockHash *externalapi.DomainHash)
 }
+

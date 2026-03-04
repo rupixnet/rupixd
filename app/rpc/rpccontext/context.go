@@ -1,13 +1,13 @@
 package rpccontext
 
 import (
-	"github.com/kaspanet/kaspad/app/protocol"
-	"github.com/kaspanet/kaspad/domain"
-	"github.com/kaspanet/kaspad/domain/utxoindex"
-	"github.com/kaspanet/kaspad/infrastructure/config"
-	"github.com/kaspanet/kaspad/infrastructure/network/addressmanager"
-	"github.com/kaspanet/kaspad/infrastructure/network/connmanager"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter"
+	"github.com/rupixnet/rupixd/app/protocol"
+	"github.com/rupixnet/rupixd/domain"
+	"github.com/rupixnet/rupixd/domain/utxoindex"
+	"github.com/rupixnet/rupixd/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/network/addressmanager"
+	"github.com/rupixnet/rupixd/infrastructure/network/connmanager"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
 )
 
 // Context represents the RPC context
@@ -48,3 +48,4 @@ func NewContext(cfg *config.Config,
 
 	return context
 }
+

@@ -8,20 +8,20 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/version"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
-	"github.com/kaspanet/kaspad/util/txmass"
+	"github.com/rupixnet/rupixd/util/txmass"
 
-	"github.com/kaspanet/kaspad/util/profiling"
+	"github.com/rupixnet/rupixd/util/profiling"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/keys"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/infrastructure/network/rpcclient"
-	"github.com/kaspanet/kaspad/infrastructure/os/signal"
-	"github.com/kaspanet/kaspad/util/panics"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/keys"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
+	"github.com/rupixnet/rupixd/infrastructure/os/signal"
+	"github.com/rupixnet/rupixd/util/panics"
 	"github.com/pkg/errors"
 
 	"google.golang.org/grpc"
@@ -162,3 +162,4 @@ func printErrorAndExit(err error) {
 	fmt.Fprintf(os.Stderr, "%+v\n", err)
 	os.Exit(1)
 }
+

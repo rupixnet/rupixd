@@ -23,3 +23,4 @@ type Transaction interface {
 	// had already been closed using either Rollback or Commit.
 	RollbackUnlessClosed() error
 }
+

@@ -1,7 +1,7 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -91,3 +91,4 @@ func (x *FinalityConflictResolvedNotificationMessage) toAppMessage() (appmessage
 		FinalityBlockHash: x.FinalityBlockHash,
 	}, nil
 }
+

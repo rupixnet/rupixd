@@ -1,13 +1,13 @@
 package blockrelay
 
 import (
-	"github.com/kaspanet/kaspad/app/protocol/peer"
-	"github.com/kaspanet/kaspad/app/protocol/protocolerrors"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/app/protocol/peer"
+	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 // This constant must be equal at both syncer and syncee. Therefore, never (!!) change this constant unless a new p2p
@@ -132,3 +132,4 @@ func receiveRequestHeaders(incomingRoute *router.Route) (lowHash *externalapi.Do
 
 	return msgRequestIBDBlocks.LowHash, msgRequestIBDBlocks.HighHash, nil
 }
+

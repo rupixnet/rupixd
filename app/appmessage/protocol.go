@@ -127,3 +127,4 @@ func (n KaspaNet) String() string {
 
 	return fmt.Sprintf("Unknown KaspaNet (%d)", uint32(n))
 }
+

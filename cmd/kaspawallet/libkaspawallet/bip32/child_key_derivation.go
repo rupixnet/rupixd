@@ -150,3 +150,4 @@ func pointAdd(point *secp256k1.ECDSAPublicKey, tweak [32]byte) (*secp256k1.ECDSA
 
 	return &pointCopy, nil
 }
+

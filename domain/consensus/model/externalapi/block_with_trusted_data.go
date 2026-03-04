@@ -21,3 +21,4 @@ type BlockGHOSTDAGDataHashPair struct {
 	Hash         *DomainHash
 	GHOSTDAGData *BlockGHOSTDAGData
 }
+

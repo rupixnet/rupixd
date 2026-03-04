@@ -7,10 +7,10 @@ package txscript
 import (
 	"fmt"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
 )
 
 // ScriptFlags is a bitmask defining additional operations or tests that will be
@@ -513,3 +513,4 @@ func parseScriptAndVerifySize(script []byte) ([]parsedOpcode, error) {
 	}
 	return parseScript(script)
 }
+

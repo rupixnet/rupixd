@@ -929,3 +929,4 @@ func file_wallet_proto_init() {
 	file_wallet_proto_goTypes = nil
 	file_wallet_proto_depIdxs = nil
 }
+

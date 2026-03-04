@@ -56,3 +56,4 @@ func hash160(data []byte) []byte {
 	ripe.Write(sha.Sum(nil))
 	return ripe.Sum(nil)
 }
+

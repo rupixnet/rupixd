@@ -35,3 +35,4 @@ func (bi *BlockInfo) Clone() *BlockInfo {
 		MergeSetReds:   CloneHashes(bi.MergeSetReds),
 	}
 }
+

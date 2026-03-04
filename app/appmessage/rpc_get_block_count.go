@@ -1,6 +1,6 @@
 package appmessage
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // GetBlockCountRequestMessage is an appmessage corresponding to
 // its respective RPC message
@@ -40,3 +40,4 @@ func NewGetBlockCountResponseMessage(syncInfo *externalapi.SyncInfo) *GetBlockCo
 		HeaderCount: syncInfo.HeaderCount,
 	}
 }
+

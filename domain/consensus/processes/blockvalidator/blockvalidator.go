@@ -4,11 +4,11 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/kaspanet/kaspad/util/txmass"
+	"github.com/rupixnet/rupixd/util/txmass"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/util/difficulty"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/util/difficulty"
 )
 
 // blockValidator exposes a set of validation classes, after which
@@ -133,3 +133,4 @@ func New(powMax *big.Int,
 		txMassCalculator: txMassCalculator,
 	}
 }
+

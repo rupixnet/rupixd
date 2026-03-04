@@ -9,7 +9,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func TestDatabasePut(t *testing.T) {
@@ -167,3 +167,4 @@ func testDatabaseDelete(t *testing.T, db database.Database, testName string) {
 			"unexpectedly returned that the value exists", testName)
 	}
 }
+

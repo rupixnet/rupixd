@@ -321,3 +321,4 @@ type Message interface {
 	ReceivedAt() time.Time
 	SetReceivedAt(receivedAt time.Time)
 }
+

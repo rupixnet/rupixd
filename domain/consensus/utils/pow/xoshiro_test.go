@@ -15,3 +15,4 @@ func TestXoShiRo256PlusPlus_Uint64(t *testing.T) {
 		}
 	}
 }
+

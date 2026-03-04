@@ -2,7 +2,7 @@ package utxoindex
 
 import (
 	"encoding/binary"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 	"io"
 	"math/rand"
@@ -42,3 +42,4 @@ func Test_deserializeHashesFailure(t *testing.T) {
 		t.Fatalf("Expected error to be EOF, instead got: %v", err)
 	}
 }
+

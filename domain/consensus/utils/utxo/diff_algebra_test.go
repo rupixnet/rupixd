@@ -4,9 +4,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/transactionid"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionid"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 func (mud *mutableUTXODiff) equal(other *mutableUTXODiff) bool {
@@ -614,3 +614,4 @@ func TestUTXODiffRules(t *testing.T) {
 		}
 	}
 }
+

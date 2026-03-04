@@ -43,3 +43,4 @@ func (ipr *ibdProgressReporter) reportProgress(processedDelta int, highestProces
 		ipr.lastReportedProgressPercent = progressPercent
 	}
 }
+

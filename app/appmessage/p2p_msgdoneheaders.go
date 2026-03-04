@@ -20,3 +20,4 @@ func (msg *MsgDoneHeaders) Command() MessageCommand {
 func NewMsgDoneHeaders() *MsgDoneHeaders {
 	return &MsgDoneHeaders{}
 }
+

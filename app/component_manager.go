@@ -4,22 +4,22 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
-	"github.com/kaspanet/kaspad/domain/miningmanager/mempool"
+	"github.com/rupixnet/rupixd/domain/miningmanager/mempool"
 
-	"github.com/kaspanet/kaspad/app/protocol"
-	"github.com/kaspanet/kaspad/app/rpc"
-	"github.com/kaspanet/kaspad/domain"
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/utxoindex"
-	"github.com/kaspanet/kaspad/infrastructure/config"
-	infrastructuredatabase "github.com/kaspanet/kaspad/infrastructure/db/database"
-	"github.com/kaspanet/kaspad/infrastructure/network/addressmanager"
-	"github.com/kaspanet/kaspad/infrastructure/network/connmanager"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/id"
-	"github.com/kaspanet/kaspad/util/panics"
+	"github.com/rupixnet/rupixd/app/protocol"
+	"github.com/rupixnet/rupixd/app/rpc"
+	"github.com/rupixnet/rupixd/domain"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/utxoindex"
+	"github.com/rupixnet/rupixd/infrastructure/config"
+	infrastructuredatabase "github.com/rupixnet/rupixd/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/network/addressmanager"
+	"github.com/rupixnet/rupixd/infrastructure/network/connmanager"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/id"
+	"github.com/rupixnet/rupixd/util/panics"
 )
 
 // ComponentManager is a wrapper for all the kaspad services
@@ -172,3 +172,4 @@ func (a *ComponentManager) P2PNodeID() *id.ID {
 func (a *ComponentManager) AddressManager() *addressmanager.AddressManager {
 	return a.addressManager
 }
+

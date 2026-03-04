@@ -3,15 +3,15 @@ package mempool
 import (
 	"sync"
 
-	"github.com/kaspanet/kaspad/domain/consensus/ruleerrors"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/pkg/errors"
 
-	"github.com/kaspanet/kaspad/domain/consensusreference"
+	"github.com/rupixnet/rupixd/domain/consensusreference"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	miningmanagermodel "github.com/kaspanet/kaspad/domain/miningmanager/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	miningmanagermodel "github.com/rupixnet/rupixd/domain/miningmanager/model"
 )
 
 type mempool struct {
@@ -227,3 +227,4 @@ func (mp *mempool) RemoveTransaction(transactionID *externalapi.DomainTransactio
 
 	return mp.removeTransaction(transactionID, removeRedeemers)
 }
+

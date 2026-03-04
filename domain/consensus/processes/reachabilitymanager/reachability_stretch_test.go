@@ -8,12 +8,12 @@ import (
 	"os"
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
 
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/model/testapi"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/pkg/errors"
 )
 
@@ -256,3 +256,4 @@ func TestAttackAlternateReorg(t *testing.T) {
 	tips := buildJsonDAG(t, tc, true)
 	addAlternatingReorgBlocks(t, tc, tips)
 }
+

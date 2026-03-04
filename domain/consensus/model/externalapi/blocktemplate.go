@@ -17,3 +17,4 @@ func (bt *DomainBlockTemplate) Clone() *DomainBlockTemplate {
 		IsNearlySynced:       bt.IsNearlySynced,
 	}
 }
+

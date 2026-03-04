@@ -36,3 +36,4 @@ func NewGetSelectedTipHashResponseMessage(selectedTipHash string) *GetSelectedTi
 		SelectedTipHash: selectedTipHash,
 	}
 }
+

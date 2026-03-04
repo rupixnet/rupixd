@@ -1,8 +1,8 @@
 package headersselectedtipstore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type headersSelectedTipStagingShard struct {
@@ -40,3 +40,4 @@ func (hstss *headersSelectedTipStagingShard) Commit(dbTx model.DBTransaction) er
 func (hstss *headersSelectedTipStagingShard) isStaged() bool {
 	return hstss.newSelectedTip != nil
 }
+

@@ -38,3 +38,4 @@ func NewGetCoinSupplyResponseMessage(maxSompi uint64, circulatingSompi uint64) *
 		CirculatingSompi: circulatingSompi,
 	}
 }
+

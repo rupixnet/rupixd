@@ -2262,3 +2262,4 @@ func file_kaspawalletd_proto_init() {
 	file_kaspawalletd_proto_goTypes = nil
 	file_kaspawalletd_proto_depIdxs = nil
 }
+

@@ -6,13 +6,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/model/testapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/mining"
-	"github.com/kaspanet/kaspad/stability-tests/common/rpc"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/mining"
+	"github.com/rupixnet/rupixd/stability-tests/common/rpc"
 	"github.com/pkg/errors"
 )
 
@@ -156,3 +156,4 @@ var random = rand.New(rand.NewSource(time.Now().UnixNano()))
 func SolveBlock(block *externalapi.DomainBlock) {
 	mining.SolveBlock(block, random)
 }
+

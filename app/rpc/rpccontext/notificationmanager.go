@@ -3,14 +3,14 @@ package rpccontext
 import (
 	"sync"
 
-	"github.com/kaspanet/kaspad/domain/dagconfig"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain/utxoindex"
-	routerpkg "github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain/utxoindex"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/pkg/errors"
 )
 
@@ -489,3 +489,4 @@ func (nl *NotificationListener) PropagatePruningPointUTXOSetOverrideNotification
 func (nl *NotificationListener) StopPropagatingPruningPointUTXOSetOverrideNotifications() {
 	nl.propagatePruningPointUTXOSetOverrideNotifications = false
 }
+

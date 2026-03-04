@@ -1,8 +1,8 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 	"math/big"
 )
@@ -192,3 +192,4 @@ func maxKType() uint32 {
 	max := zero - 1
 	return uint32(max)
 }
+

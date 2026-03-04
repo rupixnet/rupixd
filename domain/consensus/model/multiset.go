@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // Multiset represents a secp256k1 multiset
 type Multiset interface {
@@ -10,3 +10,4 @@ type Multiset interface {
 	Serialize() []byte
 	Clone() Multiset
 }
+

@@ -1,20 +1,20 @@
 package protocol
 
 import (
-	"github.com/kaspanet/kaspad/app/protocol/common"
-	"github.com/kaspanet/kaspad/app/protocol/flows/ready"
-	"github.com/kaspanet/kaspad/app/protocol/flows/v5"
+	"github.com/rupixnet/rupixd/app/protocol/common"
+	"github.com/rupixnet/rupixd/app/protocol/flows/ready"
+	"github.com/rupixnet/rupixd/app/protocol/flows/v5"
 	"sync"
 	"sync/atomic"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/app/protocol/flows/handshake"
-	peerpkg "github.com/kaspanet/kaspad/app/protocol/peer"
-	"github.com/kaspanet/kaspad/app/protocol/protocolerrors"
-	"github.com/kaspanet/kaspad/infrastructure/network/addressmanager"
-	"github.com/kaspanet/kaspad/infrastructure/network/connmanager"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter"
-	routerpkg "github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/app/protocol/flows/handshake"
+	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
+	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
+	"github.com/rupixnet/rupixd/infrastructure/network/addressmanager"
+	"github.com/rupixnet/rupixd/infrastructure/network/connmanager"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/pkg/errors"
 )
 
@@ -228,3 +228,4 @@ func removeHandshakeRoutes(router *routerpkg.Router) {
 		panic(err)
 	}
 }
+

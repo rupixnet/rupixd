@@ -306,3 +306,4 @@ func IsErrorCode(err error, c ErrorCode) bool {
 
 	return false
 }
+

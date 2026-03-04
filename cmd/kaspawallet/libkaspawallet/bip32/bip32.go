@@ -44,3 +44,4 @@ func NewPublicMasterWithPath(seed []byte, version [4]byte, pathString string) (*
 
 	return descendantKey.Public()
 }
+

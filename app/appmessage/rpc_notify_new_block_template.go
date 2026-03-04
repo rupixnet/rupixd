@@ -48,3 +48,4 @@ func (msg *NewBlockTemplateNotificationMessage) Command() MessageCommand {
 func NewNewBlockTemplateNotificationMessage() *NewBlockTemplateNotificationMessage {
 	return &NewBlockTemplateNotificationMessage{}
 }
+

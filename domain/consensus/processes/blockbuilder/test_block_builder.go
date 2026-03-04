@@ -2,14 +2,14 @@ package blockbuilder
 
 import (
 	"encoding/binary"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/model/testapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/blockheader"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/transactionhelper"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/pkg/errors"
 	"math/big"
 	"sort"
@@ -287,3 +287,4 @@ func (bb *testBlockBuilder) BuildUTXOInvalidBlock(parentHashes []*externalapi.Do
 func (bb *testBlockBuilder) SetNonceCounter(nonceCounter uint64) {
 	bb.nonceCounter = nonceCounter
 }
+

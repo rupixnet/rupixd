@@ -1,8 +1,8 @@
 package reachabilitydata
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type reachabilityData struct {
@@ -110,3 +110,4 @@ func (rd *reachabilityData) Equal(other model.ReachabilityData) bool {
 
 	return true
 }
+

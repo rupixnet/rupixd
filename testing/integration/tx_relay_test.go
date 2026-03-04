@@ -6,18 +6,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kaspanet/kaspad/app/protocol/flowcontext"
+	"github.com/rupixnet/rupixd/app/protocol/flowcontext"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 
 	"github.com/kaspanet/go-secp256k1"
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/transactionhelper"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/util"
 )
 
 func TestTxRelay(t *testing.T) {
@@ -175,3 +175,4 @@ func generateTx(t *testing.T, firstBlockCoinbase *externalapi.DomainTransaction,
 
 	return msgTx
 }
+

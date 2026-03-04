@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // BlockStore represents a store of blocks
 type BlockStore interface {
@@ -14,3 +14,4 @@ type BlockStore interface {
 	Count(stagingArea *StagingArea) uint64
 	AllBlockHashesIterator(dbContext DBReader) (BlockIterator, error)
 }
+

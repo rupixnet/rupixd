@@ -2,11 +2,11 @@ package ghostdagdatastore
 
 import (
 	"github.com/golang/protobuf/proto"
-	"github.com/kaspanet/kaspad/domain/consensus/database/serialization"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/lrucacheghostdagdata"
-	"github.com/kaspanet/kaspad/util/staging"
+	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/lrucacheghostdagdata"
+	"github.com/rupixnet/rupixd/util/staging"
 )
 
 var ghostdagDataBucketName = []byte("block-ghostdag-data")
@@ -95,3 +95,4 @@ func (gds *ghostdagDataStore) deserializeBlockGHOSTDAGData(blockGHOSTDAGDataByte
 
 	return serialization.DBBlockGHOSTDAGDataToBlockGHOSTDAGData(dbBlockGHOSTDAGData)
 }
+

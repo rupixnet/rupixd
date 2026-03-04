@@ -1,13 +1,13 @@
 package blockvalidator
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/ruleerrors"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/pow"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/virtual"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/pow"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/virtual"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/pkg/errors"
 )
 
@@ -144,10 +144,6 @@ func (v *blockValidator) validateDifficulty(stagingArea *model.StagingArea,
 // checkProofOfWork ensures the block header bits which indicate the target
 // difficulty is in min/max range and that the block hash is less than the
 // target difficulty as claimed.
-//
-// The flags modify the behavior of this function as follows:
-//   - BFNoPoWCheck: The check to ensure the block hash is less than the target
-//     difficulty is not performed.
 func (v *blockValidator) checkProofOfWork(header externalapi.BlockHeader) error {
 	// The target difficulty must be larger than zero.
 	state := pow.NewState(header.ToMutable())
@@ -218,15 +214,13 @@ func (v *blockValidator) checkParentHeadersExist(stagingArea *model.StagingArea,
 
 	return nil
 }
-func (v *blockValidator) checkPruningPointViolation(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash) error {
-	// check if the pruning point is on past of at least one parent of the header's parents.
 
+func (v *blockValidator) checkPruningPointViolation(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash) error {
 	hasPruningPoint, err := v.pruningStore.HasPruningPoint(v.databaseContext, stagingArea)
 	if err != nil {
 		return err
 	}
 
-	//If hasPruningPoint has a false value, it means that it's the genesis - so no violation can exist.
 	if !hasPruningPoint {
 		return nil
 	}

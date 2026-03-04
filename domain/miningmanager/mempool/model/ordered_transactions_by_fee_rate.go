@@ -89,3 +89,4 @@ func (tobf *TransactionsOrderedByFeeRate) findTransactionIndex(transaction *Memp
 
 	return index, wasFound, nil
 }
+

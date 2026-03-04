@@ -2,7 +2,7 @@ package profiling
 
 import (
 	"fmt"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"net"
 	"net/http"
 	"os"
@@ -12,7 +12,7 @@ import (
 	// Required for profiling
 	_ "net/http/pprof"
 
-	"github.com/kaspanet/kaspad/util/panics"
+	"github.com/rupixnet/rupixd/util/panics"
 	"runtime"
 	"runtime/pprof"
 )
@@ -75,3 +75,4 @@ func dumpHeapProfile(heapLimit uint64, dumpFolder string, memStats *runtime.MemS
 		log.Infof("Could not write heap profile: %s", err)
 	}
 }
+

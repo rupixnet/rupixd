@@ -1,5 +1,6 @@
 package pruningproofmanager
 
-import "github.com/kaspanet/kaspad/infrastructure/logger"
+import "github.com/rupixnet/rupixd/infrastructure/logger"
 
 var log = logger.RegisterSubSystem("PPMN")
+

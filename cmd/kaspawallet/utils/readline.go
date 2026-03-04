@@ -16,3 +16,4 @@ func ReadLine(reader *bufio.Reader) (string, error) {
 
 	return strings.TrimSpace(string(line)), nil
 }
+

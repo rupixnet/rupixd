@@ -4,8 +4,8 @@ import (
 	"context"
 	"github.com/pkg/errors"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
 )
 
 type balancesType struct{ available, pending uint64 }
@@ -73,3 +73,4 @@ func (s *server) isUTXOSpendable(entry *walletUTXO, virtualDAAScore uint64) bool
 	}
 	return entry.UTXOEntry.BlockDAAScore()+s.coinbaseMaturity < virtualDAAScore
 }
+

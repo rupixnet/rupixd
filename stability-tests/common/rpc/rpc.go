@@ -3,10 +3,10 @@ package rpc
 import (
 	"time"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/infrastructure/network/rpcclient"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
 
-	"github.com/kaspanet/kaspad/domain/dagconfig"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 )
 
 const defaultRPCServer = "localhost"
@@ -59,3 +59,4 @@ func (c *Client) RegisterForBlockAddedNotifications() error {
 		c.OnBlockAdded <- struct{}{}
 	})
 }
+

@@ -44,3 +44,4 @@ func Deserialize(prefixBytes []byte) (*Prefix, error) {
 
 	return &Prefix{value: prefixBytes[0]}, nil
 }
+

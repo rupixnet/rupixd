@@ -39,3 +39,4 @@ func NewGetSubnetworkResponseMessage(gasLimit uint64) *GetSubnetworkResponseMess
 		GasLimit: gasLimit,
 	}
 }
+

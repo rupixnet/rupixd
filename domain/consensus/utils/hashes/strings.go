@@ -1,7 +1,7 @@
 package hashes
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // ToStrings converts a slice of hashes into a slice of the corresponding strings
@@ -12,3 +12,4 @@ func ToStrings(hashes []*externalapi.DomainHash) []string {
 	}
 	return strings
 }
+

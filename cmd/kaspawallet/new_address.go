@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/client"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/client"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
 )
 
 func newAddress(conf *newAddressConfig) error {
@@ -25,3 +25,4 @@ func newAddress(conf *newAddressConfig) error {
 	fmt.Printf("New address:\n%s\n", response.Address)
 	return nil
 }
+

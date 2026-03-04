@@ -3,9 +3,9 @@ package finalitymanager
 import (
 	"errors"
 
-	"github.com/kaspanet/kaspad/domain/consensus/database"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/database"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type finalityManager struct {
@@ -156,3 +156,4 @@ func (fm *finalityManager) calculateFinalityPoint(stagingArea *model.StagingArea
 		current = next
 	}
 }
+

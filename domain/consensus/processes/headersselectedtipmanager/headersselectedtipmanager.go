@@ -1,8 +1,8 @@
 package headersselectedtipmanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type headerTipsManager struct {
@@ -77,3 +77,4 @@ func (h *headerTipsManager) AddHeaderTip(stagingArea *model.StagingArea, hash *e
 
 	return nil
 }
+

@@ -1,9 +1,9 @@
 package rejects
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/app/protocol/protocolerrors"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 // HandleRejectsContext is the interface for the context needed for the HandleRejects flow.
@@ -35,3 +35,4 @@ func (flow *handleRejectsFlow) start() error {
 
 	return protocolerrors.Errorf(false, "got reject message: `%s`", rejectMessage.Reason)
 }
+

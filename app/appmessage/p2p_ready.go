@@ -20,3 +20,4 @@ func (msg *MsgReady) Command() MessageCommand {
 func NewMsgReady() *MsgReady {
 	return &MsgReady{}
 }
+

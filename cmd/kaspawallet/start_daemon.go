@@ -1,7 +1,8 @@
 package main
 
-import "github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/server"
+import "github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/server"
 
 func startDaemon(conf *startDaemonConfig) error {
 	return server.Start(conf.NetParams(), conf.Listen, conf.RPCServer, conf.KeysFile, conf.Profile, conf.Timeout)
 }
+

@@ -143,3 +143,4 @@ func (tad *TransactionAcceptanceData) Clone() *TransactionAcceptanceData {
 		TransactionInputUTXOEntries: cloneTransactionInputUTXOEntries,
 	}
 }
+

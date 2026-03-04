@@ -1,7 +1,7 @@
 package utxoindex
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // ScriptPublicKeyString is a script public key represented as a string
@@ -21,3 +21,4 @@ type UTXOChanges struct {
 	Added   map[ScriptPublicKeyString]UTXOOutpointEntryPairs
 	Removed map[ScriptPublicKeyString]UTXOOutpointEntryPairs
 }
+

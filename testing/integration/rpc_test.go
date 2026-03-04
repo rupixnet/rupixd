@@ -1,12 +1,12 @@
 package integration
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/config"
 	"runtime"
 	"testing"
 	"time"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/rpcclient"
+	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
 )
 
 const rpcTimeout = 10 * time.Second
@@ -113,3 +113,4 @@ func TestRPCMaxInboundConnections(t *testing.T) {
 	case <-time.After(time.Second * 15):
 	}
 }
+

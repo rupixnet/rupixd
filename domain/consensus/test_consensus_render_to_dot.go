@@ -8,7 +8,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
 )
 
 // RenderDAGToDot is a helper function for debugging tests.
@@ -81,3 +81,4 @@ func renderDotScript(dotScript string, filename string) error {
 
 	return ioutil.WriteFile(filename, svg, 0600)
 }
+

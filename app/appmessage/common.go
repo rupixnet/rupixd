@@ -18,3 +18,4 @@ var errNonCanonicalVarInt = "non-canonical varint %x - discriminant %x must " +
 
 // errNoEncodingForType signifies that there's no encoding for the given type.
 var errNoEncodingForType = errors.New("there's no encoding for this type")
+

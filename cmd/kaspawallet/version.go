@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/version"
 	"os"
 	"path/filepath"
 	"strings"
@@ -13,3 +13,4 @@ func showVersion() {
 	appName = strings.TrimSuffix(appName, filepath.Ext(appName))
 	fmt.Println(appName, "version", version.Version())
 }
+

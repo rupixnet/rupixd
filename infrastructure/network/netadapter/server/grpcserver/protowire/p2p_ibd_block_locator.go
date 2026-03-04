@@ -1,7 +1,7 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -37,3 +37,4 @@ func (x *KaspadMessage_IbdBlockLocator) fromAppMessage(message *appmessage.MsgIB
 	}
 	return nil
 }
+

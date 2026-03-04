@@ -39,3 +39,4 @@ func NewGetUTXOsByAddressesResponseMessage(entries []*UTXOsByAddressesEntry) *Ge
 		Entries: entries,
 	}
 }
+

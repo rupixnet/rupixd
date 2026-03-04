@@ -1,7 +1,7 @@
 package serialization
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"testing"
 )
 
@@ -25,3 +25,4 @@ func TestKType(t *testing.T) {
 		t.Fatalf("convert from uint32 to KType losses data")
 	}
 }
+

@@ -1,8 +1,8 @@
 package reachabilitymanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // insertToFutureCoveringSet inserts the given block into this node's FutureCoveringSet
@@ -103,3 +103,4 @@ func (rt *reachabilityManager) futureCoveringSetHasAncestorOf(stagingArea *model
 
 	return rt.IsReachabilityTreeAncestorOf(stagingArea, candidate, other)
 }
+

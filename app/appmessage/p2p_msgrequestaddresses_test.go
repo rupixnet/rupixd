@@ -18,3 +18,4 @@ func TestRequestAddresses(t *testing.T) {
 			cmd, wantCmd)
 	}
 }
+

@@ -1,10 +1,10 @@
 package miningmanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensusreference"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/domain/miningmanager/blocktemplatebuilder"
-	mempoolpkg "github.com/kaspanet/kaspad/domain/miningmanager/mempool"
+	"github.com/rupixnet/rupixd/domain/consensusreference"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/domain/miningmanager/blocktemplatebuilder"
+	mempoolpkg "github.com/rupixnet/rupixd/domain/miningmanager/mempool"
 	"sync"
 	"time"
 )
@@ -36,3 +36,4 @@ func (f *factory) NewMiningManager(consensusReference consensusreference.Consens
 func NewFactory() Factory {
 	return &factory{}
 }
+

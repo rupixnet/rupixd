@@ -114,3 +114,4 @@ type RPCTransactionOutputVerboseData struct {
 	ScriptPublicKeyType    string
 	ScriptPublicKeyAddress string
 }
+

@@ -7,7 +7,7 @@ package appmessage
 import (
 	"testing"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // TestRequstIBDBlocks tests the MsgRequestIBDBlocks API.
@@ -38,3 +38,4 @@ func TestRequstIBDBlocks(t *testing.T) {
 			cmd, wantCmd)
 	}
 }
+

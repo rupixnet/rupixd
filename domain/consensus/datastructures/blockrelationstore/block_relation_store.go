@@ -2,11 +2,11 @@ package blockrelationstore
 
 import (
 	"github.com/golang/protobuf/proto"
-	"github.com/kaspanet/kaspad/domain/consensus/database/serialization"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/lrucache"
-	"github.com/kaspanet/kaspad/util/staging"
+	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/lrucache"
+	"github.com/rupixnet/rupixd/util/staging"
 )
 
 var bucketName = []byte("block-relations")
@@ -97,3 +97,4 @@ func (brs *blockRelationStore) deserializeBlockRelations(blockRelationsBytes []b
 	}
 	return serialization.DbBlockRelationsToDomainBlockRelations(dbBlockRelations)
 }
+

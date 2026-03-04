@@ -1,8 +1,8 @@
 package blockheaderstore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type blockHeaderStagingShard struct {
@@ -67,3 +67,4 @@ func (bhss *blockHeaderStagingShard) commitCount(dbTx model.DBTransaction) error
 func (bhss *blockHeaderStagingShard) isStaged() bool {
 	return len(bhss.toAdd) != 0 || len(bhss.toDelete) != 0
 }
+

@@ -1,8 +1,8 @@
 package reachabilitymanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -806,3 +806,4 @@ func (rc *reindexContext) propagateChildrenIntervals(stagingArea *model.StagingA
 
 	return nil
 }
+

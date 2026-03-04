@@ -74,3 +74,4 @@ func TestBlockLocator_Clone(t *testing.T) {
 		}
 	}
 }
+

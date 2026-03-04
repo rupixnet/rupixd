@@ -35,7 +35,7 @@ package logger
 import (
 	"bytes"
 	"fmt"
-	"github.com/kaspanet/kaspad/util/mstime"
+	"github.com/rupixnet/rupixd/util/mstime"
 	"os"
 	"runtime"
 	"sync/atomic"
@@ -290,3 +290,4 @@ func callsite(flag uint32) (string, int) {
 	}
 	return file, line
 }
+

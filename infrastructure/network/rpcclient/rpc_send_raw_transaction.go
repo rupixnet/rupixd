@@ -3,7 +3,7 @@ package rpcclient
 import (
 	"strings"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 // SubmitTransaction sends an RPC request respective to the function's name and returns the RPC server's response
@@ -42,3 +42,4 @@ func (c *RPCClient) SubmitTransaction(transaction *appmessage.RPCTransaction, tr
 		return submitTransactionResponse, nil
 	}
 }
+

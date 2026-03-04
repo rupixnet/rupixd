@@ -52,3 +52,4 @@ func (l Level) String() string {
 	}
 	return levelStrs[l]
 }
+

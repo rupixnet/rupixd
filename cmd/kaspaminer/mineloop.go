@@ -2,18 +2,18 @@ package main
 
 import (
 	nativeerrors "errors"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/version"
 	"math/rand"
 	"sync/atomic"
 	"time"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/cmd/kaspaminer/templatemanager"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/pow"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/cmd/kaspaminer/templatemanager"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/pow"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/util"
 	"github.com/pkg/errors"
 )
 
@@ -226,3 +226,4 @@ func templatesLoop(client *minerClient, miningAddr util.Address, errChan chan er
 		}
 	}
 }
+

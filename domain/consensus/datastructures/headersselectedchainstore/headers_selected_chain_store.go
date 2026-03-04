@@ -2,14 +2,14 @@ package headersselectedchainstore
 
 import (
 	"encoding/binary"
-	"github.com/kaspanet/kaspad/util/staging"
+	"github.com/rupixnet/rupixd/util/staging"
 
-	"github.com/kaspanet/kaspad/domain/consensus/database"
-	"github.com/kaspanet/kaspad/domain/consensus/database/binaryserialization"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/lrucache"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/lrucacheuint64tohash"
+	"github.com/rupixnet/rupixd/domain/consensus/database"
+	"github.com/rupixnet/rupixd/domain/consensus/database/binaryserialization"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/lrucache"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/lrucacheuint64tohash"
 	"github.com/pkg/errors"
 )
 
@@ -177,3 +177,4 @@ func (hscs *headersSelectedChainStore) highestChainBlockIndex(dbContext model.DB
 	hscs.cacheHighestChainBlockIndex = index
 	return index, true, nil
 }
+

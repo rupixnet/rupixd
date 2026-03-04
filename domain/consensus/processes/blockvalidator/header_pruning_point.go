@@ -1,9 +1,9 @@
 package blockvalidator
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/pkg/errors"
 )
 
@@ -28,3 +28,4 @@ func (v *blockValidator) validateHeaderPruningPoint(stagingArea *model.StagingAr
 
 	return nil
 }
+

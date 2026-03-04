@@ -18,3 +18,4 @@ func NewMsgPruningPointProof(headers [][]*MsgBlockHeader) *MsgPruningPointProof 
 		Headers: headers,
 	}
 }
+

@@ -8,3 +8,4 @@ type ReadOnlyUTXOSetIterator interface {
 	Get() (outpoint *DomainOutpoint, utxoEntry UTXOEntry, err error)
 	Close() error
 }
+

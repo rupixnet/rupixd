@@ -1,10 +1,10 @@
 package consensushashing
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/hashes"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/serialization"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/subnetworks"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/hashes"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/serialization"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	"github.com/pkg/errors"
 )
 
@@ -242,3 +242,4 @@ func infallibleWriteElement(hashWriter hashes.HashWriter, element interface{}) {
 		panic(errors.Wrap(err, "TransactionHashForSigning() failed. this should never fail for structurally-valid transactions"))
 	}
 }
+

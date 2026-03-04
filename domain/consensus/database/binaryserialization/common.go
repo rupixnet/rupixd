@@ -22,3 +22,4 @@ func DeserializeUint64(valueBytes []byte) (uint64, error) {
 	}
 	return binary.LittleEndian.Uint64(valueBytes), nil
 }
+

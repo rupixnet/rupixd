@@ -81,3 +81,4 @@ func (msg *StopNotifyingPruningPointUTXOSetOverrideResponseMessage) Command() Me
 func NewStopNotifyingPruningPointUTXOSetOverrideResponseMessage() *StopNotifyingPruningPointUTXOSetOverrideResponseMessage {
 	return &StopNotifyingPruningPointUTXOSetOverrideResponseMessage{}
 }
+

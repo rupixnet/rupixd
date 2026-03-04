@@ -1,7 +1,7 @@
 package hashes
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/sha3"
 	"hash"
@@ -57,3 +57,4 @@ func (h *ShakeHashWriter) Finalize() *externalapi.DomainHash {
 	h.ShakeHash = nil // prevent double reading as it will return a different hash
 	return externalapi.NewDomainHashFromByteArray(&sum)
 }
+

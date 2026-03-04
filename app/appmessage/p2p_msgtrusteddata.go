@@ -23,3 +23,4 @@ type TrustedDataDAAHeader struct {
 	Header       *MsgBlockHeader
 	GHOSTDAGData *BlockGHOSTDAGData
 }
+

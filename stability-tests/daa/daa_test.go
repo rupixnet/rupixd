@@ -1,12 +1,12 @@
 package daa
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/pow"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/infrastructure/network/rpcclient"
-	"github.com/kaspanet/kaspad/stability-tests/common"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/pow"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
+	"github.com/rupixnet/rupixd/stability-tests/common"
 	"math"
 	"math/rand"
 	"os"
@@ -317,3 +317,4 @@ func loopForDuration(duration time.Duration, runFunction func(isFinished *bool))
 	time.Sleep(duration)
 	isFinished = true
 }
+

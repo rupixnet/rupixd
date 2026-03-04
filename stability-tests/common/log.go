@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	"github.com/kaspanet/kaspad/stability-tests/common/mine"
-	"github.com/kaspanet/kaspad/stability-tests/common/rpc"
-	"github.com/kaspanet/kaspad/util/panics"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/stability-tests/common/mine"
+	"github.com/rupixnet/rupixd/stability-tests/common/rpc"
+	"github.com/rupixnet/rupixd/util/panics"
 )
 
 // log is a logger that is initialized with no output filters. This
@@ -70,3 +70,4 @@ func InitBackend(backendLog *logger.Backend, logFile, errLogFile string) {
 		os.Exit(1)
 	}
 }
+

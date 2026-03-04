@@ -35,3 +35,4 @@ func NewMsgPing(nonce uint64) *MsgPing {
 		Nonce: nonce,
 	}
 }
+

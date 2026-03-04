@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/client"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/server"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/utils"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/client"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/server"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/utils"
 )
 
 func createUnsignedTransaction(conf *createUnsignedTransactionConfig) error {
@@ -64,3 +64,4 @@ func createUnsignedTransaction(conf *createUnsignedTransactionConfig) error {
 
 	return nil
 }
+

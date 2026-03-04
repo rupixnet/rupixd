@@ -1,9 +1,9 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/id"
-	"github.com/kaspanet/kaspad/util/mstime"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/id"
+	"github.com/rupixnet/rupixd/util/mstime"
 	"github.com/pkg/errors"
 )
 
@@ -87,3 +87,4 @@ func (x *KaspadMessage_Version) fromAppMessage(msgVersion *appmessage.MsgVersion
 	}
 	return nil
 }
+

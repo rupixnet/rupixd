@@ -7,17 +7,17 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/kaspanet/kaspad/infrastructure/config"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
-	"github.com/kaspanet/kaspad/infrastructure/db/database/ldb"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	"github.com/kaspanet/kaspad/infrastructure/os/execenv"
-	"github.com/kaspanet/kaspad/infrastructure/os/limits"
-	"github.com/kaspanet/kaspad/infrastructure/os/signal"
-	"github.com/kaspanet/kaspad/infrastructure/os/winservice"
-	"github.com/kaspanet/kaspad/util/panics"
-	"github.com/kaspanet/kaspad/util/profiling"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/infrastructure/config"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/db/database/ldb"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/infrastructure/os/execenv"
+	"github.com/rupixnet/rupixd/infrastructure/os/limits"
+	"github.com/rupixnet/rupixd/infrastructure/os/signal"
+	"github.com/rupixnet/rupixd/infrastructure/os/winservice"
+	"github.com/rupixnet/rupixd/util/panics"
+	"github.com/rupixnet/rupixd/util/profiling"
+	"github.com/rupixnet/rupixd/version"
 )
 
 const (
@@ -187,3 +187,4 @@ func openDB(cfg *config.Config) (database.Database, error) {
 
 	return db, nil
 }
+

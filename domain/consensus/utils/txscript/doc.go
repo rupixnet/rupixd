@@ -32,3 +32,4 @@ IsErrorCode is also provided to allow callers to easily check for a specific
 error code. See ErrorCode in the package documentation for a full list.
 */
 package txscript
+

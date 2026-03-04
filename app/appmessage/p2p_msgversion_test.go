@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/id"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/id"
 )
 
 // TestVersion tests the MsgVersion API.
@@ -89,3 +89,4 @@ func TestVersion(t *testing.T) {
 		t.Errorf("HasService: SFNodeNetwork service not set")
 	}
 }
+

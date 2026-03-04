@@ -7,11 +7,11 @@ package txscript_test
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
+	"github.com/rupixnet/rupixd/util"
 )
 
 // This example demonstrates creating a script which pays to a kaspa address.
@@ -77,3 +77,4 @@ func ExampleExtractScriptPubKeyAddress() {
 	// Script Class: pubkey
 	// Address: kaspa:qzy6cf82zzah2xh5jwtz8nx9u4gdj6zzke8gljs0v055ksmnl424u6fv7ajrs
 }
+

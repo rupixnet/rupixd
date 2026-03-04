@@ -6,3 +6,4 @@ const (
 	// InternalKeychain is used to create change addresses
 	InternalKeychain = 1
 )
+

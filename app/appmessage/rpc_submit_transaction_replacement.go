@@ -40,3 +40,4 @@ func NewSubmitTransactionReplacementResponseMessage(transactionID string) *Submi
 		TransactionID: transactionID,
 	}
 }
+

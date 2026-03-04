@@ -1,14 +1,14 @@
 package libkaspawallet
 
 import (
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet/bip32"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet/serialization"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/subnetworks"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/utxo"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet/bip32"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet/serialization"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/util"
 	"github.com/pkg/errors"
 )
 
@@ -261,3 +261,4 @@ func partiallySignedInputMultisigRedeemScript(input *serialization.PartiallySign
 
 	return multiSigRedeemScript(extendedPublicKeys, input.MinimumSignatures, "m", ecdsa)
 }
+

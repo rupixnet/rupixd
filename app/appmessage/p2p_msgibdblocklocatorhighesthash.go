@@ -1,7 +1,7 @@
 package appmessage
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // MsgIBDBlockLocatorHighestHash represents a kaspa BlockLocatorHighestHash message
@@ -21,3 +21,4 @@ func NewMsgIBDBlockLocatorHighestHash(highestHash *externalapi.DomainHash) *MsgI
 		HighestHash: highestHash,
 	}
 }
+

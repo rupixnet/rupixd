@@ -1,7 +1,7 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -15,3 +15,4 @@ func (x *KaspadMessage_RequestPruningPointAndItsAnticone) toAppMessage() (appmes
 func (x *KaspadMessage_RequestPruningPointAndItsAnticone) fromAppMessage(_ *appmessage.MsgRequestPruningPointAndItsAnticone) error {
 	return nil
 }
+

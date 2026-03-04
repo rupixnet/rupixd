@@ -3,7 +3,7 @@ package integration
 import (
 	"testing"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 func setOnBlockAddedHandler(t *testing.T, harness *appHarness, handler func(notification *appmessage.BlockAddedNotificationMessage)) {
@@ -12,3 +12,4 @@ func setOnBlockAddedHandler(t *testing.T, harness *appHarness, handler func(noti
 		t.Fatalf("Error from RegisterForBlockAddedNotifications: %s", err)
 	}
 }
+

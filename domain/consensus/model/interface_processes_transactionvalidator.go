@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // TransactionValidator exposes a set of validation classes, after which
@@ -14,3 +14,4 @@ type TransactionValidator interface {
 		tx *externalapi.DomainTransaction, povBlockHash *externalapi.DomainHash) error
 	PopulateMass(transaction *externalapi.DomainTransaction)
 }
+

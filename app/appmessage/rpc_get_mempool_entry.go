@@ -54,3 +54,4 @@ func NewGetMempoolEntryResponseMessage(fee uint64, transaction *RPCTransaction, 
 		},
 	}
 }
+

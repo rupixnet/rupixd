@@ -28,3 +28,4 @@ type Cursor interface {
 	// Close releases associated resources.
 	Close() error
 }
+

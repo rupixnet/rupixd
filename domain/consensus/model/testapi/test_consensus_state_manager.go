@@ -1,8 +1,8 @@
 package testapi
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // TestConsensusStateManager  adds to the main ConsensusStateManager methods required by tests
@@ -13,3 +13,4 @@ type TestConsensusStateManager interface {
 	ResolveBlockStatus(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash,
 		useSeparateStagingAreaPerBlock bool) (externalapi.BlockStatus, error)
 }
+

@@ -14,3 +14,4 @@ func (msg *MsgDonePruningPointUTXOSetChunks) Command() MessageCommand {
 func NewMsgDonePruningPointUTXOSetChunks() *MsgDonePruningPointUTXOSetChunks {
 	return &MsgDonePruningPointUTXOSetChunks{}
 }
+

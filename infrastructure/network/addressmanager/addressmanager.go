@@ -5,13 +5,13 @@
 package addressmanager
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
-	"github.com/kaspanet/kaspad/util/mstime"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/util/mstime"
 	"net"
 	"sync"
 	"time"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -297,3 +297,4 @@ func (am *AddressManager) unbanIfOldEnough(key addressKey) error {
 	}
 	return nil
 }
+

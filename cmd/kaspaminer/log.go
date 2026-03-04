@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
-	"github.com/kaspanet/kaspad/util/panics"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/util/panics"
 	"os"
 )
 
@@ -37,3 +37,4 @@ func initLog(logFile, errLogFile string) {
 	}
 
 }
+

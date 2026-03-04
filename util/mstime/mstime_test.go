@@ -72,3 +72,4 @@ func TestAdd(t *testing.T) {
 	}()
 	UnixMilliseconds(100).Add(time.Nanosecond)
 }
+

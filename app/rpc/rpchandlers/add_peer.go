@@ -1,10 +1,10 @@
 package rpchandlers
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/app/rpc/rpccontext"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
-	"github.com/kaspanet/kaspad/util/network"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/app/rpc/rpccontext"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/util/network"
 )
 
 // HandleAddPeer handles the respectively named RPC command
@@ -30,3 +30,4 @@ func HandleAddPeer(context *rpccontext.Context, _ *router.Router, request appmes
 	response := appmessage.NewAddPeerResponseMessage()
 	return response, nil
 }
+

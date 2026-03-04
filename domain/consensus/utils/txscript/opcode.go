@@ -11,11 +11,11 @@ import (
 	"fmt"
 	"hash"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 
 	"golang.org/x/crypto/blake2b"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 
 	"github.com/kaspanet/go-secp256k1"
 )
@@ -2493,3 +2493,4 @@ func init() {
 	OpcodeByName["OP_FALSE"] = OpFalse
 	OpcodeByName["OP_TRUE"] = OpTrue
 }
+

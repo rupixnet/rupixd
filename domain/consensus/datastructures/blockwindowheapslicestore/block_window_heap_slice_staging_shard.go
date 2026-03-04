@@ -1,8 +1,8 @@
 package blockwindowheapslicestore
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type shardKey struct {
@@ -42,3 +42,4 @@ func newShardKey(hash *externalapi.DomainHash, windowSize int) shardKey {
 		windowSize: windowSize,
 	}
 }
+

@@ -103,3 +103,4 @@ type RPCBlockVerboseData struct {
 	MergeSetRedsHashes  []string
 	IsChainBlock        bool
 }
+

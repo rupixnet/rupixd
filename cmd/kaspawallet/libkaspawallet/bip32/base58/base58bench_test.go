@@ -33,3 +33,4 @@ func BenchmarkBase58Decode(b *testing.B) {
 		base58.Decode(encoded)
 	}
 }
+

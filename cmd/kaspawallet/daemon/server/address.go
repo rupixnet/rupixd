@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/util"
 	"github.com/pkg/errors"
 )
 
@@ -123,3 +123,4 @@ func (s *server) walletAddressPath(wAddr *walletAddress) string {
 func (s *server) isMultisig() bool {
 	return len(s.keysFile.ExtendedPublicKeys) > 1
 }
+

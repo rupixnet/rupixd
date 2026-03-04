@@ -1,10 +1,10 @@
 package rpchandlers
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/app/rpc/rpccontext"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/app/rpc/rpccontext"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 // HandleGetVirtualSelectedParentChainFromBlock handles the respectively named RPC command
@@ -37,3 +37,4 @@ func HandleGetVirtualSelectedParentChainFromBlock(context *rpccontext.Context, _
 		chainChangedNotification.AcceptedTransactionIDs)
 	return response, nil
 }
+

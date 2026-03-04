@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // ReachabilityDataStore represents a store of ReachabilityData
 type ReachabilityDataStore interface {
@@ -13,3 +13,4 @@ type ReachabilityDataStore interface {
 	ReachabilityReindexRoot(dbContext DBReader, stagingArea *StagingArea) (*externalapi.DomainHash, error)
 	Delete(dbContext DBWriter) error
 }
+

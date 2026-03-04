@@ -1,16 +1,16 @@
 package v5
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/app/protocol/common"
-	"github.com/kaspanet/kaspad/app/protocol/flowcontext"
-	"github.com/kaspanet/kaspad/app/protocol/flows/v5/addressexchange"
-	"github.com/kaspanet/kaspad/app/protocol/flows/v5/blockrelay"
-	"github.com/kaspanet/kaspad/app/protocol/flows/v5/ping"
-	"github.com/kaspanet/kaspad/app/protocol/flows/v5/rejects"
-	"github.com/kaspanet/kaspad/app/protocol/flows/v5/transactionrelay"
-	peerpkg "github.com/kaspanet/kaspad/app/protocol/peer"
-	routerpkg "github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/app/protocol/common"
+	"github.com/rupixnet/rupixd/app/protocol/flowcontext"
+	"github.com/rupixnet/rupixd/app/protocol/flows/v5/addressexchange"
+	"github.com/rupixnet/rupixd/app/protocol/flows/v5/blockrelay"
+	"github.com/rupixnet/rupixd/app/protocol/flows/v5/ping"
+	"github.com/rupixnet/rupixd/app/protocol/flows/v5/rejects"
+	"github.com/rupixnet/rupixd/app/protocol/flows/v5/transactionrelay"
+	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 type protocolManager interface {
@@ -207,3 +207,4 @@ func registerRejectsFlow(m protocolManager, router *routerpkg.Router, isStopping
 		),
 	}
 }
+

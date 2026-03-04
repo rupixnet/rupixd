@@ -14,3 +14,4 @@ func (msg *MsgUnexpectedPruningPoint) Command() MessageCommand {
 func NewMsgUnexpectedPruningPoint() *MsgUnexpectedPruningPoint {
 	return &MsgUnexpectedPruningPoint{}
 }
+

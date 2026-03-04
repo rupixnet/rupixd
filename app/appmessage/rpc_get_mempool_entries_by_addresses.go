@@ -50,3 +50,4 @@ func NewGetMempoolEntriesByAddressesResponseMessage(entries []*MempoolEntryByAdd
 		Entries: entries,
 	}
 }
+

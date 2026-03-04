@@ -22,3 +22,4 @@ type BlockLocator []*DomainHash
 func (locator BlockLocator) Clone() BlockLocator {
 	return CloneHashes(locator)
 }
+

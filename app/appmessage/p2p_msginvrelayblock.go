@@ -1,7 +1,7 @@
 package appmessage
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // MsgInvRelayBlock implements the Message interface and represents a kaspa
@@ -25,3 +25,4 @@ func NewMsgInvBlock(hash *externalapi.DomainHash) *MsgInvRelayBlock {
 		Hash: hash,
 	}
 }
+

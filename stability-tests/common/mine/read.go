@@ -56,3 +56,4 @@ func readBlocks(jsonFile string) (<-chan JSONBlock, error) {
 	})
 	return blockChan, nil
 }
+

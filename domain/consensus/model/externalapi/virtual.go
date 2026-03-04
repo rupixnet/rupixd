@@ -8,3 +8,4 @@ type VirtualInfo struct {
 	BlueScore      uint64
 	DAAScore       uint64
 }
+

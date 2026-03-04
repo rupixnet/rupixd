@@ -367,3 +367,4 @@ func (id *DomainTransactionID) ByteArray() *[DomainHashSize]byte {
 func (id *DomainTransactionID) ByteSlice() []byte {
 	return (*DomainHash)(id).ByteSlice()
 }
+

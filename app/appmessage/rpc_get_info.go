@@ -44,3 +44,4 @@ func NewGetInfoResponseMessage(p2pID string, mempoolSize uint64, serverVersion s
 		IsSynced:      isSynced,
 	}
 }
+

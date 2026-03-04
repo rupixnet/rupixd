@@ -1,8 +1,8 @@
 package reachabilitymanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // IsDAGAncestorOf returns true if blockHashA is an ancestor of
@@ -29,3 +29,4 @@ func (rt *reachabilityManager) IsDAGAncestorOf(stagingArea *model.StagingArea, b
 func (rt *reachabilityManager) UpdateReindexRoot(stagingArea *model.StagingArea, selectedTip *externalapi.DomainHash) error {
 	return rt.updateReindexRoot(stagingArea, selectedTip)
 }
+

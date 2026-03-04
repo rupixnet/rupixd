@@ -1,7 +1,7 @@
 package ldb
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/pkg/errors"
 	"github.com/syndtr/goleveldb/leveldb"
 )
@@ -113,3 +113,4 @@ func (tx *LevelDBTransaction) Cursor(bucket *database.Bucket) (database.Cursor, 
 
 	return tx.db.Cursor(bucket)
 }
+

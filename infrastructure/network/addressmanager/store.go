@@ -2,9 +2,9 @@ package addressmanager
 
 import (
 	"encoding/binary"
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
-	"github.com/kaspanet/kaspad/util/mstime"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/util/mstime"
 	"github.com/pkg/errors"
 	"net"
 )
@@ -268,3 +268,4 @@ func (as *addressStore) deserializeAddress(serializedAddress []byte) *address {
 		connectionFailedCount: connectionFailedCount,
 	}
 }
+

@@ -8,7 +8,7 @@ import (
 	_ "net/http/pprof"
 	"os"
 
-	"github.com/kaspanet/kaspad/app"
+	"github.com/rupixnet/rupixd/app"
 )
 
 func main() {
@@ -16,3 +16,4 @@ func main() {
 		os.Exit(1)
 	}
 }
+

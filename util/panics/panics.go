@@ -2,7 +2,7 @@ package panics
 
 import (
 	"fmt"
-	"github.com/kaspanet/kaspad/infrastructure/logger"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"os"
 	"runtime/debug"
 	"sync/atomic"
@@ -82,3 +82,4 @@ func handleSpawnedFunction(log *logger.Logger, stackTrace []byte, spawnedFunctio
 	defer HandlePanic(log, goroutineName, stackTrace)
 	spawnedFunction()
 }
+

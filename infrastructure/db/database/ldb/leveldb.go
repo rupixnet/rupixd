@@ -1,7 +1,7 @@
 package ldb
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/db/database"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/pkg/errors"
 	"github.com/syndtr/goleveldb/leveldb"
 	ldbErrors "github.com/syndtr/goleveldb/leveldb/errors"
@@ -97,3 +97,4 @@ func (db *LevelDB) Delete(key *database.Key) error {
 	err := db.ldb.Delete(key.Bytes(), nil)
 	return errors.WithStack(err)
 }
+

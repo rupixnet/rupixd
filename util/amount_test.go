@@ -5,11 +5,11 @@
 package util_test
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"math"
 	"testing"
 
-	. "github.com/kaspanet/kaspad/util"
+	. "github.com/rupixnet/rupixd/util"
 )
 
 func TestAmountCreation(t *testing.T) {
@@ -254,3 +254,4 @@ func TestAmountMulF64(t *testing.T) {
 		}
 	}
 }
+

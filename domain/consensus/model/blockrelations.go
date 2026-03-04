@@ -1,6 +1,6 @@
 package model
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 // BlockRelations represents a block's parent/child relations
 type BlockRelations struct {
@@ -36,3 +36,4 @@ func (br *BlockRelations) Equal(other *BlockRelations) bool {
 
 	return true
 }
+

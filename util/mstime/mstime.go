@@ -120,3 +120,4 @@ func validateDurationPrecision(d time.Duration) {
 		panic(errors.Errorf("duration %s has lower precision than millisecond", d))
 	}
 }
+

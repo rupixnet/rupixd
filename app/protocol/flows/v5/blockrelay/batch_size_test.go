@@ -1,7 +1,7 @@
 package blockrelay
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"testing"
 )
 
@@ -14,3 +14,4 @@ func TestIBDBatchSizeLessThanRouteCapacity(t *testing.T) {
 			ibdBatchSize, router.DefaultMaxMessages)
 	}
 }
+

@@ -8,11 +8,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/version"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/id"
-	"github.com/kaspanet/kaspad/util/mstime"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/id"
+	"github.com/rupixnet/rupixd/util/mstime"
 )
 
 // MaxUserAgentLen is the maximum allowed length for the user agent field in a
@@ -123,3 +123,4 @@ func (msg *MsgVersion) AddUserAgent(name string, version string,
 	newUserAgent = fmt.Sprintf("%s%s/", msg.UserAgent, newUserAgent)
 	msg.UserAgent = newUserAgent
 }
+

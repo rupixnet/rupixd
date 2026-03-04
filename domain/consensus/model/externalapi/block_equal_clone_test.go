@@ -1,8 +1,8 @@
 package externalapi_test
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/blockheader"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
 	"math/big"
 	"reflect"
 	"testing"
@@ -496,3 +496,4 @@ func TestDomainBlock_Clone(t *testing.T) {
 		}
 	}
 }
+

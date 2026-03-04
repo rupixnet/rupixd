@@ -37,3 +37,4 @@ func (msg *UnbanResponseMessage) Command() MessageCommand {
 func NewUnbanResponseMessage() *UnbanResponseMessage {
 	return &UnbanResponseMessage{}
 }
+

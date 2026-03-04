@@ -22,3 +22,4 @@ type DataAccessor interface {
 	// Cursor begins a new cursor over the given bucket.
 	Cursor(bucket *Bucket) (Cursor, error)
 }
+

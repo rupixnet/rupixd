@@ -1,10 +1,10 @@
 package reachabilitymanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/database"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/reachabilitydata"
+	"github.com/rupixnet/rupixd/domain/consensus/database"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/reachabilitydata"
 	"github.com/pkg/errors"
 )
 
@@ -64,3 +64,4 @@ func (rt *reachabilityManager) parent(stagingArea *model.StagingArea, blockHash 
 func (rt *reachabilityManager) reindexRoot(stagingArea *model.StagingArea) (*externalapi.DomainHash, error) {
 	return rt.reachabilityDataStore.ReachabilityReindexRoot(rt.databaseContext, stagingArea)
 }
+

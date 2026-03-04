@@ -41,3 +41,4 @@ func NewEstimateNetworkHashesPerSecondResponseMessage(networkHashesPerSecond uin
 		NetworkHashesPerSecond: networkHashesPerSecond,
 	}
 }
+

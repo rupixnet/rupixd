@@ -2,8 +2,8 @@ package server
 
 import (
 	"context"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/version"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/version"
 )
 
 func (s *server) GetVersion(_ context.Context, _ *pb.GetVersionRequest) (*pb.GetVersionResponse, error) {
@@ -14,3 +14,4 @@ func (s *server) GetVersion(_ context.Context, _ *pb.GetVersionRequest) (*pb.Get
 		Version: version.Version(),
 	}, nil
 }
+

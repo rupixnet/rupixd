@@ -1,16 +1,16 @@
 package testing
 
 import (
-	"github.com/kaspanet/kaspad/app/protocol/flows/v5/addressexchange"
+	"github.com/rupixnet/rupixd/app/protocol/flows/v5/addressexchange"
 	"testing"
 	"time"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	peerpkg "github.com/kaspanet/kaspad/app/protocol/peer"
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/testutils"
-	"github.com/kaspanet/kaspad/infrastructure/network/addressmanager"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
+	"github.com/rupixnet/rupixd/infrastructure/network/addressmanager"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 )
 
 type fakeReceiveAddressesContext struct{}
@@ -49,3 +49,4 @@ func TestReceiveAddressesErrors(t *testing.T) {
 		}
 	})
 }
+

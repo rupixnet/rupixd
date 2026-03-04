@@ -74,3 +74,4 @@ func TestRandomUint64Errors(t *testing.T) {
 	}
 	rand.Reader = reader
 }
+

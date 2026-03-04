@@ -144,3 +144,4 @@ func PutUint64(w io.Writer, val uint64) error {
 // necessary binary conversion, read from or write to the given io.Reader or
 // io.Writer, and return the buffer to the free list.
 var binaryFreeList = make(chan []byte, maxItems)
+

@@ -5,7 +5,7 @@
 package bech32_test
 
 import (
-	"github.com/kaspanet/kaspad/util/bech32"
+	"github.com/rupixnet/rupixd/util/bech32"
 	"testing"
 )
 
@@ -58,3 +58,4 @@ func TestDecodeError(t *testing.T) {
 		t.Errorf("decode unexpectedly succeeded")
 	}
 }
+

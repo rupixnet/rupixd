@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/client"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/client"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
 )
 
 func getDaemonVersion(conf *getDaemonVersionConfig) error {
@@ -24,3 +24,4 @@ func getDaemonVersion(conf *getDaemonVersionConfig) error {
 
 	return nil
 }
+

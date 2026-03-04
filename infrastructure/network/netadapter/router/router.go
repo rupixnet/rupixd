@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -136,3 +136,4 @@ func (r *Router) deleteIncomingRoute(messageType appmessage.MessageCommand) {
 
 	delete(r.incomingRoutes, messageType)
 }
+

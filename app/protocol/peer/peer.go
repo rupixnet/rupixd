@@ -4,13 +4,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
 
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/id"
-	mathUtil "github.com/kaspanet/kaspad/util/math"
-	"github.com/kaspanet/kaspad/util/mstime"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/id"
+	mathUtil "github.com/rupixnet/rupixd/util/math"
+	"github.com/rupixnet/rupixd/util/mstime"
 )
 
 // Peer holds data about a peer.
@@ -151,3 +151,4 @@ func (p *Peer) LastPingDuration() time.Duration {
 func (p *Peer) IBDRequestChannel() chan *externalapi.DomainBlock {
 	return p.ibdRequestChannel
 }
+

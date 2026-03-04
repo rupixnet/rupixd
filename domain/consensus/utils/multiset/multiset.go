@@ -1,9 +1,9 @@
 package multiset
 
 import (
-	"github.com/kaspanet/go-muhash"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/go-muhash"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -52,3 +52,4 @@ func FromBytes(multisetBytes []byte) (model.Multiset, error) {
 func New() model.Multiset {
 	return &multiset{ms: muhash.NewMuHash()}
 }
+

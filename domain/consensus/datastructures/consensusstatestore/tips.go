@@ -2,9 +2,9 @@ package consensusstatestore
 
 import (
 	"github.com/golang/protobuf/proto"
-	"github.com/kaspanet/kaspad/domain/consensus/database/serialization"
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 var tipsKeyName = []byte("tips")
@@ -73,3 +73,4 @@ func (csss *consensusStateStagingShard) commitTips(dbTx model.DBTransaction) err
 
 	return nil
 }
+

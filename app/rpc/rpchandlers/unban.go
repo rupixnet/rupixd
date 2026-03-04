@@ -1,9 +1,9 @@
 package rpchandlers
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/app/rpc/rpccontext"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/app/rpc/rpccontext"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"net"
 )
 
@@ -37,3 +37,4 @@ func HandleUnban(context *rpccontext.Context, _ *router.Router, request appmessa
 	response := appmessage.NewUnbanResponseMessage()
 	return response, nil
 }
+

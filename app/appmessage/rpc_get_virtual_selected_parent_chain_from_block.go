@@ -56,3 +56,4 @@ func NewGetVirtualSelectedParentChainFromBlockResponseMessage(removedChainBlockH
 		AcceptedTransactionIDs:  acceptedTransactionIDs,
 	}
 }
+

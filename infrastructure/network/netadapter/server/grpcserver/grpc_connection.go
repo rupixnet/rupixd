@@ -5,13 +5,13 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/router"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server/grpcserver/protowire"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server"
 	"google.golang.org/grpc"
 )
 
@@ -157,3 +157,4 @@ func (c *gRPCConnection) closeSend() {
 	_ = clientStream.CloseSend()
 	_ = c.lowLevelClientConnection.Close()
 }
+

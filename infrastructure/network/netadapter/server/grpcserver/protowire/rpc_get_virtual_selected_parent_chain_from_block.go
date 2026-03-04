@@ -1,7 +1,7 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -94,3 +94,4 @@ func (x *AcceptedTransactionIds) toAppMessage() *appmessage.AcceptedTransactionI
 		AcceptedTransactionIDs: x.AcceptedTransactionIds,
 	}
 }
+

@@ -1,8 +1,8 @@
 package consensus
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"math/big"
 	"time"
 )
@@ -24,3 +24,4 @@ type DifficultyManagerConstructor func(model.DBReader, model.GHOSTDAGManager, mo
 // PastMedianTimeManagerConstructor is the function signature for a constructor of a type implementing model.PastMedianTimeManager
 type PastMedianTimeManagerConstructor func(int, model.DBReader, model.DAGTraversalManager, model.BlockHeaderStore,
 	model.GHOSTDAGDataStore, *externalapi.DomainHash) model.PastMedianTimeManager
+

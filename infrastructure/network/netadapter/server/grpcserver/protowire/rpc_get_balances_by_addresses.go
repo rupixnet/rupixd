@@ -1,7 +1,7 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
@@ -97,3 +97,4 @@ func (x *BalancesByAddressEntry) fromAppMessage(message *appmessage.BalancesByAd
 		Balance: message.Balance,
 	}
 }
+

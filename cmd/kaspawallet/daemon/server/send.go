@@ -3,7 +3,7 @@ package server
 import (
 	"context"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
 	"github.com/pkg/errors"
 )
 
@@ -30,3 +30,4 @@ func (s *server) Send(_ context.Context, request *pb.SendRequest) (*pb.SendRespo
 
 	return &pb.SendResponse{TxIDs: txIDs, SignedTransactions: signedTransactions}, nil
 }
+

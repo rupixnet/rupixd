@@ -18,3 +18,4 @@ func TestVerAck(t *testing.T) {
 			cmd, wantCmd)
 	}
 }
+

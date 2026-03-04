@@ -2,11 +2,11 @@ package util_test
 
 import (
 	"fmt"
-	"github.com/kaspanet/kaspad/util/difficulty"
+	"github.com/rupixnet/rupixd/util/difficulty"
 	"math"
 	"math/big"
 
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/util"
 )
 
 func ExampleAmount() {
@@ -109,3 +109,4 @@ func ExampleBigToCompact() {
 	// Output:
 	// 419465580
 }
+

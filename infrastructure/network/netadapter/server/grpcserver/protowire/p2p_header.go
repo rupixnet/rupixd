@@ -1,9 +1,9 @@
 package protowire
 
 import (
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/util/mstime"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/util/mstime"
 	"github.com/pkg/errors"
 	"math"
 	"math/big"
@@ -114,3 +114,4 @@ func domainParentsToProto(parents []externalapi.BlockLevelParents) []*BlockLevel
 	}
 	return protoParents
 }
+

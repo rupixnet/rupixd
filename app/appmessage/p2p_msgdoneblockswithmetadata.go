@@ -19,3 +19,4 @@ func (msg *MsgDoneBlocksWithTrustedData) Command() MessageCommand {
 func NewMsgDoneBlocksWithTrustedData() *MsgDoneBlocksWithTrustedData {
 	return &MsgDoneBlocksWithTrustedData{}
 }
+

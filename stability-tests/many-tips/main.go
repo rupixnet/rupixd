@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/kaspanet/go-secp256k1"
-	"github.com/kaspanet/kaspad/app/appmessage"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/mining"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/app/appmessage"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/mining"
+	"github.com/rupixnet/rupixd/util"
 	"math/rand"
 	"os"
 	"os/exec"
@@ -15,10 +15,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/kaspanet/kaspad/stability-tests/common"
-	"github.com/kaspanet/kaspad/stability-tests/common/rpc"
-	"github.com/kaspanet/kaspad/util/panics"
-	"github.com/kaspanet/kaspad/util/profiling"
+	"github.com/rupixnet/rupixd/stability-tests/common"
+	"github.com/rupixnet/rupixd/stability-tests/common/rpc"
+	"github.com/rupixnet/rupixd/util/panics"
+	"github.com/rupixnet/rupixd/util/profiling"
 	"github.com/pkg/errors"
 )
 
@@ -302,3 +302,4 @@ func killWithSigterm(cmd *exec.Cmd, commandName string) {
 		log.Criticalf("Error sending SIGKILL to %s", commandName)
 	}
 }
+

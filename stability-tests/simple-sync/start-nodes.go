@@ -7,8 +7,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/kaspanet/kaspad/stability-tests/common"
-	"github.com/kaspanet/kaspad/util/panics"
+	"github.com/rupixnet/rupixd/stability-tests/common"
+	"github.com/rupixnet/rupixd/util/panics"
 	"github.com/pkg/errors"
 )
 
@@ -118,3 +118,4 @@ func startNodes() (teardown func(), err error) {
 		}
 	}, nil
 }
+

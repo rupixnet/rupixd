@@ -24,3 +24,4 @@ func (msg *MsgVerAck) Command() MessageCommand {
 func NewMsgVerAck() *MsgVerAck {
 	return &MsgVerAck{}
 }
+

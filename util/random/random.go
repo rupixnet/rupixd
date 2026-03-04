@@ -14,3 +14,4 @@ func Uint64() (uint64, error) {
 	}
 	return binary.LittleEndian.Uint64(buf[:]), nil
 }
+

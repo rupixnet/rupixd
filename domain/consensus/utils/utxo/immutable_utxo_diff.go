@@ -1,7 +1,7 @@
 package utxo
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
 )
 
@@ -101,3 +101,4 @@ func (iud *immutableUTXODiff) cloneMutable() *mutableUTXODiff {
 func (iud immutableUTXODiff) String() string {
 	return iud.mutableUTXODiff.String()
 }
+

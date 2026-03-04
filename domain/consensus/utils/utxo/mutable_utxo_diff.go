@@ -3,9 +3,9 @@ package utxo
 import (
 	"fmt"
 
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/transactionhelper"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
 	"github.com/pkg/errors"
 )
 
@@ -165,3 +165,4 @@ func (mud *mutableUTXODiff) Reversed() *mutableUTXODiff {
 		immutableReferences: mud.immutableReferences,
 	}
 }
+

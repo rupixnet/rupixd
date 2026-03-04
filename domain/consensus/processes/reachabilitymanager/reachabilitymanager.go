@@ -1,8 +1,8 @@
 package reachabilitymanager
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // reachabilityManager maintains a structure that allows to answer
@@ -84,3 +84,4 @@ func (rt *reachabilityManager) Init(stagingArea *model.StagingArea) error {
 
 	return nil
 }
+

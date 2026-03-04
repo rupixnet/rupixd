@@ -1,9 +1,9 @@
 package grpcserver
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server"
-	"github.com/kaspanet/kaspad/infrastructure/network/netadapter/server/grpcserver/protowire"
-	"github.com/kaspanet/kaspad/util/panics"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
+	"github.com/rupixnet/rupixd/util/panics"
 )
 
 type rpcServer struct {
@@ -27,3 +27,4 @@ func (r *rpcServer) MessageStream(stream protowire.RPC_MessageStreamServer) erro
 
 	return r.handleInboundConnection(stream.Context(), stream)
 }
+

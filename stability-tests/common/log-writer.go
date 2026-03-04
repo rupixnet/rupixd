@@ -3,7 +3,7 @@ package common
 import (
 	"strings"
 
-	"github.com/kaspanet/kaspad/infrastructure/logger"
+	"github.com/rupixnet/rupixd/infrastructure/logger"
 )
 
 // LogWriter writes to the given log with the given log level and prefix
@@ -27,3 +27,4 @@ func NewLogWriter(log *logger.Logger, level logger.Level, prefix string) LogWrit
 		prefix: prefix,
 	}
 }
+

@@ -1,8 +1,8 @@
 package model
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 )
 
 // OrphanTransaction represents a transaction in the OrphanPool
@@ -44,3 +44,4 @@ func (ot *OrphanTransaction) IsHighPriority() bool {
 func (ot *OrphanTransaction) AddedAtDAAScore() uint64 {
 	return ot.addedAtDAAScore
 }
+

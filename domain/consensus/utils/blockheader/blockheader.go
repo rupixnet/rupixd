@@ -1,8 +1,8 @@
 package blockheader
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/pow"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/pow"
 	"math/big"
 )
 
@@ -223,3 +223,4 @@ func NewImmutableBlockHeader(
 		pruningPoint:         pruningPoint,
 	}
 }
+

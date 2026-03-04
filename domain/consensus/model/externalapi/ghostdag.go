@@ -65,3 +65,4 @@ func (bgd *BlockGHOSTDAGData) MergeSetReds() []*DomainHash {
 func (bgd *BlockGHOSTDAGData) BluesAnticoneSizes() map[DomainHash]KType {
 	return bgd.bluesAnticoneSizes
 }
+

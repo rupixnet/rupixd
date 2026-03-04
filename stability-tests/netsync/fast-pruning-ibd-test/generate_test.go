@@ -1,10 +1,10 @@
 package fast_pruning_ibd_test
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/testutils"
-	"github.com/kaspanet/kaspad/domain/dagconfig"
+	"github.com/rupixnet/rupixd/domain/consensus"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"io/ioutil"
 	"os"
 	"path"
@@ -146,3 +146,4 @@ func TestGenerateFastPruningIBDTest(t *testing.T) {
 		t.Logf("DAG saved at %s", path.Join(os.TempDir(), stat.Name()))
 	})
 }
+

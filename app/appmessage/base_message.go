@@ -22,3 +22,4 @@ func (b *baseMessage) ReceivedAt() time.Time {
 func (b *baseMessage) SetReceivedAt(receivedAt time.Time) {
 	b.receivedAt = receivedAt
 }
+

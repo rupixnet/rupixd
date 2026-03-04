@@ -1,7 +1,7 @@
 package integration
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/network/addressmanager"
+	"github.com/rupixnet/rupixd/infrastructure/network/addressmanager"
 	"testing"
 )
 
@@ -31,3 +31,4 @@ func TestAddressExchange(t *testing.T) {
 
 	t.Errorf("Didn't find testAddress in list of addresses of appHarness3")
 }
+

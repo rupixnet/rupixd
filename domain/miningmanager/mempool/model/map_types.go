@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // IDToTransactionMap maps transactionID to a MempoolTransaction
@@ -18,3 +18,4 @@ type OutpointToTransactionMap map[externalapi.DomainOutpoint]*MempoolTransaction
 
 // ScriptPublicKeyStringToDomainTransaction maps an outpoint to a DomainTransaction
 type ScriptPublicKeyStringToDomainTransaction map[string]*externalapi.DomainTransaction
+

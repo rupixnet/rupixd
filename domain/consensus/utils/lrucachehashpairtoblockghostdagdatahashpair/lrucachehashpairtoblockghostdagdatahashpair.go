@@ -1,6 +1,6 @@
 package lrucachehashpairtoblockghostdagdatahashpair
 
-import "github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
+import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 type lruKey struct {
 	blockHash externalapi.DomainHash
@@ -77,3 +77,4 @@ func (c *LRUCache) evictRandom() {
 	}
 	c.Remove(&keyToEvict.blockHash, keyToEvict.index)
 }
+
