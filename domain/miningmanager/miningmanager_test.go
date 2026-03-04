@@ -1,7 +1,7 @@
 package miningmanager_test
 
 import (
-	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
 	"github.com/rupixnet/rupixd/domain/consensusreference"
 	"github.com/rupixnet/rupixd/domain/miningmanager/model"
 	"github.com/rupixnet/rupixd/util"
@@ -1053,4 +1053,5 @@ func contains(transaction *externalapi.DomainTransaction, transactions []*extern
 	}
 	return false
 }
+
 

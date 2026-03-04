@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
 	"github.com/rupixnet/rupixd/util"
 )
 
@@ -25,4 +25,5 @@ func main() {
 	fmt.Printf("Private key: %x\n", privateKey)
 	fmt.Printf("Address: %s\n", addr)
 }
+
 

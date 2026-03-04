@@ -143,3 +143,4 @@ func mineBlock(syncerRPCAddress string, miningAddress util.Address) error {
 	return errors.Wrapf(kaspaMinerCmd.Wait(), "error with command '%s'", kaspaMinerCmd)
 }
 
+
