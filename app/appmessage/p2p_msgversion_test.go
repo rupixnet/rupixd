@@ -18,7 +18,7 @@ func TestVersion(t *testing.T) {
 	pver := uint32(4)
 
 	// Create version message data.
-	tcpAddrMe := &net.TCPAddr{IP: net.ParseIP("127.0.0.1"), Port: 16111}
+	tcpAddrMe := &net.TCPAddr{IP: net.ParseIP("127.0.0.1"), Port: 17111}
 	me := NewNetAddress(tcpAddrMe)
 	generatedID, err := id.GenerateID()
 	if err != nil {
@@ -89,4 +89,5 @@ func TestVersion(t *testing.T) {
 		t.Errorf("HasService: SFNodeNetwork service not set")
 	}
 }
+
 

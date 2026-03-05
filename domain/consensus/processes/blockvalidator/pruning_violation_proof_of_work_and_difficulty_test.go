@@ -102,7 +102,7 @@ func TestPOW(t *testing.T) {
 		}
 		random := rand.New(rand.NewSource(0))
 		// Difficulty is too high on mainnet to actually mine.
-		if consensusConfig.Name != "kaspa-mainnet" {
+		if consensusConfig.Name != "rupix-mainnet" {
 			mining.SolveBlock(validBlock, random)
 			err = tc.ValidateAndInsertBlock(validBlock, true)
 			if err != nil {
@@ -365,4 +365,6 @@ func (dm *mocDifficultyManager) StageDAADataAndReturnRequiredDifficulty(stagingA
 func (dm *mocDifficultyManager) EstimateNetworkHashesPerSecond(startHash *externalapi.DomainHash, windowSize int) (uint64, error) {
 	return 0, nil
 }
+
+
 
