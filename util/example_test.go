@@ -12,17 +12,17 @@ import (
 func ExampleAmount() {
 
 	a := util.Amount(0)
-	fmt.Println("Zero Sompi:", a)
+	fmt.Println("Zero rupia:", a)
 
 	a = util.Amount(1e8)
-	fmt.Println("100,000,000 Sompi:", a)
+	fmt.Println("100,000,000 rupia:", a)
 
 	a = util.Amount(1e5)
-	fmt.Println("100,000 Sompi:", a)
+	fmt.Println("100,000 rupia:", a)
 	// Output:
-	// Zero Sompi: 0 KAS
-	// 100,000,000 Sompi: 1 KAS
-	// 100,000 Sompi: 0.001 KAS
+	// Zero rupia: 0 KAS
+	// 100,000,000 rupia: 1 KAS
+	// 100,000 rupia: 0.001 KAS
 }
 
 func ExampleNewAmount() {
@@ -63,18 +63,18 @@ func ExampleNewAmount() {
 func ExampleAmount_unitConversions() {
 	amount := util.Amount(44433322211100)
 
-	fmt.Println("Sompi to kKAS:", amount.Format(util.AmountKiloKAS))
-	fmt.Println("Sompi to KAS:", amount)
-	fmt.Println("Sompi to MilliKAS:", amount.Format(util.AmountMilliKAS))
-	fmt.Println("Sompi to MicroKAS:", amount.Format(util.AmountMicroKAS))
-	fmt.Println("Sompi to Sompi:", amount.Format(util.AmountSompi))
+	fmt.Println("rupia to kKAS:", amount.Format(util.AmountKiloKAS))
+	fmt.Println("rupia to KAS:", amount)
+	fmt.Println("rupia to MilliKAS:", amount.Format(util.AmountMilliKAS))
+	fmt.Println("rupia to MicroKAS:", amount.Format(util.AmountMicroKAS))
+	fmt.Println("rupia to rupia:", amount.Format(util.Amountrupia))
 
 	// Output:
-	// Sompi to kKAS: 444.333222111 kKAS
-	// Sompi to KAS: 444333.222111 KAS
-	// Sompi to MilliKAS: 444333222.111 mKAS
-	// Sompi to MicroKAS: 444333222111 μKAS
-	// Sompi to Sompi: 44433322211100 Sompi
+	// rupia to kKAS: 444.333222111 kKAS
+	// rupia to KAS: 444333.222111 KAS
+	// rupia to MilliKAS: 444333222.111 mKAS
+	// rupia to MicroKAS: 444333222111 μKAS
+	// rupia to rupia: 44433322211100 rupia
 }
 
 // This example demonstrates how to convert the compact "bits" in a block header
@@ -109,4 +109,5 @@ func ExampleBigToCompact() {
 	// Output:
 	// 419465580
 }
+
 

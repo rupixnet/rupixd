@@ -67,35 +67,35 @@ func (v *transactionValidator) checkTransactionAmountRanges(tx *externalapi.Doma
 	// output must not be negative or more than the max allowed per
 	// transaction. Also, the total of all outputs must abide by the same
 	// restrictions. All amounts in a transaction are in a unit value known
-	// as a sompi. One kaspa is a quantity of sompi as defined by the
-	// sompiPerKaspa constant.
-	var totalSompi uint64
+	// as a rupia. One kaspa is a quantity of rupia as defined by the
+	// RupiaPerRupix constant.
+	var totalrupia uint64
 	for _, txOut := range tx.Outputs {
-		sompi := txOut.Value
-		if sompi == 0 {
+		rupia := txOut.Value
+		if rupia == 0 {
 			return errors.Wrap(ruleerrors.ErrTxOutValueZero, "zero value outputs are forbidden")
 		}
 
-		if sompi > constants.MaxSompi {
+		if rupia > constants.MaxRupia {
 			return errors.Wrapf(ruleerrors.ErrBadTxOutValue, "transaction output value of %d is "+
-				"higher than max allowed value of %d", sompi, constants.MaxSompi)
+				"higher than max allowed value of %d", rupia, constants.MaxRupia)
 		}
 
 		// Binary arithmetic guarantees that any overflow is detected and reported.
 		// This is impossible for Kaspa, but perhaps possible if an alt increases
 		// the total money supply.
-		newTotalSompi := totalSompi + sompi
-		if newTotalSompi < totalSompi {
+		newTotalrupia := totalrupia + rupia
+		if newTotalrupia < totalrupia {
 			return errors.Wrapf(ruleerrors.ErrBadTxOutValue, "total value of all transaction "+
 				"outputs exceeds max allowed value of %d",
-				constants.MaxSompi)
+				constants.MaxRupia)
 		}
-		totalSompi = newTotalSompi
-		if totalSompi > constants.MaxSompi {
+		totalrupia = newTotalrupia
+		if totalrupia > constants.MaxRupia {
 			return errors.Wrapf(ruleerrors.ErrBadTxOutValue, "total value of all transaction "+
 				"outputs is %d which is higher than max "+
-				"allowed value of %d", totalSompi,
-				constants.MaxSompi)
+				"allowed value of %d", totalrupia,
+				constants.MaxRupia)
 		}
 	}
 
@@ -194,4 +194,6 @@ func (v *transactionValidator) checkTransactionSubnetwork(tx *externalapi.Domain
 	}
 	return nil
 }
+
+
 

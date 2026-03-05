@@ -5757,8 +5757,8 @@ func (*GetCoinSupplyRequestMessage) Descriptor() ([]byte, []int) {
 
 type GetCoinSupplyResponseMessage struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	MaxSompi         uint64                 `protobuf:"varint,1,opt,name=maxSompi,proto3" json:"maxSompi,omitempty"` // note: this is a hard coded maxSupply, actual maxSupply is expected to deviate by upto -5%, but cannot be measured exactly.
-	CirculatingSompi uint64                 `protobuf:"varint,2,opt,name=circulatingSompi,proto3" json:"circulatingSompi,omitempty"`
+	MaxRupia         uint64                 `protobuf:"varint,1,opt,name=MaxRupia,proto3" json:"MaxRupia,omitempty"` // note: this is a hard coded maxSupply, actual maxSupply is expected to deviate by upto -5%, but cannot be measured exactly.
+	Circulatingrupia uint64                 `protobuf:"varint,2,opt,name=circulatingrupia,proto3" json:"circulatingrupia,omitempty"`
 	Error            *RPCError              `protobuf:"bytes,1000,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
@@ -5794,16 +5794,16 @@ func (*GetCoinSupplyResponseMessage) Descriptor() ([]byte, []int) {
 	return file_rpc_proto_rawDescGZIP(), []int{107}
 }
 
-func (x *GetCoinSupplyResponseMessage) GetMaxSompi() uint64 {
+func (x *GetCoinSupplyResponseMessage) GetMaxRupia() uint64 {
 	if x != nil {
-		return x.MaxSompi
+		return x.MaxRupia
 	}
 	return 0
 }
 
-func (x *GetCoinSupplyResponseMessage) GetCirculatingSompi() uint64 {
+func (x *GetCoinSupplyResponseMessage) GetCirculatingrupia() uint64 {
 	if x != nil {
-		return x.CirculatingSompi
+		return x.Circulatingrupia
 	}
 	return 0
 }
@@ -7185,7 +7185,7 @@ func (x *GetDaaScoreTimestampEstimateResponseMessage) GetError() *RPCError {
 
 type RpcFeerateBucket struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Fee/mass of a transaction in `sompi/gram` units
+	// Fee/mass of a transaction in `rupia/gram` units
 	Feerate          float64 `protobuf:"fixed64,1,opt,name=feerate,proto3" json:"feerate,omitempty"`
 	EstimatedSeconds float64 `protobuf:"fixed64,2,opt,name=estimatedSeconds,proto3" json:"estimatedSeconds,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -7238,7 +7238,7 @@ func (x *RpcFeerateBucket) GetEstimatedSeconds() float64 {
 
 // Data required for making fee estimates.
 //
-// Feerate values represent fee/mass of a transaction in `sompi/gram` units.
+// Feerate values represent fee/mass of a transaction in `rupia/gram` units.
 // Given a feerate value recommendation, calculate the required fee by
 // taking the transaction mass and multiplying it by feerate: `fee = feerate *
 // mass(tx)`
@@ -9243,4 +9243,6 @@ func file_rpc_proto_init() {
 	file_rpc_proto_goTypes = nil
 	file_rpc_proto_depIdxs = nil
 }
+
+
 

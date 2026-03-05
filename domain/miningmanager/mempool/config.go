@@ -24,7 +24,7 @@ const (
 	defaultMaximumOrphanTransactionCount = 50
 
 	// defaultMinimumRelayTransactionFee specifies the minimum transaction fee for a transaction to be accepted to
-	// the mempool and relayed. It is specified in sompi per 1kg (or 1000 grams) of transaction mass.
+	// the mempool and relayed. It is specified in rupia per 1kg (or 1000 grams) of transaction mass.
 	defaultMinimumRelayTransactionFee = util.Amount(1000)
 
 	// Standard transaction version range might be different from what consensus accepts, therefore
@@ -72,4 +72,5 @@ func DefaultConfig(dagParams *dagconfig.Params) *Config {
 		MaximumStandardTransactionVersion:     defaultMaximumStandardTransactionVersion,
 	}
 }
+
 

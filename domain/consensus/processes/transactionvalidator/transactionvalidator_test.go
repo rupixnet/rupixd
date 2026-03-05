@@ -103,7 +103,7 @@ func TestValidateTransactionInContextAndPopulateFee(t *testing.T) {
 			Sequence:         constants.MaxTxInSequenceNum,
 			SigOpCount:       1,
 			UTXOEntry: utxo.NewUTXOEntry(
-				constants.MaxSompi+1,
+				constants.MaxRupia+1,
 				scriptPublicKey,
 				false,
 				0),
@@ -226,14 +226,14 @@ func TestValidateTransactionInContextAndPopulateFee(t *testing.T) {
 				isValid:       true,
 				expectedError: nil,
 			},
-			{ // The total inputs amount is bigger than the allowed maximum (constants.MaxSompi)
+			{ // The total inputs amount is bigger than the allowed maximum (constants.MaxRupia)
 				name:          "checkTransactionInputAmounts - invalid - after HF",
 				tx:            &txWithInvalidAmount,
 				povBlockHash:  povBlockHash,
 				isValid:       false,
 				expectedError: ruleerrors.ErrBadTxOutValue,
 			},
-			{ // The total SompiIn (sum of inputs amount) is smaller than the total SompiOut (sum of outputs value) and hence invalid.
+			{ // The total rupiaIn (sum of inputs amount) is smaller than the total rupiaOut (sum of outputs value) and hence invalid.
 				name:          "checkTransactionOutputAmounts",
 				tx:            &txWithBigValue,
 				povBlockHash:  povBlockHash,
@@ -518,4 +518,6 @@ func TestSigningTwoInputsECDSA(t *testing.T) {
 		}
 	})
 }
+
+
 

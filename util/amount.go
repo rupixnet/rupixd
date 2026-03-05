@@ -25,11 +25,11 @@ const (
 	AmountKAS      AmountUnit = 0
 	AmountMilliKAS AmountUnit = -3
 	AmountMicroKAS AmountUnit = -6
-	AmountSompi    AmountUnit = -8
+	Amountrupia    AmountUnit = -8
 )
 
 // String returns the unit as a string. For recognized units, the SI
-// prefix is used, or "Sompi" for the base unit. For all unrecognized
+// prefix is used, or "rupia" for the base unit. For all unrecognized
 // units, "1eN KAS" is returned, where N is the AmountUnit.
 func (u AmountUnit) String() string {
 	switch u {
@@ -43,15 +43,15 @@ func (u AmountUnit) String() string {
 		return "mKAS"
 	case AmountMicroKAS:
 		return "μKAS"
-	case AmountSompi:
-		return "Sompi"
+	case Amountrupia:
+		return "rupia"
 	default:
 		return "1e" + strconv.FormatInt(int64(u), 10) + " KAS"
 	}
 }
 
 // Amount represents the base kaspa monetary unit (colloquially referred
-// to as a `Sompi'). A single Amount is equal to 1e-8 of a kaspa.
+// to as a `rupia'). A single Amount is equal to 1e-8 of a kaspa.
 type Amount uint64
 
 // round converts a floating point number, which may or may not be representable
@@ -70,11 +70,11 @@ func round(f float64) Amount {
 // does not check that the amount is within the total amount of kaspa
 // producible as f may not refer to an amount at a single moment in time.
 //
-// NewAmount is for specifically for converting KAS to Sompi.
-// For creating a new Amount with an int64 value which denotes a quantity of Sompi,
+// NewAmount is for specifically for converting KAS to rupia.
+// For creating a new Amount with an int64 value which denotes a quantity of rupia,
 // do a simple type conversion from type int64 to Amount.
 // TODO: Refactor NewAmount. When amounts are more than 1e9 KAS, the precision
-// can be higher than one sompi (1e9 and 1e9+1e-8 will result as the same number)
+// can be higher than one rupia (1e9 and 1e9+1e-8 will result as the same number)
 func NewAmount(f float64) (Amount, error) {
 	// The amount is only considered invalid if it cannot be represented
 	// as an integer type. This may happen if f is NaN or +-Infinity.
@@ -87,7 +87,7 @@ func NewAmount(f float64) (Amount, error) {
 		return 0, errors.New("invalid kaspa amount")
 	}
 
-	return round(f * constants.SompiPerKaspa), nil
+	return round(f * constants.RupiaPerRupix), nil
 }
 
 // ToUnit converts a monetary amount counted in kaspa base units to a
@@ -104,7 +104,7 @@ func (a Amount) ToKAS() float64 {
 // Format formats a monetary amount counted in kaspa base units as a
 // string for a given unit. The conversion will succeed for any unit,
 // however, known units will be formated with an appended label describing
-// the units with SI notation, or "Sompi" for the base unit.
+// the units with SI notation, or "rupia" for the base unit.
 func (a Amount) Format(u AmountUnit) string {
 	units := " " + u.String()
 	return strconv.FormatFloat(a.ToUnit(u), 'f', -int(u+8), 64) + units
@@ -122,4 +122,6 @@ func (a Amount) String() string {
 func (a Amount) MulF64(f float64) Amount {
 	return round(float64(a) * f)
 }
+
+
 

@@ -20,8 +20,8 @@ func NewGetCoinSupplyRequestMessage() *GetCoinSupplyRequestMessage {
 // its respective RPC message
 type GetCoinSupplyResponseMessage struct {
 	baseMessage
-	MaxSompi         uint64
-	CirculatingSompi uint64
+	MaxRupia         uint64
+	Circulatingrupia uint64
 
 	Error *RPCError
 }
@@ -32,10 +32,12 @@ func (msg *GetCoinSupplyResponseMessage) Command() MessageCommand {
 }
 
 // NewGetCoinSupplyResponseMessage returns a instance of the message
-func NewGetCoinSupplyResponseMessage(maxSompi uint64, circulatingSompi uint64) *GetCoinSupplyResponseMessage {
+func NewGetCoinSupplyResponseMessage(MaxRupia uint64, circulatingrupia uint64) *GetCoinSupplyResponseMessage {
 	return &GetCoinSupplyResponseMessage{
-		MaxSompi:         maxSompi,
-		CirculatingSompi: circulatingSompi,
+		MaxRupia:         MaxRupia,
+		Circulatingrupia: circulatingrupia,
 	}
 }
+
+
 

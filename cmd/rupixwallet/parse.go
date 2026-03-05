@@ -54,22 +54,22 @@ func parse(conf *parseConfig) error {
 		fmt.Printf("Transaction #%d ID: \t%s\n", i+1, consensushashing.TransactionID(partiallySignedTransaction.Tx))
 		fmt.Println()
 
-		allInputSompi := uint64(0)
+		allInputrupia := uint64(0)
 		for index, input := range partiallySignedTransaction.Tx.Inputs {
 			partiallySignedInput := partiallySignedTransaction.PartiallySignedInputs[index]
 
 			if conf.Verbose {
 				fmt.Printf("Input %d: \tOutpoint: %s:%d \tAmount: %.2f Kaspa\n", index, input.PreviousOutpoint.TransactionID,
-					input.PreviousOutpoint.Index, float64(partiallySignedInput.PrevOutput.Value)/float64(constants.SompiPerKaspa))
+					input.PreviousOutpoint.Index, float64(partiallySignedInput.PrevOutput.Value)/float64(constants.RupiaPerRupix))
 			}
 
-			allInputSompi += partiallySignedInput.PrevOutput.Value
+			allInputrupia += partiallySignedInput.PrevOutput.Value
 		}
 		if conf.Verbose {
 			fmt.Println()
 		}
 
-		allOutputSompi := uint64(0)
+		allOutputrupia := uint64(0)
 		for index, output := range partiallySignedTransaction.Tx.Outputs {
 			scriptPublicKeyType, scriptPublicKeyAddress, err := txscript.ExtractScriptPubKeyAddress(output.ScriptPublicKey, conf.ActiveNetParams)
 			if err != nil {
@@ -83,14 +83,14 @@ func parse(conf *parseConfig) error {
 			}
 
 			fmt.Printf("Output %d: \tRecipient: %s \tAmount: %.2f Kaspa\n",
-				index, addressString, float64(output.Value)/float64(constants.SompiPerKaspa))
+				index, addressString, float64(output.Value)/float64(constants.RupiaPerRupix))
 
-			allOutputSompi += output.Value
+			allOutputrupia += output.Value
 		}
 		fmt.Println()
 
-		fee := allInputSompi - allOutputSompi
-		fmt.Printf("Fee:\t%d Sompi (%f KAS)\n", fee, float64(fee)/float64(constants.SompiPerKaspa))
+		fee := allInputrupia - allOutputrupia
+		fmt.Printf("Fee:\t%d rupia (%f KAS)\n", fee, float64(fee)/float64(constants.RupiaPerRupix))
 		mass, err := server.EstimateMassAfterSignatures(partiallySignedTransaction, keysFile.ECDSA, keysFile.MinimumSignatures, txMassCalculator)
 		if err != nil {
 			return err
@@ -98,10 +98,12 @@ func parse(conf *parseConfig) error {
 
 		fmt.Printf("Mass: %d grams\n", mass)
 		feeRate := float64(fee) / float64(mass)
-		fmt.Printf("Fee rate: %.2f Sompi/Gram\n", feeRate)
+		fmt.Printf("Fee rate: %.2f rupia/Gram\n", feeRate)
 	}
 
 	return nil
 }
+
+
 
 

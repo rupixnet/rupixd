@@ -22,7 +22,7 @@ func NewCalculator(massPerTxByte, massPerScriptPubKeyByte, massPerSigOp uint64) 
 		massPerTxByte:           massPerTxByte,
 		massPerScriptPubKeyByte: massPerScriptPubKeyByte,
 		massPerSigOp:            massPerSigOp,
-		storageMassParameter:    constants.SompiPerKaspa * 10_000,
+		storageMassParameter:    constants.RupiaPerRupix * 10_000,
 	}
 }
 
@@ -191,4 +191,6 @@ func TransactionOutputEstimatedSerializedSize(output *externalapi.DomainTransact
 	size += uint64(len(output.ScriptPublicKey.Script))
 	return size
 }
+
+
 

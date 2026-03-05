@@ -55,19 +55,19 @@ func TestUTXOIndex(t *testing.T) {
 		t.Fatalf("Error Retriving Coin supply: %s", err)
 	}
 
-	rewardsMinedSompi := uint64(blockAmountToMine * constants.SompiPerKaspa * 500)
+	rewardsMinedrupia := uint64(blockAmountToMine * constants.RupiaPerRupix * 500)
 	getBlockCountResponse, err := kaspad.rpcClient.GetBlockCount()
 	if err != nil {
 		t.Fatalf("Error Retriving BlockCount: %s", err)
 	}
-	rewardsMinedViaBlockCountSompi := uint64(
-		(getBlockCountResponse.BlockCount - 2) * constants.SompiPerKaspa * 500, // -2 because of genesis and virtual.
+	rewardsMinedViaBlockCountrupia := uint64(
+		(getBlockCountResponse.BlockCount - 2) * constants.RupiaPerRupix * 500, // -2 because of genesis and virtual.
 	)
 
-	if getCoinSupplyResponse.CirculatingSompi != rewardsMinedSompi {
-		t.Fatalf("Error: Circulating supply Mismatch - Circulating Sompi: %d Sompi Mined: %d", getCoinSupplyResponse.CirculatingSompi, rewardsMinedSompi)
-	} else if getCoinSupplyResponse.CirculatingSompi != rewardsMinedViaBlockCountSompi {
-		t.Fatalf("Error: Circulating supply Mismatch - Circulating Sompi: %d Sompi Mined via Block count: %d", getCoinSupplyResponse.CirculatingSompi, rewardsMinedViaBlockCountSompi)
+	if getCoinSupplyResponse.Circulatingrupia != rewardsMinedrupia {
+		t.Fatalf("Error: Circulating supply Mismatch - Circulating rupia: %d rupia Mined: %d", getCoinSupplyResponse.Circulatingrupia, rewardsMinedrupia)
+	} else if getCoinSupplyResponse.Circulatingrupia != rewardsMinedViaBlockCountrupia {
+		t.Fatalf("Error: Circulating supply Mismatch - Circulating rupia: %d rupia Mined via Block count: %d", getCoinSupplyResponse.Circulatingrupia, rewardsMinedViaBlockCountrupia)
 	}
 
 	// Collect the UTXO and make sure there's nothing in Removed
@@ -226,4 +226,6 @@ func buildTransactionForUTXOIndexTest(t *testing.T, entry *appmessage.UTXOsByAdd
 	domainTransaction := appmessage.MsgTxToDomainTransaction(msgTx)
 	return appmessage.DomainTransactionToRPCTransaction(domainTransaction), consensushashing.TransactionID(domainTransaction).String()
 }
+
+
 

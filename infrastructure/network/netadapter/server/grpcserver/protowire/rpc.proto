@@ -665,10 +665,10 @@ message GetMempoolEntriesByAddressesResponseMessage {
 message GetCoinSupplyRequestMessage {}
 
 message GetCoinSupplyResponseMessage {
-  uint64 maxSompi =
+  uint64 maxrupia =
       1; // note: this is a hard coded maxSupply, actual maxSupply is expected
          // to deviate by upto -5%, but cannot be measured exactly.
-  uint64 circulatingSompi = 2;
+  uint64 circulatingrupia = 2;
 
   RPCError error = 1000;
 }
@@ -808,14 +808,14 @@ message GetDaaScoreTimestampEstimateResponseMessage {
 }
 
 message RpcFeerateBucket {
-  // Fee/mass of a transaction in `sompi/gram` units
+  // Fee/mass of a transaction in `rupia/gram` units
   double feerate = 1;
   double estimatedSeconds = 2;
 }
 
 // Data required for making fee estimates.
 //
-// Feerate values represent fee/mass of a transaction in `sompi/gram` units.
+// Feerate values represent fee/mass of a transaction in `rupia/gram` units.
 // Given a feerate value recommendation, calculate the required fee by
 // taking the transaction mass and multiplying it by feerate: `fee = feerate *
 // mass(tx)`

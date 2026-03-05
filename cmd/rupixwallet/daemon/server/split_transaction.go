@@ -134,7 +134,7 @@ func (s *server) checkTransactionFeeRate(psTx *serialization.PartiallySignedTran
 	}
 
 	if feeRate < 1 {
-		return errors.Errorf("setting --max-fee to %d results in a fee rate of %f, which is below the minimum allowed fee rate of 1 sompi/gram", maxFee, feeRate)
+		return errors.Errorf("setting --max-fee to %d results in a fee rate of %f, which is below the minimum allowed fee rate of 1 rupia/gram", maxFee, feeRate)
 	}
 
 	return nil
@@ -238,7 +238,7 @@ func (s *server) createSplitTransaction(transaction *serialization.PartiallySign
 	changeAddress util.Address, startIndex int, endIndex int, feeRate float64, maxFee uint64) (*serialization.PartiallySignedTransaction, error) {
 
 	selectedUTXOs := make([]*libkaspawallet.UTXO, 0, endIndex-startIndex)
-	totalSompi := uint64(0)
+	totalrupia := uint64(0)
 
 	for i := startIndex; i < endIndex && i < len(transaction.PartiallySignedInputs); i++ {
 		partiallySignedInput := transaction.PartiallySignedInputs[i]
@@ -250,22 +250,22 @@ func (s *server) createSplitTransaction(transaction *serialization.PartiallySign
 			DerivationPath: partiallySignedInput.DerivationPath,
 		})
 
-		totalSompi += selectedUTXOs[i-startIndex].UTXOEntry.Amount()
+		totalrupia += selectedUTXOs[i-startIndex].UTXOEntry.Amount()
 	}
 	if len(selectedUTXOs) != 0 {
-		fee, err := s.estimateFee(selectedUTXOs, feeRate, maxFee, totalSompi)
+		fee, err := s.estimateFee(selectedUTXOs, feeRate, maxFee, totalrupia)
 		if err != nil {
 			return nil, err
 		}
 
-		totalSompi -= fee
+		totalrupia -= fee
 	}
 
 	return libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
 		[]*libkaspawallet.Payment{{
 			Address: changeAddress,
-			Amount:  totalSompi,
+			Amount:  totalrupia,
 		}}, selectedUTXOs)
 }
 
@@ -356,5 +356,6 @@ func (s *server) moreUTXOsForMergeTransaction(alreadySelectedUTXOs []*libkaspawa
 
 	return additionalUTXOs, totalValueAdded, nil
 }
+
 
 

@@ -161,12 +161,12 @@ func (mp *mempool) BlockCandidateTransactions() []*externalapi.DomainTransaction
 			}
 
 			numExtraOuts := len(tx.Outputs) - len(tx.Inputs)
-			if !hasCoinbaseInput && numExtraOuts > 2 && tx.Fee < uint64(numExtraOuts)*constants.SompiPerKaspa {
+			if !hasCoinbaseInput && numExtraOuts > 2 && tx.Fee < uint64(numExtraOuts)*constants.RupiaPerRupix {
 				log.Debugf("Filtered spam tx %s", consensushashing.TransactionID(tx))
 				continue
 			}
 
-			if hasCoinbaseInput || tx.Fee > uint64(numExtraOuts)*constants.SompiPerKaspa {
+			if hasCoinbaseInput || tx.Fee > uint64(numExtraOuts)*constants.RupiaPerRupix {
 				candidateTxs = append(candidateTxs, tx)
 			} else {
 				txNewestUTXODaaScore := tx.Inputs[0].UTXOEntry.BlockDAAScore()
@@ -227,4 +227,6 @@ func (mp *mempool) RemoveTransaction(transactionID *externalapi.DomainTransactio
 
 	return mp.removeTransaction(transactionID, removeRedeemers)
 }
+
+
 

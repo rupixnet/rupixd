@@ -9,7 +9,7 @@ import (
 
 // CreateTransaction create a transaction that spends the first output of provided transaction.
 // Assumes that the output being spent has opTrueScript as it's scriptPublicKey
-// Creates the value of the spent output minus 1 sompi
+// Creates the value of the spent output minus 1 rupia
 func CreateTransaction(txToSpend *externalapi.DomainTransaction, fee uint64) (*externalapi.DomainTransaction, error) {
 	scriptPublicKey, redeemScript := OpTrueScript()
 
@@ -36,4 +36,5 @@ func CreateTransaction(txToSpend *externalapi.DomainTransaction, fee uint64) (*e
 		Payload: []byte{},
 	}, nil
 }
+
 

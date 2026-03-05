@@ -327,13 +327,13 @@ func TestP2PK(t *testing.T) {
 	})
 }
 
-func TestMaxSompi(t *testing.T) {
+func TestMaxRupia(t *testing.T) {
 	testutils.ForAllNets(t, true, func(t *testing.T, consensusConfig *consensus.Config) {
 		params := &consensusConfig.Params
 		cfg := *consensusConfig
 		cfg.BlockCoinbaseMaturity = 0
-		cfg.PreDeflationaryPhaseBaseSubsidy = 20e6 * constants.SompiPerKaspa
-		tc, teardown, err := consensus.NewFactory().NewTestConsensus(&cfg, "TestMaxSompi")
+		cfg.PreDeflationaryPhaseBaseSubsidy = 20e6 * constants.RupiaPerRupix
+		tc, teardown, err := consensus.NewFactory().NewTestConsensus(&cfg, "TestMaxRupia")
 		if err != nil {
 			t.Fatalf("Error setting up tc: %+v", err)
 		}
@@ -494,7 +494,7 @@ func TestMaxSompi(t *testing.T) {
 		unsignedTxWithLargeInputAndOutputAmount, err := createUnsignedTransactionSerialized(publicKeys, minimumSignatures,
 			[]*libkaspawallet.Payment{{
 				Address: address,
-				Amount:  22e6 * constants.SompiPerKaspa,
+				Amount:  22e6 * constants.RupiaPerRupix,
 			}}, selectedUTXOsForTxWithLargeInputAndOutputAmount)
 		if err != nil {
 			t.Fatalf("CreateUnsignedTransactions: %+v", err)
@@ -531,5 +531,7 @@ func TestMaxSompi(t *testing.T) {
 		}
 	})
 }
+
+
 
 

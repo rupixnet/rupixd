@@ -20,7 +20,7 @@ import (
 // in the order of magnitude of compute mass and wil not incur additional charges.
 // Additionally, every transaction with send value > ~0.1 KAS should succeed (at most ~99K storage mass for payment
 // output, thus overall lower than standard mass upper bound which is 100K gram)
-const minChangeTarget = constants.SompiPerKaspa * 10
+const minChangeTarget = constants.RupiaPerRupix * 10
 
 // The current minimal fee rate according to mempool standards
 const minFeeRate = 1.0
@@ -77,7 +77,7 @@ func (s *server) calculateFeeLimits(requestFeePolicy *pb.FeePolicy) (feeRate flo
 		}
 		feeRate = estimate.Estimate.NormalBuckets[0].Feerate
 		// Default to a bound of max 1 KAS as fee
-		maxFee = constants.SompiPerKaspa
+		maxFee = constants.RupiaPerRupix
 	}
 
 	return feeRate, maxFee, nil
@@ -114,7 +114,7 @@ func (s *server) createUnsignedTransactions(address string, amount uint64, isSen
 		return nil, err
 	}
 
-	selectedUTXOs, spendValue, changeSompi, err := s.selectUTXOs(amount, isSendAll, feeRate, maxFee, fromAddresses)
+	selectedUTXOs, spendValue, changerupia, err := s.selectUTXOs(amount, isSendAll, feeRate, maxFee, fromAddresses)
 	if err != nil {
 		return nil, err
 	}
@@ -127,10 +127,10 @@ func (s *server) createUnsignedTransactions(address string, amount uint64, isSen
 		Address: toAddress,
 		Amount:  spendValue,
 	}}
-	if changeSompi > 0 {
+	if changerupia > 0 {
 		payments = append(payments, &libkaspawallet.Payment{
 			Address: changeAddress,
-			Amount:  changeSompi,
+			Amount:  changerupia,
 		})
 	}
 	unsignedTransaction, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
@@ -148,12 +148,12 @@ func (s *server) createUnsignedTransactions(address string, amount uint64, isSen
 }
 
 func (s *server) selectUTXOs(spendAmount uint64, isSendAll bool, feeRate float64, maxFee uint64, fromAddresses []*walletAddress) (
-	selectedUTXOs []*libkaspawallet.UTXO, totalReceived uint64, changeSompi uint64, err error) {
+	selectedUTXOs []*libkaspawallet.UTXO, totalReceived uint64, changerupia uint64, err error) {
 	return s.selectUTXOsWithPreselected(nil, map[externalapi.DomainOutpoint]struct{}{}, spendAmount, isSendAll, feeRate, maxFee, fromAddresses)
 }
 
 func (s *server) selectUTXOsWithPreselected(preSelectedUTXOs []*walletUTXO, allowUsed map[externalapi.DomainOutpoint]struct{}, spendAmount uint64, isSendAll bool, feeRate float64, maxFee uint64, fromAddresses []*walletAddress) (
-	selectedUTXOs []*libkaspawallet.UTXO, totalReceived uint64, changeSompi uint64, err error) {
+	selectedUTXOs []*libkaspawallet.UTXO, totalReceived uint64, changerupia uint64, err error) {
 
 	preSelectedSet := make(map[externalapi.DomainOutpoint]struct{})
 	for _, utxo := range preSelectedUTXOs {
@@ -254,7 +254,7 @@ func (s *server) selectUTXOsWithPreselected(preSelectedUTXOs []*walletUTXO, allo
 	}
 	if totalValue < totalSpend {
 		return nil, 0, 0, errors.Errorf("Insufficient funds for send: %f required, while only %f available",
-			float64(totalSpend)/constants.SompiPerKaspa, float64(totalValue)/constants.SompiPerKaspa)
+			float64(totalSpend)/constants.RupiaPerRupix, float64(totalValue)/constants.RupiaPerRupix)
 	}
 
 	return selectedUTXOs, totalReceived, totalValue - totalSpend, nil
@@ -362,5 +362,7 @@ func walletAddressesContain(addresses []*walletAddress, contain *walletAddress) 
 
 	return false
 }
+
+
 
 

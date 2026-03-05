@@ -87,7 +87,7 @@ func (s *server) BumpFee(_ context.Context, request *pb.BumpFeeRequest) (*pb.Bum
 	for outpoint := range outpointsToInputs {
 		allowUsed[outpoint] = struct{}{}
 	}
-	selectedUTXOs, spendValue, changeSompi, err := s.selectUTXOsWithPreselected([]*walletUTXO{maxUTXO}, allowUsed, domainTx.Outputs[0].Value, false, newFeeRate, maxFee, fromAddresses)
+	selectedUTXOs, spendValue, changerupia, err := s.selectUTXOsWithPreselected([]*walletUTXO{maxUTXO}, allowUsed, domainTx.Outputs[0].Value, false, newFeeRate, maxFee, fromAddresses)
 	if err != nil {
 		return nil, err
 	}
@@ -110,7 +110,7 @@ func (s *server) BumpFee(_ context.Context, request *pb.BumpFeeRequest) (*pb.Bum
 		Address: toAddress,
 		Amount:  spendValue,
 	}}
-	if changeSompi > 0 {
+	if changerupia > 0 {
 		changeAddress, _, err := s.changeAddress(request.UseExistingChangeAddress, fromAddresses)
 		if err != nil {
 			return nil, err
@@ -118,7 +118,7 @@ func (s *server) BumpFee(_ context.Context, request *pb.BumpFeeRequest) (*pb.Bum
 
 		payments = append(payments, &libkaspawallet.Payment{
 			Address: changeAddress,
-			Amount:  changeSompi,
+			Amount:  changerupia,
 		})
 	}
 	unsignedTransaction, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
@@ -154,5 +154,6 @@ func (s *server) BumpFee(_ context.Context, request *pb.BumpFeeRequest) (*pb.Bum
 		Transactions: signedTransactions,
 	}, nil
 }
+
 
 

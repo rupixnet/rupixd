@@ -46,7 +46,7 @@ const (
 	defaultBlockMaxMass          = 10_000_000
 	blockMaxMassMin              = 1000
 	blockMaxMassMax              = 10_000_000
-	defaultMinRelayTxFee         = 1e-5 // 1 sompi per byte
+	defaultMinRelayTxFee         = 1e-5 // 1 rupia per byte
 	defaultMaxOrphanTransactions = 100
 	//DefaultMaxOrphanTxSize is the default maximum size for an orphan transaction
 	DefaultMaxOrphanTxSize  = 100_000
@@ -595,4 +595,5 @@ func createDefaultConfigFile(destinationPath string) error {
 
 	return err
 }
+
 

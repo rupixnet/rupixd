@@ -30,13 +30,13 @@ func TestAmountCreation(t *testing.T) {
 			name:     "max producible",
 			amount:   29e9,
 			valid:    true,
-			expected: Amount(constants.MaxSompi),
+			expected: Amount(constants.MaxRupia),
 		},
 		{
 			name:     "one hundred",
 			amount:   100,
 			valid:    true,
-			expected: 100 * constants.SompiPerKaspa,
+			expected: 100 * constants.RupiaPerRupix,
 		},
 		{
 			name:     "fraction",
@@ -48,13 +48,13 @@ func TestAmountCreation(t *testing.T) {
 			name:     "rounding up",
 			amount:   54.999999999999943157,
 			valid:    true,
-			expected: 55 * constants.SompiPerKaspa,
+			expected: 55 * constants.RupiaPerRupix,
 		},
 		{
 			name:     "rounding down",
 			amount:   55.000000000000056843,
 			valid:    true,
-			expected: 55 * constants.SompiPerKaspa,
+			expected: 55 * constants.RupiaPerRupix,
 		},
 
 		// Negative tests.
@@ -103,7 +103,7 @@ func TestAmountUnitConversions(t *testing.T) {
 	}{
 		{
 			name:      "MKAS",
-			amount:    Amount(constants.MaxSompi),
+			amount:    Amount(constants.MaxRupia),
 			unit:      AmountMegaKAS,
 			converted: 29000,
 			s:         "29000 MKAS",
@@ -139,11 +139,11 @@ func TestAmountUnitConversions(t *testing.T) {
 		},
 		{
 
-			name:      "sompi",
+			name:      "rupia",
 			amount:    44433322211100,
-			unit:      AmountSompi,
+			unit:      Amountrupia,
 			converted: 44433322211100,
-			s:         "44433322211100 Sompi",
+			s:         "44433322211100 rupia",
 		},
 		{
 
@@ -205,15 +205,15 @@ func TestAmountMulF64(t *testing.T) {
 		},
 		{
 			name: "Round down",
-			amt:  49, // 49 Sompi
+			amt:  49, // 49 rupia
 			mul:  0.01,
 			res:  0,
 		},
 		{
 			name: "Round up",
-			amt:  50, // 50 Sompi
+			amt:  50, // 50 rupia
 			mul:  0.01,
-			res:  1, // 1 Sompi
+			res:  1, // 1 rupia
 		},
 		{
 			name: "Multiply by 0.",
@@ -223,27 +223,27 @@ func TestAmountMulF64(t *testing.T) {
 		},
 		{
 			name: "Multiply 1 by 0.5.",
-			amt:  1, // 1 Sompi
+			amt:  1, // 1 rupia
 			mul:  0.5,
-			res:  1, // 1 Sompi
+			res:  1, // 1 rupia
 		},
 		{
 			name: "Multiply 100 by 66%.",
-			amt:  100, // 100 Sompi
+			amt:  100, // 100 rupia
 			mul:  0.66,
-			res:  66, // 66 Sompi
+			res:  66, // 66 rupia
 		},
 		{
 			name: "Multiply 100 by 66.6%.",
-			amt:  100, // 100 Sompi
+			amt:  100, // 100 rupia
 			mul:  0.666,
-			res:  67, // 67 Sompi
+			res:  67, // 67 rupia
 		},
 		{
 			name: "Multiply 100 by 2/3.",
-			amt:  100, // 100 Sompi
+			amt:  100, // 100 rupia
 			mul:  2.0 / 3,
-			res:  67, // 67 Sompi
+			res:  67, // 67 rupia
 		},
 	}
 
@@ -254,4 +254,6 @@ func TestAmountMulF64(t *testing.T) {
 		}
 	}
 }
+
+
 

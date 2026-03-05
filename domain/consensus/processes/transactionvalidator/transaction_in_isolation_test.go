@@ -44,22 +44,22 @@ func TestValidateTransactionInIsolationAndPopulateMass(t *testing.T) {
 			{"good one", 1, 1, 1, subnetworks.SubnetworkIDNative, nil, nil, nil, 0},
 			{"no inputs", 0, 1, 1, subnetworks.SubnetworkIDNative, nil, nil, ruleerrors.ErrNoTxInputs, 0},
 			{"no outputs", 1, 0, 1, subnetworks.SubnetworkIDNative, nil, nil, nil, 0},
-			{"too much sompi in one output", 1, 1, constants.MaxSompi + 1,
+			{"too much rupia in one output", 1, 1, constants.MaxRupia + 1,
 				subnetworks.SubnetworkIDNative,
 				nil,
 				nil,
 				ruleerrors.ErrBadTxOutValue, 0},
-			{"too much sompi before- valid now", 1, 1, 21e14 + 1,
+			{"too much rupia before- valid now", 1, 1, 21e14 + 1,
 				subnetworks.SubnetworkIDNative,
 				nil,
 				nil,
 				nil, 0},
-			{"too much sompi in one output - after hf", 1, 1, constants.MaxSompi + 1,
+			{"too much rupia in one output - after hf", 1, 1, constants.MaxRupia + 1,
 				subnetworks.SubnetworkIDNative,
 				nil,
 				nil,
 				ruleerrors.ErrBadTxOutValue, 0},
-			{"too much sompi in one output", 1, 1, constants.MaxSompi + 1,
+			{"too much rupia in one output", 1, 1, constants.MaxRupia + 1,
 				subnetworks.SubnetworkIDNative,
 				nil,
 				nil,
@@ -158,4 +158,6 @@ func createTxForTest(numInputs uint32, numOutputs uint32, outputValue uint64, su
 
 	return transactionhelper.NewNativeTransaction(constants.MaxTransactionVersion, txIns, txOuts)
 }
+
+
 
