@@ -78,3 +78,4 @@ func ExampleExtractScriptPubKeyAddress() {
 	// Address: kaspa:qzy6cf82zzah2xh5jwtz8nx9u4gdj6zzke8gljs0v055ksmnl424u6fv7ajrs
 }
 
+

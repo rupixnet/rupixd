@@ -206,7 +206,7 @@ func TestCheckTransactionStandardInIsolation(t *testing.T) {
 		Sequence:         constants.MaxTxInSequenceNum,
 	}
 	addrHash := [32]byte{0x01}
-	addr, err := util.NewAddressPublicKey(addrHash[:], util.Bech32PrefixKaspaTest)
+	addr, err := util.NewAddressPublicKey(addrHash[:], util.Bech32PrefixRupixTest)
 	if err != nil {
 		t.Fatalf("NewAddressPublicKey: unexpected error: %v", err)
 	}
@@ -350,6 +350,7 @@ func TestCheckTransactionStandardInIsolation(t *testing.T) {
 		}
 	})
 }
+
 
 
 

@@ -567,3 +567,4 @@ func TestStringifyClass(t *testing.T) {
 	}
 }
 
+

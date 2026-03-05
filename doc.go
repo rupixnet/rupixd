@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2018-2019 The kaspanet developers
+Copyright (c) 2018-2019 The RupixNet developers
 Copyright (c) 2013-2018 The btcsuite developers
 Copyright (c) 2015-2016 The Decred developers
 Copyright (c) 2013-2014 Conformal Systems LLC.
@@ -27,4 +27,5 @@ systems and %LOCALAPPDATA%\kaspad\kaspad.conf on Windows. The -C (--configfile)
 flag can be used to override this location.
 */
 package main
+
 

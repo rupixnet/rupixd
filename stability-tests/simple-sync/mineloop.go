@@ -144,3 +144,6 @@ func mineBlock(syncerRPCAddress string, miningAddress util.Address) error {
 }
 
 
+
+
+

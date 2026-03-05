@@ -82,7 +82,7 @@ func TestAddresses(t *testing.T) {
 			encoded: "kaspatest:qputx94qseratdmjs0j395mq8u03er0x3l35ennsep3hxfe7ln35ckquw528z",
 			valid:   true,
 			result: util.TstAddressPubKey(
-				util.Bech32PrefixKaspaTest,
+				util.Bech32PrefixRupixTest,
 				[util.PublicKeySize]byte{
 					0x78, 0xb3, 0x16, 0xa0, 0x86, 0x47, 0xd5, 0xb7, 0x72, 0x83,
 					0xe5, 0x12, 0xd3, 0x60, 0x3f, 0x1f, 0x1c, 0x8d, 0xe6, 0x8f,
@@ -96,10 +96,10 @@ func TestAddresses(t *testing.T) {
 					0xe3, 0x4c, 0xce, 0x70, 0xc8, 0x63, 0x73, 0x27, 0x3e, 0xfc,
 					0xe3, 0x4c,
 				}
-				return util.NewAddressPublicKey(publicKey, util.Bech32PrefixKaspaTest)
+				return util.NewAddressPublicKey(publicKey, util.Bech32PrefixRupixTest)
 			},
-			passedPrefix:   util.Bech32PrefixKaspaTest,
-			expectedPrefix: util.Bech32PrefixKaspaTest,
+			passedPrefix:   util.Bech32PrefixRupixTest,
+			expectedPrefix: util.Bech32PrefixRupixTest,
 		},
 
 		// ECDSA P2PK tests.
@@ -219,7 +219,7 @@ func TestAddresses(t *testing.T) {
 			encoded: "kaspatest:przhjdpv93xfygpqtckdc2zkzuzqeyj2pt5vxqxg0xrwl2zvxl5vx35yyy2h9",
 			valid:   true,
 			result: util.TstAddressScriptHash(
-				util.Bech32PrefixKaspaTest,
+				util.Bech32PrefixRupixTest,
 				[blake2b.Size256]byte{
 					0xc5, 0x79, 0x34, 0x2c, 0x2c, 0x4c, 0x92, 0x20, 0x20, 0x5e,
 					0x2c, 0xdc, 0x28, 0x56, 0x17, 0x04, 0x0c, 0x92, 0x4a, 0x0a,
@@ -233,10 +233,10 @@ func TestAddresses(t *testing.T) {
 					0xe8, 0xc3, 0x00, 0xc8, 0x79, 0x86, 0xef, 0xa8, 0x4c, 0x37,
 					0xe8, 0xc3,
 				}
-				return util.NewAddressScriptHashFromHash(hash, util.Bech32PrefixKaspaTest)
+				return util.NewAddressScriptHashFromHash(hash, util.Bech32PrefixRupixTest)
 			},
-			passedPrefix:   util.Bech32PrefixKaspaTest,
-			expectedPrefix: util.Bech32PrefixKaspaTest,
+			passedPrefix:   util.Bech32PrefixRupixTest,
+			expectedPrefix: util.Bech32PrefixRupixTest,
 		},
 
 		// Negative P2SH tests.
@@ -383,12 +383,12 @@ func TestDecodeAddressErrorConditions(t *testing.T) {
 		},
 		{
 			"kaspasim:raskzctpv9skzctpv9skzctpv9skzctpvy37ct7zafpv9skzctpvymmnd3gh8",
-			util.Bech32PrefixKaspaSim,
+			util.Bech32PrefixRupixSim,
 			"unknown address type",
 		},
 		{
 			"kaspasim:raskzcg58mth0an",
-			util.Bech32PrefixKaspaSim,
+			util.Bech32PrefixRupixSim,
 			"unknown address type",
 		},
 		{
@@ -416,8 +416,8 @@ func TestParsePrefix(t *testing.T) {
 		expectedError  bool
 	}{
 		{"kaspa", util.Bech32PrefixKaspa, false},
-		{"kaspatest", util.Bech32PrefixKaspaTest, false},
-		{"kaspasim", util.Bech32PrefixKaspaSim, false},
+		{"kaspatest", util.Bech32PrefixRupixTest, false},
+		{"kaspasim", util.Bech32PrefixRupixSim, false},
 		{"blabla", util.Bech32PrefixUnknown, true},
 		{"unknown", util.Bech32PrefixUnknown, true},
 		{"", util.Bech32PrefixUnknown, true},
@@ -443,8 +443,8 @@ func TestPrefixToString(t *testing.T) {
 		expectedPrefixStr string
 	}{
 		{util.Bech32PrefixKaspa, "kaspa"},
-		{util.Bech32PrefixKaspaTest, "kaspatest"},
-		{util.Bech32PrefixKaspaSim, "kaspasim"},
+		{util.Bech32PrefixRupixTest, "kaspatest"},
+		{util.Bech32PrefixRupixSim, "kaspasim"},
 		{util.Bech32PrefixUnknown, ""},
 	}
 
@@ -457,4 +457,5 @@ func TestPrefixToString(t *testing.T) {
 		}
 	}
 }
+
 

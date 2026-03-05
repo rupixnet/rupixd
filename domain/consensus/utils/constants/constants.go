@@ -12,7 +12,7 @@ const (
 	// MaxScriptPublicKeyVersion is the current latest supported public key script version.
 	MaxScriptPublicKeyVersion uint16 = 0
 
-	// RupiaPerRupix is the number of rupia in one kaspa (1 KAS).
+	// RupiaPerRupix is the number of rupia in one rupix (1 RUPIX).
 	RupiaPerRupix = 100_000_000
 
 	// MaxRupia is the maximum transaction amount allowed in rupia.
@@ -39,6 +39,7 @@ const (
 	// not-yet-accepted transactions.
 	UnacceptedDAAScore = math.MaxUint64
 )
+
 
 
 

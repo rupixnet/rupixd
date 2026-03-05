@@ -89,3 +89,5 @@ func (s *SigCache) Add(sigHash secp256k1.Hash, sig *secp256k1.SchnorrSignature, 
 	s.validSigs[sigHash] = sigCacheEntry{sig, pubKey}
 }
 
+
+

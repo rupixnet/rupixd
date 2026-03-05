@@ -89,8 +89,8 @@ func (f ServiceFlag) String() string {
 	return s
 }
 
-// KaspaNet represents which kaspa network a message belongs to.
-type KaspaNet uint32
+// RupixNet represents which kaspa network a message belongs to.
+type RupixNet uint32
 
 // Constants used to indicate the message kaspa network. They can also be
 // used to seek to the next message when a stream's state is unknown, but
@@ -98,33 +98,34 @@ type KaspaNet uint32
 // better idea to simply disconnect clients that are misbehaving over TCP.
 const (
 	// Mainnet represents the main kaspa network.
-	Mainnet KaspaNet = 0x3ddcf71d
+	Mainnet RupixNet = 0x3ddcf71d
 
 	// Testnet represents the test network.
-	Testnet KaspaNet = 0xddb8af8f
+	Testnet RupixNet = 0xddb8af8f
 
 	// Simnet represents the simulation test network.
-	Simnet KaspaNet = 0x374dcf1c
+	Simnet RupixNet = 0x374dcf1c
 
 	// Devnet represents the development test network.
-	Devnet KaspaNet = 0x732d87e1
+	Devnet RupixNet = 0x732d87e1
 )
 
 // bnStrings is a map of kaspa networks back to their constant names for
 // pretty printing.
-var bnStrings = map[KaspaNet]string{
+var bnStrings = map[RupixNet]string{
 	Mainnet: "Mainnet",
 	Testnet: "Testnet",
 	Simnet:  "Simnet",
 	Devnet:  "Devnet",
 }
 
-// String returns the KaspaNet in human-readable form.
-func (n KaspaNet) String() string {
+// String returns the RupixNet in human-readable form.
+func (n RupixNet) String() string {
 	if s, ok := bnStrings[n]; ok {
 		return s
 	}
 
-	return fmt.Sprintf("Unknown KaspaNet (%d)", uint32(n))
+	return fmt.Sprintf("Unknown RupixNet (%d)", uint32(n))
 }
+
 

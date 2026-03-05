@@ -200,3 +200,6 @@ func buildPayToPayAddressScript(t *testing.T) *externalapi.ScriptPublicKey {
 	return script
 }
 
+
+
+

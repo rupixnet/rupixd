@@ -242,3 +242,6 @@ func signWithSchnorrPrivateKey(params *dagconfig.Params, privateKeyBytes []byte,
 }
 
 
+
+
+

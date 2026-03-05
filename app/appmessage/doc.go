@@ -96,10 +96,10 @@ function. It accepts any io.Reader, but typically this will be a net.Conn to
 a remote node running a kaspa peer. Example syntax is:
 
 	// Reads and validates the next kaspa message from conn using the
-	// protocol version pver and the kaspa network kaspaNet. The returns
+	// protocol version pver and the kaspa network RupixNet. The returns
 	// are a appmessage.Message, a []byte which contains the unmarshalled
 	// raw payload, and a possible error.
-	msg, rawPayload, err := appmessage.ReadMessage(conn, pver, kaspaNet)
+	msg, rawPayload, err := appmessage.ReadMessage(conn, pver, RupixNet)
 	if err != nil {
 		// Log and handle the error
 	}
@@ -115,9 +115,9 @@ from a remote peer is:
 	msg := appmessage.NewMsgRequestAddresses()
 
 	// Writes a kaspa message msg to conn using the protocol version
-	// pver, and the kaspa network kaspaNet. The return is a possible
+	// pver, and the kaspa network RupixNet. The return is a possible
 	// error.
-	err := appmessage.WriteMessage(conn, msg, pver, kaspaNet)
+	err := appmessage.WriteMessage(conn, msg, pver, RupixNet)
 	if err != nil {
 		// Log and handle the error
 	}
@@ -131,4 +131,5 @@ differentiate between general IO errors and malformed messages through type
 assertions.
 */
 package appmessage
+
 

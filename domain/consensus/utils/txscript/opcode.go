@@ -2494,3 +2494,6 @@ func init() {
 	OpcodeByName["OP_TRUE"] = OpTrue
 }
 
+
+
+

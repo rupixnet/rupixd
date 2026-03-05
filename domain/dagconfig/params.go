@@ -46,7 +46,7 @@ var (
 // KType defines the size of GHOSTDAG consensus algorithm K parameter.
 type KType uint8
 
-// Params defines a Kaspa network by its parameters. These parameters may be
+// Params defines a Rupix network by its parameters. These parameters may be
 // used by Kaspa applications to differentiate networks as well as addresses
 // and keys for one network from those intended for use on another network.
 type Params struct {
@@ -58,7 +58,7 @@ type Params struct {
 	Name string
 
 	// Net defines the magic bytes used to identify the network.
-	Net appmessage.KaspaNet
+	Net appmessage.RupixNet
 
 	// RPCPort defines the rpc server port
 	RPCPort string
@@ -175,7 +175,7 @@ type Params struct {
 	// CoinbasePayloadScriptPublicKeyMaxLength is the maximum allowed script public key in the coinbase's payload
 	CoinbasePayloadScriptPublicKeyMaxLength uint8
 
-	// PruningProofM is the 'm' constant in the pruning proof. For more details see: https://github.com/kaspanet/research/issues/3
+	// PruningProofM is the 'm' constant in the pruning proof. For more details see: https://github.com/RupixNet/research/issues/3
 	PruningProofM uint64
 
 	// DeflationaryPhaseDaaScore is the DAA score after which the monetary policy switches
@@ -308,7 +308,7 @@ var TestnetParams = Params{
 	AcceptUnroutable: false,
 
 	// Human-readable part for Bech32 encoded addresses
-	Prefix: util.Bech32PrefixKaspaTest,
+	Prefix: util.Bech32PrefixRupixTest,
 
 	// Address encoding magics
 	PrivateKeyID: 0xef, // starts with 9 (uncompressed) or c (compressed)
@@ -377,7 +377,7 @@ var SimnetParams = Params{
 
 	PrivateKeyID: 0x64, // starts with 4 (uncompressed) or F (compressed)
 	// Human-readable part for Bech32 encoded addresses
-	Prefix: util.Bech32PrefixKaspaSim,
+	Prefix: util.Bech32PrefixRupixSim,
 
 	// EnableNonNativeSubnetworks enables non-native/coinbase transactions
 	EnableNonNativeSubnetworks: false,
@@ -436,7 +436,7 @@ var DevnetParams = Params{
 	AcceptUnroutable: true,
 
 	// Human-readable part for Bech32 encoded addresses
-	Prefix: util.Bech32PrefixKaspaDev,
+	Prefix: util.Bech32PrefixRupixDev,
 
 	// Address encoding magics
 	PrivateKeyID: 0xef, // starts with 9 (uncompressed) or c (compressed)
@@ -464,11 +464,11 @@ var DevnetParams = Params{
 // ErrDuplicateNet describes an error where the parameters for a Kaspa
 // network could not be set due to the network already being a standard
 // network or previously-registered into this package.
-var ErrDuplicateNet = errors.New("duplicate Kaspa network")
+var ErrDuplicateNet = errors.New("duplicate Rupix network")
 
-var registeredNets = make(map[appmessage.KaspaNet]struct{})
+var registeredNets = make(map[appmessage.RupixNet]struct{})
 
-// Register registers the network parameters for a Kaspa network. This may
+// Register registers the network parameters for a Rupix network. This may
 // error with ErrDuplicateNet if the network is already registered (either
 // due to a previous Register call, or the network being one of the default
 // networks).
@@ -501,6 +501,8 @@ func init() {
 	mustRegister(&SimnetParams)
 	mustRegister(&DevnetParams)
 }
+
+
 
 
 

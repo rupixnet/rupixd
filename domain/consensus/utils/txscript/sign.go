@@ -260,3 +260,6 @@ func SignTxOutput(dagParams *dagconfig.Params, tx *externalapi.DomainTransaction
 	return mergeScripts(dagParams, tx, idx, class, sigScript, previousScript)
 }
 
+
+
+
