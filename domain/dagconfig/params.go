@@ -243,7 +243,7 @@ var MainnetParams = Params{
 	AcceptUnroutable: false,
 
 	// Human-readable part for Bech32 encoded addresses
-	Prefix: util.Bech32PrefixKaspa,
+	Prefix: util.Bech32PrefixRupixMain,
 
 	// Address encoding magics
 	PrivateKeyID: 0x80, // starts with 5 (uncompressed) or K (compressed)
@@ -501,6 +501,7 @@ func init() {
 	mustRegister(&SimnetParams)
 	mustRegister(&DevnetParams)
 }
+
 
 
 

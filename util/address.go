@@ -40,7 +40,7 @@ const (
 	Bech32PrefixUnknown Bech32Prefix = iota
 
 	// Prefix for the main network.
-	Bech32PrefixKaspa
+	Bech32PrefixRupixMain
 
 	// Prefix for the dev network.
 	Bech32PrefixRupixDev
@@ -54,10 +54,10 @@ const (
 
 // Map from strings to Bech32 address prefix constants for parsing purposes.
 var stringsToBech32Prefixes = map[string]Bech32Prefix{
-	"kaspa":     Bech32PrefixKaspa,
-	"kaspadev":  Bech32PrefixRupixDev,
-	"kaspatest": Bech32PrefixRupixTest,
-	"kaspasim":  Bech32PrefixRupixSim,
+	"rupix":     Bech32PrefixRupixMain,
+	"rupixdev":  Bech32PrefixRupixDev,
+	"rupixtest": Bech32PrefixRupixTest,
+	"rupixsim":  Bech32PrefixRupixSim,
 }
 
 // ParsePrefix attempts to parse a Bech32 address prefix.
@@ -349,5 +349,6 @@ func (a *AddressScriptHash) String() string {
 func (a *AddressScriptHash) HashBlake2b() *[blake2b.Size256]byte {
 	return &a.hash
 }
+
 
 
