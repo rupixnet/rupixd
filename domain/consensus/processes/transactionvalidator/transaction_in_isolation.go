@@ -53,11 +53,24 @@ func (v *transactionValidator) ValidateTransactionInIsolation(tx *externalapi.Do
 
 	return nil
 }
-
 func (v *transactionValidator) checkTransactionInputCount(tx *externalapi.DomainTransaction) error {
-	// A non-coinbase transaction must have at least one input.
 	if !transactionhelper.IsCoinBase(tx) && len(tx.Inputs) == 0 {
 		return errors.Wrapf(ruleerrors.ErrNoTxInputs, "transaction has no inputs")
+	}
+	// RUPIX: limite maximo de inputs anti-spam
+	if uint64(len(tx.Inputs)) > constants.MaxTxInputs {
+		return errors.Wrapf(ruleerrors.ErrNoTxInputs, "transaction has too many inputs: got %d max %d",
+			len(tx.Inputs), constants.MaxTxInputs)
+	}
+	// RUPIX: limite maximo de outputs anti-spam
+	if !transactionhelper.IsCoinBase(tx) && uint64(len(tx.Outputs)) > constants.MaxTxOutputs {
+		return errors.Wrapf(ruleerrors.ErrNoTxInputs, "transaction has too many outputs: got %d max %d",
+			len(tx.Outputs), constants.MaxTxOutputs)
+	}
+	// RUPIX: limite maximo de payload anti-spam
+	if !transactionhelper.IsCoinBase(tx) && uint64(len(tx.Payload)) > constants.MaxTxPayloadSize {
+		return errors.Wrapf(ruleerrors.ErrInvalidPayload, "transaction payload too large: got %d max %d",
+			len(tx.Payload), constants.MaxTxPayloadSize)
 	}
 	return nil
 }
