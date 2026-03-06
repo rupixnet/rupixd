@@ -1,11 +1,11 @@
-// Copyright (c) 2014-2016 The btcsuite developers
+﻿// Copyright (c) 2014-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
 package dagconfig
 
 import (
-	"github.com/rupixnet/go-muhash"
+	"github.com/kaspanet/go-muhash"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
@@ -21,7 +21,7 @@ var genesisTxPayload = []byte{
 	0x00, 0x00, //script version
 	0x01,                                           // Varint
 	0x00,                                           // OP-FALSE
-	0xd7, 0x95, 0xd7, 0x9e, 0xd7, 0x94, 0x20, 0xd7, // ומה די עליך ועל אחיך ייטב בשאר כספא ודהבה למעבד כרעות אלהכם תעבדון
+	0xd7, 0x95, 0xd7, 0x9e, 0xd7, 0x94, 0x20, 0xd7, // ×•×ž×” ×“×™ ×¢×œ×™×š ×•×¢×œ ××—×™×š ×™×™×˜×‘ ×‘×©××¨ ×›×¡×¤× ×•×“×”×‘×” ×œ×ž×¢×‘×“ ×›×¨×¢×•×ª ××œ×”×›× ×ª×¢×‘×“×•×Ÿ
 	0x93, 0xd7, 0x99, 0x20, 0xd7, 0xa2, 0xd7, 0x9c,
 	0xd7, 0x99, 0xd7, 0x9a, 0x20, 0xd7, 0x95, 0xd7,
 	0xa2, 0xd7, 0x9c, 0x20, 0xd7, 0x90, 0xd7, 0x97,
@@ -244,6 +244,7 @@ var testnetGenesisBlock = externalapi.DomainBlock{
 	),
 	Transactions: []*externalapi.DomainTransaction{testnetGenesisCoinbaseTx},
 }
+
 
 
 

@@ -11,9 +11,9 @@ require (
 	github.com/golang/protobuf v1.5.4
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/jrick/logrotate v1.0.0
+	github.com/kaspanet/go-muhash v0.0.5-0.20210407112549-51ff33d5f79b
 	github.com/kaspanet/go-secp256k1 v0.0.7
 	github.com/pkg/errors v0.9.1
-	github.com/rupixnet/go-muhash v0.0.4
 	github.com/syndtr/goleveldb v1.0.1-0.20190923125748-758128399b1d
 	github.com/tyler-smith/go-bip39 v1.1.0
 	golang.org/x/crypto v0.28.0
@@ -32,6 +32,6 @@ require (
 )
 
 replace (
-	github.com/rupixnet/go-muhash => github.com/kaspanet/go-muhash v0.0.5-0.20210407112549-51ff33d5f79b
+	github.com/kaspanet/go-muhash v0.0.4 => github.com/kaspanet/go-muhash v0.0.5-0.20210407112549-51ff33d5f79b
 	github.com/rupixnet/go-secp256k1 => github.com/kaspanet/go-secp256k1 v0.0.7
 )
