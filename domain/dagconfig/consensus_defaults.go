@@ -49,7 +49,7 @@ const (
 	defaultMergeSetSizeLimit                       = defaultGHOSTDAGK * 10
 	defaultSubsidyGenesisReward                    = 1 * constants.RupiaPerRupix
 	defaultPreDeflationaryPhaseBaseSubsidy         = 500 * constants.RupiaPerRupix
-	defaultDeflationaryPhaseBaseSubsidy            = 440 * constants.RupiaPerRupix
+	defaultDeflationaryPhaseBaseSubsidy            = 90944400 // 0.909 RUPIX — tabla Rupix 42M supply
 	defaultCoinbasePayloadScriptPublicKeyMaxLength = 150
 	// defaultDifficultyAdjustmentWindowSize is the number of blocks in a block's past used to calculate its difficulty
 	// target.
@@ -81,7 +81,7 @@ const (
 	// Half a year in seconds = 365.25 / 2 * 24 * 60 * 60 = 15778800
 	// The network was down for three days shortly after launch
 	// Three days in seconds = 3 * 24 * 60 * 60 = 259200
-	defaultDeflationaryPhaseDaaScore = 15778800 - 259200
+	defaultDeflationaryPhaseDaaScore = 0 // Rupix empieza deflacionario desde el bloque genesis
 
 	defaultMergeDepth = 3600
 )
