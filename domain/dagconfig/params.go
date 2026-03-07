@@ -213,8 +213,9 @@ var MainnetParams = Params{
 	Net:         appmessage.Mainnet,
 	RPCPort:     "17110",
 	DefaultPort: "17111",
-	DNSSeeds: []string{},
-
+	DNSSeeds: []string{
+    "seed.rupix.network",
+},
 	// DAG parameters
 	GenesisBlock:                    &genesisBlock,
 	GenesisHash:                     genesisHash,
@@ -501,6 +502,7 @@ func init() {
 	mustRegister(&SimnetParams)
 	mustRegister(&DevnetParams)
 }
+
 
 
 
