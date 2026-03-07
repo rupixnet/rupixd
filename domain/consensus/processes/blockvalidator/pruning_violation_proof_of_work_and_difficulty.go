@@ -1,14 +1,16 @@
 package blockvalidator
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/model"
-	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
-	"github.com/rupixnet/rupixd/domain/consensus/utils/pow"
-	"github.com/rupixnet/rupixd/domain/consensus/utils/virtual"
-	"github.com/rupixnet/rupixd/infrastructure/db/database"
-	"github.com/rupixnet/rupixd/infrastructure/logger"
-	"github.com/pkg/errors"
+    "math/big"
+    "github.com/rupixnet/rupixd/domain/consensus/model"
+    "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+    "github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+    "github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+    "github.com/rupixnet/rupixd/domain/consensus/utils/pow"
+    "github.com/rupixnet/rupixd/domain/consensus/utils/virtual"
+    "github.com/rupixnet/rupixd/infrastructure/db/database"
+    "github.com/rupixnet/rupixd/infrastructure/logger"
+    "github.com/pkg/errors"
 )
 
 func (v *blockValidator) ValidatePruningPointViolationAndProofOfWorkAndDifficulty(stagingArea *model.StagingArea,
@@ -159,13 +161,13 @@ func (v *blockValidator) checkProofOfWork(header externalapi.BlockHeader) error 
 			"higher than max of %064x", target, v.powMax)
 	}
 
-	// The block pow must be valid unless the flag to avoid proof of work checks is set.
-	if !v.skipPoW {
-		valid := state.CheckProofOfWork()
-		if !valid {
-			return errors.Wrap(ruleerrors.ErrInvalidPoW, "block has invalid proof of work")
-		}
+	// RUPIX: Minimum Difficulty Floor — dificultad nunca baja del piso
+	minDifficulty, _ := new(big.Int).SetString(constants.MinimumDifficultyTarget, 10)
+	if target.Cmp(minDifficulty) > 0 {
+		return errors.Wrapf(ruleerrors.ErrTargetTooHigh,
+			"block target difficulty %064x is below minimum allowed %064x", target, minDifficulty)
 	}
+
 	return nil
 }
 

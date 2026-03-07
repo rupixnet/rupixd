@@ -56,6 +56,8 @@ const (
     // MinTxFeePerByte fee minimo en rupias por byte
     MinTxFeePerByte = uint64(1)
 
+    MinimumDifficultyTarget = "28269553036454149273332760011886696253239742350009903329945699220681916416"
+
     // MaxBlockMassLimit masa maxima permitida por bloque
     MaxBlockMassLimit = uint64(500_000)
 
