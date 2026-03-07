@@ -7,6 +7,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
 	"github.com/pkg/errors"
+        "github.com/rupixnet/rupixd/domain/consensus/processes/burnmanager" 
 )
 
 // ValidateTransactionInIsolation validates the parts of the transaction that can be validated context-free
@@ -50,7 +51,14 @@ func (v *transactionValidator) ValidateTransactionInIsolation(tx *externalapi.Do
 	if tx.Version > constants.MaxTransactionVersion {
 		return errors.Wrapf(ruleerrors.ErrTransactionVersionIsUnknown, "validation failed: unknown transaction version. ")
 	}
-
+	// RUPIX: validar TX de quema si es tipo TxTypeBurn
+	if len(tx.Payload) > 0 && tx.Payload[0] == constants.TxTypeBurn {
+		bm := burnmanager.New()
+		err = bm.ValidateBurnTransaction(tx)
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
 func (v *transactionValidator) checkTransactionInputCount(tx *externalapi.DomainTransaction) error {
