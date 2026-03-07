@@ -226,8 +226,8 @@ func mineLoopUntilHavingOnlyOneTipInDAG(rpcClient *rpc.Client, miningAddress uti
 	}
 	numOfBlocksBeforeMining := dagInfo.BlockCount
 
-	kaspaMinerCmd, err := common.StartCmd("MINER",
-		"kaspaminer",
+	rupixMinerCmd, err := common.StartCmd("MINER",
+		"rupixminer",
 		common.NetworkCliArgumentFromNetParams(activeConfig().NetParams()),
 		"-s", rpcAddress,
 		"--mine-when-not-synced",
@@ -241,7 +241,7 @@ func mineLoopUntilHavingOnlyOneTipInDAG(rpcClient *rpc.Client, miningAddress uti
 	shutdown := uint64(0)
 
 	spawn("rupix-miner-Cmd.Wait", func() {
-		err := kaspaMinerCmd.Wait()
+		err := rupixMinerCmd.Wait()
 		if err != nil {
 			if atomic.LoadUint64(&shutdown) == 0 {
 				panics.Exit(log, fmt.Sprintf("minerCmd closed unexpectedly: %s.", err))
@@ -283,7 +283,7 @@ func mineLoopUntilHavingOnlyOneTipInDAG(rpcClient *rpc.Client, miningAddress uti
 	numOfAddedBlocks := dagInfo.BlockCount - numOfBlocksBeforeMining
 	log.Infof("Added %d blocks to reach this.", numOfAddedBlocks)
 	atomic.StoreUint64(&shutdown, 1)
-	killWithSigterm(kaspaMinerCmd, "kaspaMinerCmd")
+	killWithSigterm(rupixMinerCmd, "rupixMinerCmd")
 	return nil
 }
 
