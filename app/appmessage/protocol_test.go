@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2016 The btcsuite developers
+﻿// Copyright (c) 2013-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -33,7 +33,7 @@ func TestServiceFlagStringer(t *testing.T) {
 	}
 }
 
-// TestRupixNetStringer tests the stringized output for kaspa net types.
+// TestRupixNetStringer tests the stringized output for rupix net types.
 func TestRupixNetStringer(t *testing.T) {
 	tests := []struct {
 		in   RupixNet

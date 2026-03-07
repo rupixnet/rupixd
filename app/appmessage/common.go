@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2016 The btcsuite developers
+﻿// Copyright (c) 2013-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// MaxInvPerMsg is the maximum number of inventory vectors that can be in any type of kaspa inv message.
+// MaxInvPerMsg is the maximum number of inventory vectors that can be in any type of rupix inv message.
 const MaxInvPerMsg = 1 << 17
 
 // errNonCanonicalVarInt is the common format string used for non-canonically

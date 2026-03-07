@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2016 The btcsuite developers
+﻿// Copyright (c) 2013-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ type TxLoc struct {
 	TxLen   int
 }
 
-// MsgBlock implements the Message interface and represents a kaspa
+// MsgBlock implements the Message interface and represents a rupix
 // block message. It is used to deliver block and transaction information in
 // response to a getdata message (MsgGetData) for a given block hash.
 type MsgBlock struct {
@@ -64,7 +64,7 @@ func (msg *MsgBlock) ConvertToPartial(subnetworkID *externalapi.DomainSubnetwork
 	}
 }
 
-// NewMsgBlock returns a new kaspa block message that conforms to the
+// NewMsgBlock returns a new rupix block message that conforms to the
 // Message interface. See MsgBlock for details.
 func NewMsgBlock(blockHeader *MsgBlockHeader) *MsgBlock {
 	return &MsgBlock{

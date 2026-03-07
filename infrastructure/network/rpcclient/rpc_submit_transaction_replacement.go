@@ -1,4 +1,4 @@
-package rpcclient
+﻿package rpcclient
 
 import (
 	"strings"
@@ -22,7 +22,7 @@ func (c *RPCClient) SubmitTransactionReplacement(transaction *appmessage.RPCTran
 		// previously timed-out on, so we log and continue waiting for the correct current response.
 		if SubmitTransactionReplacementResponse.TransactionID != transactionID {
 			if SubmitTransactionReplacementResponse.Error != nil {
-				// A non-updated Kaspad might return an empty ID in the case of error, so in
+				// A non-updated rupixd might return an empty ID in the case of error, so in
 				// such a case we fallback to checking if the error contains the expected ID
 				if SubmitTransactionReplacementResponse.TransactionID != "" || !strings.Contains(SubmitTransactionReplacementResponse.Error.Message, transactionID) {
 					log.Warnf("SubmitTransactionReplacement: received an error response for previous request: %s", SubmitTransactionReplacementResponse.Error)

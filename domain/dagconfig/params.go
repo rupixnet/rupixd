@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 The btcsuite developers
+﻿// Copyright (c) 2014-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -25,19 +25,19 @@ var (
 	// the overhead of creating it multiple times.
 	bigOne = big.NewInt(1)
 
-	// mainPowMax is the highest proof of work value a Kaspa block can
+	// mainPowMax is the highest proof of work value a rupix block can
 	// have for the main network. It is the value 2^255 - 1.
 	mainPowMax = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
 
-	// testnetPowMax is the highest proof of work value a Kaspa block
+	// testnetPowMax is the highest proof of work value a rupix block
 	// can have for the test network. It is the value 2^255 - 1.
 	testnetPowMax = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
 
-	// simnetPowMax is the highest proof of work value a Kaspa block
+	// simnetPowMax is the highest proof of work value a rupix block
 	// can have for the simulation test network. It is the value 2^255 - 1.
 	simnetPowMax = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
 
-	// devnetPowMax is the highest proof of work value a Kaspa block
+	// devnetPowMax is the highest proof of work value a rupix block
 	// can have for the development network. It is the value
 	// 2^255 - 1.
 	devnetPowMax = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
@@ -47,7 +47,7 @@ var (
 type KType uint8
 
 // Params defines a Rupix network by its parameters. These parameters may be
-// used by Kaspa applications to differentiate networks as well as addresses
+// used by rupix applications to differentiate networks as well as addresses
 // and keys for one network from those intended for use on another network.
 type Params struct {
 	// K defines the K parameter for GHOSTDAG consensus algorithm.
@@ -90,7 +90,7 @@ type Params struct {
 
 	// SubsidyGenesisReward SubsidyMergeSetRewardMultiplier, and
 	// SubsidyPastRewardMultiplier are part of the block subsidy equation.
-	// Further details: https://hashdag.medium.com/kaspa-launch-plan-9a63f4d754a6
+	// Further details: https://hashdag.medium.com/rupix-launch-plan-9a63f4d754a6
 	SubsidyGenesisReward            uint64
 	PreDeflationaryPhaseBaseSubsidy uint64
 	DeflationaryPhaseBaseSubsidy    uint64
@@ -206,7 +206,7 @@ func (p *Params) PruningDepth() uint64 {
 	return 2*p.FinalityDepth() + 4*p.MergeSetSizeLimit*uint64(p.K) + 2*uint64(p.K) + 2
 }
 
-// MainnetParams defines the network parameters for the main Kaspa network.
+// MainnetParams defines the network parameters for the main rupix network.
 var MainnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "rupix-mainnet",
@@ -271,7 +271,7 @@ var MainnetParams = Params{
 	MergeDepth:    defaultMergeDepth,
 }
 
-// TestnetParams defines the network parameters for the test Kaspa network.
+// TestnetParams defines the network parameters for the test rupix network.
 var TestnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "rupix-testnet",
@@ -333,7 +333,7 @@ var TestnetParams = Params{
 	MergeDepth:    defaultMergeDepth,
 }
 
-// SimnetParams defines the network parameters for the simulation test Kaspa
+// SimnetParams defines the network parameters for the simulation test rupix
 // network. This network is similar to the normal test network except it is
 // intended for private use within a group of individuals doing simulation
 // testing. The functionality is intended to differ in that the only nodes
@@ -399,7 +399,7 @@ var SimnetParams = Params{
 	MergeDepth:    defaultMergeDepth,
 }
 
-// DevnetParams defines the network parameters for the development Kaspa network.
+// DevnetParams defines the network parameters for the development rupix network.
 var DevnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "rupix-devnet",
@@ -461,7 +461,7 @@ var DevnetParams = Params{
 	MergeDepth:    defaultMergeDepth,
 }
 
-// ErrDuplicateNet describes an error where the parameters for a Kaspa
+// ErrDuplicateNet describes an error where the parameters for a rupix
 // network could not be set due to the network already being a standard
 // network or previously-registered into this package.
 var ErrDuplicateNet = errors.New("duplicate Rupix network")

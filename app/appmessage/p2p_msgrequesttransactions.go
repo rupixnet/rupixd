@@ -1,4 +1,4 @@
-package appmessage
+﻿package appmessage
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -8,7 +8,7 @@ import (
 // be in a single CmdInvTransaction message.
 const MaxInvPerRequestTransactionsMsg = MaxInvPerMsg
 
-// MsgRequestTransactions implements the Message interface and represents a kaspa
+// MsgRequestTransactions implements the Message interface and represents a rupix
 // RequestTransactions message. It is used to request transactions as part of the
 // transactions relay protocol.
 type MsgRequestTransactions struct {
@@ -22,7 +22,7 @@ func (msg *MsgRequestTransactions) Command() MessageCommand {
 	return CmdRequestTransactions
 }
 
-// NewMsgRequestTransactions returns a new kaspa RequestTransactions message that conforms to
+// NewMsgRequestTransactions returns a new rupix RequestTransactions message that conforms to
 // the Message interface. See MsgRequestTransactions for details.
 func NewMsgRequestTransactions(ids []*externalapi.DomainTransactionID) *MsgRequestTransactions {
 	return &MsgRequestTransactions{

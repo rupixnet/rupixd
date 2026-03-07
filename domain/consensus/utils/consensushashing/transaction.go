@@ -1,4 +1,4 @@
-package consensushashing
+﻿package consensushashing
 
 import (
 	"io"
@@ -138,7 +138,7 @@ func serializeTransaction(w io.Writer, tx *externalapi.DomainTransaction, encodi
 	return nil
 }
 
-// writeTransactionInput encodes ti to the kaspa protocol encoding for a transaction
+// writeTransactionInput encodes ti to the rupix protocol encoding for a transaction
 // input to w.
 func writeTransactionInput(w io.Writer, ti *externalapi.DomainTransactionInput, encodingFlags txEncoding) error {
 	err := writeOutpoint(w, &ti.PreviousOutpoint)

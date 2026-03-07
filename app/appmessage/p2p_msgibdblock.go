@@ -1,10 +1,10 @@
-// Copyright (c) 2013-2016 The btcsuite developers
+﻿// Copyright (c) 2013-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
 package appmessage
 
-// MsgIBDBlock implements the Message interface and represents a kaspa
+// MsgIBDBlock implements the Message interface and represents a rupix
 // ibdblock message. It is used to deliver block and transaction information in
 // response to a RequestIBDBlocks message (MsgRequestIBDBlocks).
 type MsgIBDBlock struct {
@@ -24,7 +24,7 @@ func (msg *MsgIBDBlock) MaxPayloadLength(pver uint32) uint32 {
 	return MaxMessagePayload
 }
 
-// NewMsgIBDBlock returns a new kaspa ibdblock message that conforms to the
+// NewMsgIBDBlock returns a new rupix ibdblock message that conforms to the
 // Message interface. See MsgIBDBlock for details.
 func NewMsgIBDBlock(msgBlock *MsgBlock) *MsgIBDBlock {
 	return &MsgIBDBlock{MsgBlock: msgBlock}

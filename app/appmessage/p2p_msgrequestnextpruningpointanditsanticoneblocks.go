@@ -1,6 +1,6 @@
-package appmessage
+﻿package appmessage
 
-// MsgRequestNextPruningPointAndItsAnticoneBlocks implements the Message interface and represents a kaspa
+// MsgRequestNextPruningPointAndItsAnticoneBlocks implements the Message interface and represents a rupix
 // RequestNextPruningPointAndItsAnticoneBlocks message. It is used to notify the IBD syncer peer to send
 // more blocks from the pruning anticone.
 //
@@ -15,7 +15,7 @@ func (msg *MsgRequestNextPruningPointAndItsAnticoneBlocks) Command() MessageComm
 	return CmdRequestNextPruningPointAndItsAnticoneBlocks
 }
 
-// NewMsgRequestNextPruningPointAndItsAnticoneBlocks returns a new kaspa RequestNextPruningPointAndItsAnticoneBlocks message that conforms to the
+// NewMsgRequestNextPruningPointAndItsAnticoneBlocks returns a new rupix RequestNextPruningPointAndItsAnticoneBlocks message that conforms to the
 // Message interface.
 func NewMsgRequestNextPruningPointAndItsAnticoneBlocks() *MsgRequestNextPruningPointAndItsAnticoneBlocks {
 	return &MsgRequestNextPruningPointAndItsAnticoneBlocks{}

@@ -1,4 +1,4 @@
-package transactionvalidator
+﻿package transactionvalidator
 
 import (
 	"math"
@@ -150,7 +150,7 @@ func (v *transactionValidator) checkTransactionInputAmounts(tx *externalapi.Doma
 		// output values of the input transactions must not be negative
 		// or more than the max allowed per transaction. All amounts in
 		// a transaction are in a unit value known as a rupia. One
-		// kaspa is a quantity of rupia as defined by the
+		// rupix is a quantity of rupia as defined by the
 		// RupiaPerRupix constant.
 		totalrupiaIn, err = v.checkEntryAmounts(utxoEntry, totalrupiaIn)
 		if err != nil {

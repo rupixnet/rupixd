@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2017 The btcsuite developers
+﻿// Copyright (c) 2013-2017 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -443,7 +443,7 @@ var scriptClassTests = []struct {
 	},
 
 	{
-		// Nulldata. It is standard in Bitcoin but not in Kaspa
+		// Nulldata. It is standard in Bitcoin but not in rupix
 		name:   "nulldata",
 		script: "RETURN 0",
 		class:  NonStandardTy,

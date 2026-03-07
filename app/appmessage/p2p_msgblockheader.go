@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2016 The btcsuite developers
+﻿// Copyright (c) 2013-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -30,7 +30,7 @@ const MaxNumParentBlocks = 255
 // BaseBlockHeaderPayload + up to MaxNumParentBlocks hashes of parent blocks
 const MaxBlockHeaderPayload = BaseBlockHeaderPayload + (MaxNumParentBlocks * externalapi.DomainHashSize)
 
-// MsgBlockHeader defines information about a block and is used in the kaspa
+// MsgBlockHeader defines information about a block and is used in the rupix
 // block (MsgBlock) and headers (MsgHeader) messages.
 type MsgBlockHeader struct {
 	baseMessage

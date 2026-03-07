@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2016 The btcsuite developers
+﻿// Copyright (c) 2013-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ func (cmd MessageCommand) String() string {
 	return fmt.Sprintf("%s [code %d]", cmdString, uint8(cmd))
 }
 
-// Commands used in kaspa message headers which describe the type of message.
+// Commands used in rupix message headers which describe the type of message.
 const (
 	// protocol
 	CmdVersion MessageCommand = iota
@@ -310,7 +310,7 @@ var RPCMessageCommandToString = map[MessageCommand]string{
 	CmdSubmitTransactionReplacementResponseMessage:                "SubmitTransactionReplacementResponse",
 }
 
-// Message is an interface that describes a kaspa message. A type that
+// Message is an interface that describes a rupix message. A type that
 // implements Message has complete control over the representation of its data
 // and may therefore contain additional or fewer fields than those which
 // are used directly in the protocol encoded message.

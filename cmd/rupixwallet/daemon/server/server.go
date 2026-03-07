@@ -1,4 +1,4 @@
-package server
+﻿package server
 
 import (
 	"fmt"
@@ -33,7 +33,7 @@ type server struct {
 	rpcClient           *rpcclient.RPCClient // RPC client for ongoing user requests
 	backgroundRPCClient *rpcclient.RPCClient // RPC client dedicated for address and UTXO background fetching
 	params              *dagconfig.Params
-	coinbaseMaturity    uint64 // Different from go-kaspad default following Crescendo
+	coinbaseMaturity    uint64 // Different from go-rupixd default following Crescendo
 
 	lock                            sync.RWMutex
 	utxosSortedByAmount             []*walletUTXO

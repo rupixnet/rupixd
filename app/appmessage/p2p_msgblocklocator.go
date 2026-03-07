@@ -1,4 +1,4 @@
-package appmessage
+﻿package appmessage
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -8,7 +8,7 @@ import (
 // per message.
 const MaxBlockLocatorsPerMsg = 500
 
-// MsgBlockLocator implements the Message interface and represents a kaspa
+// MsgBlockLocator implements the Message interface and represents a rupix
 // locator message. It is used to find the blockLocator of a peer that is
 // syncing with you.
 type MsgBlockLocator struct {
@@ -22,7 +22,7 @@ func (msg *MsgBlockLocator) Command() MessageCommand {
 	return CmdBlockLocator
 }
 
-// NewMsgBlockLocator returns a new kaspa locator message that conforms to
+// NewMsgBlockLocator returns a new rupix locator message that conforms to
 // the Message interface. See MsgBlockLocator for details.
 func NewMsgBlockLocator(locatorHashes []*externalapi.DomainHash) *MsgBlockLocator {
 	return &MsgBlockLocator{

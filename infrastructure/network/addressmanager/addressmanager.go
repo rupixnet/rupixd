@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2016 The btcsuite developers
+﻿// Copyright (c) 2013-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -55,7 +55,7 @@ func netAddressKey(netAddress *appmessage.NetAddress) addressKey {
 }
 
 // AddressManager provides a concurrency safe address manager for caching potential
-// peers on the Kaspa network.
+// peers on the rupix network.
 type AddressManager struct {
 	store          *addressStore
 	localAddresses *localAddressManager
@@ -64,7 +64,7 @@ type AddressManager struct {
 	random         addressRandomizer
 }
 
-// New returns a new Kaspa address manager.
+// New returns a new rupix address manager.
 func New(cfg *Config, database database.Database) (*AddressManager, error) {
 	addressStore, err := newAddressStore(database)
 	if err != nil {

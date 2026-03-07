@@ -1,4 +1,4 @@
-package app
+﻿package app
 
 import (
 	"fmt"
@@ -32,8 +32,8 @@ var desiredLimits = &limits.DesiredLimits{
 
 var serviceDescription = &winservice.ServiceDescription{
 	Name:        "kaspadsvc",
-	DisplayName: "Kaspad Service",
-	Description: "Downloads and stays synchronized with the Kaspa blockDAG and " +
+	DisplayName: "rupixd Service",
+	Description: "Downloads and stays synchronized with the rupix blockDAG and " +
 		"provides DAG services to applications.",
 }
 
@@ -41,7 +41,7 @@ type kaspadApp struct {
 	cfg *config.Config
 }
 
-// StartApp starts the kaspad app, and blocks until it finishes running
+// StartApp starts the rupixd app, and blocks until it finishes running
 func StartApp() error {
 	execenv.Initialize(desiredLimits)
 
@@ -125,12 +125,12 @@ func (app *kaspadApp) main(startedChan chan<- struct{}) error {
 	// Create componentManager and start it.
 	componentManager, err := NewComponentManager(app.cfg, databaseContext, interrupt)
 	if err != nil {
-		log.Errorf("Unable to start kaspad: %+v", err)
+		log.Errorf("Unable to start rupixd: %+v", err)
 		return err
 	}
 
 	defer func() {
-		log.Infof("Gracefully shutting down kaspad...")
+		log.Infof("Gracefully shutting down rupixd...")
 
 		shutdownDone := make(chan struct{})
 		go func() {
@@ -145,7 +145,7 @@ func (app *kaspadApp) main(startedChan chan<- struct{}) error {
 		case <-time.After(shutdownTimeout):
 			log.Criticalf("Graceful shutdown timed out %s. Terminating...", shutdownTimeout)
 		}
-		log.Infof("Kaspad shutdown complete")
+		log.Infof("rupixd shutdown complete")
 	}()
 
 	componentManager.Start()

@@ -1,4 +1,4 @@
-package transactionvalidator
+﻿package transactionvalidator
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -80,7 +80,7 @@ func (v *transactionValidator) checkTransactionAmountRanges(tx *externalapi.Doma
 	// output must not be negative or more than the max allowed per
 	// transaction. Also, the total of all outputs must abide by the same
 	// restrictions. All amounts in a transaction are in a unit value known
-	// as a rupia. One kaspa is a quantity of rupia as defined by the
+	// as a rupia. One rupix is a quantity of rupia as defined by the
 	// RupiaPerRupix constant.
 	var totalrupia uint64
 	for _, txOut := range tx.Outputs {
@@ -95,7 +95,7 @@ func (v *transactionValidator) checkTransactionAmountRanges(tx *externalapi.Doma
 		}
 
 		// Binary arithmetic guarantees that any overflow is detected and reported.
-		// This is impossible for Kaspa, but perhaps possible if an alt increases
+		// This is impossible for rupix, but perhaps possible if an alt increases
 		// the total money supply.
 		newTotalrupia := totalrupia + rupia
 		if newTotalrupia < totalrupia {

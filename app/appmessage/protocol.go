@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2016 The btcsuite developers
+﻿// Copyright (c) 2013-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -16,7 +16,7 @@ const (
 	DefaultServices = SFNodeNetwork | SFNodeBloom | SFNodeCF
 )
 
-// ServiceFlag identifies services supported by a kaspa peer.
+// ServiceFlag identifies services supported by a rupix peer.
 type ServiceFlag uint64
 
 const (
@@ -89,15 +89,15 @@ func (f ServiceFlag) String() string {
 	return s
 }
 
-// RupixNet represents which kaspa network a message belongs to.
+// RupixNet represents which rupix network a message belongs to.
 type RupixNet uint32
 
-// Constants used to indicate the message kaspa network. They can also be
+// Constants used to indicate the message rupix network. They can also be
 // used to seek to the next message when a stream's state is unknown, but
 // this package does not provide that functionality since it's generally a
 // better idea to simply disconnect clients that are misbehaving over TCP.
 const (
-	// Mainnet represents the main kaspa network.
+	// Mainnet represents the main rupix network.
 	Mainnet RupixNet = 0x3ddcf71d
 
 	// Testnet represents the test network.
@@ -110,7 +110,7 @@ const (
 	Devnet RupixNet = 0x732d87e1
 )
 
-// bnStrings is a map of kaspa networks back to their constant names for
+// bnStrings is a map of rupix networks back to their constant names for
 // pretty printing.
 var bnStrings = map[RupixNet]string{
 	Mainnet: "Mainnet",

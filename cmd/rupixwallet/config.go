@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"os"
@@ -61,10 +61,10 @@ type sendConfig struct {
 	KeysFile                 string   `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
 	Password                 string   `long:"password" short:"p" description:"Wallet password"`
 	DaemonAddress            string   `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
-	ToAddress                string   `long:"to-address" short:"t" description:"The public address to send Kaspa to" required:"true"`
-	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send Kaspa from. Repeat multiple times (adding -a before each) to accept several addresses" required:"false"`
-	SendAmount               string   `long:"send-amount" short:"v" description:"An amount to send in Kaspa (e.g. 1234.12345678)"`
-	IsSendAll                bool     `long:"send-all" description:"Send all the Kaspa in the wallet (mutually exclusive with --send-amount). If --from-address was used, will send all only from the specified addresses."`
+	ToAddress                string   `long:"to-address" short:"t" description:"The public address to send rupix to" required:"true"`
+	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send rupix from. Repeat multiple times (adding -a before each) to accept several addresses" required:"false"`
+	SendAmount               string   `long:"send-amount" short:"v" description:"An amount to send in rupix (e.g. 1234.12345678)"`
+	IsSendAll                bool     `long:"send-all" description:"Send all the rupix in the wallet (mutually exclusive with --send-amount). If --from-address was used, will send all only from the specified addresses."`
 	UseExistingChangeAddress bool     `long:"use-existing-change-address" short:"u" description:"Will use an existing change address (in case no change address was ever used, it will use a new one)"`
 	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in rupia/gram to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
 	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in rupia/gram to use for the transaction. This option will override any fee estimate from the connected node."`
@@ -81,10 +81,10 @@ type sweepConfig struct {
 
 type createUnsignedTransactionConfig struct {
 	DaemonAddress            string   `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
-	ToAddress                string   `long:"to-address" short:"t" description:"The public address to send Kaspa to" required:"true"`
-	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send Kaspa from. Use multiple times to accept several addresses" required:"false"`
-	SendAmount               string   `long:"send-amount" short:"v" description:"An amount to send in Kaspa (e.g. 1234.12345678)"`
-	IsSendAll                bool     `long:"send-all" description:"Send all the Kaspa in the wallet (mutually exclusive with --send-amount)"`
+	ToAddress                string   `long:"to-address" short:"t" description:"The public address to send rupix to" required:"true"`
+	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send rupix from. Use multiple times to accept several addresses" required:"false"`
+	SendAmount               string   `long:"send-amount" short:"v" description:"An amount to send in rupix (e.g. 1234.12345678)"`
+	IsSendAll                bool     `long:"send-all" description:"Send all the rupix in the wallet (mutually exclusive with --send-amount)"`
 	UseExistingChangeAddress bool     `long:"use-existing-change-address" short:"u" description:"Will use an existing change address (in case no change address was ever used, it will use a new one)"`
 	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in rupia/gram to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
 	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in rupia/gram to use for the transaction. This option will override any fee estimate from the connected node."`
@@ -145,7 +145,7 @@ type dumpUnencryptedDataConfig struct {
 type bumpFeeUnsignedConfig struct {
 	TxID                     string   `long:"txid" short:"i" description:"The transaction ID to bump the fee for"`
 	DaemonAddress            string   `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
-	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send Kaspa from. Use multiple times to accept several addresses" required:"false"`
+	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send rupix from. Use multiple times to accept several addresses" required:"false"`
 	UseExistingChangeAddress bool     `long:"use-existing-change-address" short:"u" description:"Will use an existing change address (in case no change address was ever used, it will use a new one)"`
 	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in rupia/gram to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
 	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in rupia/gram to use for the transaction. This option will override any fee estimate from the connected node."`
@@ -158,7 +158,7 @@ type bumpFeeConfig struct {
 	KeysFile                 string   `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
 	Password                 string   `long:"password" short:"p" description:"Wallet password"`
 	DaemonAddress            string   `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
-	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send Kaspa from. Repeat multiple times (adding -a before each) to accept several addresses" required:"false"`
+	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send rupix from. Repeat multiple times (adding -a before each) to accept several addresses" required:"false"`
 	UseExistingChangeAddress bool     `long:"use-existing-change-address" short:"u" description:"Will use an existing change address (in case no change address was ever used, it will use a new one)"`
 	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in rupia/gram to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
 	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in rupia/gram to use for the transaction. This option will override any fee estimate from the connected node."`
@@ -184,11 +184,11 @@ func parseCommandLine() (subCommand string, config interface{}) {
 
 	balanceConf := &balanceConfig{DaemonAddress: defaultListen}
 	parser.AddCommand(balanceSubCmd, "Shows the balance of a public address",
-		"Shows the balance for a public address in Kaspa", balanceConf)
+		"Shows the balance for a public address in rupix", balanceConf)
 
 	sendConf := &sendConfig{DaemonAddress: defaultListen}
-	parser.AddCommand(sendSubCmd, "Sends a Kaspa transaction to a public address",
-		"Sends a Kaspa transaction to a public address", sendConf)
+	parser.AddCommand(sendSubCmd, "Sends a rupix transaction to a public address",
+		"Sends a rupix transaction to a public address", sendConf)
 
 	sweepConf := &sweepConfig{DaemonAddress: defaultListen}
 	parser.AddCommand(sweepSubCmd, "Sends all funds associated with the given schnorr private key to a new address of the current wallet",
@@ -197,8 +197,8 @@ func parseCommandLine() (subCommand string, config interface{}) {
 			"to send funds to your main wallet.", sweepConf)
 
 	createUnsignedTransactionConf := &createUnsignedTransactionConfig{DaemonAddress: defaultListen}
-	parser.AddCommand(createUnsignedTransactionSubCmd, "Create an unsigned Kaspa transaction",
-		"Create an unsigned Kaspa transaction", createUnsignedTransactionConf)
+	parser.AddCommand(createUnsignedTransactionSubCmd, "Create an unsigned rupix transaction",
+		"Create an unsigned rupix transaction", createUnsignedTransactionConf)
 
 	signConf := &signConfig{}
 	parser.AddCommand(signSubCmd, "Sign the given partially signed transaction",

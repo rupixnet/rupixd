@@ -1,4 +1,4 @@
-package util_test
+﻿package util_test
 
 import (
 	"fmt"
@@ -57,7 +57,7 @@ func ExampleNewAmount() {
 	// Output: 1 KAS
 	// 0.01234567 KAS
 	// 0 KAS
-	// invalid kaspa amount
+	// invalid rupix amount
 }
 
 func ExampleAmount_unitConversions() {

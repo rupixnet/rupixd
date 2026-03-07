@@ -1,4 +1,4 @@
-package daa
+﻿package daa
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
@@ -180,7 +180,7 @@ func runDAATest(t *testing.T, testName string, runDuration time.Duration,
 	t.Logf("DAA TEST STARTED: %s", testName)
 	defer t.Logf("DAA TEST FINISHED: %s", testName)
 
-	tearDownKaspad := common.RunKaspadForTesting(t, "kaspad-daa-test", rpcAddress)
+	tearDownKaspad := common.RunKaspadForTesting(t, "rupixd-daa-test", rpcAddress)
 	defer tearDownKaspad()
 
 	rpcClient, err := rpcclient.NewRPCClient(rpcAddress)

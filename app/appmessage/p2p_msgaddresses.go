@@ -1,14 +1,14 @@
-// Copyright (c) 2013-2015 The btcsuite developers
+﻿// Copyright (c) 2013-2015 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
 package appmessage
 
 // MaxAddressesPerMsg is the maximum number of addresses that can be in a single
-// kaspa Addresses message (MsgAddresses).
+// rupix Addresses message (MsgAddresses).
 const MaxAddressesPerMsg = 1000
 
-// MsgAddresses implements the Message interface and represents a kaspa
+// MsgAddresses implements the Message interface and represents a rupix
 // Addresses message.
 type MsgAddresses struct {
 	baseMessage
@@ -21,7 +21,7 @@ func (msg *MsgAddresses) Command() MessageCommand {
 	return CmdAddresses
 }
 
-// NewMsgAddresses returns a new kaspa Addresses message that conforms to the
+// NewMsgAddresses returns a new rupix Addresses message that conforms to the
 // Message interface. See MsgAddresses for details.
 func NewMsgAddresses(addressList []*NetAddress) *MsgAddresses {
 	return &MsgAddresses{

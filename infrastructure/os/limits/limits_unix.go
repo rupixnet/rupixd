@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2014 The btcsuite developers
+﻿// Copyright (c) 2013-2014 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// SetLimits raises some process limits to values which allow kaspad and
+// SetLimits raises some process limits to values which allow rupixd and
 // associated utilities to run.
 func SetLimits(desiredLimits *DesiredLimits) error {
 	var rLimit syscall.Rlimit

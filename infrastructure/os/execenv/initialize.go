@@ -1,4 +1,4 @@
-package execenv
+﻿package execenv
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/os/limits"
 )
 
-// Initialize initializes the execution environment required to run kaspad
+// Initialize initializes the execution environment required to run rupixd
 func Initialize(desiredLimits *limits.DesiredLimits) {
 	// Use all processor cores.
 	runtime.GOMAXPROCS(runtime.NumCPU())

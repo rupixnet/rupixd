@@ -1,11 +1,11 @@
-package appmessage
+﻿package appmessage
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"math/big"
 )
 
-// MsgBlockWithTrustedData represents a kaspa BlockWithTrustedData message
+// MsgBlockWithTrustedData represents a rupix BlockWithTrustedData message
 type MsgBlockWithTrustedData struct {
 	baseMessage
 

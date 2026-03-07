@@ -1,4 +1,4 @@
-package bip32
+﻿package bip32
 
 import "github.com/pkg/errors"
 
@@ -23,7 +23,7 @@ var BitcoinMainnetPublic = [4]byte{
 }
 
 // KaspaMainnetPrivate is the version that is used for
-// kaspa mainnet bip32 private extended keys.
+// rupix mainnet bip32 private extended keys.
 // Ecnodes to xprv in base58.
 var KaspaMainnetPrivate = [4]byte{
 	0x03,
@@ -33,7 +33,7 @@ var KaspaMainnetPrivate = [4]byte{
 }
 
 // KaspaMainnetPublic is the version that is used for
-// kaspa mainnet bip32 public extended keys.
+// rupix mainnet bip32 public extended keys.
 // Ecnodes to kpub in base58.
 var KaspaMainnetPublic = [4]byte{
 	0x03,
@@ -43,7 +43,7 @@ var KaspaMainnetPublic = [4]byte{
 }
 
 // KaspaTestnetPrivate is the version that is used for
-// kaspa testnet bip32 public extended keys.
+// rupix testnet bip32 public extended keys.
 // Ecnodes to ktrv in base58.
 var KaspaTestnetPrivate = [4]byte{
 	0x03,
@@ -53,7 +53,7 @@ var KaspaTestnetPrivate = [4]byte{
 }
 
 // KaspaTestnetPublic is the version that is used for
-// kaspa testnet bip32 public extended keys.
+// rupix testnet bip32 public extended keys.
 // Ecnodes to ktub in base58.
 var KaspaTestnetPublic = [4]byte{
 	0x03,
@@ -63,7 +63,7 @@ var KaspaTestnetPublic = [4]byte{
 }
 
 // KaspaDevnetPrivate is the version that is used for
-// kaspa devnet bip32 public extended keys.
+// rupix devnet bip32 public extended keys.
 // Ecnodes to kdrv in base58.
 var KaspaDevnetPrivate = [4]byte{
 	0x03,
@@ -73,7 +73,7 @@ var KaspaDevnetPrivate = [4]byte{
 }
 
 // KaspaDevnetPublic is the version that is used for
-// kaspa devnet bip32 public extended keys.
+// rupix devnet bip32 public extended keys.
 // Ecnodes to xdub in base58.
 var KaspaDevnetPublic = [4]byte{
 	0x03,
@@ -83,7 +83,7 @@ var KaspaDevnetPublic = [4]byte{
 }
 
 // KaspaSimnetPrivate is the version that is used for
-// kaspa simnet bip32 public extended keys.
+// rupix simnet bip32 public extended keys.
 // Ecnodes to ksrv in base58.
 var KaspaSimnetPrivate = [4]byte{
 	0x03,
@@ -93,7 +93,7 @@ var KaspaSimnetPrivate = [4]byte{
 }
 
 // KaspaSimnetPublic is the version that is used for
-// kaspa simnet bip32 public extended keys.
+// rupix simnet bip32 public extended keys.
 // Ecnodes to xsub in base58.
 var KaspaSimnetPublic = [4]byte{
 	0x03,

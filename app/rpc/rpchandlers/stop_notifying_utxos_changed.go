@@ -1,4 +1,4 @@
-package rpchandlers
+﻿package rpchandlers
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
@@ -10,7 +10,7 @@ import (
 func HandleStopNotifyingUTXOsChanged(context *rpccontext.Context, router *router.Router, request appmessage.Message) (appmessage.Message, error) {
 	if !context.Config.UTXOIndex {
 		errorMessage := appmessage.NewStopNotifyingUTXOsChangedResponseMessage()
-		errorMessage.Error = appmessage.RPCErrorf("Method unavailable when kaspad is run without --utxoindex")
+		errorMessage.Error = appmessage.RPCErrorf("Method unavailable when rupixd is run without --utxoindex")
 		return errorMessage, nil
 	}
 

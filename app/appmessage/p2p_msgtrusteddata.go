@@ -1,6 +1,6 @@
-package appmessage
+﻿package appmessage
 
-// MsgTrustedData represents a kaspa TrustedData message
+// MsgTrustedData represents a rupix TrustedData message
 type MsgTrustedData struct {
 	baseMessage
 

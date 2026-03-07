@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	nativeerrors "errors"
@@ -176,7 +176,7 @@ func getBlockForMining(mineWhenNotSynced bool) (*externalapi.DomainBlock, *pow.S
 		}
 		if !isSynced && !mineWhenNotSynced {
 			if shouldLog {
-				log.Warnf("Kaspad is not synced. Skipping current block template")
+				log.Warnf("rupixd is not synced. Skipping current block template")
 			}
 			time.Sleep(sleepTimeWhenNotSynced)
 			continue

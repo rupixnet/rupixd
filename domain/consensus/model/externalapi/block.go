@@ -1,8 +1,8 @@
-package externalapi
+﻿package externalapi
 
 import "math/big"
 
-// DomainBlock represents a Kaspa block
+// DomainBlock represents a rupix block
 type DomainBlock struct {
 	Header       BlockHeader
 	Transactions []*DomainTransaction
@@ -54,7 +54,7 @@ type BlockHeader interface {
 	ToMutable() MutableBlockHeader
 }
 
-// BaseBlockHeader represents the header part of a Kaspa block
+// BaseBlockHeader represents the header part of a rupix block
 type BaseBlockHeader interface {
 	Version() uint16
 	Parents() []BlockLevelParents
