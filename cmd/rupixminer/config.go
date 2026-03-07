@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"fmt"
@@ -17,14 +17,14 @@ import (
 )
 
 const (
-	defaultLogFilename          = "kaspaminer.log"
-	defaultErrLogFilename       = "kaspaminer_err.log"
+	defaultLogFilename          = "rupixminer.log"
+	defaultErrLogFilename       = "rupixminer_err.log"
 	defaultTargetBlockRateRatio = 2.0
 )
 
 var (
 	// Default configuration options
-	defaultAppDir     = util.AppDir("kaspaminer", false)
+	defaultAppDir     = util.AppDir("rupixminer", false)
 	defaultLogFile    = filepath.Join(defaultAppDir, defaultLogFilename)
 	defaultErrLogFile = filepath.Join(defaultAppDir, defaultErrLogFilename)
 	defaultRPCServer  = "localhost"
@@ -85,5 +85,6 @@ func parseConfig() (*configFlags, error) {
 
 	return cfg, nil
 }
+
 
 
