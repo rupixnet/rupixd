@@ -1,4 +1,4 @@
-// Copyright (c) 2013, 2014 The btcsuite developers
+﻿// Copyright (c) 2013, 2014 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -20,11 +20,11 @@ type AmountUnit int
 // These constants define various units used when describing a kaspa
 // monetary amount.
 const (
-	AmountMegaKAS  AmountUnit = 6
-	AmountKiloKAS  AmountUnit = 3
-	AmountKAS      AmountUnit = 0
-	AmountMilliKAS AmountUnit = -3
-	AmountMicroKAS AmountUnit = -6
+	AmountMegaRUPIX  AmountUnit = 6
+	AmountKiloRUPIX  AmountUnit = 3
+	AmountRUPIX      AmountUnit = 0
+	AmountMilliRUPIX AmountUnit = -3
+	AmountMicroRUPIX AmountUnit = -6
 	Amountrupia    AmountUnit = -8
 )
 
@@ -33,16 +33,16 @@ const (
 // units, "1eN KAS" is returned, where N is the AmountUnit.
 func (u AmountUnit) String() string {
 	switch u {
-	case AmountMegaKAS:
-		return "MKAS"
-	case AmountKiloKAS:
-		return "kKAS"
-	case AmountKAS:
-		return "KAS"
-	case AmountMilliKAS:
-		return "mKAS"
-	case AmountMicroKAS:
-		return "μKAS"
+	case AmountMegaRUPIX:
+		return "MRUPIX"
+	case AmountKiloRUPIX:
+		return "kRUPIX"
+	case AmountRUPIX:
+		return "RUPIX"
+	case AmountMilliRUPIX:
+		return "MRUPIX"
+	case AmountMicroRUPIX:
+		return "Î¼KAS"
 	case Amountrupia:
 		return "rupia"
 	default:
@@ -84,7 +84,7 @@ func NewAmount(f float64) (Amount, error) {
 	case math.IsInf(f, 1):
 		fallthrough
 	case math.IsInf(f, -1):
-		return 0, errors.New("invalid kaspa amount")
+		return 0, errors.New("invalid rupix amount")
 	}
 
 	return round(f * constants.RupiaPerRupix), nil
@@ -96,9 +96,9 @@ func (a Amount) ToUnit(u AmountUnit) float64 {
 	return float64(a) / math.Pow10(int(u+8))
 }
 
-// ToKAS is the equivalent of calling ToUnit with AmountKAS.
-func (a Amount) ToKAS() float64 {
-	return a.ToUnit(AmountKAS)
+// ToKAS is the equivalent of calling ToUnit with AmountRUPIX.
+func (a Amount) ToRUPIX() float64 {
+	return a.ToUnit(AmountRUPIX)
 }
 
 // Format formats a monetary amount counted in kaspa base units as a
@@ -110,9 +110,9 @@ func (a Amount) Format(u AmountUnit) string {
 	return strconv.FormatFloat(a.ToUnit(u), 'f', -int(u+8), 64) + units
 }
 
-// String is the equivalent of calling Format with AmountKAS.
+// String is the equivalent of calling Format with AmountRUPIX.
 func (a Amount) String() string {
-	return a.Format(AmountKAS)
+	return a.Format(AmountRUPIX)
 }
 
 // MulF64 multiplies an Amount by a floating point value. While this is not
@@ -122,6 +122,7 @@ func (a Amount) String() string {
 func (a Amount) MulF64(f float64) Amount {
 	return round(float64(a) * f)
 }
+
 
 
 
