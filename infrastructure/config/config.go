@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2017 The btcsuite developers
+﻿// Copyright (c) 2013-2017 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -28,11 +28,11 @@ import (
 )
 
 const (
-	defaultConfigFilename      = "kaspad.conf"
+	defaultConfigFilename      = "rupixd.conf"
 	defaultLogLevel            = "info"
 	defaultLogDirname          = "logs"
-	defaultLogFilename         = "kaspad.log"
-	defaultErrLogFilename      = "kaspad_err.log"
+	defaultLogFilename         = "rupixd.log"
+	defaultErrLogFilename      = "rupixd_err.log"
 	defaultTargetOutboundPeers = 8
 	defaultMaxInboundPeers     = 117
 	defaultBanDuration         = time.Hour * 24
@@ -51,13 +51,13 @@ const (
 	//DefaultMaxOrphanTxSize is the default maximum size for an orphan transaction
 	DefaultMaxOrphanTxSize  = 100_000
 	defaultSigCacheMaxSize  = 100_000
-	sampleConfigFilename    = "sample-kaspad.conf"
+	sampleConfigFilename    = "sample-rupixd.conf"
 	defaultMaxUTXOCacheSize = 5_000_000_000
 	defaultProtocolVersion  = 5
 )
 
 var (
-	// DefaultAppDir is the default home directory for kaspad.
+	// DefaultAppDir is the default home directory for rupixd.
 	DefaultAppDir = util.AppDir("kaspad", false)
 
 	defaultConfigFile  = filepath.Join(DefaultAppDir, defaultConfigFilename)
@@ -595,5 +595,7 @@ func createDefaultConfigFile(destinationPath string) error {
 
 	return err
 }
+
+
 
 
