@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2014-2016 The btcsuite developers
+// Copyright (c) 2014-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -84,7 +84,7 @@ var devnetGenesisTxPayload = []byte{
 	0x00, 0x00, // Script version
 	0x01,                                                                   // Varint
 	0x00,                                                                   // OP-FALSE
-	0x6b, 0x61, 0x73, 0x70, 0x61, 0x2d, 0x64, 0x65, 0x76, 0x6e, 0x65, 0x74, // rupix-devnet
+	0x72, 0x75, 0x70, 0x69, 0x78, 0x2d, 0x64, 0x65, 0x76, 0x6e, 0x65, 0x74, // rupix-devnet
 }
 
 // devnetGenesisCoinbaseTx is the coinbase transaction for the genesis blocks for
@@ -136,7 +136,7 @@ var simnetGenesisTxPayload = []byte{
 	0x00, 0x00, // Script version
 	0x01,                                                                   // Varint
 	0x00,                                                                   // OP-FALSE
-	0x6b, 0x61, 0x73, 0x70, 0x61, 0x2d, 0x73, 0x69, 0x6d, 0x6e, 0x65, 0x74, // rupix-simnet
+	0x72, 0x75, 0x70, 0x69, 0x78, 0x2d, 0x73, 0x69, 0x6d, 0x6e, 0x65, 0x74, // rupix-simnet
 }
 
 // simnetGenesisCoinbaseTx is the coinbase transaction for the simnet genesis block.
@@ -190,7 +190,7 @@ var testnetGenesisTxPayload = []byte{
 	0x00, 0x00, // Script version
 	0x01,                                                                         // Varint
 	0x00,                                                                         // OP-FALSE
-	0x6b, 0x61, 0x73, 0x70, 0x61, 0x2d, 0x74, 0x65, 0x73, 0x74, 0x6e, 0x65, 0x74, // rupix-testnet
+	0x72, 0x75, 0x70, 0x69, 0x78, 0x2d, 0x74, 0x65, 0x73, 0x74, 0x6e, 0x65, 0x74, // rupix-testnet
 }
 
 // testnetGenesisCoinbaseTx is the coinbase transaction for the testnet genesis block.
