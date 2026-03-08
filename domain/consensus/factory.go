@@ -1,4 +1,4 @@
-package consensus
+﻿package consensus
 
 import (
 	"io/ioutil"
@@ -20,6 +20,7 @@ import (
 
 	consensusdatabase "github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/acceptancedatastore"
+    "github.com/rupixnet/rupixd/domain/consensus/datastructures/addresslevelstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/blockheaderstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/blockrelationstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/blockstatusstore"
@@ -154,6 +155,7 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 	headersSelectedChainStore := headersselectedchainstore.New(prefixBucket, pruningWindowSizeForCaches, preallocateCaches)
 	daaBlocksStore := daablocksstore.New(prefixBucket, pruningWindowSizeForCaches, int(config.FinalityDepth()), preallocateCaches)
 	windowHeapSliceStore := blockwindowheapslicestore.New(2000, preallocateCaches)
+    addressLevelStore := addresslevelstore.New(prefixBucket, 10_000, preallocateCaches)
 
 	newReachabilityDataStore := reachabilitydatastore.New(prefixBucket, pruningWindowSizePlusFinalityDepthForCache*2, preallocateCaches)
 	blockRelationStores, reachabilityDataStores, ghostdagDataStores := dagStores(config, prefixBucket, pruningWindowSizePlusFinalityDepthForCache, pruningWindowSizeForCaches, preallocateCaches)
@@ -517,6 +519,7 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		headersSelectedChainStore:           headersSelectedChainStore,
 		daaBlocksStore:                      daaBlocksStore,
 		blocksWithTrustedDataDAAWindowStore: daaWindowStore,
+            addressLevelStore:                   addressLevelStore,
 
 		consensusEventsChan: consensusEventsChan,
 		virtualNotUpdated:   true,
