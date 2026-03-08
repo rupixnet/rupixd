@@ -212,3 +212,4 @@ func (dm *difficultyManager) calculateDaaScoreAndAddedBlocks(stagingArea *model.
 	return daaScore, daaAddedBlocks, nil
 }
 
+

@@ -101,3 +101,4 @@ func (window blockWindow) averageTarget() *big.Int {
 	return averageTarget.Div(averageTarget, big.NewInt(int64(len(window))))
 }
 
+

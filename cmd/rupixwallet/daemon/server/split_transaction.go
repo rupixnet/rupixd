@@ -102,7 +102,7 @@ func (s *server) mergeTransaction(
 	}
 
 	return libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
-		s.keysFile.MinimumSignatures, payments, utxos)
+		s.keysFile.MinimumSignatures, payments, utxos, nil)
 }
 
 func (s *server) transactionFeeRate(psTx *serialization.PartiallySignedTransaction) (float64, error) {
@@ -266,7 +266,7 @@ func (s *server) createSplitTransaction(transaction *serialization.PartiallySign
 		[]*libkaspawallet.Payment{{
 			Address: changeAddress,
 			Amount:  totalrupia,
-		}}, selectedUTXOs)
+		}}, selectedUTXOs, nil)
 }
 
 func (s *server) estimateMassAfterSignatures(transaction *serialization.PartiallySignedTransaction) (uint64, error) {

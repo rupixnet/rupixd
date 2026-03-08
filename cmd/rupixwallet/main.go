@@ -42,6 +42,8 @@ func main() {
 		err = bumpFee(config.(*bumpFeeConfig))
 	case bumpFeeUnsignedSubCmd:
 		err = bumpFeeUnsigned(config.(*bumpFeeUnsignedConfig))
+	case burnSubCmd:
+		err = burn(config.(*burnConfig))
 	default:
 		err = errors.Errorf("Unknown sub-command '%s'\n", subCmd)
 	}

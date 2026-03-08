@@ -289,6 +289,7 @@ type CreateUnsignedTransactionsRequest struct {
 	UseExistingChangeAddress bool       `protobuf:"varint,4,opt,name=useExistingChangeAddress,proto3" json:"useExistingChangeAddress,omitempty"`
 	IsSendAll                bool       `protobuf:"varint,5,opt,name=isSendAll,proto3" json:"isSendAll,omitempty"`
 	FeePolicy                *FeePolicy `protobuf:"bytes,6,opt,name=feePolicy,proto3" json:"feePolicy,omitempty"`
+    Payload []byte `protobuf:"bytes,7,opt,name=payload,proto3" json:"payload,omitempty"`
 }
 
 func (x *CreateUnsignedTransactionsRequest) Reset() {
@@ -351,16 +352,16 @@ func (x *CreateUnsignedTransactionsRequest) GetUseExistingChangeAddress() bool {
 	return false
 }
 
-func (x *CreateUnsignedTransactionsRequest) GetIsSendAll() bool {
-	if x != nil {
-		return x.IsSendAll
-	}
-	return false
-}
-
 func (x *CreateUnsignedTransactionsRequest) GetFeePolicy() *FeePolicy {
 	if x != nil {
 		return x.FeePolicy
+	}
+	return nil
+}
+
+func (x *CreateUnsignedTransactionsRequest) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
 	}
 	return nil
 }

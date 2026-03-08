@@ -27,6 +27,7 @@ const (
 	bumpFeeSubCmd                   = "bump-fee"
 	bumpFeeUnsignedSubCmd           = "bump-fee-unsigned"
 	broadcastReplacementSubCmd      = "broadcast-replacement"
+    burnSubCmd                      = "burn"
 )
 
 const (
@@ -239,6 +240,9 @@ func parseCommandLine() (subCommand string, config interface{}) {
 	parser.AddCommand(bumpFeeUnsignedSubCmd, "Bump transaction fee (without signing)", "Bump transaction fee (without signing)", bumpFeeUnsignedConf)
 	parser.AddCommand(broadcastReplacementSubCmd, "Broadcast the given transaction replacement",
 		"Broadcast the given transaction replacement", broadcastConf)
+		burnConf := &burnConfig{DaemonAddress: defaultListen}
+    parser.AddCommand(burnSubCmd, "Quemar tokens para ascender de nivel",
+    "Quema 10 tokens del nivel actual y recibe 1 del siguiente nivel", burnConf)
 
 	_, err := parser.Parse()
 	if err != nil {
@@ -378,8 +382,16 @@ func parseCommandLine() (subCommand string, config interface{}) {
 		if err != nil {
 			printErrorAndExit(err)
 		}
-
 		config = bumpFeeUnsignedConf
+
+		case burnSubCmd:
+    combineNetworkFlags(&burnConf.NetworkFlags, &cfg.NetworkFlags)
+    err := burnConf.ResolveNetwork(parser)
+    if err != nil {
+        printErrorAndExit(err)
+    }
+    config = burnConf
+	
 	}
 
 	return parser.Command.Active.Name, config

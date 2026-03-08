@@ -123,7 +123,7 @@ func (s *server) BumpFee(_ context.Context, request *pb.BumpFeeRequest) (*pb.Bum
 	}
 	unsignedTransaction, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
-		payments, selectedUTXOs)
+		payments, selectedUTXOs, nil)
 	if err != nil {
 		return nil, err
 	}

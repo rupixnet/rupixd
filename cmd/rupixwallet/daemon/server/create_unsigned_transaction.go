@@ -32,7 +32,7 @@ func (s *server) CreateUnsignedTransactions(_ context.Context, request *pb.Creat
 	defer s.lock.Unlock()
 
 	unsignedTransactions, err := s.createUnsignedTransactions(request.Address, request.Amount, request.IsSendAll,
-		request.From, request.UseExistingChangeAddress, request.FeePolicy)
+    request.From, request.UseExistingChangeAddress, request.FeePolicy, request.Payload)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (s *server) calculateFeeLimits(requestFeePolicy *pb.FeePolicy) (feeRate flo
 	return feeRate, maxFee, nil
 }
 
-func (s *server) createUnsignedTransactions(address string, amount uint64, isSendAll bool, fromAddressesString []string, useExistingChangeAddress bool, requestFeePolicy *pb.FeePolicy) ([][]byte, error) {
+func (s *server) createUnsignedTransactions(address string, amount uint64, isSendAll bool, fromAddressesString []string, useExistingChangeAddress bool, requestFeePolicy *pb.FeePolicy, payload []byte) ([][]byte, error) {
 	if !s.isSynced() {
 		return nil, errors.Errorf("wallet daemon is not synced yet, %s", s.formatSyncStateReport())
 	}
@@ -134,8 +134,8 @@ func (s *server) createUnsignedTransactions(address string, amount uint64, isSen
 		})
 	}
 	unsignedTransaction, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
-		s.keysFile.MinimumSignatures,
-		payments, selectedUTXOs)
+    s.keysFile.MinimumSignatures,
+    payments, selectedUTXOs, payload)
 	if err != nil {
 		return nil, err
 	}
@@ -296,7 +296,7 @@ func (s *server) estimateFee(selectedUTXOs []*libkaspawallet.UTXO, feeRate float
 
 	mockTx, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
-		mockPayments, selectedUTXOs)
+		mockPayments, selectedUTXOs, nil)
 	if err != nil {
 		return 0, err
 	}
@@ -324,7 +324,7 @@ func (s *server) estimateFeePerInput(feeRate float64) (uint64, error) {
 
 	mockTx, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
-		nil, []*libkaspawallet.UTXO{mockUTXO})
+		nil, []*libkaspawallet.UTXO{mockUTXO}, nil)
 	if err != nil {
 		return 0, err
 	}
@@ -338,7 +338,7 @@ func (s *server) estimateFeePerInput(feeRate float64) (uint64, error) {
 
 	mockTxWithoutUTXO, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
-		nil, nil)
+		nil, nil, nil)
 	if err != nil {
 		return 0, err
 	}

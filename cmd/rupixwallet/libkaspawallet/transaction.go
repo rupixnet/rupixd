@@ -32,10 +32,11 @@ func CreateUnsignedTransaction(
 	extendedPublicKeys []string,
 	minimumSignatures uint32,
 	payments []*Payment,
-	selectedUTXOs []*UTXO) (*serialization.PartiallySignedTransaction, error) {
+	selectedUTXOs []*UTXO,
+	payload []byte) (*serialization.PartiallySignedTransaction, error) {
 
 	sortPublicKeys(extendedPublicKeys)
-	return createUnsignedTransaction(extendedPublicKeys, minimumSignatures, payments, selectedUTXOs)
+	return createUnsignedTransaction(extendedPublicKeys, minimumSignatures, payments, selectedUTXOs, payload)
 }
 
 func multiSigRedeemScript(extendedPublicKeys []string, minimumSignatures uint32, path string, ecdsa bool) ([]byte, error) {
@@ -94,7 +95,8 @@ func createUnsignedTransaction(
 	extendedPublicKeys []string,
 	minimumSignatures uint32,
 	payments []*Payment,
-	selectedUTXOs []*UTXO) (*serialization.PartiallySignedTransaction, error) {
+	selectedUTXOs []*UTXO,
+	payload []byte) (*serialization.PartiallySignedTransaction, error) {
 
 	inputs := make([]*externalapi.DomainTransactionInput, len(selectedUTXOs))
 	partiallySignedInputs := make([]*serialization.PartiallySignedInput, len(selectedUTXOs))
@@ -148,7 +150,7 @@ func createUnsignedTransaction(
 		LockTime:     0,
 		SubnetworkID: subnetworks.SubnetworkIDNative,
 		Gas:          0,
-		Payload:      nil,
+		Payload:      payload,
 	}
 
 	return &serialization.PartiallySignedTransaction{
