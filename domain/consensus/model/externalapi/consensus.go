@@ -1,4 +1,4 @@
-package externalapi
+﻿package externalapi
 
 // Consensus maintains the current core state of the node
 type Consensus interface {
@@ -56,5 +56,6 @@ type Consensus interface {
 	IsChainBlock(blockHash *DomainHash) (bool, error)
 	VirtualMergeDepthRoot() (*DomainHash, error)
 	IsNearlySynced() (bool, error)
+        GetAddressLevel(address string) (uint8, error)
 }
 

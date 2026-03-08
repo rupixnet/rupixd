@@ -1,11 +1,11 @@
-package consensus
+﻿package consensus
 
 import (
 	"math/big"
 	"sync"
 
 	"github.com/rupixnet/rupixd/util/mstime"
-
+    "github.com/rupixnet/rupixd/domain/consensus/datastructures/addresslevelstore"
 	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -60,7 +60,8 @@ type consensus struct {
 	daaBlocksStore                      model.DAABlocksStore
 	blocksWithTrustedDataDAAWindowStore model.BlocksWithTrustedDataDAAWindowStore
 
-	consensusEventsChan chan externalapi.ConsensusEvent
+	addressLevelStore *addresslevelstore.AddressLevelStore
+        consensusEventsChan chan externalapi.ConsensusEvent
 	virtualNotUpdated   bool
 }
 
@@ -1146,4 +1147,12 @@ func (s *consensus) isNearlySyncedNoLock() (bool, error) {
 		virtualSelectedParentHeader.TimeInMilliseconds())
 	return false, nil
 }
+func (s *consensus) GetAddressLevel(address string) (uint8, error) {
+	s.lock.Lock()
+	defer s.lock.Unlock()
 
+	if s.addressLevelStore == nil {
+		return 1, nil
+	}
+	return s.addressLevelStore.Get(s.databaseContext, address)
+}
