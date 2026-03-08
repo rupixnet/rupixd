@@ -52,7 +52,7 @@ func (v *transactionValidator) ValidateTransactionInIsolation(tx *externalapi.Do
 		return errors.Wrapf(ruleerrors.ErrTransactionVersionIsUnknown, "validation failed: unknown transaction version. ")
 	}
 	// RUPIX: validar TX de quema si es tipo TxTypeBurn
-	if len(tx.Payload) > 0 && tx.Payload[0] == constants.TxTypeBurn {
+	if len(tx.Payload) >= 3 && tx.Payload[0] == constants.TxTypeBurn && tx.Payload[1] >= 1 && tx.Payload[2] >= 2 {
 		bm := burnmanager.New()
 		err = bm.ValidateBurnTransaction(tx)
 		if err != nil {

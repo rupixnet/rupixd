@@ -161,12 +161,12 @@ func (v *blockValidator) checkProofOfWork(header externalapi.BlockHeader) error 
 			"higher than max of %064x", target, v.powMax)
 	}
 
-	// RUPIX: Minimum Difficulty Floor — dificultad nunca baja del piso
-	minDifficulty, _ := new(big.Int).SetString(constants.MinimumDifficultyTarget, 10)
-	if target.Cmp(minDifficulty) > 0 {
-		return errors.Wrapf(ruleerrors.ErrTargetTooHigh,
-			"block target difficulty %064x is below minimum allowed %064x", target, minDifficulty)
-	}
+	// RUPIX: Minimum Difficulty Floor — solo aplica en mainnet
+minDifficulty, _ := new(big.Int).SetString(constants.MinimumDifficultyTarget, 10)
+if v.powMax.Cmp(minDifficulty) < 0 && target.Cmp(minDifficulty) > 0 {
+    return errors.Wrapf(ruleerrors.ErrTargetTooHigh,
+        "block target difficulty %064x is below minimum allowed %064x", target, minDifficulty)
+    }
 
 	return nil
 }
