@@ -15,6 +15,15 @@ const (
     TokenLevelKings    = uint8(5) // Kings Rupix    L5 - quemar 10 L4
 
     BurnRatio = uint64(10)
+
+    // Direcciones oficiales de distribucion de quema
+    FondoCausasAddress  = "rupix:qr7yantnyfhhhw7d8duhdax22q3cmwzhnee9lw9q0xmdvrnla62jkztf63peq"
+    FondoMejorasAddress = "rupix:qpna2974ylzpcsdnavsk5adust7rpngkepkyl6zzdjlh8z5vemqxjfxce3und"
+
+    // Distribucion porcentual de cada TX de quema
+    BurnPercent   = uint64(98)
+    CausasPercent = uint64(1)
+    MejorasPercent = uint64(1)
     MaxLevel  = TokenLevelKings
 
     BurnAddress = "rupix:qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
@@ -41,6 +50,11 @@ type BurnResult struct {
     ToLevel          uint8
     MintedAmount     uint64
     RecipientAddress string
+    BurnAmount       uint64
+    CausasAmount     uint64
+    MejorasAmount    uint64
+    CausasAddress    string
+    MejorasAddress   string
 }
 
 type BurnStats struct {
@@ -139,5 +153,15 @@ func (bm *burnManager) ProcessBurnTransaction(tx *externalapi.DomainTransaction)
 }
 
 func (bm *burnManager) GetBurnStats() (*BurnStats, error) {
-    return bm.stats, nil
+  return &BurnResult{
+    BurnTx:           tx,
+    ToLevel:          toLevel,
+    MintedAmount:     1,
+    BurnAmount:       totalBurned * BurnPercent / 100,
+    CausasAmount:     totalBurned * CausasPercent / 100,
+    MejorasAmount:    totalBurned * MejorasPercent / 100,
+    CausasAddress:    FondoCausasAddress,
+    MejorasAddress:   FondoMejorasAddress,
+}, nil
 }
+
