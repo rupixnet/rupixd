@@ -1,4 +1,4 @@
-package keys
+﻿package keys
 
 import (
 	"bufio"
@@ -22,7 +22,7 @@ import (
 )
 
 var (
-	defaultAppDir = util.AppDir("kaspawallet", false)
+	defaultAppDir = util.AppDir("rupixwallet", false)
 )
 
 // LastVersion is the most up to date file format version
@@ -431,5 +431,6 @@ func (d *File) TryLock() error {
 	}
 	return nil
 }
+
 
 
