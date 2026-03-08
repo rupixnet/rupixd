@@ -1,4 +1,4 @@
-package burnmanager
+﻿package burnmanager
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -6,16 +6,16 @@ import (
 	"github.com/pkg/errors"
 )
 
-// Niveles de Rupix — sistema de escasez progresiva
+// Niveles de Rupix â€” sistema de escasez progresiva
 const (
-	LevelL1 = uint8(1) // Rupix Oro      🥇 — minado
-	LevelL2 = uint8(2) // Rupix Diamante 💎 — quemar 10 L1
-	LevelL3 = uint8(3) // Rupix Platino  ⬜ — quemar 10 L2
-	LevelL4 = uint8(4) // Rupix Rodio    🔴 — quemar 10 L3
-	LevelL5 = uint8(5) // Kings Rupix    👑 — quemar 10 L4
+	LevelL1 = uint8(1) // Rupix Oro      ðŸ¥‡ â€” minado
+	LevelL2 = uint8(2) // Rupix Diamante ðŸ’Ž â€” quemar 10 L1
+	LevelL3 = uint8(3) // Rupix Platino  â¬œ â€” quemar 10 L2
+	LevelL4 = uint8(4) // Rupix Rodio    ðŸ”´ â€” quemar 10 L3
+	LevelL5 = uint8(5) // Kings Rupix    ðŸ‘‘ â€” quemar 10 L4
 )
 
-// Supply maximo por nivel — matematica irreversible
+// Supply maximo por nivel â€” matematica irreversible
 const (
 	MaxSupplyL1 = uint64(42_000_000)
 	MaxSupplyL2 = uint64(2_100_000)
@@ -27,7 +27,7 @@ const (
 // BurnRatio cuantos tokens del nivel anterior se queman para obtener 1 del siguiente
 const BurnRatio = uint64(10)
 
-// BurnAddress es la direccion de quema — sin llave privada, nadie puede recuperar
+// BurnAddress es la direccion de quema â€” sin llave privada, nadie puede recuperar
 const BurnAddress = "rupix:qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
 
 // BurnManager maneja la logica de quema y niveles
@@ -122,15 +122,15 @@ func MaxSupplyForLevel(level uint8) (uint64, error) {
 func LevelName(level uint8) string {
 	switch level {
 	case LevelL1:
-		return "Rupix Oro L1 🥇"
+		return "Rupix Gold L1"
 	case LevelL2:
-		return "Rupix Diamante L2 💎"
+		return "Rupix Diamante L2"
 	case LevelL3:
-		return "Rupix Platino L3 ⬜"
+		return "Rupix Platino L3"
 	case LevelL4:
-		return "Rupix Rodio L4 🔴"
+		return "Rupix Rodio L4"
 	case LevelL5:
-		return "Kings Rupix L5 👑"
+		return "Kings Rupix L5"
 	default:
 		return "Nivel Invalido"
 	}

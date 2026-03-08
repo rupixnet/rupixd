@@ -29,7 +29,7 @@ var MaxSupplyByLevel = map[uint8]uint64{
 }
 
 var LevelNames = map[uint8]string{
-    TokenLevelGold:     "Rupix Oro L1",
+    TokenLevelGold:     "Rupix Gold L1",
     TokenLevelDiamond:  "Rupix Diamante L2",
     TokenLevelPlatinum: "Rupix Platino L3",
     TokenLevelRhodium:  "Rupix Rodio L4",
