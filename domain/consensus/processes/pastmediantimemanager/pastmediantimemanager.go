@@ -46,12 +46,12 @@ func (pmtm *pastMedianTimeManager) PastMedianTime(stagingArea *model.StagingArea
         return 0, err
     }
     if len(window) == 0 {
-        header, err := pmtm.blockHeaderStore.BlockHeader(pmtm.databaseContext, stagingArea, pmtm.genesisHash)
-        if err != nil {
-            return 0, err
-        }
-        return header.TimeInMilliseconds(), nil
+    header, err := pmtm.blockHeaderStore.BlockHeader(pmtm.databaseContext, stagingArea, pmtm.genesisHash)
+    if err != nil {
+        return 0, nil
     }
+    return header.TimeInMilliseconds(), nil
+}
     pastMedianTime, err := pmtm.windowMedianTimestamp(stagingArea, window)
     if err != nil {
         return 0, err

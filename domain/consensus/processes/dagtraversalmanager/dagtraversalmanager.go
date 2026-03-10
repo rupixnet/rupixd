@@ -1,4 +1,4 @@
-package dagtraversalmanager
+﻿package dagtraversalmanager
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model"
@@ -6,8 +6,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-// dagTraversalManager exposes methods for traversing blocks
-// in the DAG
 type dagTraversalManager struct {
 	databaseContext model.DBReader
 
@@ -21,7 +19,6 @@ type dagTraversalManager struct {
 	windowHeapSliceStore           model.WindowHeapSliceStore
 }
 
-// New instantiates a new DAGTraversalManager
 func New(
 	databaseContext model.DBReader,
 	dagTopologyManager model.DAGTopologyManager,
@@ -33,13 +30,12 @@ func New(
 	genesisHash *externalapi.DomainHash,
 	difficultyAdjustmentWindowSize int) model.DAGTraversalManager {
 	return &dagTraversalManager{
-		databaseContext:     databaseContext,
-		dagTopologyManager:  dagTopologyManager,
-		ghostdagDataStore:   ghostdagDataStore,
-		reachabilityManager: reachabilityManager,
-		ghostdagManager:     ghostdagManager,
-		daaWindowStore:      daaWindowStore,
-
+		databaseContext:                databaseContext,
+		dagTopologyManager:             dagTopologyManager,
+		ghostdagDataStore:              ghostdagDataStore,
+		reachabilityManager:            reachabilityManager,
+		ghostdagManager:                ghostdagManager,
+		daaWindowStore:                 daaWindowStore,
 		genesisHash:                    genesisHash,
 		difficultyAdjustmentWindowSize: difficultyAdjustmentWindowSize,
 		windowHeapSliceStore:           windowHeapSliceStore,
@@ -80,13 +76,12 @@ func (dtm *dagTraversalManager) LowestChainBlockAboveOrEqualToBlueScore(stagingA
 func (dtm *dagTraversalManager) CalculateChainPath(stagingArea *model.StagingArea,
 	fromBlockHash, toBlockHash *externalapi.DomainHash) (*externalapi.SelectedChainPath, error) {
 
-	// Walk down from fromBlockHash until we reach the common selected
-	// parent chain ancestor of fromBlockHash and toBlockHash. Note
-	// that this slice will be empty if fromBlockHash is the selected
-	// parent of toBlockHash
 	var removed []*externalapi.DomainHash
 	current := fromBlockHash
 	for {
+        if current == nil || current.Equal(model.VirtualGenesisBlockHash) {
+            break
+        }
 		isCurrentInTheSelectedParentChainOfNewVirtualSelectedParent, err :=
 			dtm.dagTopologyManager.IsInSelectedParentChainOf(stagingArea, current, toBlockHash)
 		if err != nil {
@@ -96,19 +91,20 @@ func (dtm *dagTraversalManager) CalculateChainPath(stagingArea *model.StagingAre
 			break
 		}
 		removed = append(removed, current)
-
 		currentGHOSTDAGData, err := dtm.ghostdagDataStore.Get(dtm.databaseContext, stagingArea, current, false)
 		if err != nil {
 			return nil, err
 		}
 		current = currentGHOSTDAGData.SelectedParent()
+		if current == nil || current.Equal(model.VirtualGenesisBlockHash) {
+			break
+		}
 	}
 	commonAncestor := current
 
-	// Walk down from the toBlockHash to the common ancestor
 	var added []*externalapi.DomainHash
 	current = toBlockHash
-	for !current.Equal(commonAncestor) {
+	for current != nil && !current.Equal(commonAncestor) {
 		added = append(added, current)
 		currentGHOSTDAGData, err := dtm.ghostdagDataStore.Get(dtm.databaseContext, stagingArea, current, false)
 		if err != nil {
@@ -117,7 +113,6 @@ func (dtm *dagTraversalManager) CalculateChainPath(stagingArea *model.StagingAre
 		current = currentGHOSTDAGData.SelectedParent()
 	}
 
-	// Reverse the order of `added` so that it's sorted from low hash to high hash
 	for i, j := 0, len(added)-1; i < j; i, j = i+1, j-1 {
 		added[i], added[j] = added[j], added[i]
 	}

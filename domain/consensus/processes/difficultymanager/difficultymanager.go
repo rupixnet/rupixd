@@ -11,6 +11,8 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	
+    "github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 // DifficultyManager provides a method to resolve the
@@ -202,14 +204,20 @@ func (dm *difficultyManager) calculateDaaScoreAndAddedBlocks(stagingArea *model.
 			return 0, nil, err
 		}
 	} else {
-		selectedParentDAAScore, err := dm.daaBlocksStore.DAAScore(dm.databaseContext, stagingArea, ghostdagData.SelectedParent())
-		if err != nil {
-			return 0, nil, err
+		selectedParent := ghostdagData.SelectedParent()
+		if selectedParent == nil || selectedParent.Equal(model.VirtualGenesisBlockHash) {
+			daaScore = uint64(len(daaAddedBlocks))
+		} else {
+			selectedParentDAAScore, err := dm.daaBlocksStore.DAAScore(dm.databaseContext, stagingArea, selectedParent)
+			if err != nil {
+				if database.IsNotFoundError(err) {
+					selectedParentDAAScore = 0
+				} else {
+					return 0, nil, err
+				}
+			}
+			daaScore = selectedParentDAAScore + uint64(len(daaAddedBlocks))
 		}
-		daaScore = selectedParentDAAScore + uint64(len(daaAddedBlocks))
 	}
-
 	return daaScore, daaAddedBlocks, nil
 }
-
-

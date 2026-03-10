@@ -4,6 +4,8 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+    "github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func (csm *consensusStateManager) updateVirtual(stagingArea *model.StagingArea, newBlockHash *externalapi.DomainHash,
@@ -111,15 +113,22 @@ func (csm *consensusStateManager) updateSelectedTipUTXODiff(
 	defer onEnd()
 
 	selectedTip, err := csm.virtualSelectedParent(stagingArea)
-	if err != nil {
-		return err
-	}
+if err != nil {
+    return err
+}
+if selectedTip == nil {
+    return nil
+}
 
 	log.Debugf("Calculating new UTXO diff for virtual diff parent %s", selectedTip)
 	selectedTipUTXODiff, err := csm.utxoDiffStore.UTXODiff(csm.databaseContext, stagingArea, selectedTip)
-	if err != nil {
-		return err
-	}
+if err != nil {
+    if database.IsNotFoundError(err) {
+        selectedTipUTXODiff = utxo.NewUTXODiff()
+    } else {
+        return err
+    }
+}
 	newDiff, err := virtualUTXODiff.DiffFrom(selectedTipUTXODiff)
 	if err != nil {
 		return err

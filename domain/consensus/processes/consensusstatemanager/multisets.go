@@ -4,7 +4,9 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/multiset"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func (csm *consensusStateManager) calculateMultiset(stagingArea *model.StagingArea,
@@ -13,20 +15,26 @@ func (csm *consensusStateManager) calculateMultiset(stagingArea *model.StagingAr
 	blockGHOSTDAGData *externalapi.BlockGHOSTDAGData,
 	daaScore uint64) (model.Multiset, error) {
 
-	log.Tracef("calculateMultiset start for block with selected parent %s", blockGHOSTDAGData.SelectedParent())
-	defer log.Tracef("calculateMultiset end for block with selected parent %s", blockGHOSTDAGData.SelectedParent())
-
 	if blockHash.Equal(csm.genesisHash) {
-		log.Debugf("Selected parent is nil, which could only happen for the genesis. " +
-			"The genesis has a predefined multiset")
 		return csm.multisetStore.Get(csm.databaseContext, stagingArea, blockHash)
 	}
 
-	ms, err := csm.multisetStore.Get(csm.databaseContext, stagingArea, blockGHOSTDAGData.SelectedParent())
-	if err != nil {
-		return nil, err
+	// RUPIX FIX: selectedParent may be nil or VirtualGenesis on first startup
+	var ms model.Multiset
+	selectedParent := blockGHOSTDAGData.SelectedParent()
+	if selectedParent == nil || selectedParent.Equal(model.VirtualGenesisBlockHash) {
+		ms = multiset.New()
+	} else {
+		var err error
+		ms, err = csm.multisetStore.Get(csm.databaseContext, stagingArea, selectedParent)
+		if err != nil {
+			if database.IsNotFoundError(err) {
+				ms = multiset.New()
+			} else {
+				return nil, err
+			}
+		}
 	}
-	log.Debugf("The multiset for the selected parent %s is: %s", blockGHOSTDAGData.SelectedParent(), ms.Hash())
 
 	for _, blockAcceptanceData := range acceptanceData {
 		for i, transactionAcceptanceData := range blockAcceptanceData.TransactionAcceptanceData {
@@ -38,20 +46,17 @@ func (csm *consensusStateManager) calculateMultiset(stagingArea *model.StagingAr
 			}
 
 			isCoinbase := i == 0
-			log.Tracef("Is transaction %s a coinbase transaction: %t", transactionID, isCoinbase)
-
 			err := addTransactionToMultiset(ms, transaction, daaScore, isCoinbase)
 			if err != nil {
 				return nil, err
 			}
-			log.Tracef("Added transaction %s to the multiset", transactionID)
 		}
 	}
 
 	return ms, nil
 }
 
-func addTransactionToMultiset(multiset model.Multiset, transaction *externalapi.DomainTransaction,
+func addTransactionToMultiset(ms model.Multiset, transaction *externalapi.DomainTransaction,
 	blockDAAScore uint64, isCoinbase bool) error {
 
 	transactionID := consensushashing.TransactionID(transaction)
@@ -59,9 +64,7 @@ func addTransactionToMultiset(multiset model.Multiset, transaction *externalapi.
 	defer log.Tracef("addTransactionToMultiset end for transaction %s", transactionID)
 
 	for _, input := range transaction.Inputs {
-		log.Tracef("Removing input %s at index %d from the multiset",
-			input.PreviousOutpoint.TransactionID, input.PreviousOutpoint.Index)
-		err := removeUTXOFromMultiset(multiset, input.UTXOEntry, &input.PreviousOutpoint)
+		err := removeUTXOFromMultiset(ms, input.UTXOEntry, &input.PreviousOutpoint)
 		if err != nil {
 			return err
 		}
@@ -73,9 +76,7 @@ func addTransactionToMultiset(multiset model.Multiset, transaction *externalapi.
 			Index:         uint32(i),
 		}
 		utxoEntry := utxo.NewUTXOEntry(output.Value, output.ScriptPublicKey, isCoinbase, blockDAAScore)
-
-		log.Tracef("Adding input %s at index %d from the multiset", transactionID, i)
-		err := addUTXOToMultiset(multiset, utxoEntry, outpoint)
+		err := addUTXOToMultiset(ms, utxoEntry, outpoint)
 		if err != nil {
 			return err
 		}
@@ -84,27 +85,24 @@ func addTransactionToMultiset(multiset model.Multiset, transaction *externalapi.
 	return nil
 }
 
-func addUTXOToMultiset(multiset model.Multiset, entry externalapi.UTXOEntry,
+func addUTXOToMultiset(ms model.Multiset, entry externalapi.UTXOEntry,
 	outpoint *externalapi.DomainOutpoint) error {
 
 	serializedUTXO, err := utxo.SerializeUTXO(entry, outpoint)
 	if err != nil {
 		return err
 	}
-	multiset.Add(serializedUTXO)
-
+	ms.Add(serializedUTXO)
 	return nil
 }
 
-func removeUTXOFromMultiset(multiset model.Multiset, entry externalapi.UTXOEntry,
+func removeUTXOFromMultiset(ms model.Multiset, entry externalapi.UTXOEntry,
 	outpoint *externalapi.DomainOutpoint) error {
 
 	serializedUTXO, err := utxo.SerializeUTXO(entry, outpoint)
 	if err != nil {
 		return err
 	}
-	multiset.Remove(serializedUTXO)
-
+	ms.Remove(serializedUTXO)
 	return nil
 }
-
