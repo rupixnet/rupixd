@@ -142,9 +142,10 @@ func (pm *pruningManager) UpdatePruningPointByVirtual(stagingArea *model.Staging
 		return err
 	}
 
-	if virtualGHOSTDAGData.SelectedParent().Equal(pm.genesisHash) {
-		return nil
-	}
+	selectedParent := virtualGHOSTDAGData.SelectedParent()
+if selectedParent == nil || selectedParent.Equal(pm.genesisHash) || selectedParent.Equal(model.VirtualGenesisBlockHash) {
+    return nil
+}
 
 	newPruningPoint, newCandidate, err := pm.nextPruningPointAndCandidateByBlockHash(stagingArea, virtualGHOSTDAGData.SelectedParent(), nil)
 	if err != nil {

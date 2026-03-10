@@ -62,14 +62,28 @@ func (m *Manager) routerInitializer(router *router.Router, netConnection *netada
 	if err != nil {
 		panic(err)
 	}
-	m.context.NotificationManager.AddListener(router)
+	if m == nil {
+    panic("rpc Manager is nil")
+}
+if m.context == nil {
+    panic("rpc context is nil")
+}
+if m.context.NotificationManager == nil {
+    panic("NotificationManager is nil")
+}
+m.context.NotificationManager.AddListener(router)
 
 	spawn("routerInitializer-handleIncomingMessages", func() {
-		defer m.context.NotificationManager.RemoveListener(router)
-
-		err := m.handleIncomingMessages(router, incomingRoute)
-		m.handleError(err, netConnection)
-	})
+    defer m.context.NotificationManager.RemoveListener(router)
+    if router == nil {
+        panic("router is nil in goroutine")
+    }
+    if incomingRoute == nil {
+        panic("incomingRoute is nil in goroutine")
+    }
+    err := m.handleIncomingMessages(router, incomingRoute)
+    m.handleError(err, netConnection)
+})
 }
 
 func (m *Manager) handleIncomingMessages(router *router.Router, incomingRoute *router.Route) error {
@@ -83,10 +97,12 @@ func (m *Manager) handleIncomingMessages(router *router.Router, incomingRoute *r
 		if !ok {
 			return err
 		}
-		response, err := handler(m.context, router, request)
-		if err != nil {
-			return err
-		}
+		log.Infof("DEBUG RPC handling command: %d", request.Command())
+response, err := handler(m.context, router, request)
+if err != nil {
+    log.Infof("DEBUG RPC handler error for command %d: %+v", request.Command(), err)
+    return err
+}
 		err = outgoingRoute.Enqueue(response)
 		if err != nil {
 			return err

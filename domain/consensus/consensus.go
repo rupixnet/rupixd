@@ -1126,9 +1126,10 @@ func (s *consensus) isNearlySyncedNoLock() (bool, error) {
 		return false, err
 	}
 
-	if virtualGHOSTDAGData.SelectedParent().Equal(s.genesisHash) {
-		return false, nil
-	}
+	selectedParent := virtualGHOSTDAGData.SelectedParent()
+if selectedParent == nil || selectedParent.Equal(s.genesisHash) {
+    return false, nil
+}
 
 	virtualSelectedParentHeader, err := s.blockHeaderStore.BlockHeader(s.databaseContext, stagingArea, virtualGHOSTDAGData.SelectedParent())
 	if err != nil {
