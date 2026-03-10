@@ -117,8 +117,9 @@ func (m *Manager) handleError(err error, netConnection *netadapter.NetConnection
 		return
 	}
 	if errors.Is(err, router.ErrRouteClosed) {
-		return
-	}
-	panic(err)
+    return
+}
+log.Warnf("RPC handler error: %+v", err)
+netConnection.Disconnect()
 }
 

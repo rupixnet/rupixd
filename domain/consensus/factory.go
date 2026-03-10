@@ -146,7 +146,7 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 
 	blockStatusStore := blockstatusstore.New(prefixBucket, pruningWindowSizePlusFinalityDepthForCache, preallocateCaches)
 	multisetStore := multisetstore.New(prefixBucket, 200, preallocateCaches)
-	pruningStore := pruningstore.New(prefixBucket, 2, preallocateCaches)
+	pruningStore := pruningstore.New(prefixBucket, 2, preallocateCaches, config.GenesisHash)
 	utxoDiffStore := utxodiffstore.New(prefixBucket, 200, preallocateCaches)
 	consensusStateStore := consensusstatestore.New(prefixBucket, 10_000, preallocateCaches)
 

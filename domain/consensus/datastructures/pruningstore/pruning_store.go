@@ -25,6 +25,7 @@ type pruningStore struct {
 	pruningPointByIndexCache      *lrucacheuint64tohash.LRUCache
 	currentPruningPointIndexCache *uint64
 	pruningPointCandidateCache    *externalapi.DomainHash
+	genesisHash                   *externalapi.DomainHash
 
 	currentPruningPointIndexKey     model.DBKey
 	candidatePruningPointHashKey    model.DBKey
@@ -36,9 +37,10 @@ type pruningStore struct {
 }
 
 // New instantiates a new PruningStore
-func New(prefixBucket model.DBBucket, cacheSize int, preallocate bool) model.PruningStore {
+func New(prefixBucket model.DBBucket, cacheSize int, preallocate bool, genesisHash *externalapi.DomainHash) model.PruningStore {
 	return &pruningStore{
 		shardID:                         staging.GenerateShardingID(),
+		genesisHash:                     genesisHash,
 		pruningPointByIndexCache:        lrucacheuint64tohash.New(cacheSize, preallocate),
 		currentPruningPointIndexKey:     prefixBucket.Key(currentPruningPointIndexKeyName),
 		candidatePruningPointHashKey:    prefixBucket.Key(candidatePruningPointHashKeyName),
@@ -181,9 +183,12 @@ func (ps *pruningStore) PruningPointByIndex(dbContext model.DBReader, stagingAre
 	}
 
 	pruningPointBytes, err := dbContext.Get(ps.indexAsKey(index))
-	if err != nil {
-		return nil, err
-	}
+if err != nil {
+    if database.IsNotFoundError(err) {
+        return ps.genesisHash, nil
+    }
+    return nil, err
+}
 
 	pruningPoint, err := ps.deserializePruningPoint(pruningPointBytes)
 	if err != nil {
@@ -337,9 +342,12 @@ func (ps *pruningStore) CurrentPruningPointIndex(dbContext model.DBReader, stagi
 	}
 
     pruningPointIndexBytes, err := dbContext.Get(ps.currentPruningPointIndexKey)
-	if err != nil {
-		return 0, err
-	}
+if err != nil {
+    if database.IsNotFoundError(err) {
+        return 0, nil
+    }
+    return 0, err
+}
 
 	index, err := ps.deserializeIndex(pruningPointIndexBytes)
 	if err != nil {

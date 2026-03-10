@@ -1121,9 +1121,10 @@ func (pm *pruningManager) ExpectedHeaderPruningPoint(stagingArea *model.StagingA
 		return nil, err
 	}
 
-	if ghostdagData.SelectedParent().Equal(pm.genesisHash) {
-		return pm.genesisHash, nil
-	}
+	selectedParent := ghostdagData.SelectedParent()
+if selectedParent == nil || selectedParent.Equal(pm.genesisHash) || selectedParent.Equal(model.VirtualGenesisBlockHash) {
+    return pm.genesisHash, nil
+}
 
 	selectedParentHeader, err := pm.blockHeaderStore.BlockHeader(pm.databaseContext, stagingArea, ghostdagData.SelectedParent())
 	if err != nil {
