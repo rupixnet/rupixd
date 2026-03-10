@@ -1,15 +1,14 @@
 package consensusstatemanager
 
 import (
+	"fmt"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 )
 
-// AddBlock submits the given block to be added to the
-// current virtual. This process may result in a new virtual block
-// getting created
 func (csm *consensusStateManager) AddBlock(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash, updateVirtual bool) (
 	*externalapi.SelectedChainPath, externalapi.UTXODiff, *model.UTXODiffReversalData, error) {
 
@@ -25,18 +24,14 @@ func (csm *consensusStateManager) AddBlock(stagingArea *model.StagingArea, block
 		}
 
 		if isCandidateToBeNextVirtualSelectedParent {
-			// It's important to check for finality violation before resolving the block status, because the status of
-			// blocks with a selected chain that doesn't contain the pruning point cannot be resolved because they will
-			// eventually try to fetch UTXO diffs from the past of the pruning point.
-			log.Debugf("Block %s is candidate to be the next virtual selected parent. Resolving whether it violates "+
-				"finality", blockHash)
+			log.Debugf("Block %s is candidate to be the next virtual selected parent. Resolving whether it violates finality", blockHash)
 			isViolatingFinality, shouldNotify, err := csm.isViolatingFinality(stagingArea, blockHash)
-			if err != nil {
-				return nil, nil, nil, err
-			}
+if err != nil {
+    fmt.Printf("FAIL isViolatingFinality: %T :: %+v\n", err, err)
+    return nil, nil, nil, err
+}
 
 			if shouldNotify {
-				//TODO: Send finality conflict notification
 				log.Warnf("Finality Violation Detected! Block %s violates finality!", blockHash)
 			}
 
@@ -44,23 +39,23 @@ func (csm *consensusStateManager) AddBlock(stagingArea *model.StagingArea, block
 				log.Debugf("Block %s doesn't violate finality. Resolving its block status", blockHash)
 				var blockStatus externalapi.BlockStatus
 				blockStatus, reversalData, err = csm.resolveBlockStatus(stagingArea, blockHash, true)
-				if err != nil {
-					return nil, nil, nil, err
-				}
-
+if err != nil {
+    fmt.Printf("FAIL resolveBlockStatus: %T :: %+v\n", err, err)
+    return nil, nil, nil, err
+}
 				log.Debugf("Block %s resolved to status `%s`", blockHash, blockStatus)
 			}
 		} else {
-			log.Debugf("Block %s is not the next virtual selected parent, "+
-				"therefore its status remains `%s`", blockHash, externalapi.StatusUTXOPendingVerification)
+			log.Debugf("Block %s is not the next virtual selected parent, therefore its status remains `%s`", blockHash, externalapi.StatusUTXOPendingVerification)
 		}
 	}
 
 	log.Debugf("Adding block %s to the DAG tips", blockHash)
 	newTips, err := csm.addTip(stagingArea, blockHash)
-	if err != nil {
-		return nil, nil, nil, err
-	}
+if err != nil {
+    fmt.Printf("FAIL addTip: %T :: %+v\n", err, err)
+    return nil, nil, nil, err
+}
 	log.Debugf("After adding %s, the amount of new tips are %d", blockHash, len(newTips))
 
 	if !updateVirtual {
@@ -68,11 +63,11 @@ func (csm *consensusStateManager) AddBlock(stagingArea *model.StagingArea, block
 	}
 
 	log.Debugf("Updating the virtual with the new tips")
-	selectedParentChainChanges, virtualUTXODiff, err := csm.updateVirtual(stagingArea, blockHash, newTips)
-	if err != nil {
-		return nil, nil, nil, err
-	}
-
+    selectedParentChainChanges, virtualUTXODiff, err := csm.updateVirtual(stagingArea, blockHash, newTips)
+    if err != nil {
+    fmt.Printf("FAIL updateVirtual: %T :: %+v\n", err, err)
+    return nil, nil, nil, err
+    }
 	return selectedParentChainChanges, virtualUTXODiff, reversalData, nil
 }
 
@@ -82,19 +77,33 @@ func (csm *consensusStateManager) isCandidateToBeNextVirtualSelectedParent(
 	log.Tracef("isCandidateToBeNextVirtualSelectedParent start for block %s", blockHash)
 	defer log.Tracef("isCandidateToBeNextVirtualSelectedParent end for block %s", blockHash)
 
+	if blockHash == nil {
+		return false, nil
+	}
+
+	if blockHash.Equal(model.VirtualGenesisBlockHash) {
+		return false, nil
+	}
+
 	if blockHash.Equal(csm.genesisHash) {
-		log.Debugf("Block %s is the genesis block, therefore it is "+
-			"the selected parent by definition", blockHash)
+		log.Debugf("Block %s is the genesis block, therefore it is the selected parent by definition", blockHash)
 		return true, nil
 	}
 
 	virtualGhostdagData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, model.VirtualBlockHash, false)
 	if err != nil {
+		// RUPIX FIX: primer arranque — VirtualBlock aun no existe en DB
+		if database.IsNotFoundError(err) {
+			return true, nil
+		}
 		return false, err
 	}
 
-	log.Debugf("Selecting the next selected parent between "+
-		"the block %s the current selected parent %s", blockHash, virtualGhostdagData.SelectedParent())
+	if virtualGhostdagData.SelectedParent() == nil || virtualGhostdagData.SelectedParent().Equal(model.VirtualGenesisBlockHash) {
+		return true, nil
+	}
+
+	log.Debugf("Selecting the next selected parent between the block %s the current selected parent %s", blockHash, virtualGhostdagData.SelectedParent())
 	nextVirtualSelectedParent, err := csm.ghostdagManager.ChooseSelectedParent(
 		stagingArea, virtualGhostdagData.SelectedParent(), blockHash)
 	if err != nil {
@@ -164,4 +173,3 @@ func (csm *consensusStateManager) calculateNewTips(
 
 	return newTips, nil
 }
-

@@ -33,10 +33,6 @@ func (bp *blockProcessor) setBlockStatusAfterBlockValidation(
 		}
 
 		if status == externalapi.StatusUTXOValid {
-			// A block cannot have status StatusUTXOValid just after finishing bp.validateBlock, because
-			// if it's the case it should have been rejected as duplicate block.
-			// The only exception is the pruning point because its status is manually set before inserting
-			// the block.
 			if !isPruningPoint {
 				return externalapi.StatusInvalid, errors.Errorf("block %s that is not the pruning point is not expected to be valid "+
 					"before adding to to the consensus state manager", blockHash)
@@ -80,8 +76,11 @@ func (bp *blockProcessor) validateAndInsertBlock(stagingArea *model.StagingArea,
 	isPruningPoint bool, shouldValidateAgainstUTXO bool, isBlockWithTrustedData bool) (*externalapi.VirtualChangeSet, externalapi.BlockStatus, error) {
 
 	blockHash := consensushashing.HeaderHash(block.Header)
+	fmt.Printf("DEBUG validateAndInsertBlock: blockHash=%s\n", blockHash)
+
 	err := bp.validateBlock(stagingArea, block, isBlockWithTrustedData)
 	if err != nil {
+		fmt.Printf("FAIL validateBlock: %T :: %+v\n", err, err)
 		return nil, externalapi.StatusInvalid, err
 	}
 
@@ -109,20 +108,21 @@ func (bp *blockProcessor) validateAndInsertBlock(stagingArea *model.StagingArea,
 	} else {
 		pruningPoint, err := bp.pruningStore.PruningPoint(bp.databaseContext, stagingArea)
 		if err != nil {
-			return nil, externalapi.StatusInvalid, err
+			if database.IsNotFoundError(err) {
+				pruningPoint = bp.genesisHash
+			} else {
+				return nil, externalapi.StatusInvalid, err
+			}
 		}
 
 		isInSelectedChainOfPruningPoint, err := bp.dagTopologyManager.IsInSelectedParentChainOf(stagingArea, pruningPoint, blockHash)
 		if err != nil {
 			return nil, externalapi.StatusInvalid, err
 		}
-
-		// Don't set blocks in the anticone of the pruning point as header selected tip.
 		shouldAddHeaderSelectedTip = isInSelectedChainOfPruningPoint
 	}
 
 	if shouldAddHeaderSelectedTip {
-		// Don't set blocks in the anticone of the pruning point as header selected tip.
 		err = bp.headerTipsManager.AddHeaderTip(stagingArea, blockHash)
 		if err != nil {
 			return nil, externalapi.StatusInvalid, err
@@ -135,9 +135,10 @@ func (bp *blockProcessor) validateAndInsertBlock(stagingArea *model.StagingArea,
 	var reversalData *model.UTXODiffReversalData
 	isHeaderOnlyBlock := isHeaderOnlyBlock(block)
 	if !isHeaderOnlyBlock {
-		// Attempt to add the block to the virtual
+		fmt.Printf("DEBUG: antes de AddBlock, blockHash=%s\n", blockHash)
 		selectedParentChainChanges, virtualUTXODiff, reversalData, err = bp.consensusStateManager.AddBlock(stagingArea, blockHash, shouldValidateAgainstUTXO)
 		if err != nil {
+			fmt.Printf("FAIL AddBlock: %T :: %+v\n", err, err)
 			return nil, externalapi.StatusInvalid, err
 		}
 	}
@@ -150,7 +151,6 @@ func (bp *blockProcessor) validateAndInsertBlock(stagingArea *model.StagingArea,
 	}
 
 	if !isHeaderOnlyBlock && shouldValidateAgainstUTXO {
-		// Trigger pruning, which will check if the pruning point changed and delete the data if it did.
 		err = bp.pruningManager.UpdatePruningPointByVirtual(stagingArea)
 		if err != nil {
 			return nil, externalapi.StatusInvalid, err
@@ -185,7 +185,6 @@ func (bp *blockProcessor) validateAndInsertBlock(stagingArea *model.StagingArea,
 		if database.IsNotFoundError(err) {
 			return fmt.Sprintf("Cannot log data for non-existent virtual")
 		}
-
 		if err != nil {
 			logClosureErr = err
 			return fmt.Sprintf("Failed to get virtual GHOSTDAG data: %s", err)
@@ -207,7 +206,6 @@ func (bp *blockProcessor) validateAndInsertBlock(stagingArea *model.StagingArea,
 	}
 
 	bp.pastMedianTimeManager.InvalidateVirtualPastMedianTimeCache()
-
 	bp.blockLogger.LogBlock(block)
 
 	return &externalapi.VirtualChangeSet{
@@ -223,16 +221,6 @@ func (bp *blockProcessor) loadUTXODataForGenesis(stagingArea *model.StagingArea,
 		return
 	}
 	blockHash := consensushashing.BlockHash(block)
-	// Note: The applied UTXO set and multiset do not satisfy the UTXO commitment
-	// of Mainnet's genesis. This is why any block that will be built on top of genesis
-	// will have a wrong UTXO commitment as well, and will not be able to get to a consensus
-	// with the rest of the network.
-	// This is why getting direct blocks on top of genesis is forbidden, and the only way to
-	// get a newer state for a node with genesis only is by requesting a proof for a recent
-	// pruning point.
-	// The actual UTXO set that fits Mainnet's genesis' UTXO commitment was removed from the codebase in order
-	// to make reduce the consensus initialization time and the compiled binary size, but can be still
-	// found here for anyone to verify: https://github.com/rupixnet/rupixd/blob/dbf18d8052f000ba0079be9e79b2d6f5a98b74ca/domain/consensus/processes/blockprocessor/resources/utxos.gz
 	bp.consensusStateStore.StageVirtualUTXODiff(stagingArea, utxo.NewUTXODiff())
 	bp.utxoDiffStore.Stage(stagingArea, blockHash, utxo.NewUTXODiff(), nil)
 	bp.multisetStore.Stage(stagingArea, blockHash, multiset.New())
@@ -354,9 +342,6 @@ func (bp *blockProcessor) validatePostProofOfWork(stagingArea *model.StagingArea
 	return nil
 }
 
-// hasValidatedHeader returns whether the block header was validated. It returns
-// true in any case the block header was validated, whether it was validated as a
-// header-only block or as a block with body.
 func (bp *blockProcessor) hasValidatedHeader(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash) (bool, error) {
 	exists, err := bp.blockStatusStore.Exists(bp.databaseContext, stagingArea, blockHash)
 	if err != nil {
@@ -374,4 +359,3 @@ func (bp *blockProcessor) hasValidatedHeader(stagingArea *model.StagingArea, blo
 
 	return status != externalapi.StatusInvalid, nil
 }
-

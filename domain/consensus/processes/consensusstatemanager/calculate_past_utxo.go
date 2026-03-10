@@ -165,6 +165,9 @@ func (csm *consensusStateManager) applyMergeSetBlocks(stagingArea *model.Staging
 	log.Tracef("The past median time for block %s is: %d", blockHash, selectedParentMedianTime)
 
 	multiblockAcceptanceData := make(externalapi.AcceptanceData, len(mergeSetBlocks))
+	if selectedParentPastUTXODiff == nil {
+    selectedParentPastUTXODiff = utxo.NewUTXODiff()
+    }
 	accumulatedUTXODiff := selectedParentPastUTXODiff.CloneMutable()
 	accumulatedMass := uint64(0)
 

@@ -336,7 +336,7 @@ func (ps *pruningStore) CurrentPruningPointIndex(dbContext model.DBReader, stagi
 		return *ps.currentPruningPointIndexCache, nil
 	}
 
-	pruningPointIndexBytes, err := dbContext.Get(ps.currentPruningPointIndexKey)
+    pruningPointIndexBytes, err := dbContext.Get(ps.currentPruningPointIndexKey)
 	if err != nil {
 		return 0, err
 	}

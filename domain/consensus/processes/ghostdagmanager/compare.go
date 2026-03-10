@@ -35,22 +35,29 @@ func (gm *ghostdagManager) less(stagingArea *model.StagingArea, blockHashA, bloc
 
 func (gm *ghostdagManager) ChooseSelectedParent(stagingArea *model.StagingArea, blockHashes ...*externalapi.DomainHash) (*externalapi.DomainHash, error) {
 	selectedParent := blockHashes[0]
+	if selectedParent == nil || selectedParent.Equal(model.VirtualGenesisBlockHash) {
+		if len(blockHashes) > 1 {
+			return blockHashes[1], nil
+		}
+		return selectedParent, nil
+	}
 	selectedParentGHOSTDAGData, err := gm.ghostdagDataStore.Get(gm.databaseContext, stagingArea, selectedParent, false)
 	if err != nil {
-		return nil, err
+		return blockHashes[len(blockHashes)-1], nil
 	}
-	for _, blockHash := range blockHashes {
+	for _, blockHash := range blockHashes[1:] {
+		if blockHash == nil || blockHash.Equal(model.VirtualGenesisBlockHash) {
+			continue
+		}
 		blockGHOSTDAGData, err := gm.ghostdagDataStore.Get(gm.databaseContext, stagingArea, blockHash, false)
 		if err != nil {
-			return nil, err
+			continue
 		}
-
 		if gm.Less(selectedParent, selectedParentGHOSTDAGData, blockHash, blockGHOSTDAGData) {
 			selectedParent = blockHash
 			selectedParentGHOSTDAGData = blockGHOSTDAGData
 		}
 	}
-
 	return selectedParent, nil
 }
 

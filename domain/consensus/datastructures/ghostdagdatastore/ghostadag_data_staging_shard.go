@@ -11,6 +11,9 @@ type key struct {
 }
 
 func newKey(hash *externalapi.DomainHash, isTrustedData bool) key {
+	if hash == nil {
+		panic("nil hash in newKey")
+	}
 	return key{
 		hash:          *hash,
 		isTrustedData: isTrustedData,

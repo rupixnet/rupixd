@@ -45,27 +45,31 @@ func (dm *difficultyManager) blockWindow(stagingArea *model.StagingArea, startin
 		return nil, nil, err
 	}
 
-	for _, hash := range windowHashes {
+	    for _, hash := range windowHashes {
+		if hash.Equal(model.VirtualGenesisBlockHash) {
+			continue
+		}
 		block, err := dm.getDifficultyBlock(stagingArea, hash)
 		if err != nil {
-			return nil, nil, err
+			continue
 		}
 		window = append(window, block)
 	}
+
 	return window, windowHashes, nil
 }
 
 func ghostdagLess(blockA *difficultyBlock, blockB *difficultyBlock) bool {
-	switch blockA.blueWork.Cmp(blockB.blueWork) {
-	case -1:
-		return true
-	case 1:
-		return false
-	case 0:
-		return blockA.hash.Less(blockB.hash)
-	default:
-		panic("big.Int.Cmp is defined to always return -1/1/0 and nothing else")
-	}
+    switch blockA.blueWork.Cmp(blockB.blueWork) {
+    case -1:
+        return true
+    case 1:
+        return false
+    case 0:
+        return blockA.hash.Less(blockB.hash)
+    default:
+        panic("big.Int.Cmp is defined to always return -1/1/0 and nothing else")
+    }
 }
 
 func (window blockWindow) minMaxTimestamps() (min, max int64, minIndex int) {
@@ -100,5 +104,6 @@ func (window blockWindow) averageTarget() *big.Int {
 	}
 	return averageTarget.Div(averageTarget, big.NewInt(int64(len(window))))
 }
+
 
 

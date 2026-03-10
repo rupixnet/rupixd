@@ -102,7 +102,7 @@ func (s *server) BumpFee(_ context.Context, request *pb.BumpFeeRequest) (*pb.Bum
 		return nil, err
 	}
 
-	if len(selectedUTXOs) == 0 {
+	if len(selectedUTXOs, nil) == 0 {
 		return nil, errors.Errorf("couldn't find funds to spend")
 	}
 

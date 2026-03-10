@@ -3,6 +3,7 @@ package consensusstatemanager
 import (
 	"fmt"
 
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/util/staging"
 
 	"github.com/rupixnet/rupixd/domain/consensus/model"
@@ -27,8 +28,6 @@ func (csm *consensusStateManager) resolveBlockStatus(stagingArea *model.StagingA
 	log.Debugf("Got %d unverified blocks in the selected parent "+
 		"chain of %s: %s", len(unverifiedBlocks), blockHash, unverifiedBlocks)
 
-	// If there's no unverified blocks in the given block's chain - this means the given block already has a
-	// UTXO-verified status, and therefore it should be retrieved from the store and returned
 	if len(unverifiedBlocks) == 0 {
 		log.Debugf("There are not unverified blocks in %s's selected parent chain. "+
 			"This means that the block already has a UTXO-verified status.", blockHash)
@@ -95,11 +94,6 @@ func (csm *consensusStateManager) resolveBlockStatus(stagingArea *model.StagingA
 	var reversalData *model.UTXODiffReversalData
 	if blockStatus == externalapi.StatusUTXOValid && len(unverifiedBlocks) > 1 {
 		log.Debugf("Preparing data for reversing the UTXODiff")
-		// During resolveSingleBlockStatus, all unverifiedBlocks (excluding the tip) were assigned their selectedParent
-		// as their UTXODiffChild.
-		// Now that the whole chain has been resolved - we can reverse the UTXODiffs, to create shorter UTXODiffChild paths.
-		// However, we can't do this right now, because the tip of the chain is not yet committed, so we prepare the
-		// needed data (tip's selectedParent and selectedParent's UTXODiff)
 		selectedParentUTXODiff, err := previousBlockUTXOSet.DiffFrom(oneBeforeLastResolvedBlockUTXOSet)
 		if err != nil {
 			return 0, nil, err
@@ -114,8 +108,6 @@ func (csm *consensusStateManager) resolveBlockStatus(stagingArea *model.StagingA
 	return blockStatus, reversalData, nil
 }
 
-// selectedParentInfo returns the hash and status of the selectedParent of the last block in the unverifiedBlocks
-// chain, in addition, if the status is UTXOValid, it return it's pastUTXOSet
 func (csm *consensusStateManager) selectedParentInfo(
 	stagingArea *model.StagingArea, unverifiedBlocks []*externalapi.DomainHash) (
 	*externalapi.DomainHash, externalapi.BlockStatus, externalapi.UTXODiff, error) {
@@ -138,6 +130,9 @@ func (csm *consensusStateManager) selectedParentInfo(
 		return nil, 0, nil, err
 	}
 	selectedParent := lastUnverifiedBlockGHOSTDAGData.SelectedParent()
+	if selectedParent == nil || selectedParent.Equal(model.VirtualGenesisBlockHash) {
+		return lastUnverifiedBlock, externalapi.StatusUTXOValid, nil, nil
+	}
 	selectedParentStatus, err := csm.blockStatusStore.Get(csm.databaseContext, stagingArea, selectedParent)
 	if err != nil {
 		return nil, 0, nil, err
@@ -165,7 +160,12 @@ func (csm *consensusStateManager) getUnverifiedChainBlocks(stagingArea *model.St
 		log.Tracef("Getting status for block %s", currentHash)
 		currentBlockStatus, err := csm.blockStatusStore.Get(csm.databaseContext, stagingArea, currentHash)
 		if err != nil {
-			return nil, err
+			// RUPIX FIX: block status not yet in DB on first startup
+			if database.IsNotFoundError(err) {
+				currentBlockStatus = externalapi.StatusUTXOPendingVerification
+			} else {
+				return nil, err
+			}
 		}
 		if currentBlockStatus != externalapi.StatusUTXOPendingVerification {
 			log.Tracef("Block %s has status %s. Returning all the "+
@@ -271,9 +271,6 @@ func (csm *consensusStateManager) resolveSingleBlockStatus(stagingArea *model.St
 			csm.stageDiff(stagingArea, blockHash, utxoDiff, oldSelectedTip)
 		}
 	} else {
-		// If the block is not the tip of the currently resolved chain, we set it's diffChild to be the selectedParent,
-		// this is a temporary measure to ensure there's a restore path to all blocks at all times.
-		// Later down the process, the diff will be reversed in reverseUTXODiffs.
 		log.Debugf("Block %s is not the new selected tip, and is not the tip of the currently verified chain, "+
 			"therefore temporarily setting selectedParent as it's diffChild", blockHash)
 		utxoDiff, err := selectedParentPastUTXOSet.DiffFrom(pastUTXOSet)
@@ -301,9 +298,12 @@ func (csm *consensusStateManager) isNewSelectedTip(stagingArea *model.StagingAre
 func (csm *consensusStateManager) virtualSelectedParent(stagingArea *model.StagingArea) (*externalapi.DomainHash, error) {
 	virtualGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, model.VirtualBlockHash, false)
 	if err != nil {
+		// RUPIX FIX: virtual not yet in DB on first startup
+		if database.IsNotFoundError(err) {
+			return csm.genesisHash, nil
+		}
 		return nil, err
 	}
 
 	return virtualGHOSTDAGData.SelectedParent(), nil
 }
-

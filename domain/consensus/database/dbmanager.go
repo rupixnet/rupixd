@@ -10,6 +10,19 @@ type dbManager struct {
 }
 
 func (dbw *dbManager) Get(key model.DBKey) ([]byte, error) {
+	suffix := key.Suffix()
+	if len(suffix) == 32 {
+		allFE := true
+		for _, b := range suffix {
+			if b != 0xfe {
+				allFE = false
+				break
+			}
+		}
+		if allFE {
+			return nil, database.ErrNotFound
+		}
+	}
 	return dbw.db.Get(dbKeyToDatabaseKey(key))
 }
 

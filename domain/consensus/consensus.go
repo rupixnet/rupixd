@@ -1,9 +1,9 @@
 ﻿package consensus
 
 import (
+	"fmt"
 	"math/big"
 	"sync"
-
 	"github.com/rupixnet/rupixd/util/mstime"
     "github.com/rupixnet/rupixd/domain/consensus/datastructures/addresslevelstore"
 	"github.com/rupixnet/rupixd/domain/consensus/database"
@@ -133,19 +133,20 @@ func (s *consensus) Init(skipAddingGenesis bool) error {
 
 	// The genesis should be added to the DAG if it's a fresh consensus, unless said otherwise (on a
 	// case where the consensus is used for a pruned headers node).
-	if !skipAddingGenesis && s.blockStore.Count(stagingArea) == 0 {
+if !skipAddingGenesis && s.blockStore.Count(stagingArea) == 0 {
 		genesisWithTrustedData := &externalapi.BlockWithTrustedData{
 			Block:     s.genesisBlock,
 			DAAWindow: nil,
 			GHOSTDAGData: []*externalapi.BlockGHOSTDAGDataHashPair{
 				{
-					GHOSTDAGData: externalapi.NewBlockGHOSTDAGData(0, big.NewInt(0), model.VirtualGenesisBlockHash, nil, nil, make(map[externalapi.DomainHash]externalapi.KType)),
+					GHOSTDAGData: externalapi.NewBlockGHOSTDAGData(0, big.NewInt(0), nil, nil, nil, make(map[externalapi.DomainHash]externalapi.KType)),
 					Hash:         s.genesisHash,
 				},
 			},
 		}
 		_, _, err = s.blockProcessor.ValidateAndInsertBlockWithTrustedData(genesisWithTrustedData, true)
 		if err != nil {
+			fmt.Printf("ERROR DETAIL: %T %+v\n", err, errors.WithStack(err))
 			return err
 		}
 	}
@@ -1156,3 +1157,4 @@ func (s *consensus) GetAddressLevel(address string) (uint8, error) {
 	}
 	return s.addressLevelStore.Get(s.databaseContext, address)
 }
+

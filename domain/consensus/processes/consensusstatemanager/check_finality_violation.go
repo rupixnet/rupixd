@@ -1,8 +1,9 @@
 ﻿package consensusstatemanager
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/model"
-	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+        "github.com/rupixnet/rupixd/domain/consensus/model"
+        "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+        "github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func (csm *consensusStateManager) isViolatingFinality(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash,
@@ -30,9 +31,12 @@ func (csm *consensusStateManager) isViolatingFinality(stagingArea *model.Staging
 	// In such situation we override the finality point to be the pruning point to avoid situations where
 	// the virtual selected parent chain don't include the pruning point.
 	pruningPoint, err := csm.pruningStore.PruningPoint(csm.databaseContext, stagingArea)
-	if err != nil {
-		return false, false, err
-	}
+    if err != nil {
+        if database.IsNotFoundError(err) {
+                return false, false, nil
+        }
+        return false, false, err
+    }
 	log.Debugf("The pruning point is: %s", pruningPoint)
 
 	isFinalityPointInPastOfPruningPoint, err := csm.dagTopologyManager.IsAncestorOf(stagingArea, virtualFinalityPoint, pruningPoint)

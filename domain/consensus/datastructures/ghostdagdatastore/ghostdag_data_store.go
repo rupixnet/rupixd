@@ -1,6 +1,7 @@
 package ghostdagdatastore
 
 import (
+	"math/big"
 	"github.com/golang/protobuf/proto"
 	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
@@ -46,6 +47,13 @@ func (gds *ghostdagDataStore) IsStaged(stagingArea *model.StagingArea) bool {
 // Get gets the blockGHOSTDAGData associated with the given blockHash
 func (gds *ghostdagDataStore) Get(dbContext model.DBReader, stagingArea *model.StagingArea, blockHash *externalapi.DomainHash, isTrustedData bool) (*externalapi.BlockGHOSTDAGData, error) {
 	stagingShard := gds.stagingShard(stagingArea)
+	if blockHash.Equal(model.VirtualGenesisBlockHash) {
+		return externalapi.NewBlockGHOSTDAGData(0, new(big.Int), nil, nil, nil, nil), nil
+	}
+    
+	if blockHash.Equal(model.VirtualBlockHash) {
+        return externalapi.NewBlockGHOSTDAGData(0, new(big.Int), nil, nil, nil, nil), nil
+    }
 
 	key := newKey(blockHash, isTrustedData)
 	if blockGHOSTDAGData, ok := stagingShard.toAdd[key]; ok {
