@@ -5,7 +5,6 @@ import (
 	"math/big"
 	"github.com/rupixnet/rupixd/util/difficulty"
 	"sort"
-	"fmt"
 
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
@@ -105,26 +104,22 @@ func (bb *blockBuilder) BuildBlock(coinbaseData *externalapi.DomainCoinbaseData,
 func (bb *blockBuilder) buildBlock(stagingArea *model.StagingArea, coinbaseData *externalapi.DomainCoinbaseData,
 	transactions []*externalapi.DomainTransaction) (block *externalapi.DomainBlock, coinbaseHasRedReward bool, err error) {
 
-	fmt.Println("buildBlock: validateTransactions")
 	err = bb.validateTransactions(stagingArea, transactions)
 	if err != nil {
 		return nil, false, err
 	}
 
-	fmt.Println("buildBlock: newBlockPruningPoint")
 	newBlockPruningPoint, err := bb.newBlockPruningPoint(stagingArea, model.VirtualBlockHash)
 	if err != nil {
 		return nil, false, err
 	}
 
-	fmt.Println("buildBlock: newBlockCoinbaseTransaction")
 	coinbase, coinbaseHasRedReward, err := bb.newBlockCoinbaseTransaction(stagingArea, coinbaseData)
 	if err != nil {
 		return nil, false, err
 	}
 	transactionsWithCoinbase := append([]*externalapi.DomainTransaction{coinbase}, transactions...)
 
-	fmt.Println("buildBlock: buildHeader")
 	header, err := bb.buildHeader(stagingArea, transactionsWithCoinbase, newBlockPruningPoint)
 	if err != nil {
 		return nil, false, err
@@ -217,25 +212,20 @@ func (bb *blockBuilder) newBlockCoinbaseTransaction(stagingArea *model.StagingAr
 func (bb *blockBuilder) buildHeader(stagingArea *model.StagingArea, transactions []*externalapi.DomainTransaction,
 	newBlockPruningPoint *externalapi.DomainHash) (externalapi.BlockHeader, error) {
 
-	fmt.Println("buildHeader: newBlockDAAScore")
 	daaScore, err := bb.newBlockDAAScore(stagingArea)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println("buildHeader: newBlockParents")
 	parents, err := bb.newBlockParents(stagingArea, daaScore)
 	if err != nil {
 		return nil, err
 	}
 
-fmt.Println("buildHeader: newBlockTime START")
 timeInMilliseconds, err := bb.newBlockTime(stagingArea)
-fmt.Printf("buildHeader: newBlockTime END err=%v\n", err)
 if err != nil {
     return nil, err
 }
-	fmt.Println("buildHeader: newBlockDifficulty")
 	bits, err := bb.newBlockDifficulty(stagingArea)
 	if err != nil {
 		return nil, err
@@ -243,31 +233,26 @@ if err != nil {
 
 	hashMerkleRoot := bb.newBlockHashMerkleRoot(transactions)
 
-	fmt.Println("buildHeader: newBlockAcceptedIDMerkleRoot")
 	acceptedIDMerkleRoot, err := bb.newBlockAcceptedIDMerkleRoot(stagingArea)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println("buildHeader: newBlockUTXOCommitment")
 	utxoCommitment, err := bb.newBlockUTXOCommitment(stagingArea)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println("buildHeader: newBlockBlueWork")
 	blueWork, err := bb.newBlockBlueWork(stagingArea)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println("buildHeader: newBlockBlueScore")
 	blueScore, err := bb.newBlockBlueScore(stagingArea)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println("buildHeader: done")
 	return blockheader.NewImmutableBlockHeader(
 		constants.BlockVersion,
 		parents,
@@ -289,9 +274,7 @@ func (bb *blockBuilder) newBlockParents(stagingArea *model.StagingArea, daaScore
         if err != nil {
                 return nil, err
         }
-        fmt.Printf("newBlockParents: virtualBlockRelations.Parents = %v\n", virtualBlockRelations.Parents)
         parents, err := bb.blockParentBuilder.BuildParents(stagingArea, daaScore, virtualBlockRelations.Parents)
-        fmt.Printf("newBlockParents: BuildParents returned err=%v parents=%v\n", err, parents)
         return parents, err
 }
 
@@ -387,7 +370,6 @@ func (bb *blockBuilder) newBlockBlueWork(stagingArea *model.StagingArea) (*big.I
         return nil, err
     }
     result := difficulty.CalcWork(genesisHeader.Bits())
-    fmt.Printf("DEBUG newBlockBlueWork: genesis path result=%v\n", result)
     return result, nil
 }
     selectedParentGHOSTDAGData, err := bb.ghostdagDataStore.Get(bb.databaseContext, stagingArea, selectedParent, false)
@@ -410,7 +392,6 @@ func (bb *blockBuilder) newBlockBlueWork(stagingArea *model.StagingArea) (*big.I
         blueWork.Add(blueWork, difficulty.CalcWork(header.Bits()))
     }
 
-    fmt.Printf("DEBUG newBlockBlueWork: result=%v\n", blueWork)
     return blueWork, nil
 }
 

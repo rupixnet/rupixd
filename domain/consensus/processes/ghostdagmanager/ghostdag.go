@@ -1,7 +1,6 @@
 package ghostdagmanager
 
 import (
-	"fmt"
 	"math/big"
 	
 	"github.com/rupixnet/rupixd/domain/consensus/model"
@@ -119,12 +118,7 @@ newBlockData.blueWork.Add(newBlockData.blueWork, difficulty.CalcWork(header.Bits
 	}
 
 gm.ghostdagDataStore.Stage(stagingArea, blockHash, newBlockData.toModel(), false)
-
-	if blockHash.Equal(model.VirtualBlockHash) {
-		fmt.Printf("GHOSTDAG VIRTUAL DONE: sp=%v blues=%d\n", newBlockData.selectedParent, len(newBlockData.mergeSetBlues))
-	}
-
-	return nil
+return nil
 }
 type chainBlockData struct {
 	hash      *externalapi.DomainHash

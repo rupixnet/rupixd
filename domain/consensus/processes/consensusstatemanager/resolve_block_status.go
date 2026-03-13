@@ -1,4 +1,4 @@
-﻿package consensusstatemanager
+package consensusstatemanager
 
 import (
 	"fmt"
@@ -23,7 +23,6 @@ func (csm *consensusStateManager) resolveBlockStatus(stagingArea *model.StagingA
 
 	unverifiedBlocks, err := csm.getUnverifiedChainBlocks(stagingArea, blockHash)
 if err != nil {
-    fmt.Printf("FAIL getUnverifiedChainBlocks: %T :: %+v\n", err, err)
     return 0, nil, err
 }
 
@@ -65,7 +64,6 @@ if err != nil {
 			blockStatus, previousBlockUTXOSet, err = csm.resolveSingleBlockStatus(
     stagingAreaForCurrentBlock, unverifiedBlockHash, previousBlockHash, previousBlockUTXOSet, isResolveTip)
 if err != nil {
-    fmt.Printf("FAIL resolveSingleBlockStatus: %T :: %+v\n", err, err)
     return 0, nil, err
 }
 		}
@@ -105,7 +103,6 @@ func (csm *consensusStateManager) selectedParentInfo(
 	if lastUnverifiedBlock.Equal(csm.genesisHash) {
 		utxoDiff, err := csm.utxoDiffStore.UTXODiff(csm.databaseContext, stagingArea, lastUnverifiedBlock)
 		if err != nil {
-			fmt.Printf("FAIL selectedParentInfo utxoDiff genesis: %T :: %+v\n", err, err)
 			return nil, 0, nil, err
 		}
 		return lastUnverifiedBlock, externalapi.StatusUTXOValid, utxoDiff, nil
@@ -113,7 +110,6 @@ func (csm *consensusStateManager) selectedParentInfo(
 
 	lastUnverifiedBlockGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, lastUnverifiedBlock, false)
 	if err != nil {
-		fmt.Printf("FAIL selectedParentInfo ghostdag: %T :: %+v\n", err, err)
 		return nil, 0, nil, err
 	}
 
@@ -124,18 +120,15 @@ func (csm *consensusStateManager) selectedParentInfo(
 
 	selectedParentStatus, err := csm.blockStatusStore.Get(csm.databaseContext, stagingArea, selectedParent)
 	if err != nil {
-		fmt.Printf("FAIL selectedParentInfo blockStatus: %T :: %+v\n", err, err)
 		return nil, 0, nil, err
 	}
 
 	if selectedParentStatus != externalapi.StatusUTXOValid {
-    fmt.Printf("DEBUG selectedParentInfo: selectedParent=%s status=%d\n", selectedParent, selectedParentStatus)
     return selectedParent, selectedParentStatus, nil, nil
 }
 
 	selectedParentUTXOSet, err := csm.restorePastUTXO(stagingArea, selectedParent)
 	if err != nil {
-		fmt.Printf("FAIL selectedParentInfo restorePastUTXO: %T :: %+v\n", err, err)
 		return nil, 0, nil, err
 	}
 	return selectedParent, selectedParentStatus, selectedParentUTXOSet, nil
@@ -164,7 +157,6 @@ func (csm *consensusStateManager) getUnverifiedChainBlocks(stagingArea *model.St
 
 		currentBlockGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, currentHash, false)
 if err != nil {
-    fmt.Printf("FAIL getUnverifiedChainBlocks ghostdag: %T :: %+v hash=%s\n", err, err, currentHash)
     return nil, err
 }
 
@@ -179,7 +171,6 @@ if err != nil {
 func (csm *consensusStateManager) resolveSingleBlockStatus(stagingArea *model.StagingArea,
 	blockHash, selectedParentHash *externalapi.DomainHash, selectedParentPastUTXOSet externalapi.UTXODiff, isResolveTip bool) (
 	externalapi.BlockStatus, externalapi.UTXODiff, error) {
-	fmt.Printf("resolveSingleBlock blockHash=%s selectedParent=%s\n", blockHash, selectedParentHash)
 
 	onEnd := logger.LogAndMeasureExecutionTime(log, fmt.Sprintf("resolveSingleBlockStatus for %s", blockHash))
 	defer onEnd()
@@ -187,7 +178,6 @@ func (csm *consensusStateManager) resolveSingleBlockStatus(stagingArea *model.St
 	pastUTXOSet, acceptanceData, multiset, err := csm.calculatePastUTXOAndAcceptanceDataWithSelectedParentUTXO(
     stagingArea, blockHash, selectedParentPastUTXOSet)
 if err != nil {
-    fmt.Printf("FAIL calculatePastUTXO: %T :: %+v\n", err, err)
     return 0, nil, err
 }
 
@@ -195,14 +185,12 @@ if err != nil {
 
 	block, err := csm.blockStore.Block(csm.databaseContext, stagingArea, blockHash)
 if err != nil {
-    fmt.Printf("FAIL blockStore.Block: %T :: %+v\n", err, err)
     return 0, nil, err
 }
 
 	err = csm.verifyUTXO(stagingArea, block, blockHash, pastUTXOSet, acceptanceData, multiset)
 	if err != nil {
 		if errors.As(err, &ruleerrors.RuleError{}) {
-    fmt.Printf("DISQUALIFIED block %s verifyUTXO RuleError: %+v\n", blockHash, err)
     return externalapi.StatusDisqualifiedFromChain, nil, nil
 		}
 		return 0, nil, err

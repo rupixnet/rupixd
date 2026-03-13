@@ -76,11 +76,9 @@ func (bp *blockProcessor) validateAndInsertBlock(stagingArea *model.StagingArea,
 	isPruningPoint bool, shouldValidateAgainstUTXO bool, isBlockWithTrustedData bool) (*externalapi.VirtualChangeSet, externalapi.BlockStatus, error) {
 
 	blockHash := consensushashing.HeaderHash(block.Header)
-	fmt.Printf("DEBUG validateAndInsertBlock: blockHash=%s\n", blockHash)
 
 	err := bp.validateBlock(stagingArea, block, isBlockWithTrustedData)
 	if err != nil {
-		fmt.Printf("FAIL validateBlock: %T :: %+v\n", err, err)
 		return nil, externalapi.StatusInvalid, err
 	}
 
@@ -135,10 +133,8 @@ func (bp *blockProcessor) validateAndInsertBlock(stagingArea *model.StagingArea,
 	var reversalData *model.UTXODiffReversalData
 	isHeaderOnlyBlock := isHeaderOnlyBlock(block)
 	if !isHeaderOnlyBlock {
-		fmt.Printf("DEBUG: antes de AddBlock, blockHash=%s\n", blockHash)
 		selectedParentChainChanges, virtualUTXODiff, reversalData, err = bp.consensusStateManager.AddBlock(stagingArea, blockHash, shouldValidateAgainstUTXO)
 		if err != nil {
-			fmt.Printf("FAIL AddBlock: %T :: %+v\n", err, err)
 			return nil, externalapi.StatusInvalid, err
 		}
 	}

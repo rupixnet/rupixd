@@ -1,7 +1,6 @@
 package consensusstatemanager
 
 import (
-	"fmt"
 
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
@@ -21,13 +20,11 @@ func (csm *consensusStateManager) CalculatePastUTXOAndAcceptanceData(stagingArea
 	onEnd := logger.LogAndMeasureExecutionTime(log, "CalculatePastUTXOAndAcceptanceData")
 	defer onEnd()
 
-		fmt.Printf("CalculatePastUTXO blockHash=%s isGenesis=%v\n", blockHash, blockHash.Equal(csm.genesisHash))
 
 	if blockHash.Equal(csm.genesisHash) {
     return csm.calculatePastUTXOAndAcceptanceDataWithSelectedParentUTXO(stagingArea, blockHash, utxo.NewUTXODiff())
 }
 
-	fmt.Printf("calcPastUTXOWithParent blockHash=%s\n", blockHash)
 	blockGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, blockHash, false)
 	if err != nil {
 		return nil, nil, nil, err
@@ -49,10 +46,8 @@ func (csm *consensusStateManager) calculatePastUTXOAndAcceptanceDataWithSelected
 	blockHash *externalapi.DomainHash, selectedParentPastUTXO externalapi.UTXODiff) (
 	externalapi.UTXODiff, externalapi.AcceptanceData, model.Multiset, error) {
 
-	fmt.Printf("calcPastUTXOWithParent blockHash=%s\n", blockHash)
 	blockGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, blockHash, false)
 	if err != nil {
-		fmt.Printf("FAIL calcPastUTXO ghostdag: %T :: %+v\n", err, err)
 		return nil, nil, nil, err
 	}
 
@@ -61,20 +56,17 @@ func (csm *consensusStateManager) calculatePastUTXOAndAcceptanceDataWithSelected
 		if database.IsNotFoundError(err) {
 			daaScore = 0
 		} else {
-			fmt.Printf("FAIL calcPastUTXO daaScore: %T :: %+v\n", err, err)
 			return nil, nil, nil, err
 		}
 	}
 
 	acceptanceData, utxoDiff, err := csm.applyMergeSetBlocks(stagingArea, blockHash, selectedParentPastUTXO, daaScore)
 	if err != nil {
-		fmt.Printf("FAIL calcPastUTXO applyMergeSet: %T :: %+v\n", err, err)
 		return nil, nil, nil, err
 	}
 
 	multiset, err := csm.calculateMultiset(stagingArea, blockHash, acceptanceData, blockGHOSTDAGData, daaScore)
 	if err != nil {
-		fmt.Printf("FAIL calcPastUTXO multiset: %T :: %+v\n", err, err)
 		return nil, nil, nil, err
 	}
 
@@ -122,7 +114,6 @@ func (csm *consensusStateManager) restorePastUTXO(
 		}
 	}
 
-	fmt.Printf("restorePastUTXO blockHash=%s utxoDiffsLen=%d\n", blockHash, len(utxoDiffs))
 	accumulatedDiff := utxo.NewMutableUTXODiff()
 	for i := len(utxoDiffs) - 1; i >= 0; i-- {
 		err := accumulatedDiff.WithDiffInPlace(utxoDiffs[i])
@@ -131,7 +122,6 @@ func (csm *consensusStateManager) restorePastUTXO(
 		}
 	}
 
-	fmt.Printf("restorePastUTXO RESULT blockHash=%s toAdd=%d toRemove=%d\n", blockHash, accumulatedDiff.ToImmutable().ToAdd().Len(), accumulatedDiff.ToImmutable().ToRemove().Len())
 	return accumulatedDiff.ToImmutable(), nil
 }
 

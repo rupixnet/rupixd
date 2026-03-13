@@ -1,7 +1,6 @@
-﻿package consensus
+package consensus
 
 import (
-	"fmt"
 	"math"
 	"math/big"
 	"sync"
@@ -148,16 +147,7 @@ func (s *consensus) Init(skipAddingGenesis bool) error {
                         },
 		}
 		_, _, err = s.blockProcessor.ValidateAndInsertBlockWithTrustedData(genesisWithTrustedData, true)
-        if err == nil {
-            sa2 := model.NewStagingArea()
-            if gd, e := s.ghostdagDataStores[0].Get(s.databaseContext, sa2, s.genesisHash, false); e == nil {
-                fmt.Printf("GENESIS GHOSTDAG after init: sp=%v blues=%d\n", gd.SelectedParent(), len(gd.MergeSetBlues()))
-            } else {
-                fmt.Printf("GENESIS GHOSTDAG ERROR: %v\n", e)
-            }
-        }
 		if err != nil {
-			fmt.Printf("ERROR DETAIL: %T %+v\n", err, errors.WithStack(err))
 			return err
 		}
 	}
