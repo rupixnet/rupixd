@@ -20,9 +20,9 @@ func ExampleAmount() {
 	a = util.Amount(1e5)
 	fmt.Println("100,000 rupia:", a)
 	// Output:
-	// Zero rupia: 0 KAS
-	// 100,000,000 rupia: 1 KAS
-	// 100,000 rupia: 0.001 KAS
+	// Zero rupia: 0 RUPIX
+	// 100,000,000 rupia: 1 RUPIX
+	// 100,000 rupia: 0.001 RUPIX
 }
 
 func ExampleNewAmount() {
@@ -54,26 +54,26 @@ func ExampleNewAmount() {
 	}
 	fmt.Println(amountNaN) //Output 4
 
-	// Output: 1 KAS
-	// 0.01234567 KAS
-	// 0 KAS
+	// Output: 1 RUPIX
+	// 0.01234567 RUPIX
+	// 0 RUPIX
 	// invalid rupix amount
 }
 
 func ExampleAmount_unitConversions() {
 	amount := util.Amount(44433322211100)
 
-	fmt.Println("rupia to kKAS:", amount.Format(util.AmountKiloKAS))
-	fmt.Println("rupia to KAS:", amount)
-	fmt.Println("rupia to MilliKAS:", amount.Format(util.AmountMilliKAS))
-	fmt.Println("rupia to MicroKAS:", amount.Format(util.AmountMicroKAS))
+	fmt.Println("rupia to kRUPIX:", amount.Format(util.AmountKiloRUPIX))
+	fmt.Println("rupia to RUPIX:", amount)
+	fmt.Println("rupia to MilliRUPIX:", amount.Format(util.AmountMilliRUPIX))
+	fmt.Println("rupia to MicroRUPIX:", amount.Format(util.AmountMicroRUPIX))
 	fmt.Println("rupia to rupia:", amount.Format(util.Amountrupia))
 
 	// Output:
-	// rupia to kKAS: 444.333222111 kKAS
-	// rupia to KAS: 444333.222111 KAS
-	// rupia to MilliKAS: 444333222.111 mKAS
-	// rupia to MicroKAS: 444333222111 μKAS
+	// rupia to kRUPIX: 444.333222111 kRUPIX
+	// rupia to RUPIX: 444333.222111 RUPIX
+	// rupia to MilliRUPIX: 444333222.111 mRUPIX
+	// rupia to MicroRUPIX: 444333222111 μRUPIX
 	// rupia to rupia: 44433322211100 rupia
 }
 

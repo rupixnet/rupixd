@@ -1,4 +1,4 @@
-package consensushashing_test
+﻿package consensushashing_test
 
 import (
 	"encoding/hex"

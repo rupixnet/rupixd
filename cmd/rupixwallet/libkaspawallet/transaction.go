@@ -1,8 +1,8 @@
-package libkaspawallet
+﻿package librupixwallet
 
 import (
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet/bip32"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet/serialization"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/bip32"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"

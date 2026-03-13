@@ -1,4 +1,4 @@
-package dagconfig
+﻿package dagconfig
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
@@ -14,11 +14,11 @@ import (
 //
 // For more information about the DAA constants defaultDifficultyAdjustmentWindowSize, defaultTimestampDeviationTolerance,
 // and their relation to defaultGHOSTDAGK and defaultTargetTimePerBlock see:
-// https://research.kas.pa/t/handling-timestamp-manipulations/97
+// https://research.RUPIX.pa/t/handling-timestamp-manipulations/97
 //
 // For more information about defaultMergeSetSizeLimit, defaultFinalityDuration and their relation to pruning, see:
-// https://research.kas.pa/t/a-proposal-for-finality-in-ghostdag/66/17
-// https://research.kas.pa/t/some-of-the-intuition-behind-the-design-of-the-invalidation-rules-for-pruning/95
+// https://research.RUPIX.pa/t/a-proposal-for-finality-in-ghostdag/66/17
+// https://research.RUPIX.pa/t/some-of-the-intuition-behind-the-design-of-the-invalidation-rules-for-pruning/95
 //
 
 const (

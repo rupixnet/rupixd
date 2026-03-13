@@ -1,4 +1,4 @@
-package bip32
+﻿package bip32
 
 import (
 	"github.com/btcsuite/btcutil/base58"

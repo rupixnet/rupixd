@@ -1,13 +1,13 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_IbdBlockLocatorHighestHash) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_IbdBlockLocatorHighestHash) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_IbdBlockLocatorHighestHash is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_IbdBlockLocatorHighestHash is nil")
 	}
 	return x.IbdBlockLocatorHighestHash.toAppMessgage()
 }
@@ -27,7 +27,7 @@ func (x *IbdBlockLocatorHighestHashMessage) toAppMessgage() (appmessage.Message,
 
 }
 
-func (x *KaspadMessage_IbdBlockLocatorHighestHash) fromAppMessage(message *appmessage.MsgIBDBlockLocatorHighestHash) error {
+func (x *RupixdMessage_IbdBlockLocatorHighestHash) fromAppMessage(message *appmessage.MsgIBDBlockLocatorHighestHash) error {
 	x.IbdBlockLocatorHighestHash = &IbdBlockLocatorHighestHashMessage{
 		HighestHash: domainHashToProto(message.HighestHash),
 	}

@@ -1,9 +1,9 @@
-package server
+﻿package server
 
 import (
 	"testing"
 
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet/serialization"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/serialization"
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
 	"github.com/rupixnet/rupixd/util/txmass"
@@ -15,7 +15,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
 )
@@ -43,17 +43,17 @@ func TestEstimateComputeMassAfterSignatures(t *testing.T) {
 			t.Fatalf("Error deserializing unsignedTransaction: %s", err)
 		}
 
-		signedTxStep1Bytes, err := libkaspawallet.Sign(params, mnemonics[:1], unsignedTransactionBytes, false)
+		signedTxStep1Bytes, err := librupixwallet.Sign(params, mnemonics[:1], unsignedTransactionBytes, false)
 		if err != nil {
 			t.Fatalf("Sign: %+v", err)
 		}
 
-		signedTxStep2Bytes, err := libkaspawallet.Sign(params, mnemonics[1:2], signedTxStep1Bytes, false)
+		signedTxStep2Bytes, err := librupixwallet.Sign(params, mnemonics[1:2], signedTxStep1Bytes, false)
 		if err != nil {
 			t.Fatalf("Sign: %+v", err)
 		}
 
-		extractedSignedTx, err := libkaspawallet.ExtractTransaction(signedTxStep2Bytes, false)
+		extractedSignedTx, err := librupixwallet.ExtractTransaction(signedTxStep2Bytes, false)
 		if err != nil {
 			t.Fatalf("ExtractTransaction: %+v", err)
 		}
@@ -98,17 +98,17 @@ func TestEstimateMassAfterSignatures(t *testing.T) {
 			t.Fatalf("Error deserializing unsignedTransaction: %s", err)
 		}
 
-		signedTxStep1Bytes, err := libkaspawallet.Sign(params, mnemonics[:1], unsignedTransactionBytes, false)
+		signedTxStep1Bytes, err := librupixwallet.Sign(params, mnemonics[:1], unsignedTransactionBytes, false)
 		if err != nil {
 			t.Fatalf("Sign: %+v", err)
 		}
 
-		signedTxStep2Bytes, err := libkaspawallet.Sign(params, mnemonics[1:2], signedTxStep1Bytes, false)
+		signedTxStep2Bytes, err := librupixwallet.Sign(params, mnemonics[1:2], signedTxStep1Bytes, false)
 		if err != nil {
 			t.Fatalf("Sign: %+v", err)
 		}
 
-		extractedSignedTx, err := libkaspawallet.ExtractTransaction(signedTxStep2Bytes, false)
+		extractedSignedTx, err := librupixwallet.ExtractTransaction(signedTxStep2Bytes, false)
 		if err != nil {
 			t.Fatalf("ExtractTransaction: %+v", err)
 		}
@@ -142,12 +142,12 @@ func testEstimateMassIncreaseForSignaturesSetUp(t *testing.T, consensusConfig *c
 	publicKeys := make([]string, numKeys)
 	for i := 0; i < numKeys; i++ {
 		var err error
-		mnemonics[i], err = libkaspawallet.CreateMnemonic()
+		mnemonics[i], err = librupixwallet.CreateMnemonic()
 		if err != nil {
 			t.Fatalf("CreateMnemonic: %+v", err)
 		}
 
-		publicKeys[i], err = libkaspawallet.MasterPublicKeyFromMnemonic(&consensusConfig.Params, mnemonics[i], true)
+		publicKeys[i], err = librupixwallet.MasterPublicKeyFromMnemonic(&consensusConfig.Params, mnemonics[i], true)
 		if err != nil {
 			t.Fatalf("MasterPublicKeyFromMnemonic: %+v", err)
 		}
@@ -155,7 +155,7 @@ func testEstimateMassIncreaseForSignaturesSetUp(t *testing.T, consensusConfig *c
 
 	const minimumSignatures = 2
 	path := "m/1/2/3"
-	address, err := libkaspawallet.Address(params, publicKeys, minimumSignatures, path, false)
+	address, err := librupixwallet.Address(params, publicKeys, minimumSignatures, path, false)
 	if err != nil {
 		t.Fatalf("Address: %+v", err)
 	}
@@ -187,7 +187,7 @@ func testEstimateMassIncreaseForSignaturesSetUp(t *testing.T, consensusConfig *c
 
 	block1Tx := block1.Transactions[0]
 	block1TxOut := block1Tx.Outputs[0]
-	selectedUTXOs := []*libkaspawallet.UTXO{
+	selectedUTXOs := []*librupixwallet.UTXO{
 		{
 			Outpoint: &externalapi.DomainOutpoint{
 				TransactionID: *consensushashing.TransactionID(block1.Transactions[0]),
@@ -198,8 +198,8 @@ func testEstimateMassIncreaseForSignaturesSetUp(t *testing.T, consensusConfig *c
 		},
 	}
 
-	unsignedTransaction, err := libkaspawallet.CreateUnsignedTransaction(publicKeys, minimumSignatures,
-		[]*libkaspawallet.Payment{{
+	unsignedTransaction, err := librupixwallet.CreateUnsignedTransaction(publicKeys, minimumSignatures,
+		[]*librupixwallet.Payment{{
 			Address: address,
 			Amount:  10,
 		}}, selectedUTXOs)

@@ -1,13 +1,13 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_IbdChainBlockLocator) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_IbdChainBlockLocator) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_IbdChainBlockLocator is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_IbdChainBlockLocator is nil")
 	}
 	return x.IbdChainBlockLocator.toAppMessage()
 }
@@ -25,7 +25,7 @@ func (x *IbdChainBlockLocatorMessage) toAppMessage() (appmessage.Message, error)
 	}, nil
 }
 
-func (x *KaspadMessage_IbdChainBlockLocator) fromAppMessage(message *appmessage.MsgIBDChainBlockLocator) error {
+func (x *RupixdMessage_IbdChainBlockLocator) fromAppMessage(message *appmessage.MsgIBDChainBlockLocator) error {
 	x.IbdChainBlockLocator = &IbdChainBlockLocatorMessage{
 		BlockLocatorHashes: domainHashesToProto(message.BlockLocatorHashes),
 	}

@@ -1,18 +1,18 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_GetBalanceByAddressRequest) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_GetBalanceByAddressRequest) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_GetBalanceByAddressRequest is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_GetBalanceByAddressRequest is nil")
 	}
 	return x.GetBalanceByAddressRequest.toAppMessage()
 }
 
-func (x *KaspadMessage_GetBalanceByAddressRequest) fromAppMessage(message *appmessage.GetBalanceByAddressRequestMessage) error {
+func (x *RupixdMessage_GetBalanceByAddressRequest) fromAppMessage(message *appmessage.GetBalanceByAddressRequestMessage) error {
 	x.GetBalanceByAddressRequest = &GetBalanceByAddressRequestMessage{
 		Address: message.Address,
 	}
@@ -28,14 +28,14 @@ func (x *GetBalanceByAddressRequestMessage) toAppMessage() (appmessage.Message, 
 	}, nil
 }
 
-func (x *KaspadMessage_GetBalanceByAddressResponse) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_GetBalanceByAddressResponse) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
 		return nil, errors.Wrapf(errorNil, "GetBalanceByAddressResponse is nil")
 	}
 	return x.GetBalanceByAddressResponse.toAppMessage()
 }
 
-func (x *KaspadMessage_GetBalanceByAddressResponse) fromAppMessage(message *appmessage.GetBalanceByAddressResponseMessage) error {
+func (x *RupixdMessage_GetBalanceByAddressResponse) fromAppMessage(message *appmessage.GetBalanceByAddressResponseMessage) error {
 	var err *RPCError
 	if message.Error != nil {
 		err = &RPCError{Message: message.Error.Message}

@@ -1,9 +1,9 @@
-package libkaspawallet
+﻿package librupixwallet
 
 import (
 	"fmt"
 
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet/bip32"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/bip32"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/pkg/errors"
 	"github.com/tyler-smith/go-bip39"
@@ -73,7 +73,7 @@ func versionFromParams(params *dagconfig.Params) ([4]byte, error) {
 	case dagconfig.TestnetParams.Name:
 		return bip32.KaspaTestnetPrivate, nil
 	case dagconfig.DevnetParams.Name:
-		return bip32.KaspaDevnetPrivate, nil
+		return bip32.RupixdevnetPrivate, nil
 	case dagconfig.SimnetParams.Name:
 		return bip32.KaspaSimnetPrivate, nil
 	}

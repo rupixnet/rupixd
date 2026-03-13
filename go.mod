@@ -33,5 +33,5 @@ require (
 
 replace (
 	github.com/kaspanet/go-muhash v0.0.4 => github.com/kaspanet/go-muhash v0.0.5-0.20210407112549-51ff33d5f79b
-	github.com/rupixnet/go-secp256k1 => github.com/kaspanet/go-secp256k1 v0.0.7
+	github.com/kaspanet/go-secp256k1 => github.com/kaspanet/go-secp256k1 v0.0.7
 )

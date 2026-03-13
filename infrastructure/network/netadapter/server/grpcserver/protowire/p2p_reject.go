@@ -1,13 +1,13 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_Reject) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_Reject) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_Reject is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_Reject is nil")
 	}
 	return x.Reject.toAppMessage()
 }
@@ -21,7 +21,7 @@ func (x *RejectMessage) toAppMessage() (appmessage.Message, error) {
 	}, nil
 }
 
-func (x *KaspadMessage_Reject) fromAppMessage(msgReject *appmessage.MsgReject) error {
+func (x *RupixdMessage_Reject) fromAppMessage(msgReject *appmessage.MsgReject) error {
 	x.Reject = &RejectMessage{
 		Reason: msgReject.Reason,
 	}

@@ -9,14 +9,14 @@ import (
 	"testing"
 )
 
-// RunKaspadForTesting runs rupixd for testing purposes
-func RunKaspadForTesting(t *testing.T, testName string, rpcAddress string) func() {
+// RunRupixdForTesting runs rupixd for testing purposes
+func RunRupixdForTesting(t *testing.T, testName string, rpcAddress string) func() {
 	appDir, err := TempDir(testName)
 	if err != nil {
 		t.Fatalf("TempDir: %s", err)
 	}
 
-	kaspadRunCommand, err := StartCmd("rupixd",
+	RupixdRunCommand, err := StartCmd("rupixd",
 		"rupixd",
 		NetworkCliArgumentFromNetParams(&dagconfig.DevnetParams),
 		"--appdir", appDir,
@@ -30,7 +30,7 @@ func RunKaspadForTesting(t *testing.T, testName string, rpcAddress string) func(
 
 	isShutdown := uint64(0)
 	go func() {
-		err := kaspadRunCommand.Wait()
+		err := RupixdRunCommand.Wait()
 		if err != nil {
 			if atomic.LoadUint64(&isShutdown) == 0 {
 				panic(fmt.Sprintf("rupixd closed unexpectedly: %s. See logs at: %s", err, appDir))
@@ -39,7 +39,7 @@ func RunKaspadForTesting(t *testing.T, testName string, rpcAddress string) func(
 	}()
 
 	return func() {
-		err := kaspadRunCommand.Process.Signal(syscall.SIGTERM)
+		err := RupixdRunCommand.Process.Signal(syscall.SIGTERM)
 		if err != nil {
 			t.Fatalf("Signal: %s", err)
 		}

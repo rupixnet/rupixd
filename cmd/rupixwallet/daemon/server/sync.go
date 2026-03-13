@@ -1,18 +1,18 @@
-package server
+﻿package server
 
 import (
 	"fmt"
 	"sort"
 	"time"
 
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-var keyChains = []uint8{libkaspawallet.ExternalKeychain, libkaspawallet.InternalKeychain}
+var keyChains = []uint8{librupixwallet.ExternalKeychain, librupixwallet.InternalKeychain}
 
 type walletAddressSet map[string]*walletAddress
 
@@ -199,7 +199,7 @@ func (s *server) updateAddressesAndLastUsedIndexes(requestedAddressSet walletAdd
 
 		s.addressSet[entry.Address] = walletAddress
 
-		if walletAddress.keyChain == libkaspawallet.ExternalKeychain {
+		if walletAddress.keyChain == librupixwallet.ExternalKeychain {
 			if walletAddress.index > lastUsedExternalIndex {
 				lastUsedExternalIndex = walletAddress.index
 			}

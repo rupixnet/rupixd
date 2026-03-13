@@ -1,13 +1,13 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_InvTransactions) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_InvTransactions) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_InvTransactions is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_InvTransactions is nil")
 	}
 	return x.InvTransactions.toAppMessage()
 }
@@ -29,7 +29,7 @@ func (x *InvTransactionsMessage) toAppMessage() (appmessage.Message, error) {
 
 }
 
-func (x *KaspadMessage_InvTransactions) fromAppMessage(msgInvTransaction *appmessage.MsgInvTransaction) error {
+func (x *RupixdMessage_InvTransactions) fromAppMessage(msgInvTransaction *appmessage.MsgInvTransaction) error {
 	if len(msgInvTransaction.TxIDs) > appmessage.MaxInvPerTxInvMsg {
 		return errors.Errorf("too many hashes for message "+
 			"[count %d, max %d]", len(msgInvTransaction.TxIDs), appmessage.MaxInvPerTxInvMsg)

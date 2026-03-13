@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2016 The btcsuite developers
+﻿// Copyright (c) 2013-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -215,7 +215,7 @@ func TestCheckTransactionStandardInIsolation(t *testing.T) {
 		t.Fatalf("PayToAddrScript: unexpected error: %v", err)
 	}
 	dummyTxOut := externalapi.DomainTransactionOutput{
-		Value:           100000000, // 1 KAS
+		Value:           100000000, // 1 RUPIX
 		ScriptPublicKey: dummyScriptPublicKey,
 	}
 

@@ -1,4 +1,4 @@
-package libkaspawallet
+﻿package librupixwallet
 
 import (
 	"math"
@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/kaspanet/go-secp256k1"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet/bip32"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/bip32"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/rupixnet/rupixd/util"
 	"github.com/pkg/errors"

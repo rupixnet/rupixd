@@ -23,7 +23,7 @@ func (cf commandFailure) String() string {
 
 func commandLoop(argsChan <-chan []string) ([]commandFailure, error) {
 	failures := make([]commandFailure, 0)
-	dataDirectoryPath, err := common.TempDir("kaspadsanity-rupixd-datadir")
+	dataDirectoryPath, err := common.TempDir("Rupixdsanity-rupixd-datadir")
 	if err != nil {
 		return nil, errors.Wrapf(err, "error creating temp dir")
 	}

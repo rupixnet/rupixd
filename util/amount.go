@@ -30,7 +30,7 @@ const (
 
 // String returns the unit as a string. For recognized units, the SI
 // prefix is used, or "rupia" for the base unit. For all unrecognized
-// units, "1eN KAS" is returned, where N is the AmountUnit.
+// units, "1eN RUPIX" is returned, where N is the AmountUnit.
 func (u AmountUnit) String() string {
 	switch u {
 	case AmountMegaRUPIX:
@@ -42,11 +42,11 @@ func (u AmountUnit) String() string {
 	case AmountMilliRUPIX:
 		return "MRUPIX"
 	case AmountMicroRUPIX:
-		return "Î¼KAS"
+		return "Î¼RUPIX"
 	case Amountrupia:
 		return "rupia"
 	default:
-		return "1e" + strconv.FormatInt(int64(u), 10) + " KAS"
+		return "1e" + strconv.FormatInt(int64(u), 10) + " RUPIX"
 	}
 }
 
@@ -70,10 +70,10 @@ func round(f float64) Amount {
 // does not check that the amount is within the total amount of rupix
 // producible as f may not refer to an amount at a single moment in time.
 //
-// NewAmount is for specifically for converting KAS to rupia.
+// NewAmount is for specifically for converting RUPIX to rupia.
 // For creating a new Amount with an int64 value which denotes a quantity of rupia,
 // do a simple type conversion from type int64 to Amount.
-// TODO: Refactor NewAmount. When amounts are more than 1e9 KAS, the precision
+// TODO: Refactor NewAmount. When amounts are more than 1e9 RUPIX, the precision
 // can be higher than one rupia (1e9 and 1e9+1e-8 will result as the same number)
 func NewAmount(f float64) (Amount, error) {
 	// The amount is only considered invalid if it cannot be represented
@@ -96,7 +96,7 @@ func (a Amount) ToUnit(u AmountUnit) float64 {
 	return float64(a) / math.Pow10(int(u+8))
 }
 
-// ToKAS is the equivalent of calling ToUnit with AmountRUPIX.
+// ToRUPIX is the equivalent of calling ToUnit with AmountRUPIX.
 func (a Amount) ToRUPIX() float64 {
 	return a.ToUnit(AmountRUPIX)
 }

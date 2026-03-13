@@ -1,4 +1,4 @@
-package mempoollimits
+﻿package mempoollimits
 
 import (
 	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
@@ -73,9 +73,9 @@ func TestMempoolLimits(t *testing.T) {
 }
 
 func buildRPCClient(t *testing.T) *rpcclient.RPCClient {
-	client, err := rpcclient.NewRPCClient(activeConfig().KaspadRPCAddress)
+	client, err := rpcclient.NewRPCClient(activeConfig().RupixdRPCAddress)
 	if err != nil {
-		t.Fatalf("error connecting to %s: %s", activeConfig().KaspadRPCAddress, err)
+		t.Fatalf("error connecting to %s: %s", activeConfig().RupixdRPCAddress, err)
 	}
 	return client
 }

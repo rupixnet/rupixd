@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"fmt"
@@ -25,10 +25,10 @@ func main() {
 		profiling.Start(cfg.Profile, log)
 	}
 
-	kaspadConfig := config.DefaultConfig()
-	kaspadConfig.NetworkFlags = cfg.NetworkFlags
+	RupixdConfig := config.DefaultConfig()
+	RupixdConfig.NetworkFlags = cfg.NetworkFlags
 
-	minimalNetAdapter, err := standalone.NewMinimalNetAdapter(kaspadConfig)
+	minimalNetAdapter, err := standalone.NewMinimalNetAdapter(RupixdConfig)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error creating minimalNetAdapter: %+v", err)
 		backendLog.Close()

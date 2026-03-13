@@ -1,4 +1,4 @@
-package server
+﻿package server
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet/serialization"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
@@ -40,7 +40,7 @@ func (s *server) broadcast(transactions [][]byte, isDomain bool) ([]string, erro
 				return nil, err
 			}
 		} else if !isDomain { //default in proto3 is false
-			tx, err = libkaspawallet.ExtractTransaction(transaction, s.keysFile.ECDSA)
+			tx, err = librupixwallet.ExtractTransaction(transaction, s.keysFile.ECDSA)
 			if err != nil {
 				return nil, err
 			}

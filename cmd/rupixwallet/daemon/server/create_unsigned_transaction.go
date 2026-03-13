@@ -1,4 +1,4 @@
-package server
+﻿package server
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"math"
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
@@ -15,10 +15,10 @@ import (
 )
 
 // The minimal change amount to target in order to avoid large storage mass (see KIP9 for more details).
-// By having at least 10KAS in the change output we make sure that the storage mass charged for change is
-// at most 1000 gram. Generally, if the payment is above 10KAS as well, the resulting storage mass will be
+// By having at least 10RUPIX in the change output we make sure that the storage mass charged for change is
+// at most 1000 gram. Generally, if the payment is above 10RUPIX as well, the resulting storage mass will be
 // in the order of magnitude of compute mass and wil not incur additional charges.
-// Additionally, every transaction with send value > ~0.1 KAS should succeed (at most ~99K storage mass for payment
+// Additionally, every transaction with send value > ~0.1 RUPIX should succeed (at most ~99K storage mass for payment
 // output, thus overall lower than standard mass upper bound which is 100K gram)
 const minChangeTarget = constants.RupiaPerRupix * 10
 
@@ -76,7 +76,7 @@ func (s *server) calculateFeeLimits(requestFeePolicy *pb.FeePolicy) (feeRate flo
 			return 0, 0, err
 		}
 		feeRate = estimate.Estimate.NormalBuckets[0].Feerate
-		// Default to a bound of max 1 KAS as fee
+		// Default to a bound of max 1 RUPIX as fee
 		maxFee = constants.RupiaPerRupix
 	}
 
@@ -123,17 +123,17 @@ func (s *server) createUnsignedTransactions(address string, amount uint64, isSen
 		return nil, errors.Errorf("couldn't find funds to spend")
 	}
 
-	payments := []*libkaspawallet.Payment{{
+	payments := []*librupixwallet.Payment{{
 		Address: toAddress,
 		Amount:  spendValue,
 	}}
 	if changerupia > 0 {
-		payments = append(payments, &libkaspawallet.Payment{
+		payments = append(payments, &librupixwallet.Payment{
 			Address: changeAddress,
 			Amount:  changerupia,
 		})
 	}
-	unsignedTransaction, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
+	unsignedTransaction, err := librupixwallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
     s.keysFile.MinimumSignatures,
     payments, selectedUTXOs, payload)
 	if err != nil {
@@ -148,12 +148,12 @@ func (s *server) createUnsignedTransactions(address string, amount uint64, isSen
 }
 
 func (s *server) selectUTXOs(spendAmount uint64, isSendAll bool, feeRate float64, maxFee uint64, fromAddresses []*walletAddress) (
-	selectedUTXOs []*libkaspawallet.UTXO, totalReceived uint64, changerupia uint64, err error) {
+	selectedUTXOs []*librupixwallet.UTXO, totalReceived uint64, changerupia uint64, err error) {
 	return s.selectUTXOsWithPreselected(nil, map[externalapi.DomainOutpoint]struct{}{}, spendAmount, isSendAll, feeRate, maxFee, fromAddresses)
 }
 
 func (s *server) selectUTXOsWithPreselected(preSelectedUTXOs []*walletUTXO, allowUsed map[externalapi.DomainOutpoint]struct{}, spendAmount uint64, isSendAll bool, feeRate float64, maxFee uint64, fromAddresses []*walletAddress) (
-	selectedUTXOs []*libkaspawallet.UTXO, totalReceived uint64, changerupia uint64, err error) {
+	selectedUTXOs []*librupixwallet.UTXO, totalReceived uint64, changerupia uint64, err error) {
 
 	preSelectedSet := make(map[externalapi.DomainOutpoint]struct{})
 	for _, utxo := range preSelectedUTXOs {
@@ -189,7 +189,7 @@ func (s *server) selectUTXOsWithPreselected(preSelectedUTXOs []*walletUTXO, allo
 			}
 		}
 
-		selectedUTXOs = append(selectedUTXOs, &libkaspawallet.UTXO{
+		selectedUTXOs = append(selectedUTXOs, &librupixwallet.UTXO{
 			Outpoint:       utxo.Outpoint,
 			UTXOEntry:      utxo.UTXOEntry,
 			DerivationPath: s.walletAddressPath(utxo.address),
@@ -260,7 +260,7 @@ func (s *server) selectUTXOsWithPreselected(preSelectedUTXOs []*walletUTXO, allo
 	return selectedUTXOs, totalReceived, totalValue - totalSpend, nil
 }
 
-func (s *server) estimateFee(selectedUTXOs []*libkaspawallet.UTXO, feeRate float64, maxFee uint64, recipientValue uint64) (uint64, error) {
+func (s *server) estimateFee(selectedUTXOs []*librupixwallet.UTXO, feeRate float64, maxFee uint64, recipientValue uint64) (uint64, error) {
 	fakePubKey := [util.PublicKeySizeECDSA]byte{}
 	fakeAddr, err := util.NewAddressPublicKeyECDSA(fakePubKey[:], s.params.Prefix) // We assume the worst case where the recipient address is ECDSA. In this case the scriptPubKey will be the longest.
 	if err != nil {
@@ -273,9 +273,9 @@ func (s *server) estimateFee(selectedUTXOs []*libkaspawallet.UTXO, feeRate float
 	}
 
 	// This is an approximation for the distribution of value between the recipient output and the change output.
-	var mockPayments []*libkaspawallet.Payment
+	var mockPayments []*librupixwallet.Payment
 	if totalValue > recipientValue {
-		mockPayments = []*libkaspawallet.Payment{
+		mockPayments = []*librupixwallet.Payment{
 			{
 				Address: fakeAddr,
 				Amount:  recipientValue,
@@ -286,7 +286,7 @@ func (s *server) estimateFee(selectedUTXOs []*libkaspawallet.UTXO, feeRate float
 			},
 		}
 	} else {
-		mockPayments = []*libkaspawallet.Payment{
+		mockPayments = []*librupixwallet.Payment{
 			{
 				Address: fakeAddr,
 				Amount:  totalValue,
@@ -294,7 +294,7 @@ func (s *server) estimateFee(selectedUTXOs []*libkaspawallet.UTXO, feeRate float
 		}
 	}
 
-	mockTx, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
+	mockTx, err := librupixwallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
 		mockPayments, selectedUTXOs, nil)
 	if err != nil {
@@ -310,7 +310,7 @@ func (s *server) estimateFee(selectedUTXOs []*libkaspawallet.UTXO, feeRate float
 }
 
 func (s *server) estimateFeePerInput(feeRate float64) (uint64, error) {
-	mockUTXO := &libkaspawallet.UTXO{
+	mockUTXO := &librupixwallet.UTXO{
 		Outpoint: &externalapi.DomainOutpoint{
 			TransactionID: externalapi.DomainTransactionID{},
 			Index:         0,
@@ -322,9 +322,9 @@ func (s *server) estimateFeePerInput(feeRate float64) (uint64, error) {
 		DerivationPath: "m",
 	}
 
-	mockTx, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
+	mockTx, err := librupixwallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
-		nil, []*libkaspawallet.UTXO{mockUTXO}, nil)
+		nil, []*librupixwallet.UTXO{mockUTXO}, nil)
 	if err != nil {
 		return 0, err
 	}
@@ -336,7 +336,7 @@ func (s *server) estimateFeePerInput(feeRate float64) (uint64, error) {
 		return 0, err
 	}
 
-	mockTxWithoutUTXO, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
+	mockTxWithoutUTXO, err := librupixwallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
 		nil, nil, nil)
 	if err != nil {

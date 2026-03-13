@@ -1,18 +1,18 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_GetMempoolEntryRequest) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_GetMempoolEntryRequest) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_GetMempoolEntryRequest is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_GetMempoolEntryRequest is nil")
 	}
 	return x.GetMempoolEntryRequest.toAppMessage()
 }
 
-func (x *KaspadMessage_GetMempoolEntryRequest) fromAppMessage(message *appmessage.GetMempoolEntryRequestMessage) error {
+func (x *RupixdMessage_GetMempoolEntryRequest) fromAppMessage(message *appmessage.GetMempoolEntryRequestMessage) error {
 	x.GetMempoolEntryRequest = &GetMempoolEntryRequestMessage{
 		TxId:                  message.TxID,
 		IncludeOrphanPool:     message.IncludeOrphanPool,
@@ -32,14 +32,14 @@ func (x *GetMempoolEntryRequestMessage) toAppMessage() (appmessage.Message, erro
 	}, nil
 }
 
-func (x *KaspadMessage_GetMempoolEntryResponse) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_GetMempoolEntryResponse) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_GetMempoolEntryResponse is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_GetMempoolEntryResponse is nil")
 	}
 	return x.GetMempoolEntryResponse.toAppMessage()
 }
 
-func (x *KaspadMessage_GetMempoolEntryResponse) fromAppMessage(message *appmessage.GetMempoolEntryResponseMessage) error {
+func (x *RupixdMessage_GetMempoolEntryResponse) fromAppMessage(message *appmessage.GetMempoolEntryResponseMessage) error {
 	var rpcErr *RPCError
 	if message.Error != nil {
 		rpcErr = &RPCError{Message: message.Error.Message}

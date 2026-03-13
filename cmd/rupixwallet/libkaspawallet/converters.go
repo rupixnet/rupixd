@@ -1,4 +1,4 @@
-package libkaspawallet
+﻿package librupixwallet
 
 import (
 	"encoding/hex"
@@ -10,10 +10,10 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 )
 
-// KaspawalletdUTXOsTolibkaspawalletUTXOs converts a  []*pb.UtxosByAddressesEntry to a []*libkaspawallet.UTXO
-func KaspawalletdUTXOsTolibkaspawalletUTXOs(kaspawalletdUtxoEntires []*pb.UtxosByAddressesEntry) ([]*UTXO, error) {
-	UTXOs := make([]*UTXO, len(kaspawalletdUtxoEntires))
-	for i, entry := range kaspawalletdUtxoEntires {
+// rupixwalletdUTXOsTolibrupixwalletUTXOs converts a  []*pb.UtxosByAddressesEntry to a []*librupixwallet.UTXO
+func rupixwalletdUTXOsTolibrupixwalletUTXOs(rupixwalletdUtxoEntires []*pb.UtxosByAddressesEntry) ([]*UTXO, error) {
+	UTXOs := make([]*UTXO, len(rupixwalletdUtxoEntires))
+	for i, entry := range rupixwalletdUtxoEntires {
 		script, err := hex.DecodeString(entry.UtxoEntry.ScriptPublicKey.ScriptPublicKey)
 		if err != nil {
 			return nil, err
@@ -41,8 +41,8 @@ func KaspawalletdUTXOsTolibkaspawalletUTXOs(kaspawalletdUtxoEntires []*pb.UtxosB
 	return UTXOs, nil
 }
 
-// AppMessageUTXOToKaspawalletdUTXO converts an appmessage.UTXOsByAddressesEntry to a  pb.UtxosByAddressesEntry
-func AppMessageUTXOToKaspawalletdUTXO(appUTXOsByAddressesEntry *appmessage.UTXOsByAddressesEntry) *pb.UtxosByAddressesEntry {
+// AppMessageUTXOTorupixwalletdUTXO converts an appmessage.UTXOsByAddressesEntry to a  pb.UtxosByAddressesEntry
+func AppMessageUTXOTorupixwalletdUTXO(appUTXOsByAddressesEntry *appmessage.UTXOsByAddressesEntry) *pb.UtxosByAddressesEntry {
 	return &pb.UtxosByAddressesEntry{
 		Outpoint: &pb.Outpoint{
 			TransactionId: appUTXOsByAddressesEntry.Outpoint.TransactionID,

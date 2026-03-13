@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"reflect"
@@ -9,8 +9,8 @@ import (
 
 // protobuf generates the command types with two types:
 // 1. A concrete type that holds the fields of the command bearing the name of the command with `RequestMessage` as suffix
-// 2. A wrapper that implements isKaspadMessage_Payload, having a single field pointing to the concrete command
-//    bearing the name of the command with `KaspadMessage_` prefix and `Request` suffix
+// 2. A wrapper that implements isRupixdMessage_Payload, having a single field pointing to the concrete command
+//    bearing the name of the command with `RupixdMessage_` prefix and `Request` suffix
 
 // unwrapCommandType converts a reflect.Type signifying a wrapper type into the concrete request type
 func unwrapCommandType(requestTypeWrapped reflect.Type) reflect.Type {
@@ -28,14 +28,14 @@ func isFieldExported(field reflect.StructField) bool {
 	return unicode.IsUpper(rune(field.Name[0]))
 }
 
-// generateKaspadMessage generates a wrapped KaspadMessage with the given `commandValue`
-func generateKaspadMessage(commandValue reflect.Value, commandDesc *commandDescription) (*protowire.KaspadMessage, error) {
+// generateRupixdMessage generates a wrapped RupixdMessage with the given `commandValue`
+func generateRupixdMessage(commandValue reflect.Value, commandDesc *commandDescription) (*protowire.RupixdMessage, error) {
 	commandWrapper := reflect.New(commandDesc.typeof)
 	unwrapCommandValue(commandWrapper).Set(commandValue)
 
-	kaspadMessage := reflect.New(reflect.TypeOf(protowire.KaspadMessage{}))
-	kaspadMessage.Elem().FieldByName("Payload").Set(commandWrapper)
-	return kaspadMessage.Interface().(*protowire.KaspadMessage), nil
+	RupixdMessage := reflect.New(reflect.TypeOf(protowire.RupixdMessage{}))
+	RupixdMessage.Elem().FieldByName("Payload").Set(commandWrapper)
+	return RupixdMessage.Interface().(*protowire.RupixdMessage), nil
 }
 
 // pointerToValue returns a reflect.Value that represents a pointer to the given value

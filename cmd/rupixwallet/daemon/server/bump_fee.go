@@ -1,11 +1,11 @@
-package server
+﻿package server
 
 import (
 	"context"
 
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/pkg/errors"
@@ -71,7 +71,7 @@ func (s *server) BumpFee(_ context.Context, request *pb.BumpFeeRequest) (*pb.Bum
 	}
 
 	if len(domainTx.Outputs) == 0 || len(domainTx.Outputs) > 2 {
-		return nil, errors.Errorf("kaspawallet supports only transactions with 1 or 2 outputs in transaction %s, but this transaction got %d", request.TxID, len(domainTx.Outputs))
+		return nil, errors.Errorf("rupixwallet supports only transactions with 1 or 2 outputs in transaction %s, but this transaction got %d", request.TxID, len(domainTx.Outputs))
 	}
 
 	var fromAddresses []*walletAddress
@@ -106,7 +106,7 @@ func (s *server) BumpFee(_ context.Context, request *pb.BumpFeeRequest) (*pb.Bum
 		return nil, errors.Errorf("couldn't find funds to spend")
 	}
 
-	payments := []*libkaspawallet.Payment{{
+	payments := []*librupixwallet.Payment{{
 		Address: toAddress,
 		Amount:  spendValue,
 	}}
@@ -116,12 +116,12 @@ func (s *server) BumpFee(_ context.Context, request *pb.BumpFeeRequest) (*pb.Bum
 			return nil, err
 		}
 
-		payments = append(payments, &libkaspawallet.Payment{
+		payments = append(payments, &librupixwallet.Payment{
 			Address: changeAddress,
 			Amount:  changerupia,
 		})
 	}
-	unsignedTransaction, err := libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
+	unsignedTransaction, err := librupixwallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
 		payments, selectedUTXOs, nil)
 	if err != nil {

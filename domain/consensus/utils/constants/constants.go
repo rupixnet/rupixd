@@ -30,7 +30,7 @@ const (
     LevelPlatino uint16 = 2
     LevelRodio uint16 = 3
     LevelKings uint16 = 4
-    LevelDiamanteUnlockScore uint64 = 42_000_000
+    LevelDiamanteUnlockScore uint64 = 100
     LevelPlatinoUnlockScore uint64 = 84_000_000
     LevelRodioUnlockScore uint64 = 126_000_000
     LevelKingsUnlockScore uint64 = 168_000_000

@@ -108,7 +108,7 @@ func startNode() (teardown func(), err error) {
 	}
 	log.Infof("rupixd datadir: %s", dataDir)
 
-	kaspadCmd, err := common.StartCmd("rupixd",
+	RupixdCmd, err := common.StartCmd("rupixd",
 		"rupixd",
 		common.NetworkCliArgumentFromNetParams(activeConfig().NetParams()),
 		"--appdir", dataDir,
@@ -124,15 +124,15 @@ func startNode() (teardown func(), err error) {
 
 	processesStoppedWg := sync.WaitGroup{}
 	processesStoppedWg.Add(1)
-	spawn("startNode-kaspadCmd.Wait", func() {
-		err := kaspadCmd.Wait()
+	spawn("startNode-RupixdCmd.Wait", func() {
+		err := RupixdCmd.Wait()
 		if err != nil {
 			if atomic.LoadUint64(&shutdown) == 0 {
-				panics.Exit(log, fmt.Sprintf("kaspadCmd closed unexpectedly: %s. See logs at: %s", err, dataDir))
+				panics.Exit(log, fmt.Sprintf("RupixdCmd closed unexpectedly: %s. See logs at: %s", err, dataDir))
 			}
 			if !strings.Contains(err.Error(), "signal: killed") {
 				// TODO: Panic here and check why sometimes rupixd closes ungracefully
-				log.Errorf("kaspadCmd closed with an error: %s. See logs at: %s", err, dataDir)
+				log.Errorf("RupixdCmd closed with an error: %s. See logs at: %s", err, dataDir)
 			}
 		}
 		processesStoppedWg.Done()
@@ -140,7 +140,7 @@ func startNode() (teardown func(), err error) {
 	return func() {
 		log.Infof("defer start-node")
 		atomic.StoreUint64(&shutdown, 1)
-		killWithSigterm(kaspadCmd, "kaspadCmd")
+		killWithSigterm(RupixdCmd, "RupixdCmd")
 
 		processesStoppedChan := make(chan struct{})
 		spawn("startNode-processStoppedWg.Wait", func() {

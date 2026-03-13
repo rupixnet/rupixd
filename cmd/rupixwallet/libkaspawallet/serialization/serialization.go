@@ -1,9 +1,9 @@
-package serialization
+﻿package serialization
 
 import (
 	"math"
 
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet/serialization/protoserialization"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/serialization/protoserialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	"github.com/pkg/errors"

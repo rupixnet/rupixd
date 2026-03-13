@@ -1,7 +1,7 @@
-package miningmanager_test
+﻿package miningmanager_test
 
 import (
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/domain/consensusreference"
 	"github.com/rupixnet/rupixd/domain/miningmanager/model"
 	"github.com/rupixnet/rupixd/util"
@@ -885,7 +885,7 @@ func generateNewCoinbase(addressPrefix util.Bech32Prefix, op opType) (*externala
 			ExtraData:       nil,
 		}, nil
 	}
-	_, publicKey, err := libkaspawallet.CreateKeyPair(op == opECDSA)
+	_, publicKey, err := librupixwallet.CreateKeyPair(op == opECDSA)
 	if err != nil {
 		return nil, err
 	}
@@ -929,7 +929,7 @@ func createTransactionWithUTXOEntry(t *testing.T, i int, daaScore uint64) *exter
 		SignatureScript:  signatureScript,
 		Sequence:         constants.MaxTxInSequenceNum,
 		UTXOEntry: utxo.NewUTXOEntry(
-			100000000, // 1 KAS
+			100000000, // 1 RUPIX
 			scriptPublicKey,
 			true,
 			daaScore),

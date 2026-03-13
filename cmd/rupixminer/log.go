@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 
 var (
 	backendLog = logger.NewBackend()
-	log        = backendLog.Logger("KSMN")
+	log        = backendLog.Logger("RUPM")
 	spawn      = panics.GoroutineWrapperFunc(log)
 )
 

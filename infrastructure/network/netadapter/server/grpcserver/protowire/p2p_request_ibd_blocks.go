@@ -1,13 +1,13 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_RequestIBDBlocks) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_RequestIBDBlocks) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_RequestIBDBlocks is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_RequestIBDBlocks is nil")
 	}
 	return x.RequestIBDBlocks.toAppMessage()
 }
@@ -23,7 +23,7 @@ func (x *RequestIBDBlocksMessage) toAppMessage() (appmessage.Message, error) {
 	return &appmessage.MsgRequestIBDBlocks{Hashes: hashes}, nil
 }
 
-func (x *KaspadMessage_RequestIBDBlocks) fromAppMessage(msgRequestIBDBlocks *appmessage.MsgRequestIBDBlocks) error {
+func (x *RupixdMessage_RequestIBDBlocks) fromAppMessage(msgRequestIBDBlocks *appmessage.MsgRequestIBDBlocks) error {
 	x.RequestIBDBlocks = &RequestIBDBlocksMessage{
 		Hashes: domainHashesToProto(msgRequestIBDBlocks.Hashes),
 	}

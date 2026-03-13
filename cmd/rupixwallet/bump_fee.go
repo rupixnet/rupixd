@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/client"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/pkg/errors"
 )
 
@@ -74,7 +74,7 @@ func bumpFee(conf *bumpFeeConfig) error {
 
 	signedTransactions := make([][]byte, len(createUnsignedTransactionsResponse.Transactions))
 	for i, unsignedTransaction := range createUnsignedTransactionsResponse.Transactions {
-		signedTransaction, err := libkaspawallet.Sign(conf.NetParams(), mnemonics, unsignedTransaction, keysFile.ECDSA)
+		signedTransaction, err := librupixwallet.Sign(conf.NetParams(), mnemonics, unsignedTransaction, keysFile.ECDSA)
 		if err != nil {
 			return err
 		}

@@ -1,9 +1,9 @@
-// RPC-related types. Request messages, response messages, and dependant types.
+﻿// RPC-related types. Request messages, response messages, and dependant types.
 //
-// Clients are expected to build RequestMessages and wrap them in KaspadMessage. (see messages.proto)
+// Clients are expected to build RequestMessages and wrap them in RupixdMessage. (see messages.proto)
 //
-// Having received a RequestMessage, (wrapped in a KaspadMessage) the RPC server will respond with a
-// ResponseMessage (likewise wrapped in a KaspadMessage) respective to the original RequestMessage.
+// Having received a RequestMessage, (wrapped in a RupixdMessage) the RPC server will respond with a
+// ResponseMessage (likewise wrapped in a RupixdMessage) respective to the original RequestMessage.
 //
 // **IMPORTANT:** This API is a work in progress and is subject to break between versions.
 //
@@ -1058,7 +1058,7 @@ func (x *RpcTransactionOutputVerboseData) GetScriptPublicKeyAddress() string {
 	return ""
 }
 
-// GetCurrentNetworkRequestMessage requests the network kaspad is currently running against.
+// GetCurrentNetworkRequestMessage requests the network Rupixd is currently running against.
 //
 // Possible networks are: Mainnet, Testnet, Simnet, Devnet
 type GetCurrentNetworkRequestMessage struct {
@@ -1317,9 +1317,9 @@ func (x *GetBlockTemplateRequestMessage) GetExtraData() string {
 type GetBlockTemplateResponseMessage struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	Block *RpcBlock              `protobuf:"bytes,3,opt,name=block,proto3" json:"block,omitempty"`
-	// Whether kaspad thinks that it's synced.
-	// Callers are discouraged (but not forbidden) from solving blocks when kaspad is not synced.
-	// That is because when kaspad isn't in sync with the rest of the network there's a high
+	// Whether Rupixd thinks that it's synced.
+	// Callers are discouraged (but not forbidden) from solving blocks when Rupixd is not synced.
+	// That is because when Rupixd isn't in sync with the rest of the network there's a high
 	// chance the block will never be accepted, thus the solving effort would have been wasted.
 	IsSynced      bool      `protobuf:"varint,2,opt,name=isSynced,proto3" json:"isSynced,omitempty"`
 	Error         *RPCError `protobuf:"bytes,1000,opt,name=error,proto3" json:"error,omitempty"`
@@ -1509,7 +1509,7 @@ func (x *BlockAddedNotificationMessage) GetBlock() *RpcBlock {
 	return nil
 }
 
-// GetPeerAddressesRequestMessage requests the list of known kaspad addresses in the
+// GetPeerAddressesRequestMessage requests the list of known Rupixd addresses in the
 // current network. (mainnet, testnet, etc.)
 type GetPeerAddressesRequestMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -2023,7 +2023,7 @@ func (x *MempoolEntry) GetIsOrphan() bool {
 }
 
 // GetConnectedPeerInfoRequestMessage requests information about all the p2p peers
-// currently connected to this kaspad.
+// currently connected to this Rupixd.
 type GetConnectedPeerInfoRequestMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -2118,13 +2118,13 @@ type GetConnectedPeerInfoMessage struct {
 	Address string                 `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
 	// How long did the last ping/pong exchange take
 	LastPingDuration int64 `protobuf:"varint,3,opt,name=lastPingDuration,proto3" json:"lastPingDuration,omitempty"`
-	// Whether this kaspad initiated the connection
+	// Whether this Rupixd initiated the connection
 	IsOutbound bool   `protobuf:"varint,6,opt,name=isOutbound,proto3" json:"isOutbound,omitempty"`
 	TimeOffset int64  `protobuf:"varint,7,opt,name=timeOffset,proto3" json:"timeOffset,omitempty"`
 	UserAgent  string `protobuf:"bytes,8,opt,name=userAgent,proto3" json:"userAgent,omitempty"`
 	// The protocol version that this peer claims to support
 	AdvertisedProtocolVersion uint32 `protobuf:"varint,9,opt,name=advertisedProtocolVersion,proto3" json:"advertisedProtocolVersion,omitempty"`
-	// The timestamp of when this peer connected to this kaspad
+	// The timestamp of when this peer connected to this Rupixd
 	TimeConnected int64 `protobuf:"varint,10,opt,name=timeConnected,proto3" json:"timeConnected,omitempty"`
 	// Whether this peer is the IBD peer (if IBD is running)
 	IsIbdPeer     bool `protobuf:"varint,11,opt,name=isIbdPeer,proto3" json:"isIbdPeer,omitempty"`
@@ -2225,8 +2225,8 @@ func (x *GetConnectedPeerInfoMessage) GetIsIbdPeer() bool {
 	return false
 }
 
-// AddPeerRequestMessage adds a peer to kaspad's outgoing connection list.
-// This will, in most cases, result in kaspad connecting to said peer.
+// AddPeerRequestMessage adds a peer to Rupixd's outgoing connection list.
+// This will, in most cases, result in Rupixd connecting to said peer.
 type AddPeerRequestMessage struct {
 	state   protoimpl.MessageState `protogen:"open.v1"`
 	Address string                 `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
@@ -2795,7 +2795,7 @@ func (x *GetSubnetworkResponseMessage) GetError() *RPCError {
 }
 
 // GetVirtualSelectedParentChainFromBlockRequestMessage requests the virtual selected
-// parent chain from some startHash to this kaspad's current virtual
+// parent chain from some startHash to this Rupixd's current virtual
 type GetVirtualSelectedParentChainFromBlockRequestMessage struct {
 	state                         protoimpl.MessageState `protogen:"open.v1"`
 	StartHash                     string                 `protobuf:"bytes,1,opt,name=startHash,proto3" json:"startHash,omitempty"`
@@ -2973,7 +2973,7 @@ func (x *GetVirtualSelectedParentChainFromBlockResponseMessage) GetError() *RPCE
 }
 
 // GetBlocksRequestMessage requests blocks between a certain block lowHash up to this
-// kaspad's current virtual.
+// Rupixd's current virtual.
 type GetBlocksRequestMessage struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
 	LowHash             string                 `protobuf:"bytes,1,opt,name=lowHash,proto3" json:"lowHash,omitempty"`
@@ -3094,7 +3094,7 @@ func (x *GetBlocksResponseMessage) GetError() *RPCError {
 	return nil
 }
 
-// GetBlockCountRequestMessage requests the current number of blocks in this kaspad.
+// GetBlockCountRequestMessage requests the current number of blocks in this Rupixd.
 // Note that this number may decrease as pruning occurs.
 type GetBlockCountRequestMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -3193,7 +3193,7 @@ func (x *GetBlockCountResponseMessage) GetError() *RPCError {
 }
 
 // GetBlockDagInfoRequestMessage requests general information about the current state
-// of this kaspad's DAG.
+// of this Rupixd's DAG.
 type GetBlockDagInfoRequestMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -3602,7 +3602,7 @@ func (x *FinalityConflictResolvedNotificationMessage) GetFinalityBlockHash() str
 	return ""
 }
 
-// ShutDownRequestMessage shuts down this kaspad.
+// ShutDownRequestMessage shuts down this Rupixd.
 type ShutDownRequestMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -3800,7 +3800,7 @@ func (x *GetHeadersResponseMessage) GetError() *RPCError {
 // NotifyUtxosChangedRequestMessage registers this connection for utxoChanged notifications
 // for the given addresses.
 //
-// This call is only available when this kaspad was started with `--utxoindex`
+// This call is only available when this Rupixd was started with `--utxoindex`
 //
 // See: UtxosChangedNotificationMessage
 type NotifyUtxosChangedRequestMessage struct {
@@ -4009,7 +4009,7 @@ func (x *UtxosByAddressesEntry) GetUtxoEntry() *RpcUtxoEntry {
 // StopNotifyingUtxosChangedRequestMessage unregisters this connection for utxoChanged notifications
 // for the given addresses.
 //
-// This call is only available when this kaspad was started with `--utxoindex`
+// This call is only available when this Rupixd was started with `--utxoindex`
 //
 // See: UtxosChangedNotificationMessage
 type StopNotifyingUtxosChangedRequestMessage struct {
@@ -4100,9 +4100,9 @@ func (x *StopNotifyingUtxosChangedResponseMessage) GetError() *RPCError {
 	return nil
 }
 
-// GetUtxosByAddressesRequestMessage requests all current UTXOs for the given kaspad addresses
+// GetUtxosByAddressesRequestMessage requests all current UTXOs for the given Rupixd addresses
 //
-// This call is only available when this kaspad was started with `--utxoindex`
+// This call is only available when this Rupixd was started with `--utxoindex`
 type GetUtxosByAddressesRequestMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Addresses     []string               `protobuf:"bytes,1,rep,name=addresses,proto3" json:"addresses,omitempty"`
@@ -4201,7 +4201,7 @@ func (x *GetUtxosByAddressesResponseMessage) GetError() *RPCError {
 
 // GetBalanceByAddressRequest returns the total balance in unspent transactions towards a given address
 //
-// This call is only available when this kaspad was started with `--utxoindex`
+// This call is only available when this Rupixd was started with `--utxoindex`
 type GetBalanceByAddressRequestMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Address       string                 `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
@@ -4811,7 +4811,7 @@ func (x *VirtualDaaScoreChangedNotificationMessage) GetVirtualDaaScore() uint64 
 // NotifyPruningPointUTXOSetOverrideRequestMessage registers this connection for
 // pruning point UTXO set override notifications.
 //
-// This call is only available when this kaspad was started with `--utxoindex`
+// This call is only available when this Rupixd was started with `--utxoindex`
 //
 // See: NotifyPruningPointUTXOSetOverrideResponseMessage
 type NotifyPruningPointUTXOSetOverrideRequestMessage struct {
@@ -4937,7 +4937,7 @@ func (*PruningPointUTXOSetOverrideNotificationMessage) Descriptor() ([]byte, []i
 // StopNotifyingPruningPointUTXOSetOverrideRequestMessage unregisters this connection for
 // pruning point UTXO set override notifications.
 //
-// This call is only available when this kaspad was started with `--utxoindex`
+// This call is only available when this Rupixd was started with `--utxoindex`
 //
 // See: PruningPointUTXOSetOverrideNotificationMessage
 type StopNotifyingPruningPointUTXOSetOverrideRequestMessage struct {

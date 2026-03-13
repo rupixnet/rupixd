@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"bufio"
@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/utils"
 
 	"github.com/pkg/errors"
@@ -36,7 +36,7 @@ func dumpUnencryptedData(conf *dumpUnencryptedDataConfig) error {
 	mnemonicPublicKeys := make(map[string]struct{})
 	for i, mnemonic := range mnemonics {
 		fmt.Printf("Mnemonic #%d:\n%s\n\n", i+1, mnemonic)
-		publicKey, err := libkaspawallet.MasterPublicKeyFromMnemonic(conf.NetParams(), mnemonic, len(keysFile.ExtendedPublicKeys) > 1)
+		publicKey, err := librupixwallet.MasterPublicKeyFromMnemonic(conf.NetParams(), mnemonic, len(keysFile.ExtendedPublicKeys) > 1)
 		if err != nil {
 			return err
 		}

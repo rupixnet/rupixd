@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"context"
@@ -8,8 +8,8 @@ import (
 	"github.com/kaspanet/go-secp256k1"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/client"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet/serialization"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/serialization"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/utils"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
@@ -33,7 +33,7 @@ func sweep(conf *sweepConfig) error {
 		return err
 	}
 
-	publicKeybytes, err := libkaspawallet.PublicKeyFromPrivateKey(privateKeyBytes)
+	publicKeybytes, err := librupixwallet.PublicKeyFromPrivateKey(privateKeyBytes)
 	if err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func sweep(conf *sweepConfig) error {
 		return err
 	}
 
-	UTXOs, err := libkaspawallet.KaspawalletdUTXOsTolibkaspawalletUTXOs(getExternalSpendableUTXOsResponse.Entries)
+	UTXOs, err := librupixwallet.rupixwalletdUTXOsTolibrupixwalletUTXOs(getExternalSpendableUTXOsResponse.Entries)
 	if err != nil {
 		return err
 	}
@@ -116,12 +116,12 @@ func sweep(conf *sweepConfig) error {
 	fmt.Println("\nTransaction ID(s):")
 	for i, txID := range response.TxIDs {
 		fmt.Printf("\t%s\n", txID)
-		fmt.Println("\tSwept:\t", utils.FormatKas(splitTransactions[i].Outputs[0].Value), " KAS")
+		fmt.Println("\tSwept:\t", utils.FormatRUPIX(splitTransactions[i].Outputs[0].Value), " RUPIX")
 		totalExtracted = totalExtracted + splitTransactions[i].Outputs[0].Value
 	}
 
 	fmt.Println("\nTotal Funds swept (including transaction fees):")
-	fmt.Println("\t", utils.FormatKas(totalExtracted), " KAS")
+	fmt.Println("\t", utils.FormatRUPIX(totalExtracted), " RUPIX")
 
 	return nil
 }
@@ -140,7 +140,7 @@ func newDummyTransaction() *externalapi.DomainTransaction {
 
 func createSplitTransactionsWithSchnorrPrivteKey(
 	params *dagconfig.Params,
-	selectedUTXOs []*libkaspawallet.UTXO,
+	selectedUTXOs []*librupixwallet.UTXO,
 	toAddress util.Address,
 	feePerInput int) ([]*externalapi.DomainTransaction, error) {
 

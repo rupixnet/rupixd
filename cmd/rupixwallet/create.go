@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet/bip32"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/bip32"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/utils"
 	"github.com/pkg/errors"
 
@@ -58,7 +58,7 @@ func create(conf *createConfig) error {
 	// For a read only wallet the cosigner index is 0
 	cosignerIndex := uint32(0)
 	if len(signerExtendedPublicKeys) > 0 {
-		cosignerIndex, err = libkaspawallet.MinimumCosignerIndex(signerExtendedPublicKeys, extendedPublicKeys)
+		cosignerIndex, err = librupixwallet.MinimumCosignerIndex(signerExtendedPublicKeys, extendedPublicKeys)
 		if err != nil {
 			return err
 		}

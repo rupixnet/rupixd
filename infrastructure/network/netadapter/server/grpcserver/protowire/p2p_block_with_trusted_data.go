@@ -1,4 +1,4 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
@@ -7,9 +7,9 @@ import (
 	"math/big"
 )
 
-func (x *KaspadMessage_BlockWithTrustedData) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_BlockWithTrustedData) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_BlockWithTrustedData is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_BlockWithTrustedData is nil")
 	}
 
 	msgBlock, err := x.BlockWithTrustedData.Block.toAppMessage()
@@ -51,7 +51,7 @@ func (x *KaspadMessage_BlockWithTrustedData) toAppMessage() (appmessage.Message,
 	}, nil
 }
 
-func (x *KaspadMessage_BlockWithTrustedData) fromAppMessage(msgBlockWithTrustedData *appmessage.MsgBlockWithTrustedData) error {
+func (x *RupixdMessage_BlockWithTrustedData) fromAppMessage(msgBlockWithTrustedData *appmessage.MsgBlockWithTrustedData) error {
 	x.BlockWithTrustedData = &BlockWithTrustedDataMessage{
 		Block:        &BlockMessage{},
 		DaaScore:     msgBlockWithTrustedData.DAAScore,

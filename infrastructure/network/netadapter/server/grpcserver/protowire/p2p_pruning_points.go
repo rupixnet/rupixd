@@ -1,13 +1,13 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_PruningPoints) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_PruningPoints) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_PruningPoints is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_PruningPoints is nil")
 	}
 
 	if x.PruningPoints == nil {
@@ -27,7 +27,7 @@ func (x *KaspadMessage_PruningPoints) toAppMessage() (appmessage.Message, error)
 	}, nil
 }
 
-func (x *KaspadMessage_PruningPoints) fromAppMessage(msgPruningPoints *appmessage.MsgPruningPoints) error {
+func (x *RupixdMessage_PruningPoints) fromAppMessage(msgPruningPoints *appmessage.MsgPruningPoints) error {
 	blockHeaders := make([]*BlockHeader, len(msgPruningPoints.Headers))
 	for i, blockHeader := range msgPruningPoints.Headers {
 		blockHeaders[i] = &BlockHeader{}

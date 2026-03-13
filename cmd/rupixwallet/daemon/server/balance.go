@@ -1,11 +1,11 @@
-package server
+﻿package server
 
 import (
 	"context"
 	"github.com/pkg/errors"
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 )
 
 type balancesType struct{ available, pending uint64 }
@@ -44,7 +44,7 @@ func (s *server) GetBalance(_ context.Context, _ *pb.GetBalanceRequest) (*pb.Get
 	i := 0
 	var available, pending uint64
 	for walletAddress, balances := range balancesMap {
-		address, err := libkaspawallet.Address(s.params, s.keysFile.ExtendedPublicKeys, s.keysFile.MinimumSignatures, s.walletAddressPath(walletAddress), s.keysFile.ECDSA)
+		address, err := librupixwallet.Address(s.params, s.keysFile.ExtendedPublicKeys, s.keysFile.MinimumSignatures, s.walletAddressPath(walletAddress), s.keysFile.ECDSA)
 		if err != nil {
 			return nil, err
 		}

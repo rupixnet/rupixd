@@ -8,7 +8,7 @@ import (
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/server"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet/serialization"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
@@ -90,7 +90,7 @@ func parse(conf *parseConfig) error {
 		fmt.Println()
 
 		fee := allInputrupia - allOutputrupia
-		fmt.Printf("Fee:\t%d rupia (%f KAS)\n", fee, float64(fee)/float64(constants.RupiaPerRupix))
+		fmt.Printf("Fee:\t%d rupia (%f RUPIX)\n", fee, float64(fee)/float64(constants.RupiaPerRupix))
 		mass, err := server.EstimateMassAfterSignatures(partiallySignedTransaction, keysFile.ECDSA, keysFile.MinimumSignatures, txMassCalculator)
 		if err != nil {
 			return err

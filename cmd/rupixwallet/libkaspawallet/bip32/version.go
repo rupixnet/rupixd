@@ -62,20 +62,20 @@ var KaspaTestnetPublic = [4]byte{
 	0x41,
 }
 
-// KaspaDevnetPrivate is the version that is used for
+// RupixdevnetPrivate is the version that is used for
 // rupix devnet bip32 public extended keys.
 // Ecnodes to kdrv in base58.
-var KaspaDevnetPrivate = [4]byte{
+var RupixdevnetPrivate = [4]byte{
 	0x03,
 	0x8b,
 	0x3d,
 	0x80,
 }
 
-// KaspaDevnetPublic is the version that is used for
+// RupixdevnetPublic is the version that is used for
 // rupix devnet bip32 public extended keys.
 // Ecnodes to xdub in base58.
-var KaspaDevnetPublic = [4]byte{
+var RupixdevnetPublic = [4]byte{
 	0x03,
 	0x8b,
 	0x41,
@@ -110,8 +110,8 @@ func toPublicVersion(version [4]byte) ([4]byte, error) {
 		return KaspaMainnetPublic, nil
 	case KaspaTestnetPrivate:
 		return KaspaTestnetPublic, nil
-	case KaspaDevnetPrivate:
-		return KaspaDevnetPublic, nil
+	case RupixdevnetPrivate:
+		return RupixdevnetPublic, nil
 	case KaspaSimnetPrivate:
 		return KaspaSimnetPublic, nil
 	}
@@ -127,7 +127,7 @@ func isPrivateVersion(version [4]byte) bool {
 		return true
 	case KaspaTestnetPrivate:
 		return true
-	case KaspaDevnetPrivate:
+	case RupixdevnetPrivate:
 		return true
 	case KaspaSimnetPrivate:
 		return true

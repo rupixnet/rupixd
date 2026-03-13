@@ -1,11 +1,11 @@
-package server
+﻿package server
 
 import (
 	"context"
 
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/util"
 )
 
@@ -59,7 +59,7 @@ func (s *server) selectExternalSpendableUTXOs(externalUTXOs *appmessage.GetUTXOs
 		if !isExternalUTXOSpendable(entry, daaScore, maturity, feePerInput) {
 			continue
 		}
-		selectedExternalUtxos = append(selectedExternalUtxos, libkaspawallet.AppMessageUTXOToKaspawalletdUTXO(entry))
+		selectedExternalUtxos = append(selectedExternalUtxos, librupixwallet.AppMessageUTXOTorupixwalletdUTXO(entry))
 	}
 
 	return selectedExternalUtxos, nil

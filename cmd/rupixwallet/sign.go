@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/server"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/pkg/errors"
 )
 
@@ -49,7 +49,7 @@ func sign(conf *signConfig) error {
 	updatedPartiallySignedTransactions := make([][]byte, len(partiallySignedTransactions))
 	for i, partiallySignedTransaction := range partiallySignedTransactions {
 		updatedPartiallySignedTransactions[i], err =
-			libkaspawallet.Sign(conf.NetParams(), privateKeys, partiallySignedTransaction, keysFile.ECDSA)
+			librupixwallet.Sign(conf.NetParams(), privateKeys, partiallySignedTransaction, keysFile.ECDSA)
 		if err != nil {
 			return err
 		}
@@ -58,7 +58,7 @@ func sign(conf *signConfig) error {
 	areAllTransactionsFullySigned := true
 	for _, updatedPartiallySignedTransaction := range updatedPartiallySignedTransactions {
 		// This is somewhat redundant to check all transactions, but we do that just-in-case
-		isFullySigned, err := libkaspawallet.IsTransactionFullySigned(updatedPartiallySignedTransaction)
+		isFullySigned, err := librupixwallet.IsTransactionFullySigned(updatedPartiallySignedTransaction)
 		if err != nil {
 			return err
 		}

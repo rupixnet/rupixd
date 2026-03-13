@@ -1,21 +1,21 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_GetFeeEstimateRequest) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_GetFeeEstimateRequest) toAppMessage() (appmessage.Message, error) {
 	return &appmessage.GetFeeEstimateRequestMessage{}, nil
 }
 
-func (x *KaspadMessage_GetFeeEstimateRequest) fromAppMessage(_ *appmessage.GetFeeEstimateRequestMessage) error {
+func (x *RupixdMessage_GetFeeEstimateRequest) fromAppMessage(_ *appmessage.GetFeeEstimateRequestMessage) error {
 	return nil
 }
 
-func (x *KaspadMessage_GetFeeEstimateResponse) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_GetFeeEstimateResponse) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_GetFeeEstimateResponse is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_GetFeeEstimateResponse is nil")
 	}
 	return x.GetFeeEstimateResponse.toAppMessage()
 }

@@ -2,7 +2,7 @@
 
 import "testing"
 
-// Takes in a string representation of the Kas value to convert to rupia
+// Takes in a string representation of the RUPIX value to convert to rupia
 func TestKasTorupia(t *testing.T) {
 	type testVector struct {
 		originalAmount  string

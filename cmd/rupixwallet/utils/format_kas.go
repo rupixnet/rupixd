@@ -1,4 +1,4 @@
-package utils
+﻿package utils
 
 import (
 	"fmt"
@@ -11,8 +11,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// FormatKas takes the amount of rupias as uint64, and returns amount of KAS with 8  decimal places
-func FormatKas(amount uint64) string {
+// FormatRUPIX takes the amount of rupias as uint64, and returns amount of RUPIX with 8  decimal places
+func FormatRUPIX(amount uint64) string {
 	res := "                   "
 	if amount > 0 {
 		res = fmt.Sprintf("%19.8f", float64(amount)/constants.RupiaPerRupix)
@@ -20,7 +20,7 @@ func FormatKas(amount uint64) string {
 	return res
 }
 
-// KasTorupia takes in a string representation of the Kas value to convert to rupia
+// KasTorupia takes in a string representation of the RUPIX value to convert to rupia
 func KasTorupia(amount string) (uint64, error) {
 	err := validateKASAmountFormat(amount)
 

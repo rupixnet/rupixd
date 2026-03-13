@@ -75,7 +75,7 @@ func ExampleExtractScriptPubKeyAddress() {
 
 	// Output:
 	// Script Class: pubkey
-	// Address: rupix:qzy6cf82zzah2xh5jwtz8nx9u4gdj6zzke8gljs0v055ksmnl424u6fv7ajrs
+	// Address: rupix:qzy6cf82zzah2xh5jwtz8nx9u4gdj6zzke8gljs0v055RUPMl424u6fv7ajrs
 }
 
 

@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"fmt"
@@ -11,10 +11,10 @@ import (
 func connectToNode() *standalone.Routes {
 	cfg := activeConfig()
 
-	kaspadConfig := config.DefaultConfig()
-	kaspadConfig.NetworkFlags = cfg.NetworkFlags
+	RupixdConfig := config.DefaultConfig()
+	RupixdConfig.NetworkFlags = cfg.NetworkFlags
 
-	minimalNetAdapter, err := standalone.NewMinimalNetAdapter(kaspadConfig)
+	minimalNetAdapter, err := standalone.NewMinimalNetAdapter(RupixdConfig)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error creating minimalNetAdapter: %+v", err)
 		os.Exit(1)

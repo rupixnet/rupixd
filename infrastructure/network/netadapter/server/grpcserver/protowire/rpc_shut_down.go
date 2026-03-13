@@ -1,27 +1,27 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_ShutDownRequest) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_ShutDownRequest) toAppMessage() (appmessage.Message, error) {
 	return &appmessage.ShutDownRequestMessage{}, nil
 }
 
-func (x *KaspadMessage_ShutDownRequest) fromAppMessage(_ *appmessage.ShutDownRequestMessage) error {
+func (x *RupixdMessage_ShutDownRequest) fromAppMessage(_ *appmessage.ShutDownRequestMessage) error {
 	x.ShutDownRequest = &ShutDownRequestMessage{}
 	return nil
 }
 
-func (x *KaspadMessage_ShutDownResponse) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_ShutDownResponse) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_ShutDownResponse is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_ShutDownResponse is nil")
 	}
 	return x.ShutDownResponse.toAppMessage()
 }
 
-func (x *KaspadMessage_ShutDownResponse) fromAppMessage(message *appmessage.ShutDownResponseMessage) error {
+func (x *RupixdMessage_ShutDownResponse) fromAppMessage(message *appmessage.ShutDownResponseMessage) error {
 	var err *RPCError
 	if message.Error != nil {
 		err = &RPCError{Message: message.Error.Message}

@@ -12,7 +12,7 @@
                            MMOOVVIINNGG
 
   e  ^E  j  ^N  CR  *  Forward  one line   (or _N lines).
-  y  ^Y  k  ^K  ^P  *  Backward one line   (or _N lines).
+.\rupixd.exe --simnet rpc getcoinSupply  y  ^Y  k  ^K  ^P  *  Backward one line   (or _N lines).
   ESC-j             *  Forward  one file line (or _N file lines).
   ESC-k             *  Backward one file line (or _N file lines).
   f  ^F  ^V  SPACE  *  Forward  one window (or _N lines).

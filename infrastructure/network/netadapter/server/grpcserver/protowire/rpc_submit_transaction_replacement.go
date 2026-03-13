@@ -1,18 +1,18 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_SubmitTransactionReplacementRequest) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_SubmitTransactionReplacementRequest) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_SubmitTransactionReplacementRequest is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_SubmitTransactionReplacementRequest is nil")
 	}
 	return x.SubmitTransactionReplacementRequest.toAppMessage()
 }
 
-func (x *KaspadMessage_SubmitTransactionReplacementRequest) fromAppMessage(message *appmessage.SubmitTransactionReplacementRequestMessage) error {
+func (x *RupixdMessage_SubmitTransactionReplacementRequest) fromAppMessage(message *appmessage.SubmitTransactionReplacementRequestMessage) error {
 	x.SubmitTransactionReplacementRequest = &SubmitTransactionReplacementRequestMessage{
 		Transaction: &RpcTransaction{},
 	}
@@ -33,14 +33,14 @@ func (x *SubmitTransactionReplacementRequestMessage) toAppMessage() (appmessage.
 	}, nil
 }
 
-func (x *KaspadMessage_SubmitTransactionReplacementResponse) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_SubmitTransactionReplacementResponse) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_SubmitTransactionReplacementResponse is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_SubmitTransactionReplacementResponse is nil")
 	}
 	return x.SubmitTransactionReplacementResponse.toAppMessage()
 }
 
-func (x *KaspadMessage_SubmitTransactionReplacementResponse) fromAppMessage(message *appmessage.SubmitTransactionReplacementResponseMessage) error {
+func (x *RupixdMessage_SubmitTransactionReplacementResponse) fromAppMessage(message *appmessage.SubmitTransactionReplacementResponseMessage) error {
 	var err *RPCError
 	if message.Error != nil {
 		err = &RPCError{Message: message.Error.Message}

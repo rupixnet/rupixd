@@ -1,4 +1,4 @@
-package txmass
+﻿package txmass
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -12,7 +12,7 @@ type Calculator struct {
 	massPerScriptPubKeyByte uint64
 	massPerSigOp            uint64
 
-	// The parameter for scaling inverse KAS value to mass units (KIP-0009)
+	// The parameter for scaling inverse RUPIX value to mass units (KIP-0009)
 	storageMassParameter uint64
 }
 

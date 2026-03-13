@@ -1,13 +1,13 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_RequestHeaders) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_RequestHeaders) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_RequestBlockLocator is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_RequestBlockLocator is nil")
 	}
 	lowHash, err := x.RequestHeaders.LowHash.toDomain()
 	if err != nil {
@@ -45,7 +45,7 @@ func (x *RequestHeadersMessage) toAppMessage() (appmessage.Message, error) {
 
 }
 
-func (x *KaspadMessage_RequestHeaders) fromAppMessage(msgRequestHeaders *appmessage.MsgRequestHeaders) error {
+func (x *RupixdMessage_RequestHeaders) fromAppMessage(msgRequestHeaders *appmessage.MsgRequestHeaders) error {
 	x.RequestHeaders = &RequestHeadersMessage{
 		LowHash:  domainHashToProto(msgRequestHeaders.LowHash),
 		HighHash: domainHashToProto(msgRequestHeaders.HighHash),

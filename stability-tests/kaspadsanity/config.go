@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"path/filepath"
@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	defaultLogFilename    = "kaspadsanity.log"
-	defaultErrLogFilename = "kaspadsanity_err.log"
+	defaultLogFilename    = "Rupixdsanity.log"
+	defaultErrLogFilename = "Rupixdsanity_err.log"
 )
 
 var (

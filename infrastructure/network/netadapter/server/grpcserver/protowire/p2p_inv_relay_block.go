@@ -1,13 +1,13 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_InvRelayBlock) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_InvRelayBlock) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_InvRelayBlock is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_InvRelayBlock is nil")
 	}
 	return x.InvRelayBlock.toAppMessage()
 }
@@ -25,7 +25,7 @@ func (x *InvRelayBlockMessage) toAppMessage() (appmessage.Message, error) {
 
 }
 
-func (x *KaspadMessage_InvRelayBlock) fromAppMessage(msgInvRelayBlock *appmessage.MsgInvRelayBlock) error {
+func (x *RupixdMessage_InvRelayBlock) fromAppMessage(msgInvRelayBlock *appmessage.MsgInvRelayBlock) error {
 	x.InvRelayBlock = &InvRelayBlockMessage{
 		Hash: domainHashToProto(msgInvRelayBlock.Hash),
 	}

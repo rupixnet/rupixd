@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/client"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/infrastructure/config"
 	"github.com/pkg/errors"
@@ -29,7 +29,7 @@ func burn(cfg *burnConfig) error {
 
 	toLevel := cfg.FromLevel + 1
 	payload := []byte{constants.TxTypeBurn, cfg.FromLevel, toLevel}
-	burnAddress := "rupix:qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
+	burnAddress := "rupixsim:qpdk00fpv7n7wfkkv7y5k7t2f7qmu8krj9049lmxt6mlg3r8j0wy6nkl5s0mu"
 	amountSompi := uint64(10 * 100_000_000)
 
 	levelNames := map[uint8]string{1: "Gold", 2: "Diamante", 3: "Platino", 4: "Rodio", 5: "Kings Rupix"}
@@ -72,7 +72,7 @@ func burn(cfg *burnConfig) error {
 
 	signedTransactions := make([][]byte, len(unsignedResp.UnsignedTransactions))
 	for i, unsigned := range unsignedResp.UnsignedTransactions {
-		signed, err := libkaspawallet.Sign(cfg.NetParams(), mnemonics, unsigned, keysFile.ECDSA)
+		signed, err := librupixwallet.Sign(cfg.NetParams(), mnemonics, unsigned, keysFile.ECDSA)
 		if err != nil {
 			return err
 		}

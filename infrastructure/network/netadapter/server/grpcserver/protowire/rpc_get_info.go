@@ -1,27 +1,27 @@
-package protowire
+﻿package protowire
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
 )
 
-func (x *KaspadMessage_GetInfoRequest) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_GetInfoRequest) toAppMessage() (appmessage.Message, error) {
 	return &appmessage.GetInfoRequestMessage{}, nil
 }
 
-func (x *KaspadMessage_GetInfoRequest) fromAppMessage(_ *appmessage.GetInfoRequestMessage) error {
+func (x *RupixdMessage_GetInfoRequest) fromAppMessage(_ *appmessage.GetInfoRequestMessage) error {
 	x.GetInfoRequest = &GetInfoRequestMessage{}
 	return nil
 }
 
-func (x *KaspadMessage_GetInfoResponse) toAppMessage() (appmessage.Message, error) {
+func (x *RupixdMessage_GetInfoResponse) toAppMessage() (appmessage.Message, error) {
 	if x == nil {
-		return nil, errors.Wrapf(errorNil, "KaspadMessage_GetInfoResponse is nil")
+		return nil, errors.Wrapf(errorNil, "RupixdMessage_GetInfoResponse is nil")
 	}
 	return x.GetInfoResponse.toAppMessage()
 }
 
-func (x *KaspadMessage_GetInfoResponse) fromAppMessage(message *appmessage.GetInfoResponseMessage) error {
+func (x *RupixdMessage_GetInfoResponse) fromAppMessage(message *appmessage.GetInfoResponseMessage) error {
 	var err *RPCError
 	if message.Error != nil {
 		err = &RPCError{Message: message.Error.Message}
