@@ -1,4 +1,4 @@
-package transactionvalidator
+﻿package transactionvalidator
 
 import (
 	"math"
@@ -93,6 +93,12 @@ func (v *transactionValidator) ValidateTransactionInContextAndPopulateFee(stagin
             return errors.Wrapf(ruleerrors.ErrInsufficientBurn,
                 "burn insuficiente: tiene %d rupias, requiere %d (min=%d + size=%d * rate=%d)",
                 burnAmount, requiredBurn, constants.MinBurnPerTx, txSizeBytes, constants.BurnPerByte)
+        }
+    }
+    // Validacion burn de niveles L2-L5
+    if !transactionhelper.IsCoinBase(tx) {
+        if err := v.validateLevelBurn(tx, povBlockHash, stagingArea); err != nil {
+            return err
         }
     }
 

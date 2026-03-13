@@ -1,4 +1,4 @@
-package ruleerrors
+﻿package ruleerrors
 
 import (
 	"fmt"
@@ -43,6 +43,7 @@ var (
 	ErrUnexpectedBlueWork = newRuleError("ErrUnexpectedBlueWork")
 	// ErrInsufficientBurn indica que el burn de la transaccion es menor al minimo requerido
 	ErrInsufficientBurn = newRuleError("ErrInsufficientBurn")
+	ErrInvalidLevelBurn = newRuleError("ErrInvalidLevelBurn")
 
 
 	// ErrUnexpectedFinalityPoint indicates specified finality point does not align with
