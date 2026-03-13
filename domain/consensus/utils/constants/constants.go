@@ -16,7 +16,11 @@ const (
     RupiaPerRupix = 100_000_000
 
     // MaxRupia is the maximum transaction amount allowed in rupia.
-    MaxRupia = uint64(42_000_000 * RupiaPerRupix)
+	MaxRupia = uint64(42_000_000 * RupiaPerRupix)
+
+	// Burn antispam L1
+	MinBurnPerTx uint64 = 1_000  // rupias - piso minimo por transaccion
+	BurnPerByte  uint64 = 10     // rupias por byte - proporcional al tamano
 
     // MaxTxInSequenceNum is the maximum sequence number the sequence field
     // of a transaction input can be.

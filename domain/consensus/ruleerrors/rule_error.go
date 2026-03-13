@@ -41,6 +41,9 @@ var (
 	// ErrUnexpectedBlueWork indicates specified blue work does not align with
 	// the expected value.
 	ErrUnexpectedBlueWork = newRuleError("ErrUnexpectedBlueWork")
+	// ErrInsufficientBurn indica que el burn de la transaccion es menor al minimo requerido
+	ErrInsufficientBurn = newRuleError("ErrInsufficientBurn")
+
 
 	// ErrUnexpectedFinalityPoint indicates specified finality point does not align with
 	// the expected value.

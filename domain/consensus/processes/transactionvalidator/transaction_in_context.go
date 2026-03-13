@@ -1,4 +1,4 @@
-﻿package transactionvalidator
+package transactionvalidator
 
 import (
 	"math"
@@ -84,6 +84,17 @@ func (v *transactionValidator) ValidateTransactionInContextAndPopulateFee(stagin
 	}
 
 	tx.Fee = totalrupiaIn - totalrupiaOut
+    // Validacion burn antispam L1
+    if !transactionhelper.IsCoinBase(tx) {
+        burnAmount := totalrupiaIn - totalrupiaOut
+        txSizeBytes := tx.Mass
+        requiredBurn := constants.MinBurnPerTx + (txSizeBytes * constants.BurnPerByte)
+        if burnAmount < requiredBurn {
+            return errors.Wrapf(ruleerrors.ErrInsufficientBurn,
+                "burn insuficiente: tiene %d rupias, requiere %d (min=%d + size=%d * rate=%d)",
+                burnAmount, requiredBurn, constants.MinBurnPerTx, txSizeBytes, constants.BurnPerByte)
+        }
+    }
 
 	err = v.checkTransactionSequenceLock(stagingArea, povBlockHash, tx)
 	if err != nil {
