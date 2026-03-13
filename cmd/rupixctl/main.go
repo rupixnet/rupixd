@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/rupixnet/rupixd/version"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
@@ -47,7 +48,6 @@ func main() {
 			printErrorAndExit(fmt.Sprintf("Server version mismatch, expect: %s, got: %s", localVersion, remoteVersion))
 		}
 	}
-
 	responseChan := make(chan string)
 
 	if cfg.RequestJSON != "" {
@@ -57,15 +57,16 @@ func main() {
 	}
 
 	timeout := time.Duration(cfg.Timeout) * time.Second
-	select {
+select {
 	case responseString := <-responseChan:
-		prettyResponseString := prettifyResponse(responseString)
-		fmt.Println(prettyResponseString)
+		responseString = strings.ReplaceAll(responseString, "maxSompi", "maxRupia")
+		responseString = strings.ReplaceAll(responseString, "circulatingSompi", "circulatingRupia")
+		fmt.Println(responseString)
 	case <-time.After(timeout):
 		printErrorAndExit(fmt.Sprintf("timeout of %s has been exceeded", timeout))
 	}
-}
 
+}
 func printAllCommands() {
 	requestDescs := commandDescriptions()
 	for _, requestDesc := range requestDescs {

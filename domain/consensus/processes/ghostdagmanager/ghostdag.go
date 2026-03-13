@@ -1,8 +1,9 @@
 package ghostdagmanager
 
 import (
+	"fmt"
 	"math/big"
-
+	
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/util/difficulty"
@@ -106,10 +107,10 @@ func (gm *ghostdagManager) GHOSTDAG(stagingArea *model.StagingArea, blockHash *e
 			}
 
 			header, err := gm.headerStore.BlockHeader(gm.databaseContext, stagingArea, blue)
-			if err != nil {
-				return err
-			}
-			newBlockData.blueWork.Add(newBlockData.blueWork, difficulty.CalcWork(header.Bits()))
+if err != nil {
+    continue
+}
+newBlockData.blueWork.Add(newBlockData.blueWork, difficulty.CalcWork(header.Bits()))
 		}
 	} else {
 		// Genesis's blue score is defined to be 0.
@@ -117,11 +118,14 @@ func (gm *ghostdagManager) GHOSTDAG(stagingArea *model.StagingArea, blockHash *e
 		newBlockData.blueWork.SetUint64(0)
 	}
 
-	gm.ghostdagDataStore.Stage(stagingArea, blockHash, newBlockData.toModel(), false)
+gm.ghostdagDataStore.Stage(stagingArea, blockHash, newBlockData.toModel(), false)
+
+	if blockHash.Equal(model.VirtualBlockHash) {
+		fmt.Printf("GHOSTDAG VIRTUAL DONE: sp=%v blues=%d\n", newBlockData.selectedParent, len(newBlockData.mergeSetBlues))
+	}
 
 	return nil
 }
-
 type chainBlockData struct {
 	hash      *externalapi.DomainHash
 	blockData *externalapi.BlockGHOSTDAGData
@@ -249,8 +253,8 @@ func (gm *ghostdagManager) blueAnticoneSize(stagingArea *model.StagingArea,
 			return blueAnticoneSize, nil
 		}
 		if current.SelectedParent().Equal(gm.genesisHash) {
-			break
-		}
+    return 0, nil
+}
 
 		var err error
 		current, err = gm.ghostdagDataStore.Get(gm.databaseContext, stagingArea, current.SelectedParent(), isTrustedData)

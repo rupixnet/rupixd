@@ -2,15 +2,18 @@
 
 import (
 	"fmt"
+	"math"
 	"math/big"
 	"sync"
-	"github.com/rupixnet/rupixd/util/mstime"
-    "github.com/rupixnet/rupixd/domain/consensus/datastructures/addresslevelstore"
+
+	"github.com/rupixnet/rupixd/domain/consensus/datastructures/addresslevelstore"
 	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/reachabilitydata"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
+	"github.com/rupixnet/rupixd/util/mstime"
 	"github.com/rupixnet/rupixd/util/staging"
 	"github.com/pkg/errors"
 )
@@ -60,15 +63,11 @@ type consensus struct {
 	daaBlocksStore                      model.DAABlocksStore
 	blocksWithTrustedDataDAAWindowStore model.BlocksWithTrustedDataDAAWindowStore
 
-	addressLevelStore *addresslevelstore.AddressLevelStore
-        consensusEventsChan chan externalapi.ConsensusEvent
+	addressLevelStore   *addresslevelstore.AddressLevelStore
+	consensusEventsChan chan externalapi.ConsensusEvent
 	virtualNotUpdated   bool
 }
 
-// In order to prevent a situation that the consensus lock is held for too much time, we
-// release the lock each time we resolve 100 blocks.
-// Note: `virtualResolveChunk` should be smaller than `params.FinalityDuration` in order to avoid a situation
-// where UpdatePruningPointByVirtual skips a pruning point.
 const virtualResolveChunk = 100
 
 func (s *consensus) ValidateAndInsertBlockWithTrustedData(block *externalapi.BlockWithTrustedData, validateUTXO bool) error {
@@ -97,8 +96,6 @@ func (s *consensus) Init(skipAddingGenesis bool) error {
 		return err
 	}
 
-	// There should always be a virtual genesis block. Initially only the genesis points to this block, but
-	// on a node with pruned header all blocks without known parents points to it.
 	if !exists {
 		s.blockStatusStore.Stage(stagingArea, model.VirtualGenesisBlockHash, externalapi.StatusUTXOValid)
 		err = s.reachabilityManager.Init(stagingArea)
@@ -125,26 +122,40 @@ func (s *consensus) Init(skipAddingGenesis bool) error {
 			), false)
 		}
 
+		// Rupix: pre-stage reachability data for genesis hash (fair launch, no premine)
+		s.reachabilityDataStore.StageReachabilityData(stagingArea, s.genesisHash, reachabilitydata.New(
+			[]*externalapi.DomainHash{},
+			model.VirtualGenesisBlockHash,
+			&model.ReachabilityInterval{Start: 0, End: math.MaxUint64},
+			model.FutureCoveringTreeNodeSet{},
+		))
+
 		err = staging.CommitAllChanges(s.databaseContext, stagingArea)
 		if err != nil {
 			return err
 		}
 	}
 
-	// The genesis should be added to the DAG if it's a fresh consensus, unless said otherwise (on a
-	// case where the consensus is used for a pruned headers node).
-if !skipAddingGenesis && s.blockStore.Count(stagingArea) == 0 {
+	if !skipAddingGenesis && s.blockStore.Count(stagingArea) == 0 {
 		genesisWithTrustedData := &externalapi.BlockWithTrustedData{
 			Block:     s.genesisBlock,
 			DAAWindow: nil,
 			GHOSTDAGData: []*externalapi.BlockGHOSTDAGDataHashPair{
-				{
-					GHOSTDAGData: externalapi.NewBlockGHOSTDAGData(0, big.NewInt(0), nil, nil, nil, make(map[externalapi.DomainHash]externalapi.KType)),
-					Hash:         s.genesisHash,
-				},
-			},
+                                {
+                                        Hash:         s.genesisHash,
+                                        GHOSTDAGData: externalapi.NewBlockGHOSTDAGData(0, big.NewInt(0), model.VirtualGenesisBlockHash, []*externalapi.DomainHash{s.genesisHash}, nil, make(map[externalapi.DomainHash]externalapi.KType)),
+                                },
+                        },
 		}
 		_, _, err = s.blockProcessor.ValidateAndInsertBlockWithTrustedData(genesisWithTrustedData, true)
+        if err == nil {
+            sa2 := model.NewStagingArea()
+            if gd, e := s.ghostdagDataStores[0].Get(s.databaseContext, sa2, s.genesisHash, false); e == nil {
+                fmt.Printf("GENESIS GHOSTDAG after init: sp=%v blues=%d\n", gd.SelectedParent(), len(gd.MergeSetBlues()))
+            } else {
+                fmt.Printf("GENESIS GHOSTDAG ERROR: %v\n", e)
+            }
+        }
 		if err != nil {
 			fmt.Printf("ERROR DETAIL: %T %+v\n", err, errors.WithStack(err))
 			return err
@@ -161,8 +172,6 @@ func (s *consensus) PruningPointAndItsAnticone() ([]*externalapi.DomainHash, err
 	return s.pruningManager.PruningPointAndItsAnticone()
 }
 
-// BuildBlock builds a block over the current state, with the transactions
-// selected by the given transactionSelector
 func (s *consensus) BuildBlock(coinbaseData *externalapi.DomainCoinbaseData,
 	transactions []*externalapi.DomainTransaction) (*externalapi.DomainBlock, error) {
 
@@ -173,9 +182,6 @@ func (s *consensus) BuildBlock(coinbaseData *externalapi.DomainCoinbaseData,
 	return block, err
 }
 
-// BuildBlockTemplate builds a block over the current state, with the transactions
-// selected by the given transactionSelector plus metadata information related to
-// coinbase rewards and node sync status
 func (s *consensus) BuildBlockTemplate(coinbaseData *externalapi.DomainCoinbaseData,
 	transactions []*externalapi.DomainTransaction) (*externalapi.DomainBlockTemplate, error) {
 
@@ -200,13 +206,10 @@ func (s *consensus) BuildBlockTemplate(coinbaseData *externalapi.DomainCoinbaseD
 	}, nil
 }
 
-// ValidateAndInsertBlock validates the given block and, if valid, applies it
-// to the current state
 func (s *consensus) ValidateAndInsertBlock(block *externalapi.DomainBlock, updateVirtual bool) error {
 	if updateVirtual {
 		s.lock.Lock()
 		if s.virtualNotUpdated {
-			// We enter the loop in locked state
 			for {
 				_, isCompletelyResolved, err := s.resolveVirtualChunkNoLock(virtualResolveChunk)
 				if err != nil {
@@ -214,19 +217,14 @@ func (s *consensus) ValidateAndInsertBlock(block *externalapi.DomainBlock, updat
 					return err
 				}
 				if isCompletelyResolved {
-					// Make sure we enter the block insertion function w/o releasing the lock.
-					// Otherwise, we might actually enter it in `s.virtualNotUpdated == true` state
 					_, err = s.validateAndInsertBlockNoLock(block, updateVirtual)
-					// Finally, unlock for the last iteration and return
 					s.lock.Unlock()
 					if err != nil {
 						return err
 					}
 					return nil
 				}
-				// Unlock to allow other threads to enter consensus
 				s.lock.Unlock()
-				// Lock for the next iteration
 				s.lock.Lock()
 			}
 		}
@@ -258,7 +256,6 @@ func (s *consensus) validateAndInsertBlockNoLock(block *externalapi.DomainBlock,
 		return nil, err
 	}
 
-	// If block has a body, and yet virtual was not updated -- signify that virtual is in non-updated state
 	if !updateVirtual && blockStatus != externalapi.StatusHeaderOnly {
 		s.virtualNotUpdated = true
 	}
@@ -305,6 +302,9 @@ func (s *consensus) sendVirtualChangedEvent(virtualChangeSet *externalapi.Virtua
 		return err
 	}
 
+		if virtualGHOSTDAGData.SelectedParent() == nil {
+			return nil
+		}
 	virtualSelectedParentGHOSTDAGData, err := s.ghostdagDataStores[0].Get(s.databaseContext, stagingArea, virtualGHOSTDAGData.SelectedParent(), false)
 	if err != nil {
 		return err
@@ -315,7 +315,6 @@ func (s *consensus) sendVirtualChangedEvent(virtualChangeSet *externalapi.Virtua
 		return err
 	}
 
-	// Populate the change set with additional data before sending
 	virtualChangeSet.VirtualSelectedParentBlueScore = virtualSelectedParentGHOSTDAGData.BlueScore()
 	virtualChangeSet.VirtualDAAScore = virtualDAAScore
 
@@ -323,8 +322,6 @@ func (s *consensus) sendVirtualChangedEvent(virtualChangeSet *externalapi.Virtua
 	return nil
 }
 
-// ValidateTransactionAndPopulateWithConsensusData validates the given transaction
-// and populates it with any missing consensus data
 func (s *consensus) ValidateTransactionAndPopulateWithConsensusData(transaction *externalapi.DomainTransaction) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
@@ -438,7 +435,6 @@ func (s *consensus) GetBlockInfo(blockHash *externalapi.DomainHash) (*externalap
 	}
 	blockInfo.BlockStatus = blockStatus
 
-	// If the status is invalid, then we don't have the necessary reachability data to check if it's in PruningPoint.Future.
 	if blockStatus == externalapi.StatusInvalid {
 		return blockInfo, nil
 	}
@@ -1110,8 +1106,6 @@ func (s *consensus) VirtualMergeDepthRoot() (*externalapi.DomainHash, error) {
 	return s.mergeDepthManager.VirtualMergeDepthRoot(stagingArea)
 }
 
-// IsNearlySynced returns whether this consensus is considered synced or close to being synced. This info
-// is used to determine if it's ok to use a block template from this node for mining purposes.
 func (s *consensus) IsNearlySynced() (bool, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
@@ -1127,9 +1121,9 @@ func (s *consensus) isNearlySyncedNoLock() (bool, error) {
 	}
 
 	selectedParent := virtualGHOSTDAGData.SelectedParent()
-if selectedParent == nil || selectedParent.Equal(s.genesisHash) {
-    return false, nil
-}
+	if selectedParent == nil || selectedParent.Equal(s.genesisHash) {
+		return false, nil
+	}
 
 	virtualSelectedParentHeader, err := s.blockHeaderStore.BlockHeader(s.databaseContext, stagingArea, virtualGHOSTDAGData.SelectedParent())
 	if err != nil {
@@ -1137,8 +1131,6 @@ if selectedParent == nil || selectedParent.Equal(s.genesisHash) {
 	}
 
 	now := mstime.Now().UnixMilliseconds()
-	// As a heuristic, we allow the node to mine if he is likely to be within the current DAA window of fully synced nodes.
-	// Such blocks contribute to security by maintaining the current difficulty despite possibly being slightly out of sync.
 	if now-virtualSelectedParentHeader.TimeInMilliseconds() < s.expectedDAAWindowDurationInMilliseconds {
 		log.Debugf("The selected tip timestamp is recent (%d), so IsNearlySynced returns true",
 			virtualSelectedParentHeader.TimeInMilliseconds())
@@ -1149,6 +1141,7 @@ if selectedParent == nil || selectedParent.Equal(s.genesisHash) {
 		virtualSelectedParentHeader.TimeInMilliseconds())
 	return false, nil
 }
+
 func (s *consensus) GetAddressLevel(address string) (uint8, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
@@ -1158,4 +1151,3 @@ func (s *consensus) GetAddressLevel(address string) (uint8, error) {
 	}
 	return s.addressLevelStore.Get(s.databaseContext, address)
 }
-

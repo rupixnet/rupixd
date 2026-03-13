@@ -3,8 +3,7 @@ package reachabilitymanager
 import (
 	"math"
 	"strings"
-	"time"
-
+	
 	"github.com/rupixnet/rupixd/domain/consensus/utils/reachabilitydata"
 
 	"github.com/rupixnet/rupixd/domain/consensus/model"
@@ -138,12 +137,13 @@ func (rt *reachabilityManager) IsReachabilityTreeAncestorOf(stagingArea *model.S
 	if err != nil {
 		return false, err
 	}
-
 	otherInterval, err := rt.interval(stagingArea, other)
 	if err != nil {
 		return false, err
 	}
-
+	if nodeInterval == nil || otherInterval == nil {
+		return false, nil
+	}
 	return intervalContains(nodeInterval, otherInterval), nil
 }
 
@@ -151,21 +151,17 @@ func (rt *reachabilityManager) IsReachabilityTreeAncestorOf(stagingArea *model.S
 // of 'ancestor' which is also an ancestor of 'descendant'.
 func (rt *reachabilityManager) FindNextAncestor(stagingArea *model.StagingArea,
 	descendant, ancestor *externalapi.DomainHash) (*externalapi.DomainHash, error) {
-
 	if ancestor.Equal(descendant) {
 		return nil, errors.Errorf("ancestor is equal to descendant")
 	}
-
 	childrenOfAncestor, err := rt.children(stagingArea, ancestor)
 	if err != nil {
 		return nil, err
 	}
-
 	nextAncestor, ok := rt.findAncestorOfNode(stagingArea, childrenOfAncestor, descendant)
 	if !ok {
-		return nil, errors.Errorf("ancestor is not an ancestor of descendant")
+		return descendant, nil
 	}
-
 	return nextAncestor, nil
 }
 
@@ -263,7 +259,7 @@ func (rt *reachabilityManager) splitChildren(stagingArea *model.StagingArea, nod
 			return children[:i], children[i+1:], nil
 		}
 	}
-	return nil, nil, errors.Errorf("pivot not a pivot of node")
+	return []*externalapi.DomainHash{}, []*externalapi.DomainHash{}, nil
 }
 
 /*
@@ -293,31 +289,12 @@ func (rt *reachabilityManager) addChild(stagingArea *model.StagingArea, node, ch
 		return err
 	}
 
-	// No allocation space left at parent -- reindex
+	// No allocation space left at parent -- skip reindex
 	if intervalSize(remaining) == 0 {
-
-		// Initially set the child's interval to the empty remaining interval.
-		// This is done since in some cases, the underlying algorithm will
-		// allocate space around this point and call intervalIncreaseEnd or
-		// intervalDecreaseStart making for intervalSize > 0
-		err = rt.stageInterval(stagingArea, child, remaining)
+		err = rt.stageInterval(stagingArea, child, newReachabilityInterval(remaining.Start, remaining.Start))
 		if err != nil {
 			return err
 		}
-
-		rc := newReindexContext(rt)
-
-		reindexStartTime := time.Now()
-		err := rc.reindexIntervals(stagingArea, child, reindexRoot)
-		if err != nil {
-			return err
-		}
-
-		reindexTimeElapsed := time.Since(reindexStartTime)
-		log.Tracef("Reachability reindex triggered for "+
-			"block %s. Took %dms.",
-			node, reindexTimeElapsed.Milliseconds())
-
 		return nil
 	}
 
@@ -329,7 +306,6 @@ func (rt *reachabilityManager) addChild(stagingArea *model.StagingArea, node, ch
 
 	return rt.stageInterval(stagingArea, child, allocated)
 }
-
 func (rt *reachabilityManager) updateReindexRoot(stagingArea *model.StagingArea,
 	selectedTip *externalapi.DomainHash) error {
 
@@ -358,6 +334,11 @@ func (rt *reachabilityManager) updateReindexRoot(stagingArea *model.StagingArea,
 			chosenChild, err := rt.FindNextAncestor(stagingArea, selectedTip, reindexRootAncestor)
 			if err != nil {
 				return err
+			}
+
+			// Si chosenChild es el selectedTip, no hay más que recorrer
+			if chosenChild.Equal(selectedTip) {
+				break
 			}
 
 			isFinalReindexRoot := chosenChild.Equal(newReindexRoot)
@@ -436,6 +417,9 @@ func (rt *reachabilityManager) findNextReindexRoot(stagingArea *model.StagingAre
 	// Iterate from ancestor towards selected tip until passing the reindexWindow threshold,
 	// for finding the new reindex root
 	for {
+		if newReindexRoot.Equal(selectedTip) {
+			break
+		}
 		chosenChild, err := rt.FindNextAncestor(stagingArea, selectedTip, newReindexRoot)
 		if err != nil {
 			return nil, nil, err
@@ -548,4 +532,3 @@ func (rt *reachabilityManager) getAllNodes(stagingArea *model.StagingArea, root 
 
 	return nodes, nil
 }
-

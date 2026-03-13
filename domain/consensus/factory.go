@@ -1,4 +1,4 @@
-﻿package consensus
+package consensus
 
 import (
 	"io/ioutil"
@@ -415,6 +415,7 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		multisetStore,
 		ghostdagDataStore,
 		daaBlocksStore,
+            blockHeaderStore,
 	)
 
 	blockProcessor := blockprocessor.New(

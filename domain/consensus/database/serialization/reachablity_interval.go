@@ -5,6 +5,9 @@ import (
 )
 
 func reachablityIntervalToDBReachablityInterval(reachabilityInterval *model.ReachabilityInterval) *DbReachabilityInterval {
+	if reachabilityInterval == nil {
+		return &DbReachabilityInterval{Start: 0, End: 0}
+	}
 	return &DbReachabilityInterval{
 		Start: reachabilityInterval.Start,
 		End:   reachabilityInterval.End,

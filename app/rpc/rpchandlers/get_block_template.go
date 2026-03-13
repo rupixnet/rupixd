@@ -9,6 +9,8 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/rupixnet/rupixd/util"
 	"github.com/rupixnet/rupixd/version"
+	"fmt"
+	"github.com/pkg/errors"
 )
 
 // HandleGetBlockTemplate handles the respectively named RPC command
@@ -30,9 +32,10 @@ func HandleGetBlockTemplate(context *rpccontext.Context, _ *router.Router, reque
 	coinbaseData := &externalapi.DomainCoinbaseData{ScriptPublicKey: scriptPublicKey, ExtraData: []byte(version.Version() + "/" + getBlockTemplateRequest.ExtraData)}
 
 	templateBlock, isNearlySynced, err := context.Domain.MiningManager().GetBlockTemplate(coinbaseData)
-	if err != nil {
-		return nil, err
-	}
+if err != nil {
+    fmt.Printf("GetBlockTemplate ERROR: %+v\n", errors.WithStack(err))
+    return nil, err
+}
 
 	if uint64(len(templateBlock.Transactions[transactionhelper.CoinbaseTransactionIndex].Payload)) > context.Config.NetParams().MaxCoinbasePayloadLength {
 		errorMessage := &appmessage.GetBlockTemplateResponseMessage{}

@@ -111,7 +111,9 @@ func (csm *consensusStateManager) isCandidateToBeNextVirtualSelectedParent(
 	}
 	log.Debugf("The next selected parent is: %s", nextVirtualSelectedParent)
 
-	return blockHash.Equal(nextVirtualSelectedParent), nil
+	result := blockHash.Equal(nextVirtualSelectedParent)
+    fmt.Printf("DEBUG isCandidateToBeNext: blockHash=%s nextVirtualSelectedParent=%s result=%v\n", blockHash, nextVirtualSelectedParent, result)
+    return result, nil
 }
 
 func (csm *consensusStateManager) addTip(stagingArea *model.StagingArea, newTipHash *externalapi.DomainHash) (newTips []*externalapi.DomainHash, err error) {

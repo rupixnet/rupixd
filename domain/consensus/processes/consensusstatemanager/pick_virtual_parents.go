@@ -153,12 +153,13 @@ func (csm *consensusStateManager) selectVirtualSelectedParent(stagingArea *model
 		if err != nil {
 			return nil, err
 		}
-		if selectedParentCandidateStatus == externalapi.StatusUTXOValid {
-			log.Debugf("Block %s is valid. Returning it as the selected parent", selectedParentCandidate)
-			return selectedParentCandidate, nil
-		}
+		if selectedParentCandidateStatus == externalapi.StatusUTXOValid ||
+        selectedParentCandidateStatus == externalapi.StatusUTXOPendingVerification {
+        log.Debugf("Block %s is valid. Returning it as the selected parent", selectedParentCandidate)
+        return selectedParentCandidate, nil
+        }
 
-		log.Debugf("Block %s is not valid. Adding it to the disqualified set", selectedParentCandidate)
+		log.Infof("Block %s status=%d is not valid. Adding it to the disqualified set", selectedParentCandidate, selectedParentCandidateStatus)
 		disqualifiedCandidates.Add(selectedParentCandidate)
 
 		candidateParents, err := csm.dagTopologyManager.Parents(stagingArea, selectedParentCandidate)

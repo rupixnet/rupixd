@@ -1,11 +1,12 @@
 package blockparentbuilder
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/model"
-	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
-	"github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
-	"github.com/pkg/errors"
+        "github.com/rupixnet/rupixd/domain/consensus/model"
+        "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+        "github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+        "github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
+        "github.com/rupixnet/rupixd/infrastructure/db/database"
+        "github.com/pkg/errors"
 )
 
 type blockParentBuilder struct {
@@ -91,13 +92,15 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 	directParentHashesCopy[firstParentInFutureOfPruningPointIndex] = oldFirstDirectParent
 
 	for i, directParentHash := range directParentHashesCopy {
-		directParentHeader, err := bpb.blockHeaderStore.BlockHeader(bpb.databaseContext, stagingArea, directParentHash)
-		if err != nil {
-			return nil, err
-		}
-		directParentHeaders[i] = directParentHeader
-	}
-
+                directParentHeader, err := bpb.blockHeaderStore.BlockHeader(bpb.databaseContext, stagingArea, directParentHash)
+                if err != nil {
+                        if database.IsNotFoundError(err) {
+                                continue
+                        }
+                        return nil, err
+                }
+                directParentHeaders[i] = directParentHeader
+        }
 	type blockToReferences map[externalapi.DomainHash][]*externalapi.DomainHash
 	candidatesByLevelToReferenceBlocksMap := make(map[int]blockToReferences)
 

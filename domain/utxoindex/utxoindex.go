@@ -131,6 +131,8 @@ func (ui *UTXOIndex) Update(virtualChangeSet *externalapi.VirtualChangeSet) (*UT
 	}
 
 	err = ui.addUTXOs(virtualChangeSet.VirtualUTXODiff.ToAdd())
+	supply, _ := ui.store.getCirculatingrupiaSupply()
+    log.Infof("DEBUG UTXO supply after update: %d", supply)
 	if err != nil {
 		return nil, err
 	}

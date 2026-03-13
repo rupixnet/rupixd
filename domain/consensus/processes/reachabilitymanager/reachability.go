@@ -3,6 +3,7 @@ package reachabilitymanager
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/database"
 )
 
 // IsDAGAncestorOf returns true if blockHashA is an ancestor of
@@ -15,6 +16,9 @@ func (rt *reachabilityManager) IsDAGAncestorOf(stagingArea *model.StagingArea, b
 	// other node
 	isReachabilityTreeAncestor, err := rt.IsReachabilityTreeAncestorOf(stagingArea, blockHashA, blockHashB)
 	if err != nil {
+		if database.IsNotFoundError(err) {
+			return false, nil
+		}
 		return false, err
 	}
 	if isReachabilityTreeAncestor {
@@ -27,6 +31,10 @@ func (rt *reachabilityManager) IsDAGAncestorOf(stagingArea *model.StagingArea, b
 }
 
 func (rt *reachabilityManager) UpdateReindexRoot(stagingArea *model.StagingArea, selectedTip *externalapi.DomainHash) error {
-	return rt.updateReindexRoot(stagingArea, selectedTip)
+    // Si el selectedTip es el VirtualGenesisBlockHash, no hay nada que hacer
+    if selectedTip.Equal(model.VirtualGenesisBlockHash) {
+        return nil
+    }
+    return rt.updateReindexRoot(stagingArea, selectedTip)
 }
 

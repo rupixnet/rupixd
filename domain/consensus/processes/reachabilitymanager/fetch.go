@@ -1,11 +1,11 @@
 package reachabilitymanager
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/reachabilitydata"
-	"github.com/pkg/errors"
 )
 
 func (rt *reachabilityManager) reachabilityDataForInsertion(stagingArea *model.StagingArea,
@@ -24,44 +24,55 @@ func (rt *reachabilityManager) reachabilityDataForInsertion(stagingArea *model.S
 func (rt *reachabilityManager) futureCoveringSet(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash) (model.FutureCoveringTreeNodeSet, error) {
 	data, err := rt.reachabilityDataStore.ReachabilityData(rt.databaseContext, stagingArea, blockHash)
 	if err != nil {
+		if database.IsNotFoundError(err) {
+			return model.FutureCoveringTreeNodeSet{}, nil
+		}
 		return nil, err
 	}
-
 	return data.FutureCoveringSet(), nil
 }
 
 func (rt *reachabilityManager) interval(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash) (*model.ReachabilityInterval, error) {
 	data, err := rt.reachabilityDataStore.ReachabilityData(rt.databaseContext, stagingArea, blockHash)
 	if err != nil {
+		if database.IsNotFoundError(err) {
+			return &model.ReachabilityInterval{Start: 0, End: 0}, nil
+		}
 		return nil, err
 	}
-
 	return data.Interval(), nil
 }
 
 func (rt *reachabilityManager) children(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash) (
 	[]*externalapi.DomainHash, error) {
-
+	if blockHash == nil {
+		return nil, nil
+	}
 	data, err := rt.reachabilityDataStore.ReachabilityData(rt.databaseContext, stagingArea, blockHash)
 	if err != nil {
+		if database.IsNotFoundError(err) {
+			return nil, nil
+		}
 		return nil, err
 	}
-
 	return data.Children(), nil
 }
 
 func (rt *reachabilityManager) parent(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash) (
 	*externalapi.DomainHash, error) {
-
+	if blockHash == nil {
+		return nil, nil
+	}
 	data, err := rt.reachabilityDataStore.ReachabilityData(rt.databaseContext, stagingArea, blockHash)
 	if err != nil {
+		if database.IsNotFoundError(err) {
+			return nil, nil
+		}
 		return nil, err
 	}
-
 	return data.Parent(), nil
 }
 
 func (rt *reachabilityManager) reindexRoot(stagingArea *model.StagingArea) (*externalapi.DomainHash, error) {
 	return rt.reachabilityDataStore.ReachabilityReindexRoot(rt.databaseContext, stagingArea)
 }
-

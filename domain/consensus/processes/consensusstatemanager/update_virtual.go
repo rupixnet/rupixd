@@ -1,11 +1,12 @@
 package consensusstatemanager
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/model"
-	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/rupixnet/rupixd/infrastructure/logger"
-	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
-    "github.com/rupixnet/rupixd/infrastructure/db/database"
+        "fmt"
+        "github.com/rupixnet/rupixd/domain/consensus/model"
+        "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+        "github.com/rupixnet/rupixd/infrastructure/logger"
+        "github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+        "github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func (csm *consensusStateManager) updateVirtual(stagingArea *model.StagingArea, newBlockHash *externalapi.DomainHash,
@@ -66,15 +67,30 @@ func (csm *consensusStateManager) updateVirtualWithParents(
 	}
 	log.Debugf("Set new parents for the virtual block hash")
 
+	fmt.Printf("VIRTUAL PARENTS before GHOSTDAG: %d parents: %v\n", len(virtualParents), virtualParents)
+    for _, vp := range virtualParents {
+        if gd, e := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, vp, false); e == nil {
+            fmt.Printf("  parent %s ghostdag: sp=%v blues=%d reds=%d blueScore=%d\n", vp, gd.SelectedParent(), len(gd.MergeSetBlues()), len(gd.MergeSetReds()), gd.BlueScore())
+        } else {
+            fmt.Printf("  parent %s ghostdag ERROR: %v\n", vp, e)
+        }
+    }
 	err = csm.ghostdagManager.GHOSTDAG(stagingArea, model.VirtualBlockHash)
 	if err != nil {
 		return nil, err
 	}
-
-	// This is needed for `csm.CalculatePastUTXOAndAcceptanceData`
+if vGhostdag, e := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, model.VirtualBlockHash, false); e == nil {
+		fmt.Printf("VIRTUAL AFTER GHOSTDAG: sp=%s blues=%d\n", vGhostdag.SelectedParent(), len(vGhostdag.MergeSetBlues()))
+	}
+// This is needed for `csm.CalculatePastUTXOAndAcceptanceData`
 	_, err = csm.difficultyManager.StageDAADataAndReturnRequiredDifficulty(stagingArea, model.VirtualBlockHash, false)
 	if err != nil {
 		return nil, err
+	}
+
+	// DEBUG
+	if vGhostdag, e := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, model.VirtualBlockHash, false); e == nil {
+		fmt.Printf("VIRTUAL sp=%s blues=%d reds=%d\n", vGhostdag.SelectedParent(), len(vGhostdag.MergeSetBlues()), len(vGhostdag.MergeSetReds()))
 	}
 
 	log.Debugf("Calculating past UTXO, acceptance data, and multiset for the new virtual block")
@@ -83,10 +99,11 @@ func (csm *consensusStateManager) updateVirtualWithParents(
 	if err != nil {
 		return nil, err
 	}
-
-	log.Debugf("Calculated the past UTXO of the new virtual. "+
-		"Diff toAdd length: %d, toRemove length: %d",
-		virtualUTXODiff.ToAdd().Len(), virtualUTXODiff.ToRemove().Len())
+	fmt.Printf("UTXO VIRTUAL DIFF toAdd=%d toRemove=%d\n",
+    virtualUTXODiff.ToAdd().Len(), virtualUTXODiff.ToRemove().Len())
+    log.Infof("Calculated the past UTXO of the new virtual. "+
+    "Diff toAdd length: %d, toRemove length: %d",
+    virtualUTXODiff.ToAdd().Len(), virtualUTXODiff.ToRemove().Len())
 
 	log.Debugf("Staging new acceptance data for the virtual block")
 	csm.acceptanceDataStore.Stage(stagingArea, model.VirtualBlockHash, virtualAcceptanceData)

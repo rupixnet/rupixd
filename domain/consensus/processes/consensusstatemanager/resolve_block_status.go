@@ -1,4 +1,4 @@
-package consensusstatemanager
+﻿package consensusstatemanager
 
 import (
 	"fmt"
@@ -18,6 +18,8 @@ func (csm *consensusStateManager) resolveBlockStatus(stagingArea *model.StagingA
 
 	onEnd := logger.LogAndMeasureExecutionTime(log, fmt.Sprintf("resolveBlockStatus for %s", blockHash))
 	defer onEnd()
+
+	log.Infof("DEBUG resolveBlockStatus START blockHash=%s", blockHash)
 
 	unverifiedBlocks, err := csm.getUnverifiedChainBlocks(stagingArea, blockHash)
 if err != nil {
@@ -127,8 +129,9 @@ func (csm *consensusStateManager) selectedParentInfo(
 	}
 
 	if selectedParentStatus != externalapi.StatusUTXOValid {
-		return selectedParent, selectedParentStatus, nil, nil
-	}
+    fmt.Printf("DEBUG selectedParentInfo: selectedParent=%s status=%d\n", selectedParent, selectedParentStatus)
+    return selectedParent, selectedParentStatus, nil, nil
+}
 
 	selectedParentUTXOSet, err := csm.restorePastUTXO(stagingArea, selectedParent)
 	if err != nil {
@@ -176,6 +179,7 @@ if err != nil {
 func (csm *consensusStateManager) resolveSingleBlockStatus(stagingArea *model.StagingArea,
 	blockHash, selectedParentHash *externalapi.DomainHash, selectedParentPastUTXOSet externalapi.UTXODiff, isResolveTip bool) (
 	externalapi.BlockStatus, externalapi.UTXODiff, error) {
+	fmt.Printf("resolveSingleBlock blockHash=%s selectedParent=%s\n", blockHash, selectedParentHash)
 
 	onEnd := logger.LogAndMeasureExecutionTime(log, fmt.Sprintf("resolveSingleBlockStatus for %s", blockHash))
 	defer onEnd()
@@ -198,7 +202,8 @@ if err != nil {
 	err = csm.verifyUTXO(stagingArea, block, blockHash, pastUTXOSet, acceptanceData, multiset)
 	if err != nil {
 		if errors.As(err, &ruleerrors.RuleError{}) {
-			return externalapi.StatusDisqualifiedFromChain, nil, nil
+    fmt.Printf("DISQUALIFIED block %s verifyUTXO RuleError: %+v\n", blockHash, err)
+    return externalapi.StatusDisqualifiedFromChain, nil, nil
 		}
 		return 0, nil, err
 	}
@@ -261,13 +266,18 @@ func (csm *consensusStateManager) isNewSelectedTip(stagingArea *model.StagingAre
 }
 
 func (csm *consensusStateManager) virtualSelectedParent(stagingArea *model.StagingArea) (*externalapi.DomainHash, error) {
-	virtualGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, model.VirtualBlockHash, false)
-	if err != nil {
-		// RUPIX FIX: virtual not yet in DB on first startup
-		if database.IsNotFoundError(err) {
-			return csm.genesisHash, nil
-		}
-		return nil, err
-	}
-	return virtualGHOSTDAGData.SelectedParent(), nil
+        virtualGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, model.VirtualBlockHash, false)
+        if err != nil {
+                // RUPIX FIX: virtual not yet in DB on first startup
+                if database.IsNotFoundError(err) {
+                        return csm.genesisHash, nil
+                }
+                return nil, err
+        }
+        selectedParent := virtualGHOSTDAGData.SelectedParent()
+        if selectedParent == nil || selectedParent.Equal(model.VirtualGenesisBlockHash) {
+                return csm.genesisHash, nil
+        }
+        return selectedParent, nil
 }
+
