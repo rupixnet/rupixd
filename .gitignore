@@ -62,3 +62,7 @@ coverage.txt
 testdbs/
 coverage.tmp
 rcgithub*
+
+crash.log
+*.bak
+*.log
