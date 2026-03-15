@@ -31,8 +31,7 @@ func (s *server) CreateUnsignedTransactions(_ context.Context, request *pb.Creat
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	unsignedTransactions, err := s.createUnsignedTransactions(request.Address, request.Amount, request.IsSendAll,
-    request.From, request.UseExistingChangeAddress, request.FeePolicy, request.Payload)
+	unsignedTransactions, err := s.createUnsignedTransactions(request.Address, request.Amount, request.IsSendAll, request.From, request.UseExistingChangeAddress, request.FeePolicy, nil)
 	if err != nil {
 		return nil, err
 	}

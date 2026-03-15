@@ -1,4 +1,4 @@
-package coinbasemanager
+﻿package coinbasemanager
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -83,7 +83,7 @@ func TestCalcDeflationaryPeriodBlockSubsidy(t *testing.T) {
 
 func TestBuildSubsidyTable(t *testing.T) {
 	deflationaryPhaseBaseSubsidy := dagconfig.MainnetParams.DeflationaryPhaseBaseSubsidy
-	if deflationaryPhaseBaseSubsidy != 440*constants.RupiaPerRupix {
+	if deflationaryPhaseBaseSubsidy != 50_000_000 {
 		t.Errorf("TestBuildSubsidyTable: table generation function was not updated to reflect "+
 			"the new base subsidy %d. Please fix the constant above and replace subsidyByDeflationaryMonthTable "+
 			"in coinbasemanager.go with the printed table", deflationaryPhaseBaseSubsidy)
@@ -122,7 +122,7 @@ func TestBuildSubsidyTable(t *testing.T) {
 		}
 	}
 	tableStr += "\n}"
-	t.Logf(tableStr)
+	t.Logf("%s", tableStr)
 }
 
 

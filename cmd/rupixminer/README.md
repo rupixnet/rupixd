@@ -1,6 +1,6 @@
-# kaspaminer
+﻿# rupixminer
 
-Kaspaminer is a CPU-based miner for kaspad
+rupixminer is a CPU-based miner for rupixd
 
 ## Requirements
 
@@ -14,33 +14,27 @@ Go 1.23 or later.
   http://golang.org/doc/install
 
 - Ensure Go was installed properly and is a supported version:
-
 ```bash
 $ go version
 ```
 
-- Run the following commands to obtain and install kaspad including all dependencies:
-
+- Run the following commands to obtain and install rupixd including all dependencies:
 ```bash
-$ git clone https://github.com/kaspanet/kaspad
-$ cd kaspad/cmd/kaspaminer
+$ git clone https://github.com/rupixnet/rupixd
+$ cd rupixd/cmd/rupixminer
 $ go install .
 ```
 
-- Kapaminer should now be installed in `$(go env GOPATH)/bin`. If you did
-  not already add the bin directory to your system path during Go installation,
-  you are encouraged to do so now.
+- rupixminer should now be installed in `$(go env GOPATH)/bin`. If you did not already add the bin directory to your system path during Go installation, you are encouraged to do so now.
 
 ## Usage
 
-The full kaspaminer configuration options can be seen with:
-
+The full rupixminer configuration options can be seen with:
 ```bash
-$ kaspaminer --help
+$ rupixminer --help
 ```
 
 But the minimum configuration needed to run it is:
-
 ```bash
-$ kaspaminer --miningaddr=<YOUR_MINING_ADDRESS>
+$ rupixminer --miningaddr=<YOUR_MINING_ADDRESS>
 ```

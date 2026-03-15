@@ -69,13 +69,13 @@ func extendedKeyFromMnemonicAndPath(mnemonic string, path string, params *dagcon
 func versionFromParams(params *dagconfig.Params) ([4]byte, error) {
 	switch params.Name {
 	case dagconfig.MainnetParams.Name:
-		return bip32.KaspaMainnetPrivate, nil
+		return bip32.RupixMainnetPrivate, nil
 	case dagconfig.TestnetParams.Name:
-		return bip32.KaspaTestnetPrivate, nil
+		return bip32.RupixTestnetPrivate, nil
 	case dagconfig.DevnetParams.Name:
 		return bip32.RupixdevnetPrivate, nil
 	case dagconfig.SimnetParams.Name:
-		return bip32.KaspaSimnetPrivate, nil
+		return bip32.RupixSimnetPrivate, nil
 	}
 
 	return [4]byte{}, errors.Errorf("unknown network %s", params.Name)

@@ -1,4 +1,4 @@
-# Protocol Documentation
+﻿# Protocol Documentation
 <a name="top"></a>
 
 ## Table of Contents
@@ -388,7 +388,7 @@ Receivers of any ResponseMessage are expected to check whether its error field i
 <a name="protowire.GetCurrentNetworkRequestMessage"></a>
 
 ### GetCurrentNetworkRequestMessage
-GetCurrentNetworkRequestMessage requests the network kaspad is currently running against.
+GetCurrentNetworkRequestMessage requests the network rupixd is currently running against.
 
 Possible networks are: Mainnet, Testnet, Simnet, Devnet
 
@@ -476,7 +476,7 @@ See: SubmitBlockRequestMessage
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | block | [RpcBlock](#protowire.RpcBlock) |  |  |
-| isSynced | [bool](#bool) |  | Whether kaspad thinks that it&#39;s synced. Callers are discouraged (but not forbidden) from solving blocks when kaspad is not synced. That is because when kaspad isn&#39;t in sync with the rest of the network there&#39;s a high chance the block will never be accepted, thus the solving effort would have been wasted. |
+| isSynced | [bool](#bool) |  | Whether rupixd thinks that it&#39;s synced. Callers are discouraged (but not forbidden) from solving blocks when rupixd is not synced. That is because when rupixd isn&#39;t in sync with the rest of the network there&#39;s a high chance the block will never be accepted, thus the solving effort would have been wasted. |
 | error | [RPCError](#protowire.RPCError) |  |  |
 
 
@@ -532,7 +532,7 @@ See: NotifyBlockAddedRequestMessage
 <a name="protowire.GetPeerAddressesRequestMessage"></a>
 
 ### GetPeerAddressesRequestMessage
-GetPeerAddressesRequestMessage requests the list of known kaspad addresses in the
+GetPeerAddressesRequestMessage requests the list of known rupixd addresses in the
 current network. (mainnet, testnet, etc.)
 
 
@@ -687,7 +687,7 @@ currently in the mempool.
 
 ### GetConnectedPeerInfoRequestMessage
 GetConnectedPeerInfoRequestMessage requests information about all the p2p peers
-currently connected to this kaspad.
+currently connected to this rupixd.
 
 
 
@@ -721,11 +721,11 @@ currently connected to this kaspad.
 | id | [string](#string) |  |  |
 | address | [string](#string) |  |  |
 | lastPingDuration | [int64](#int64) |  | How long did the last ping/pong exchange take |
-| isOutbound | [bool](#bool) |  | Whether this kaspad initiated the connection |
+| isOutbound | [bool](#bool) |  | Whether this rupixd initiated the connection |
 | timeOffset | [int64](#int64) |  |  |
 | userAgent | [string](#string) |  |  |
 | advertisedProtocolVersion | [uint32](#uint32) |  | The protocol version that this peer claims to support |
-| timeConnected | [int64](#int64) |  | The timestamp of when this peer connected to this kaspad |
+| timeConnected | [int64](#int64) |  | The timestamp of when this peer connected to this rupixd |
 | isIbdPeer | [bool](#bool) |  | Whether this peer is the IBD peer (if IBD is running) |
 
 
@@ -736,8 +736,8 @@ currently connected to this kaspad.
 <a name="protowire.AddPeerRequestMessage"></a>
 
 ### AddPeerRequestMessage
-AddPeerRequestMessage adds a peer to kaspad&#39;s outgoing connection list.
-This will, in most cases, result in kaspad connecting to said peer.
+AddPeerRequestMessage adds a peer to rupixd&#39;s outgoing connection list.
+This will, in most cases, result in rupixd connecting to said peer.
 
 
 | Field | Type | Label | Description |
@@ -918,7 +918,7 @@ Currently unimplemented
 
 ### GetVirtualSelectedParentChainFromBlockRequestMessage
 GetVirtualSelectedParentChainFromBlockRequestMessage requests the virtual selected
-parent chain from some startHash to this kaspad&#39;s current virtual
+parent chain from some startHash to this rupixd&#39;s current virtual
 
 
 | Field | Type | Label | Description |
@@ -969,7 +969,7 @@ parent chain from some startHash to this kaspad&#39;s current virtual
 
 ### GetBlocksRequestMessage
 GetBlocksRequestMessage requests blocks between a certain block lowHash up to this
-kaspad&#39;s current virtual.
+rupixd&#39;s current virtual.
 
 
 | Field | Type | Label | Description |
@@ -1003,7 +1003,7 @@ kaspad&#39;s current virtual.
 <a name="protowire.GetBlockCountRequestMessage"></a>
 
 ### GetBlockCountRequestMessage
-GetBlockCountRequestMessage requests the current number of blocks in this kaspad.
+GetBlockCountRequestMessage requests the current number of blocks in this rupixd.
 Note that this number may decrease as pruning occurs.
 
 
@@ -1032,7 +1032,7 @@ Note that this number may decrease as pruning occurs.
 
 ### GetBlockDagInfoRequestMessage
 GetBlockDagInfoRequestMessage requests general information about the current state
-of this kaspad&#39;s DAG.
+of this rupixd&#39;s DAG.
 
 
 
@@ -1151,7 +1151,7 @@ of this kaspad&#39;s DAG.
 <a name="protowire.ShutDownRequestMessage"></a>
 
 ### ShutDownRequestMessage
-ShutDownRequestMessage shuts down this kaspad.
+ShutDownRequestMessage shuts down this rupixd.
 
 
 
@@ -1213,7 +1213,7 @@ current virtual, up to the given limit.
 NotifyUtxosChangedRequestMessage registers this connection for utxoChanged notifications
 for the given addresses.
 
-This call is only available when this kaspad was started with `--utxoindex`
+This call is only available when this rupixd was started with `--utxoindex`
 
 See: UtxosChangedNotificationMessage
 
@@ -1283,7 +1283,7 @@ See: NotifyUtxosChangedRequestMessage
 StopNotifyingUtxosChangedRequestMessage unregisters this connection for utxoChanged notifications
 for the given addresses.
 
-This call is only available when this kaspad was started with `--utxoindex`
+This call is only available when this rupixd was started with `--utxoindex`
 
 See: UtxosChangedNotificationMessage
 
@@ -1315,9 +1315,9 @@ See: UtxosChangedNotificationMessage
 <a name="protowire.GetUtxosByAddressesRequestMessage"></a>
 
 ### GetUtxosByAddressesRequestMessage
-GetUtxosByAddressesRequestMessage requests all current UTXOs for the given kaspad addresses
+GetUtxosByAddressesRequestMessage requests all current UTXOs for the given rupixd addresses
 
-This call is only available when this kaspad was started with `--utxoindex`
+This call is only available when this rupixd was started with `--utxoindex`
 
 
 | Field | Type | Label | Description |
@@ -1350,7 +1350,7 @@ This call is only available when this kaspad was started with `--utxoindex`
 ### GetBalanceByAddressRequestMessage
 GetBalanceByAddressRequest returns the total balance in unspent transactions towards a given address
 
-This call is only available when this kaspad was started with `--utxoindex`
+This call is only available when this rupixd was started with `--utxoindex`
 
 
 | Field | Type | Label | Description |
@@ -1551,7 +1551,7 @@ See NotifyVirtualDaaScoreChangedRequestMessage
 NotifyPruningPointUTXOSetOverrideRequestMessage registers this connection for
 pruning point UTXO set override notifications.
 
-This call is only available when this kaspad was started with `--utxoindex`
+This call is only available when this rupixd was started with `--utxoindex`
 
 See: NotifyPruningPointUTXOSetOverrideResponseMessage
 
@@ -1594,7 +1594,7 @@ See NotifyPruningPointUTXOSetOverrideRequestMessage
 StopNotifyingPruningPointUTXOSetOverrideRequestMessage unregisters this connection for
 pruning point UTXO set override notifications.
 
-This call is only available when this kaspad was started with `--utxoindex`
+This call is only available when this rupixd was started with `--utxoindex`
 
 See: PruningPointUTXOSetOverrideNotificationMessage
 
@@ -1886,8 +1886,8 @@ See NotifyNewBlockTemplateRequestMessage
 | ----------- | ----- | --- | ---- | ------ | -- | -- | --- | ---- |
 | <a name="double" /> double |  | double | double | float | float64 | double | float | Float |
 | <a name="float" /> float |  | float | float | float | float32 | float | float | Float |
-| <a name="int32" /> int32 | Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead. | int32 | int | int | int32 | int | integer | Bignum or Fixnum (as required) |
-| <a name="int64" /> int64 | Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead. | int64 | long | int/long | int64 | long | integer/string | Bignum |
+| <a name="int32" /> int32 | Uses variable-length encoding. Inefficient for encoding negative numbers â€“ if your field is likely to have negative values, use sint32 instead. | int32 | int | int | int32 | int | integer | Bignum or Fixnum (as required) |
+| <a name="int64" /> int64 | Uses variable-length encoding. Inefficient for encoding negative numbers â€“ if your field is likely to have negative values, use sint64 instead. | int64 | long | int/long | int64 | long | integer/string | Bignum |
 | <a name="uint32" /> uint32 | Uses variable-length encoding. | uint32 | int | int/long | uint32 | uint | integer | Bignum or Fixnum (as required) |
 | <a name="uint64" /> uint64 | Uses variable-length encoding. | uint64 | long | int/long | uint64 | ulong | integer/string | Bignum or Fixnum (as required) |
 | <a name="sint32" /> sint32 | Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s. | int32 | int | int | int32 | int | integer | Bignum or Fixnum (as required) |

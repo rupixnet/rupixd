@@ -54,9 +54,9 @@ func burn(cfg *burnConfig) error {
 	unsignedResp, err := daemonClient.CreateUnsignedTransactions(ctx,
 		&pb.CreateUnsignedTransactionsRequest{
 			Address: burnAddress,
-			Amount:  amountSompi,
-			Payload: payload,
-		})
+			Amount:   amountSompi,
+                Payload: payload,
+            })
 	if err != nil {
 		return errors.Wrap(err, "error creando TX de quema")
 	}

@@ -1,4 +1,4 @@
-# Mempool Limits tool
+﻿# Mempool Limits tool
 
 This tool:
 
@@ -7,7 +7,7 @@ This tool:
 
 ## Running
 
-1. `go install` kaspad and mempool-limits.
+1. `go install` rupixd and mempool-limits.
 2. `cd run`
 3. `./run.sh`
 

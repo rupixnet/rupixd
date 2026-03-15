@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import "github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/server"
 

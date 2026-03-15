@@ -22,40 +22,40 @@ var BitcoinMainnetPublic = [4]byte{
 	0x1e,
 }
 
-// KaspaMainnetPrivate is the version that is used for
+// RupixMainnetPrivate is the version that is used for
 // rupix mainnet bip32 private extended keys.
 // Ecnodes to xprv in base58.
-var KaspaMainnetPrivate = [4]byte{
+var RupixMainnetPrivate = [4]byte{
 	0x03,
 	0x8f,
 	0x2e,
 	0xf4,
 }
 
-// KaspaMainnetPublic is the version that is used for
+// RupixMainnetPublic is the version that is used for
 // rupix mainnet bip32 public extended keys.
 // Ecnodes to kpub in base58.
-var KaspaMainnetPublic = [4]byte{
+var RupixMainnetPublic = [4]byte{
 	0x03,
 	0x8f,
 	0x33,
 	0x2e,
 }
 
-// KaspaTestnetPrivate is the version that is used for
+// RupixTestnetPrivate is the version that is used for
 // rupix testnet bip32 public extended keys.
 // Ecnodes to ktrv in base58.
-var KaspaTestnetPrivate = [4]byte{
+var RupixTestnetPrivate = [4]byte{
 	0x03,
 	0x90,
 	0x9e,
 	0x07,
 }
 
-// KaspaTestnetPublic is the version that is used for
+// RupixTestnetPublic is the version that is used for
 // rupix testnet bip32 public extended keys.
 // Ecnodes to ktub in base58.
-var KaspaTestnetPublic = [4]byte{
+var RupixTestnetPublic = [4]byte{
 	0x03,
 	0x90,
 	0xa2,
@@ -82,20 +82,20 @@ var RupixdevnetPublic = [4]byte{
 	0xba,
 }
 
-// KaspaSimnetPrivate is the version that is used for
+// RupixSimnetPrivate is the version that is used for
 // rupix simnet bip32 public extended keys.
 // Ecnodes to ksrv in base58.
-var KaspaSimnetPrivate = [4]byte{
+var RupixSimnetPrivate = [4]byte{
 	0x03,
 	0x90,
 	0x42,
 	0x42,
 }
 
-// KaspaSimnetPublic is the version that is used for
+// RupixSimnetPublic is the version that is used for
 // rupix simnet bip32 public extended keys.
 // Ecnodes to xsub in base58.
-var KaspaSimnetPublic = [4]byte{
+var RupixSimnetPublic = [4]byte{
 	0x03,
 	0x90,
 	0x46,
@@ -106,14 +106,14 @@ func toPublicVersion(version [4]byte) ([4]byte, error) {
 	switch version {
 	case BitcoinMainnetPrivate:
 		return BitcoinMainnetPublic, nil
-	case KaspaMainnetPrivate:
-		return KaspaMainnetPublic, nil
-	case KaspaTestnetPrivate:
-		return KaspaTestnetPublic, nil
+	case RupixMainnetPrivate:
+		return RupixMainnetPublic, nil
+	case RupixTestnetPrivate:
+		return RupixTestnetPublic, nil
 	case RupixdevnetPrivate:
 		return RupixdevnetPublic, nil
-	case KaspaSimnetPrivate:
-		return KaspaSimnetPublic, nil
+	case RupixSimnetPrivate:
+		return RupixSimnetPublic, nil
 	}
 
 	return [4]byte{}, errors.Errorf("unknown version %x", version)
@@ -123,13 +123,13 @@ func isPrivateVersion(version [4]byte) bool {
 	switch version {
 	case BitcoinMainnetPrivate:
 		return true
-	case KaspaMainnetPrivate:
+	case RupixMainnetPrivate:
 		return true
-	case KaspaTestnetPrivate:
+	case RupixTestnetPrivate:
 		return true
 	case RupixdevnetPrivate:
 		return true
-	case KaspaSimnetPrivate:
+	case RupixSimnetPrivate:
 		return true
 	}
 

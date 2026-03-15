@@ -1,6 +1,6 @@
-syntax = "proto3";
+﻿syntax = "proto3";
 
-option go_package = "github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb";
+option go_package = "github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb";
 package kaspawalletd;
 
 service kaspawalletd {
@@ -54,6 +54,7 @@ message CreateUnsignedTransactionsRequest {
   bool useExistingChangeAddress = 4;
   bool isSendAll = 5;
   FeePolicy feePolicy = 6;
+  bytes payload = 7;
 }
 
 message CreateUnsignedTransactionsResponse {
@@ -149,3 +150,4 @@ message BumpFeeResponse {
   repeated bytes transactions = 1;
   repeated string txIDs = 2;
 }
+

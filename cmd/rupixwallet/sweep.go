@@ -64,7 +64,7 @@ func sweep(conf *sweepConfig) error {
 		return err
 	}
 
-	UTXOs, err := librupixwallet.rupixwalletdUTXOsTolibrupixwalletUTXOs(getExternalSpendableUTXOsResponse.Entries)
+	UTXOs, err := librupixwallet.RupixwalletdUTXOsToLibrupixwalletUTXOs(getExternalSpendableUTXOsResponse.Entries)
 	if err != nil {
 		return err
 	}

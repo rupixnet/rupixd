@@ -1,4 +1,4 @@
-package server
+﻿package server
 
 import "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 

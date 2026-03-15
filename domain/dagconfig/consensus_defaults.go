@@ -49,7 +49,7 @@ const (
 	defaultMergeSetSizeLimit                       = defaultGHOSTDAGK * 10
 	defaultSubsidyGenesisReward                    = 1 * constants.RupiaPerRupix
 	defaultPreDeflationaryPhaseBaseSubsidy         = 500 * constants.RupiaPerRupix
-	defaultDeflationaryPhaseBaseSubsidy            = 90944400 // 0.909 RUPIX — tabla Rupix 42M supply
+	defaultDeflationaryPhaseBaseSubsidy = 50_000_000 // 0.5 RUPIX/bloque — supply total 42M
 	defaultCoinbasePayloadScriptPublicKeyMaxLength = 150
 	// defaultDifficultyAdjustmentWindowSize is the number of blocks in a block's past used to calculate its difficulty
 	// target.

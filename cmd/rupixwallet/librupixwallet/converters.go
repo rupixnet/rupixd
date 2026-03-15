@@ -10,8 +10,8 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 )
 
-// rupixwalletdUTXOsTolibrupixwalletUTXOs converts a  []*pb.UtxosByAddressesEntry to a []*librupixwallet.UTXO
-func rupixwalletdUTXOsTolibrupixwalletUTXOs(rupixwalletdUtxoEntires []*pb.UtxosByAddressesEntry) ([]*UTXO, error) {
+// RupixwalletdUTXOsToLibrupixwalletUTXOs converts a  []*pb.UtxosByAddressesEntry to a []*librupixwallet.UTXO
+func RupixwalletdUTXOsToLibrupixwalletUTXOs(rupixwalletdUtxoEntires []*pb.UtxosByAddressesEntry) ([]*UTXO, error) {
 	UTXOs := make([]*UTXO, len(rupixwalletdUtxoEntires))
 	for i, entry := range rupixwalletdUtxoEntires {
 		script, err := hex.DecodeString(entry.UtxoEntry.ScriptPublicKey.ScriptPublicKey)
