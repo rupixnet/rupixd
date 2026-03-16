@@ -23,7 +23,7 @@ import (
 const minChangeTarget = constants.RupiaPerRupix * 10
 
 // The current minimal fee rate according to mempool standards
-const minFeeRate = 1.0
+const minFeeRate = 11.0 // BurnPerByte(10) + margen para variacion de tamanio de TX
 
 func (s *server) CreateUnsignedTransactions(_ context.Context, request *pb.CreateUnsignedTransactionsRequest) (
 	*pb.CreateUnsignedTransactionsResponse, error,
@@ -31,7 +31,7 @@ func (s *server) CreateUnsignedTransactions(_ context.Context, request *pb.Creat
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	unsignedTransactions, err := s.createUnsignedTransactions(request.Address, request.Amount, request.IsSendAll, request.From, request.UseExistingChangeAddress, request.FeePolicy, nil)
+	unsignedTransactions, err := s.createUnsignedTransactions(request.Address, request.Amount, request.IsSendAll, request.From, request.UseExistingChangeAddress, request.FeePolicy, request.Payload)
 	if err != nil {
 		return nil, err
 	}
@@ -69,13 +69,9 @@ func (s *server) calculateFeeLimits(requestFeePolicy *pb.FeePolicy) (feeRate flo
 		}
 		feeRate = estimate.Estimate.NormalBuckets[0].Feerate
 		maxFee = requestFeePolicy.MaxFee
-	case nil:
-		estimate, err := s.rpcClient.GetFeeEstimate()
-		if err != nil {
-			return 0, 0, err
-		}
-		feeRate = estimate.Estimate.NormalBuckets[0].Feerate
-		// Default to a bound of max 1 RUPIX as fee
+		case nil:
+		// Fee rate minimo por defecto - GetFeeEstimate no existe en rupixd
+		feeRate = minFeeRate
 		maxFee = constants.RupiaPerRupix
 	}
 

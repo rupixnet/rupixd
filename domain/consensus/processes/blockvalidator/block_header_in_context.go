@@ -1,4 +1,4 @@
-package blockvalidator
+﻿package blockvalidator
 
 import (
 	"fmt"

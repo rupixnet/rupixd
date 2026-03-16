@@ -353,7 +353,7 @@ var SimnetParams = Params{
 	GenesisBlock:                    &simnetGenesisBlock,
 	GenesisHash:                     simnetGenesisHash,
 	PowMax:                          simnetPowMax,
-	BlockCoinbaseMaturity:           100,
+	BlockCoinbaseMaturity:           10, // simnet - reducido para pruebas
 	SubsidyGenesisReward:            defaultSubsidyGenesisReward,
 	PreDeflationaryPhaseBaseSubsidy: defaultPreDeflationaryPhaseBaseSubsidy,
 	DeflationaryPhaseBaseSubsidy:    defaultDeflationaryPhaseBaseSubsidy,
