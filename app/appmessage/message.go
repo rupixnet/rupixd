@@ -73,7 +73,6 @@ const (
 	CmdRequestIBDChainBlockLocator
 	CmdIBDChainBlockLocator
 	CmdRequestAnticone
-
 	// rpc
 	CmdGetCurrentNetworkRequestMessage
 	CmdGetCurrentNetworkResponseMessage

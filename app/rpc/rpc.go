@@ -1,4 +1,4 @@
-package rpc
+﻿package rpc
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
@@ -94,9 +94,9 @@ func (m *Manager) handleIncomingMessages(router *router.Router, incomingRoute *r
 			return err
 		}
 		handler, ok := handlers[request.Command()]
-		if !ok {
-			return err
-		}
+        if !ok {
+            return errors.Errorf("unknown RPC command: %d", request.Command())
+        }
 		log.Infof("DEBUG RPC handling command: %d", request.Command())
 response, err := handler(m.context, router, request)
 if err != nil {

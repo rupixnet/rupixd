@@ -1,4 +1,4 @@
-package rpchandlers
+﻿package rpchandlers
 
 import (
 	"github.com/rupixnet/rupixd/app/appmessage"
@@ -8,6 +8,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/rupixnet/rupixd/util"
+    "github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/version"
 )
 
@@ -31,8 +32,9 @@ func HandleGetBlockTemplate(context *rpccontext.Context, _ *router.Router, reque
 
 	templateBlock, isNearlySynced, err := context.Domain.MiningManager().GetBlockTemplate(coinbaseData)
 if err != nil {
-    return nil, err
-}
+        return nil, errors.Wrapf(err, "GetBlockTemplate failed")
+    }
+    
 
 	if uint64(len(templateBlock.Transactions[transactionhelper.CoinbaseTransactionIndex].Payload)) > context.Config.NetParams().MaxCoinbasePayloadLength {
 		errorMessage := &appmessage.GetBlockTemplateResponseMessage{}
