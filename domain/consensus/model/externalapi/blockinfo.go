@@ -1,4 +1,4 @@
-package externalapi
+﻿package externalapi
 
 import "math/big"
 
@@ -29,7 +29,12 @@ func (bi *BlockInfo) Clone() *BlockInfo {
 		Exists:         bi.Exists,
 		BlockStatus:    bi.BlockStatus.Clone(),
 		BlueScore:      bi.BlueScore,
-		BlueWork:       new(big.Int).Set(bi.BlueWork),
+		BlueWork: func() *big.Int {
+            if bi.BlueWork == nil {
+                return big.NewInt(0)
+            }
+            return new(big.Int).Set(bi.BlueWork)
+        }(),
 		SelectedParent: bi.SelectedParent,
 		MergeSetBlues:  CloneHashes(bi.MergeSetBlues),
 		MergeSetReds:   CloneHashes(bi.MergeSetReds),

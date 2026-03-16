@@ -1,6 +1,7 @@
-package blockrelay
+﻿package blockrelay
 
 import (
+    "math/big"
 	"fmt"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/protocol/common"
@@ -111,7 +112,11 @@ func (flow *handleIBDFlow) checkIfHighHashHasMoreBlueWorkThanSelectedTipAndPruni
 		return false, nil
 	}
 
-	return relayBlock.Header.BlueWork().Cmp(virtualSelectedTipInfo.BlueWork) > 0, nil
+	tipBlueWork := virtualSelectedTipInfo.BlueWork
+    if tipBlueWork == nil {
+        tipBlueWork = big.NewInt(0)
+    }
+    return relayBlock.Header.BlueWork().Cmp(tipBlueWork) > 0, nil
 }
 
 func (flow *handleIBDFlow) syncAndValidatePruningPointProof() (*externalapi.DomainHash, error) {
