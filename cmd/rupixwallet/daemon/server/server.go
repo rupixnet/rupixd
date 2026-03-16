@@ -98,6 +98,9 @@ func Start(params *dagconfig.Params, listen, rpcServer string, keysFilePath stri
 
 	// Post-Crescendo coinbase maturity
 	coinbaseMaturity := uint64(1000)
+if params.Name == "rupix-simnet" {
+    coinbaseMaturity = uint64(10)
+}
 
 	serverInstance := &server{
 		rpcClient:                   rpcClient,
