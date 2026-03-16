@@ -1,4 +1,4 @@
-package blockbuilder
+﻿package blockbuilder
 
 import (
 	"encoding/binary"
@@ -402,7 +402,7 @@ func (bb *blockBuilder) newBlockBlueScore(stagingArea *model.StagingArea) (uint6
     }
 
     // Si el Virtual no tiene selectedParent, estamos construyendo el primer
-    // hijo del genesis. GHOSTDAG calculará BlueScore = genesis.BlueScore(0) + len(mergeSetBlues=1) = 1
+    // hijo del genesis. GHOSTDAG calcularÃ¡ BlueScore = genesis.BlueScore(0) + len(mergeSetBlues=1) = 1
     if virtualGHOSTDAGData.SelectedParent() == nil {
         return 1, nil
     }
