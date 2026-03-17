@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.28.1
 // 	protoc        v3.12.3
-// source: kaspawalletd.proto
+// source: rupixwalletd.proto
 
 package pb
 
@@ -29,7 +29,7 @@ type GetBalanceRequest struct {
 func (x *GetBalanceRequest) Reset() {
 	*x = GetBalanceRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[0]
+		mi := &file_rupixwalletd_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -42,7 +42,7 @@ func (x *GetBalanceRequest) String() string {
 func (*GetBalanceRequest) ProtoMessage() {}
 
 func (x *GetBalanceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[0]
+	mi := &file_rupixwalletd_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +55,7 @@ func (x *GetBalanceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBalanceRequest.ProtoReflect.Descriptor instead.
 func (*GetBalanceRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{0}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{0}
 }
 
 type GetBalanceResponse struct {
@@ -71,7 +71,7 @@ type GetBalanceResponse struct {
 func (x *GetBalanceResponse) Reset() {
 	*x = GetBalanceResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[1]
+		mi := &file_rupixwalletd_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -84,7 +84,7 @@ func (x *GetBalanceResponse) String() string {
 func (*GetBalanceResponse) ProtoMessage() {}
 
 func (x *GetBalanceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[1]
+	mi := &file_rupixwalletd_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -97,7 +97,7 @@ func (x *GetBalanceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBalanceResponse.ProtoReflect.Descriptor instead.
 func (*GetBalanceResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{1}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetBalanceResponse) GetAvailable() uint64 {
@@ -134,7 +134,7 @@ type AddressBalances struct {
 func (x *AddressBalances) Reset() {
 	*x = AddressBalances{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[2]
+		mi := &file_rupixwalletd_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -147,7 +147,7 @@ func (x *AddressBalances) String() string {
 func (*AddressBalances) ProtoMessage() {}
 
 func (x *AddressBalances) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[2]
+	mi := &file_rupixwalletd_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -160,7 +160,7 @@ func (x *AddressBalances) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddressBalances.ProtoReflect.Descriptor instead.
 func (*AddressBalances) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{2}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *AddressBalances) GetAddress() string {
@@ -199,7 +199,7 @@ type FeePolicy struct {
 func (x *FeePolicy) Reset() {
 	*x = FeePolicy{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[3]
+		mi := &file_rupixwalletd_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -212,7 +212,7 @@ func (x *FeePolicy) String() string {
 func (*FeePolicy) ProtoMessage() {}
 
 func (x *FeePolicy) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[3]
+	mi := &file_rupixwalletd_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -225,7 +225,7 @@ func (x *FeePolicy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FeePolicy.ProtoReflect.Descriptor instead.
 func (*FeePolicy) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{3}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{3}
 }
 
 func (m *FeePolicy) GetFeePolicy() isFeePolicy_FeePolicy {
@@ -295,7 +295,7 @@ type CreateUnsignedTransactionsRequest struct {
 func (x *CreateUnsignedTransactionsRequest) Reset() {
 	*x = CreateUnsignedTransactionsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[4]
+		mi := &file_rupixwalletd_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -308,7 +308,7 @@ func (x *CreateUnsignedTransactionsRequest) String() string {
 func (*CreateUnsignedTransactionsRequest) ProtoMessage() {}
 
 func (x *CreateUnsignedTransactionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[4]
+	mi := &file_rupixwalletd_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -321,7 +321,7 @@ func (x *CreateUnsignedTransactionsRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use CreateUnsignedTransactionsRequest.ProtoReflect.Descriptor instead.
 func (*CreateUnsignedTransactionsRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{4}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateUnsignedTransactionsRequest) GetAddress() string {
@@ -377,7 +377,7 @@ type CreateUnsignedTransactionsResponse struct {
 func (x *CreateUnsignedTransactionsResponse) Reset() {
 	*x = CreateUnsignedTransactionsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[5]
+		mi := &file_rupixwalletd_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -390,7 +390,7 @@ func (x *CreateUnsignedTransactionsResponse) String() string {
 func (*CreateUnsignedTransactionsResponse) ProtoMessage() {}
 
 func (x *CreateUnsignedTransactionsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[5]
+	mi := &file_rupixwalletd_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -403,7 +403,7 @@ func (x *CreateUnsignedTransactionsResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use CreateUnsignedTransactionsResponse.ProtoReflect.Descriptor instead.
 func (*CreateUnsignedTransactionsResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{5}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateUnsignedTransactionsResponse) GetUnsignedTransactions() [][]byte {
@@ -422,7 +422,7 @@ type ShowAddressesRequest struct {
 func (x *ShowAddressesRequest) Reset() {
 	*x = ShowAddressesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[6]
+		mi := &file_rupixwalletd_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -435,7 +435,7 @@ func (x *ShowAddressesRequest) String() string {
 func (*ShowAddressesRequest) ProtoMessage() {}
 
 func (x *ShowAddressesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[6]
+	mi := &file_rupixwalletd_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -448,7 +448,7 @@ func (x *ShowAddressesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShowAddressesRequest.ProtoReflect.Descriptor instead.
 func (*ShowAddressesRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{6}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{6}
 }
 
 type ShowAddressesResponse struct {
@@ -462,7 +462,7 @@ type ShowAddressesResponse struct {
 func (x *ShowAddressesResponse) Reset() {
 	*x = ShowAddressesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[7]
+		mi := &file_rupixwalletd_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -475,7 +475,7 @@ func (x *ShowAddressesResponse) String() string {
 func (*ShowAddressesResponse) ProtoMessage() {}
 
 func (x *ShowAddressesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[7]
+	mi := &file_rupixwalletd_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -488,7 +488,7 @@ func (x *ShowAddressesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShowAddressesResponse.ProtoReflect.Descriptor instead.
 func (*ShowAddressesResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{7}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ShowAddressesResponse) GetAddress() []string {
@@ -507,7 +507,7 @@ type NewAddressRequest struct {
 func (x *NewAddressRequest) Reset() {
 	*x = NewAddressRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[8]
+		mi := &file_rupixwalletd_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -520,7 +520,7 @@ func (x *NewAddressRequest) String() string {
 func (*NewAddressRequest) ProtoMessage() {}
 
 func (x *NewAddressRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[8]
+	mi := &file_rupixwalletd_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -533,7 +533,7 @@ func (x *NewAddressRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewAddressRequest.ProtoReflect.Descriptor instead.
 func (*NewAddressRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{8}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{8}
 }
 
 type NewAddressResponse struct {
@@ -547,7 +547,7 @@ type NewAddressResponse struct {
 func (x *NewAddressResponse) Reset() {
 	*x = NewAddressResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[9]
+		mi := &file_rupixwalletd_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -560,7 +560,7 @@ func (x *NewAddressResponse) String() string {
 func (*NewAddressResponse) ProtoMessage() {}
 
 func (x *NewAddressResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[9]
+	mi := &file_rupixwalletd_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -573,7 +573,7 @@ func (x *NewAddressResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewAddressResponse.ProtoReflect.Descriptor instead.
 func (*NewAddressResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{9}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *NewAddressResponse) GetAddress() string {
@@ -595,7 +595,7 @@ type BroadcastRequest struct {
 func (x *BroadcastRequest) Reset() {
 	*x = BroadcastRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[10]
+		mi := &file_rupixwalletd_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -608,7 +608,7 @@ func (x *BroadcastRequest) String() string {
 func (*BroadcastRequest) ProtoMessage() {}
 
 func (x *BroadcastRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[10]
+	mi := &file_rupixwalletd_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -621,7 +621,7 @@ func (x *BroadcastRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BroadcastRequest.ProtoReflect.Descriptor instead.
 func (*BroadcastRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{10}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *BroadcastRequest) GetIsDomain() bool {
@@ -649,7 +649,7 @@ type BroadcastResponse struct {
 func (x *BroadcastResponse) Reset() {
 	*x = BroadcastResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[11]
+		mi := &file_rupixwalletd_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -662,7 +662,7 @@ func (x *BroadcastResponse) String() string {
 func (*BroadcastResponse) ProtoMessage() {}
 
 func (x *BroadcastResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[11]
+	mi := &file_rupixwalletd_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -675,7 +675,7 @@ func (x *BroadcastResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BroadcastResponse.ProtoReflect.Descriptor instead.
 func (*BroadcastResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{11}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *BroadcastResponse) GetTxIDs() []string {
@@ -694,7 +694,7 @@ type ShutdownRequest struct {
 func (x *ShutdownRequest) Reset() {
 	*x = ShutdownRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[12]
+		mi := &file_rupixwalletd_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -707,7 +707,7 @@ func (x *ShutdownRequest) String() string {
 func (*ShutdownRequest) ProtoMessage() {}
 
 func (x *ShutdownRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[12]
+	mi := &file_rupixwalletd_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -720,7 +720,7 @@ func (x *ShutdownRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShutdownRequest.ProtoReflect.Descriptor instead.
 func (*ShutdownRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{12}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{12}
 }
 
 type ShutdownResponse struct {
@@ -732,7 +732,7 @@ type ShutdownResponse struct {
 func (x *ShutdownResponse) Reset() {
 	*x = ShutdownResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[13]
+		mi := &file_rupixwalletd_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -745,7 +745,7 @@ func (x *ShutdownResponse) String() string {
 func (*ShutdownResponse) ProtoMessage() {}
 
 func (x *ShutdownResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[13]
+	mi := &file_rupixwalletd_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -758,7 +758,7 @@ func (x *ShutdownResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShutdownResponse.ProtoReflect.Descriptor instead.
 func (*ShutdownResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{13}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{13}
 }
 
 type Outpoint struct {
@@ -773,7 +773,7 @@ type Outpoint struct {
 func (x *Outpoint) Reset() {
 	*x = Outpoint{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[14]
+		mi := &file_rupixwalletd_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -786,7 +786,7 @@ func (x *Outpoint) String() string {
 func (*Outpoint) ProtoMessage() {}
 
 func (x *Outpoint) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[14]
+	mi := &file_rupixwalletd_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -799,7 +799,7 @@ func (x *Outpoint) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Outpoint.ProtoReflect.Descriptor instead.
 func (*Outpoint) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{14}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *Outpoint) GetTransactionId() string {
@@ -829,7 +829,7 @@ type UtxosByAddressesEntry struct {
 func (x *UtxosByAddressesEntry) Reset() {
 	*x = UtxosByAddressesEntry{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[15]
+		mi := &file_rupixwalletd_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -842,7 +842,7 @@ func (x *UtxosByAddressesEntry) String() string {
 func (*UtxosByAddressesEntry) ProtoMessage() {}
 
 func (x *UtxosByAddressesEntry) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[15]
+	mi := &file_rupixwalletd_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -855,7 +855,7 @@ func (x *UtxosByAddressesEntry) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UtxosByAddressesEntry.ProtoReflect.Descriptor instead.
 func (*UtxosByAddressesEntry) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{15}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *UtxosByAddressesEntry) GetAddress() string {
@@ -891,7 +891,7 @@ type ScriptPublicKey struct {
 func (x *ScriptPublicKey) Reset() {
 	*x = ScriptPublicKey{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[16]
+		mi := &file_rupixwalletd_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -904,7 +904,7 @@ func (x *ScriptPublicKey) String() string {
 func (*ScriptPublicKey) ProtoMessage() {}
 
 func (x *ScriptPublicKey) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[16]
+	mi := &file_rupixwalletd_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -917,7 +917,7 @@ func (x *ScriptPublicKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScriptPublicKey.ProtoReflect.Descriptor instead.
 func (*ScriptPublicKey) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{16}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *ScriptPublicKey) GetVersion() uint32 {
@@ -948,7 +948,7 @@ type UtxoEntry struct {
 func (x *UtxoEntry) Reset() {
 	*x = UtxoEntry{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[17]
+		mi := &file_rupixwalletd_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -961,7 +961,7 @@ func (x *UtxoEntry) String() string {
 func (*UtxoEntry) ProtoMessage() {}
 
 func (x *UtxoEntry) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[17]
+	mi := &file_rupixwalletd_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -974,7 +974,7 @@ func (x *UtxoEntry) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UtxoEntry.ProtoReflect.Descriptor instead.
 func (*UtxoEntry) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{17}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *UtxoEntry) GetAmount() uint64 {
@@ -1016,7 +1016,7 @@ type GetExternalSpendableUTXOsRequest struct {
 func (x *GetExternalSpendableUTXOsRequest) Reset() {
 	*x = GetExternalSpendableUTXOsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[18]
+		mi := &file_rupixwalletd_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1029,7 +1029,7 @@ func (x *GetExternalSpendableUTXOsRequest) String() string {
 func (*GetExternalSpendableUTXOsRequest) ProtoMessage() {}
 
 func (x *GetExternalSpendableUTXOsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[18]
+	mi := &file_rupixwalletd_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1042,7 +1042,7 @@ func (x *GetExternalSpendableUTXOsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetExternalSpendableUTXOsRequest.ProtoReflect.Descriptor instead.
 func (*GetExternalSpendableUTXOsRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{18}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *GetExternalSpendableUTXOsRequest) GetAddress() string {
@@ -1063,7 +1063,7 @@ type GetExternalSpendableUTXOsResponse struct {
 func (x *GetExternalSpendableUTXOsResponse) Reset() {
 	*x = GetExternalSpendableUTXOsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[19]
+		mi := &file_rupixwalletd_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1076,7 +1076,7 @@ func (x *GetExternalSpendableUTXOsResponse) String() string {
 func (*GetExternalSpendableUTXOsResponse) ProtoMessage() {}
 
 func (x *GetExternalSpendableUTXOsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[19]
+	mi := &file_rupixwalletd_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1089,7 +1089,7 @@ func (x *GetExternalSpendableUTXOsResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use GetExternalSpendableUTXOsResponse.ProtoReflect.Descriptor instead.
 func (*GetExternalSpendableUTXOsResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{19}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *GetExternalSpendableUTXOsResponse) GetEntries() []*UtxosByAddressesEntry {
@@ -1119,7 +1119,7 @@ type SendRequest struct {
 func (x *SendRequest) Reset() {
 	*x = SendRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[20]
+		mi := &file_rupixwalletd_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1132,7 +1132,7 @@ func (x *SendRequest) String() string {
 func (*SendRequest) ProtoMessage() {}
 
 func (x *SendRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[20]
+	mi := &file_rupixwalletd_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1145,7 +1145,7 @@ func (x *SendRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendRequest.ProtoReflect.Descriptor instead.
 func (*SendRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{20}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *SendRequest) GetToAddress() string {
@@ -1209,7 +1209,7 @@ type SendResponse struct {
 func (x *SendResponse) Reset() {
 	*x = SendResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[21]
+		mi := &file_rupixwalletd_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1222,7 +1222,7 @@ func (x *SendResponse) String() string {
 func (*SendResponse) ProtoMessage() {}
 
 func (x *SendResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[21]
+	mi := &file_rupixwalletd_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1235,7 +1235,7 @@ func (x *SendResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendResponse.ProtoReflect.Descriptor instead.
 func (*SendResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{21}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *SendResponse) GetTxIDs() []string {
@@ -1266,7 +1266,7 @@ type SignRequest struct {
 func (x *SignRequest) Reset() {
 	*x = SignRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[22]
+		mi := &file_rupixwalletd_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1279,7 +1279,7 @@ func (x *SignRequest) String() string {
 func (*SignRequest) ProtoMessage() {}
 
 func (x *SignRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[22]
+	mi := &file_rupixwalletd_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1292,7 +1292,7 @@ func (x *SignRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignRequest.ProtoReflect.Descriptor instead.
 func (*SignRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{22}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *SignRequest) GetUnsignedTransactions() [][]byte {
@@ -1320,7 +1320,7 @@ type SignResponse struct {
 func (x *SignResponse) Reset() {
 	*x = SignResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[23]
+		mi := &file_rupixwalletd_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1333,7 +1333,7 @@ func (x *SignResponse) String() string {
 func (*SignResponse) ProtoMessage() {}
 
 func (x *SignResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[23]
+	mi := &file_rupixwalletd_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1346,7 +1346,7 @@ func (x *SignResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignResponse.ProtoReflect.Descriptor instead.
 func (*SignResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{23}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *SignResponse) GetSignedTransactions() [][]byte {
@@ -1365,7 +1365,7 @@ type GetVersionRequest struct {
 func (x *GetVersionRequest) Reset() {
 	*x = GetVersionRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[24]
+		mi := &file_rupixwalletd_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1378,7 +1378,7 @@ func (x *GetVersionRequest) String() string {
 func (*GetVersionRequest) ProtoMessage() {}
 
 func (x *GetVersionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[24]
+	mi := &file_rupixwalletd_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1391,7 +1391,7 @@ func (x *GetVersionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetVersionRequest.ProtoReflect.Descriptor instead.
 func (*GetVersionRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{24}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{24}
 }
 
 type GetVersionResponse struct {
@@ -1405,7 +1405,7 @@ type GetVersionResponse struct {
 func (x *GetVersionResponse) Reset() {
 	*x = GetVersionResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[25]
+		mi := &file_rupixwalletd_proto_msgTypes[25]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1418,7 +1418,7 @@ func (x *GetVersionResponse) String() string {
 func (*GetVersionResponse) ProtoMessage() {}
 
 func (x *GetVersionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[25]
+	mi := &file_rupixwalletd_proto_msgTypes[25]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1431,7 +1431,7 @@ func (x *GetVersionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetVersionResponse.ProtoReflect.Descriptor instead.
 func (*GetVersionResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{25}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *GetVersionResponse) GetVersion() string {
@@ -1457,7 +1457,7 @@ type BumpFeeRequest struct {
 func (x *BumpFeeRequest) Reset() {
 	*x = BumpFeeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[26]
+		mi := &file_rupixwalletd_proto_msgTypes[26]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1470,7 +1470,7 @@ func (x *BumpFeeRequest) String() string {
 func (*BumpFeeRequest) ProtoMessage() {}
 
 func (x *BumpFeeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[26]
+	mi := &file_rupixwalletd_proto_msgTypes[26]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1483,7 +1483,7 @@ func (x *BumpFeeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BumpFeeRequest.ProtoReflect.Descriptor instead.
 func (*BumpFeeRequest) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{26}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *BumpFeeRequest) GetPassword() string {
@@ -1533,7 +1533,7 @@ type BumpFeeResponse struct {
 func (x *BumpFeeResponse) Reset() {
 	*x = BumpFeeResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_kaspawalletd_proto_msgTypes[27]
+		mi := &file_rupixwalletd_proto_msgTypes[27]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1546,7 +1546,7 @@ func (x *BumpFeeResponse) String() string {
 func (*BumpFeeResponse) ProtoMessage() {}
 
 func (x *BumpFeeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_kaspawalletd_proto_msgTypes[27]
+	mi := &file_rupixwalletd_proto_msgTypes[27]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1559,7 +1559,7 @@ func (x *BumpFeeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BumpFeeResponse.ProtoReflect.Descriptor instead.
 func (*BumpFeeResponse) Descriptor() ([]byte, []int) {
-	return file_kaspawalletd_proto_rawDescGZIP(), []int{27}
+	return file_rupixwalletd_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *BumpFeeResponse) GetTransactions() [][]byte {
@@ -1576,9 +1576,9 @@ func (x *BumpFeeResponse) GetTxIDs() []string {
 	return nil
 }
 
-var File_kaspawalletd_proto protoreflect.FileDescriptor
+var File_rupixwalletd_proto protoreflect.FileDescriptor
 
-var file_kaspawalletd_proto_rawDesc = []byte{
+var file_rupixwalletd_proto_rawDesc = []byte{
 	0x0a, 0x12, 0x6b, 0x61, 0x73, 0x70, 0x61, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x64, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0c, 0x6b, 0x61, 0x73, 0x70, 0x61, 0x77, 0x61, 0x6c, 0x6c, 0x65,
 	0x74, 0x64, 0x22, 0x13, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65,
@@ -1816,81 +1816,81 @@ var file_kaspawalletd_proto_rawDesc = []byte{
 }
 
 var (
-	file_kaspawalletd_proto_rawDescOnce sync.Once
-	file_kaspawalletd_proto_rawDescData = file_kaspawalletd_proto_rawDesc
+	file_rupixwalletd_proto_rawDescOnce sync.Once
+	file_rupixwalletd_proto_rawDescData = file_rupixwalletd_proto_rawDesc
 )
 
-func file_kaspawalletd_proto_rawDescGZIP() []byte {
-	file_kaspawalletd_proto_rawDescOnce.Do(func() {
-		file_kaspawalletd_proto_rawDescData = protoimpl.X.CompressGZIP(file_kaspawalletd_proto_rawDescData)
+func file_rupixwalletd_proto_rawDescGZIP() []byte {
+	file_rupixwalletd_proto_rawDescOnce.Do(func() {
+		file_rupixwalletd_proto_rawDescData = protoimpl.X.CompressGZIP(file_rupixwalletd_proto_rawDescData)
 	})
-	return file_kaspawalletd_proto_rawDescData
+	return file_rupixwalletd_proto_rawDescData
 }
 
-var file_kaspawalletd_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
-var file_kaspawalletd_proto_goTypes = []interface{}{
-	(*GetBalanceRequest)(nil),                  // 0: kaspawalletd.GetBalanceRequest
-	(*GetBalanceResponse)(nil),                 // 1: kaspawalletd.GetBalanceResponse
-	(*AddressBalances)(nil),                    // 2: kaspawalletd.AddressBalances
-	(*FeePolicy)(nil),                          // 3: kaspawalletd.FeePolicy
-	(*CreateUnsignedTransactionsRequest)(nil),  // 4: kaspawalletd.CreateUnsignedTransactionsRequest
-	(*CreateUnsignedTransactionsResponse)(nil), // 5: kaspawalletd.CreateUnsignedTransactionsResponse
-	(*ShowAddressesRequest)(nil),               // 6: kaspawalletd.ShowAddressesRequest
-	(*ShowAddressesResponse)(nil),              // 7: kaspawalletd.ShowAddressesResponse
-	(*NewAddressRequest)(nil),                  // 8: kaspawalletd.NewAddressRequest
-	(*NewAddressResponse)(nil),                 // 9: kaspawalletd.NewAddressResponse
-	(*BroadcastRequest)(nil),                   // 10: kaspawalletd.BroadcastRequest
-	(*BroadcastResponse)(nil),                  // 11: kaspawalletd.BroadcastResponse
-	(*ShutdownRequest)(nil),                    // 12: kaspawalletd.ShutdownRequest
-	(*ShutdownResponse)(nil),                   // 13: kaspawalletd.ShutdownResponse
-	(*Outpoint)(nil),                           // 14: kaspawalletd.Outpoint
-	(*UtxosByAddressesEntry)(nil),              // 15: kaspawalletd.UtxosByAddressesEntry
-	(*ScriptPublicKey)(nil),                    // 16: kaspawalletd.ScriptPublicKey
-	(*UtxoEntry)(nil),                          // 17: kaspawalletd.UtxoEntry
-	(*GetExternalSpendableUTXOsRequest)(nil),   // 18: kaspawalletd.GetExternalSpendableUTXOsRequest
-	(*GetExternalSpendableUTXOsResponse)(nil),  // 19: kaspawalletd.GetExternalSpendableUTXOsResponse
-	(*SendRequest)(nil),                        // 20: kaspawalletd.SendRequest
-	(*SendResponse)(nil),                       // 21: kaspawalletd.SendResponse
-	(*SignRequest)(nil),                        // 22: kaspawalletd.SignRequest
-	(*SignResponse)(nil),                       // 23: kaspawalletd.SignResponse
-	(*GetVersionRequest)(nil),                  // 24: kaspawalletd.GetVersionRequest
-	(*GetVersionResponse)(nil),                 // 25: kaspawalletd.GetVersionResponse
-	(*BumpFeeRequest)(nil),                     // 26: kaspawalletd.BumpFeeRequest
-	(*BumpFeeResponse)(nil),                    // 27: kaspawalletd.BumpFeeResponse
+var file_rupixwalletd_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
+var file_rupixwalletd_proto_goTypes = []interface{}{
+	(*GetBalanceRequest)(nil),                  // 0: rupixwalletd.GetBalanceRequest
+	(*GetBalanceResponse)(nil),                 // 1: rupixwalletd.GetBalanceResponse
+	(*AddressBalances)(nil),                    // 2: rupixwalletd.AddressBalances
+	(*FeePolicy)(nil),                          // 3: rupixwalletd.FeePolicy
+	(*CreateUnsignedTransactionsRequest)(nil),  // 4: rupixwalletd.CreateUnsignedTransactionsRequest
+	(*CreateUnsignedTransactionsResponse)(nil), // 5: rupixwalletd.CreateUnsignedTransactionsResponse
+	(*ShowAddressesRequest)(nil),               // 6: rupixwalletd.ShowAddressesRequest
+	(*ShowAddressesResponse)(nil),              // 7: rupixwalletd.ShowAddressesResponse
+	(*NewAddressRequest)(nil),                  // 8: rupixwalletd.NewAddressRequest
+	(*NewAddressResponse)(nil),                 // 9: rupixwalletd.NewAddressResponse
+	(*BroadcastRequest)(nil),                   // 10: rupixwalletd.BroadcastRequest
+	(*BroadcastResponse)(nil),                  // 11: rupixwalletd.BroadcastResponse
+	(*ShutdownRequest)(nil),                    // 12: rupixwalletd.ShutdownRequest
+	(*ShutdownResponse)(nil),                   // 13: rupixwalletd.ShutdownResponse
+	(*Outpoint)(nil),                           // 14: rupixwalletd.Outpoint
+	(*UtxosByAddressesEntry)(nil),              // 15: rupixwalletd.UtxosByAddressesEntry
+	(*ScriptPublicKey)(nil),                    // 16: rupixwalletd.ScriptPublicKey
+	(*UtxoEntry)(nil),                          // 17: rupixwalletd.UtxoEntry
+	(*GetExternalSpendableUTXOsRequest)(nil),   // 18: rupixwalletd.GetExternalSpendableUTXOsRequest
+	(*GetExternalSpendableUTXOsResponse)(nil),  // 19: rupixwalletd.GetExternalSpendableUTXOsResponse
+	(*SendRequest)(nil),                        // 20: rupixwalletd.SendRequest
+	(*SendResponse)(nil),                       // 21: rupixwalletd.SendResponse
+	(*SignRequest)(nil),                        // 22: rupixwalletd.SignRequest
+	(*SignResponse)(nil),                       // 23: rupixwalletd.SignResponse
+	(*GetVersionRequest)(nil),                  // 24: rupixwalletd.GetVersionRequest
+	(*GetVersionResponse)(nil),                 // 25: rupixwalletd.GetVersionResponse
+	(*BumpFeeRequest)(nil),                     // 26: rupixwalletd.BumpFeeRequest
+	(*BumpFeeResponse)(nil),                    // 27: rupixwalletd.BumpFeeResponse
 }
-var file_kaspawalletd_proto_depIdxs = []int32{
-	2,  // 0: kaspawalletd.GetBalanceResponse.addressBalances:type_name -> kaspawalletd.AddressBalances
-	3,  // 1: kaspawalletd.CreateUnsignedTransactionsRequest.feePolicy:type_name -> kaspawalletd.FeePolicy
-	14, // 2: kaspawalletd.UtxosByAddressesEntry.outpoint:type_name -> kaspawalletd.Outpoint
-	17, // 3: kaspawalletd.UtxosByAddressesEntry.utxoEntry:type_name -> kaspawalletd.UtxoEntry
-	16, // 4: kaspawalletd.UtxoEntry.scriptPublicKey:type_name -> kaspawalletd.ScriptPublicKey
-	15, // 5: kaspawalletd.GetExternalSpendableUTXOsResponse.Entries:type_name -> kaspawalletd.UtxosByAddressesEntry
-	3,  // 6: kaspawalletd.SendRequest.feePolicy:type_name -> kaspawalletd.FeePolicy
-	3,  // 7: kaspawalletd.BumpFeeRequest.feePolicy:type_name -> kaspawalletd.FeePolicy
-	0,  // 8: kaspawalletd.kaspawalletd.GetBalance:input_type -> kaspawalletd.GetBalanceRequest
-	18, // 9: kaspawalletd.kaspawalletd.GetExternalSpendableUTXOs:input_type -> kaspawalletd.GetExternalSpendableUTXOsRequest
-	4,  // 10: kaspawalletd.kaspawalletd.CreateUnsignedTransactions:input_type -> kaspawalletd.CreateUnsignedTransactionsRequest
-	6,  // 11: kaspawalletd.kaspawalletd.ShowAddresses:input_type -> kaspawalletd.ShowAddressesRequest
-	8,  // 12: kaspawalletd.kaspawalletd.NewAddress:input_type -> kaspawalletd.NewAddressRequest
-	12, // 13: kaspawalletd.kaspawalletd.Shutdown:input_type -> kaspawalletd.ShutdownRequest
-	10, // 14: kaspawalletd.kaspawalletd.Broadcast:input_type -> kaspawalletd.BroadcastRequest
-	10, // 15: kaspawalletd.kaspawalletd.BroadcastReplacement:input_type -> kaspawalletd.BroadcastRequest
-	20, // 16: kaspawalletd.kaspawalletd.Send:input_type -> kaspawalletd.SendRequest
-	22, // 17: kaspawalletd.kaspawalletd.Sign:input_type -> kaspawalletd.SignRequest
-	24, // 18: kaspawalletd.kaspawalletd.GetVersion:input_type -> kaspawalletd.GetVersionRequest
-	26, // 19: kaspawalletd.kaspawalletd.BumpFee:input_type -> kaspawalletd.BumpFeeRequest
-	1,  // 20: kaspawalletd.kaspawalletd.GetBalance:output_type -> kaspawalletd.GetBalanceResponse
-	19, // 21: kaspawalletd.kaspawalletd.GetExternalSpendableUTXOs:output_type -> kaspawalletd.GetExternalSpendableUTXOsResponse
-	5,  // 22: kaspawalletd.kaspawalletd.CreateUnsignedTransactions:output_type -> kaspawalletd.CreateUnsignedTransactionsResponse
-	7,  // 23: kaspawalletd.kaspawalletd.ShowAddresses:output_type -> kaspawalletd.ShowAddressesResponse
-	9,  // 24: kaspawalletd.kaspawalletd.NewAddress:output_type -> kaspawalletd.NewAddressResponse
-	13, // 25: kaspawalletd.kaspawalletd.Shutdown:output_type -> kaspawalletd.ShutdownResponse
-	11, // 26: kaspawalletd.kaspawalletd.Broadcast:output_type -> kaspawalletd.BroadcastResponse
-	11, // 27: kaspawalletd.kaspawalletd.BroadcastReplacement:output_type -> kaspawalletd.BroadcastResponse
-	21, // 28: kaspawalletd.kaspawalletd.Send:output_type -> kaspawalletd.SendResponse
-	23, // 29: kaspawalletd.kaspawalletd.Sign:output_type -> kaspawalletd.SignResponse
-	25, // 30: kaspawalletd.kaspawalletd.GetVersion:output_type -> kaspawalletd.GetVersionResponse
-	27, // 31: kaspawalletd.kaspawalletd.BumpFee:output_type -> kaspawalletd.BumpFeeResponse
+var file_rupixwalletd_proto_depIdxs = []int32{
+	2,  // 0: rupixwalletd.GetBalanceResponse.addressBalances:type_name -> rupixwalletd.AddressBalances
+	3,  // 1: rupixwalletd.CreateUnsignedTransactionsRequest.feePolicy:type_name -> rupixwalletd.FeePolicy
+	14, // 2: rupixwalletd.UtxosByAddressesEntry.outpoint:type_name -> rupixwalletd.Outpoint
+	17, // 3: rupixwalletd.UtxosByAddressesEntry.utxoEntry:type_name -> rupixwalletd.UtxoEntry
+	16, // 4: rupixwalletd.UtxoEntry.scriptPublicKey:type_name -> rupixwalletd.ScriptPublicKey
+	15, // 5: rupixwalletd.GetExternalSpendableUTXOsResponse.Entries:type_name -> rupixwalletd.UtxosByAddressesEntry
+	3,  // 6: rupixwalletd.SendRequest.feePolicy:type_name -> rupixwalletd.FeePolicy
+	3,  // 7: rupixwalletd.BumpFeeRequest.feePolicy:type_name -> rupixwalletd.FeePolicy
+	0,  // 8: rupixwalletd.rupixwalletd.GetBalance:input_type -> rupixwalletd.GetBalanceRequest
+	18, // 9: rupixwalletd.rupixwalletd.GetExternalSpendableUTXOs:input_type -> rupixwalletd.GetExternalSpendableUTXOsRequest
+	4,  // 10: rupixwalletd.rupixwalletd.CreateUnsignedTransactions:input_type -> rupixwalletd.CreateUnsignedTransactionsRequest
+	6,  // 11: rupixwalletd.rupixwalletd.ShowAddresses:input_type -> rupixwalletd.ShowAddressesRequest
+	8,  // 12: rupixwalletd.rupixwalletd.NewAddress:input_type -> rupixwalletd.NewAddressRequest
+	12, // 13: rupixwalletd.rupixwalletd.Shutdown:input_type -> rupixwalletd.ShutdownRequest
+	10, // 14: rupixwalletd.rupixwalletd.Broadcast:input_type -> rupixwalletd.BroadcastRequest
+	10, // 15: rupixwalletd.rupixwalletd.BroadcastReplacement:input_type -> rupixwalletd.BroadcastRequest
+	20, // 16: rupixwalletd.rupixwalletd.Send:input_type -> rupixwalletd.SendRequest
+	22, // 17: rupixwalletd.rupixwalletd.Sign:input_type -> rupixwalletd.SignRequest
+	24, // 18: rupixwalletd.rupixwalletd.GetVersion:input_type -> rupixwalletd.GetVersionRequest
+	26, // 19: rupixwalletd.rupixwalletd.BumpFee:input_type -> rupixwalletd.BumpFeeRequest
+	1,  // 20: rupixwalletd.rupixwalletd.GetBalance:output_type -> rupixwalletd.GetBalanceResponse
+	19, // 21: rupixwalletd.rupixwalletd.GetExternalSpendableUTXOs:output_type -> rupixwalletd.GetExternalSpendableUTXOsResponse
+	5,  // 22: rupixwalletd.rupixwalletd.CreateUnsignedTransactions:output_type -> rupixwalletd.CreateUnsignedTransactionsResponse
+	7,  // 23: rupixwalletd.rupixwalletd.ShowAddresses:output_type -> rupixwalletd.ShowAddressesResponse
+	9,  // 24: rupixwalletd.rupixwalletd.NewAddress:output_type -> rupixwalletd.NewAddressResponse
+	13, // 25: rupixwalletd.rupixwalletd.Shutdown:output_type -> rupixwalletd.ShutdownResponse
+	11, // 26: rupixwalletd.rupixwalletd.Broadcast:output_type -> rupixwalletd.BroadcastResponse
+	11, // 27: rupixwalletd.rupixwalletd.BroadcastReplacement:output_type -> rupixwalletd.BroadcastResponse
+	21, // 28: rupixwalletd.rupixwalletd.Send:output_type -> rupixwalletd.SendResponse
+	23, // 29: rupixwalletd.rupixwalletd.Sign:output_type -> rupixwalletd.SignResponse
+	25, // 30: rupixwalletd.rupixwalletd.GetVersion:output_type -> rupixwalletd.GetVersionResponse
+	27, // 31: rupixwalletd.rupixwalletd.BumpFee:output_type -> rupixwalletd.BumpFeeResponse
 	20, // [20:32] is the sub-list for method output_type
 	8,  // [8:20] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
@@ -1898,13 +1898,13 @@ var file_kaspawalletd_proto_depIdxs = []int32{
 	0,  // [0:8] is the sub-list for field type_name
 }
 
-func init() { file_kaspawalletd_proto_init() }
-func file_kaspawalletd_proto_init() {
-	if File_kaspawalletd_proto != nil {
+func init() { file_rupixwalletd_proto_init() }
+func file_rupixwalletd_proto_init() {
+	if File_rupixwalletd_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_kaspawalletd_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetBalanceRequest); i {
 			case 0:
 				return &v.state
@@ -1916,7 +1916,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetBalanceResponse); i {
 			case 0:
 				return &v.state
@@ -1928,7 +1928,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AddressBalances); i {
 			case 0:
 				return &v.state
@@ -1940,7 +1940,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*FeePolicy); i {
 			case 0:
 				return &v.state
@@ -1952,7 +1952,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateUnsignedTransactionsRequest); i {
 			case 0:
 				return &v.state
@@ -1964,7 +1964,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateUnsignedTransactionsResponse); i {
 			case 0:
 				return &v.state
@@ -1976,7 +1976,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ShowAddressesRequest); i {
 			case 0:
 				return &v.state
@@ -1988,7 +1988,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ShowAddressesResponse); i {
 			case 0:
 				return &v.state
@@ -2000,7 +2000,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*NewAddressRequest); i {
 			case 0:
 				return &v.state
@@ -2012,7 +2012,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*NewAddressResponse); i {
 			case 0:
 				return &v.state
@@ -2024,7 +2024,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*BroadcastRequest); i {
 			case 0:
 				return &v.state
@@ -2036,7 +2036,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*BroadcastResponse); i {
 			case 0:
 				return &v.state
@@ -2048,7 +2048,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ShutdownRequest); i {
 			case 0:
 				return &v.state
@@ -2060,7 +2060,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ShutdownResponse); i {
 			case 0:
 				return &v.state
@@ -2072,7 +2072,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Outpoint); i {
 			case 0:
 				return &v.state
@@ -2084,7 +2084,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UtxosByAddressesEntry); i {
 			case 0:
 				return &v.state
@@ -2096,7 +2096,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ScriptPublicKey); i {
 			case 0:
 				return &v.state
@@ -2108,7 +2108,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UtxoEntry); i {
 			case 0:
 				return &v.state
@@ -2120,7 +2120,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetExternalSpendableUTXOsRequest); i {
 			case 0:
 				return &v.state
@@ -2132,7 +2132,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetExternalSpendableUTXOsResponse); i {
 			case 0:
 				return &v.state
@@ -2144,7 +2144,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SendRequest); i {
 			case 0:
 				return &v.state
@@ -2156,7 +2156,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SendResponse); i {
 			case 0:
 				return &v.state
@@ -2168,7 +2168,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SignRequest); i {
 			case 0:
 				return &v.state
@@ -2180,7 +2180,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SignResponse); i {
 			case 0:
 				return &v.state
@@ -2192,7 +2192,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetVersionRequest); i {
 			case 0:
 				return &v.state
@@ -2204,7 +2204,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetVersionResponse); i {
 			case 0:
 				return &v.state
@@ -2216,7 +2216,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*BumpFeeRequest); i {
 			case 0:
 				return &v.state
@@ -2228,7 +2228,7 @@ func file_kaspawalletd_proto_init() {
 				return nil
 			}
 		}
-		file_kaspawalletd_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+		file_rupixwalletd_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*BumpFeeResponse); i {
 			case 0:
 				return &v.state
@@ -2241,7 +2241,7 @@ func file_kaspawalletd_proto_init() {
 			}
 		}
 	}
-	file_kaspawalletd_proto_msgTypes[3].OneofWrappers = []interface{}{
+	file_rupixwalletd_proto_msgTypes[3].OneofWrappers = []interface{}{
 		(*FeePolicy_MaxFeeRate)(nil),
 		(*FeePolicy_ExactFeeRate)(nil),
 		(*FeePolicy_MaxFee)(nil),
@@ -2250,18 +2250,18 @@ func file_kaspawalletd_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_kaspawalletd_proto_rawDesc,
+			RawDescriptor: file_rupixwalletd_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   28,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_kaspawalletd_proto_goTypes,
-		DependencyIndexes: file_kaspawalletd_proto_depIdxs,
-		MessageInfos:      file_kaspawalletd_proto_msgTypes,
+		GoTypes:           file_rupixwalletd_proto_goTypes,
+		DependencyIndexes: file_rupixwalletd_proto_depIdxs,
+		MessageInfos:      file_rupixwalletd_proto_msgTypes,
 	}.Build()
-	File_kaspawalletd_proto = out.File
-	file_kaspawalletd_proto_rawDesc = nil
-	file_kaspawalletd_proto_goTypes = nil
-	file_kaspawalletd_proto_depIdxs = nil
+	File_rupixwalletd_proto = out.File
+	file_rupixwalletd_proto_rawDesc = nil
+	file_rupixwalletd_proto_goTypes = nil
+	file_rupixwalletd_proto_depIdxs = nil
 }

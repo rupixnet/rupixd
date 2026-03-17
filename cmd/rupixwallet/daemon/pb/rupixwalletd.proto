@@ -1,9 +1,9 @@
 ﻿syntax = "proto3";
 
 option go_package = "github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb";
-package kaspawalletd;
+package rupixwalletd;
 
-service kaspawalletd {
+service rupixwalletd {
   rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse) {}
   rpc GetExternalSpendableUTXOs(GetExternalSpendableUTXOsRequest)
       returns (GetExternalSpendableUTXOsResponse) {}

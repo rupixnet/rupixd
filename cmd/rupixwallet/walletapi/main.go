@@ -1,4 +1,4 @@
-﻿package main
+package main
 
 import (
     "context"
@@ -36,7 +36,7 @@ func jsonErr(w http.ResponseWriter, err error) {
     json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 }
 
-func connect() (pb.KaspawalletdClient, func(), error) {
+func connect() (pb.RupixwalletdClient, func(), error) {
     return client.Connect(daemonAddr)
 }
 

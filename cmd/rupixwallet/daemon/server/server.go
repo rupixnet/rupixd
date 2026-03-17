@@ -1,4 +1,4 @@
-﻿package server
+package server
 
 import (
 	"fmt"
@@ -28,7 +28,7 @@ import (
 )
 
 type server struct {
-	pb.UnimplementedKaspawalletdServer
+	pb.UnimplementedrupixwalletdServer
 
 	rpcClient           *rpcclient.RPCClient // RPC client for ongoing user requests
 	backgroundRPCClient *rpcclient.RPCClient // RPC client dedicated for address and UTXO background fetching
@@ -130,7 +130,7 @@ if params.Name == "rupix-simnet" {
 	})
 
 	grpcServer := grpc.NewServer(grpc.MaxSendMsgSize(MaxDaemonSendMsgSize))
-	pb.RegisterKaspawalletdServer(grpcServer, serverInstance)
+	pb.RegisterrupixwalletdServer(grpcServer, serverInstance)
 
 	spawn("grpcServer.Serve", func() {
 		err := grpcServer.Serve(listener)
