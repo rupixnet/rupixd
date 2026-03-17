@@ -42,11 +42,9 @@ func (s *server) CreateUnsignedTransactions(_ context.Context, request *pb.Creat
 func (s *server) calculateFeeLimits(requestFeePolicy *pb.FeePolicy) (feeRate float64, maxFee uint64, err error) {
 	feeRate = minFeeRate
 	maxFee = math.MaxUint64
-
 	if requestFeePolicy == nil {
-		requestFeePolicy = &pb.FeePolicy{}
+		return feeRate, maxFee, nil
 	}
-
 	switch requestFeePolicy := requestFeePolicy.FeePolicy.(type) {
 	case *pb.FeePolicy_ExactFeeRate:
 		feeRate = requestFeePolicy.ExactFeeRate
@@ -54,30 +52,17 @@ func (s *server) calculateFeeLimits(requestFeePolicy *pb.FeePolicy) (feeRate flo
 			return 0, 0, errors.Errorf("requested fee rate %f is too low, minimum fee rate is %f", feeRate, minFeeRate)
 		}
 	case *pb.FeePolicy_MaxFeeRate:
-		estimate, err := s.rpcClient.GetFeeEstimate()
-		if err != nil {
-			return 0, 0, err
-		}
 		if requestFeePolicy.MaxFeeRate < minFeeRate {
 			return 0, 0, errors.Errorf("requested max fee rate %f is too low, minimum fee rate is %f", requestFeePolicy.MaxFeeRate, minFeeRate)
 		}
-		feeRate = math.Min(estimate.Estimate.NormalBuckets[0].Feerate, requestFeePolicy.MaxFeeRate)
+		feeRate = requestFeePolicy.MaxFeeRate
 	case *pb.FeePolicy_MaxFee:
-		estimate, err := s.rpcClient.GetFeeEstimate()
-		if err != nil {
-			return 0, 0, err
-		}
-		feeRate = estimate.Estimate.NormalBuckets[0].Feerate
-		maxFee = requestFeePolicy.MaxFee
-		case nil:
-		// Fee rate minimo por defecto - GetFeeEstimate no existe en rupixd
 		feeRate = minFeeRate
-		maxFee = constants.RupiaPerRupix
+		maxFee = requestFeePolicy.MaxFee
 	}
-
 	return feeRate, maxFee, nil
 }
-
+	
 func (s *server) createUnsignedTransactions(address string, amount uint64, isSendAll bool, fromAddressesString []string, useExistingChangeAddress bool, requestFeePolicy *pb.FeePolicy, payload []byte) ([][]byte, error) {
 	if !s.isSynced() {
 		return nil, errors.Errorf("wallet daemon is not synced yet, %s", s.formatSyncStateReport())
