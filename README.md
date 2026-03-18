@@ -59,17 +59,18 @@ go test ./domain/dagconfig/... -run TestSkipProofOfWork
 # maxRupia: 4200000000000000 = 42,000,000 RUPIX exactos
 ```
 
-## Diferencias técnicas vs Kaspa
+## Mejoras técnicas
 
-- Supply 42M vs 28.7B de Kaspa — 680x más escaso
-- Sistema de 5 niveles de escasez — único en crypto
-- Burn antispam destruye tokens (Kaspa paga fees al minero)
-- TxTypeBurn — tipo de transacción nuevo a nivel de protocolo
-- Corrección del bug DAA score off-by-one del codebase original
-- Protección BlueWork nil mejorada
+- Supply máximo sellado: 42,000,000 RUPIX — criptográficamente imposible de modificar
+- Sistema de 5 niveles de escasez a nivel de protocolo — único en blockchain
+- Burn deflacionario: cada transacción destruye tokens permanentemente
+- TxTypeBurn — tipo de transacción nativo para transiciones de nivel
+- Corrección del DAA score off-by-one en construcción de bloques
+- Protección BlueWork nil en sincronización de nodos nuevos
+- Zero pre-mine — verificable en el bloque genesis
 
 ## Licencia
 
-MIT — Rupix developers 2026
+ISC — Rupix developers 2026
 
 *No confíes, verifica. — rupix.network*
