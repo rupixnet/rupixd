@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2014-2016 The btcsuite developers
+// Copyright (c) 2014-2016 The btcsuite developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -188,6 +188,12 @@ type Params struct {
 	MaxBlockLevel int
 
 	MergeDepth uint64
+
+// Rupix: unlock scores por red - diferentes por red
+LevelDiamanteUnlockScore uint64
+LevelPlatinoUnlockScore  uint64
+LevelRodioUnlockScore    uint64
+LevelKingsUnlockScore    uint64
 }
 
 // NormalizeRPCServerAddress returns addr with the current network default
@@ -270,6 +276,10 @@ var MainnetParams = Params{
 	// This means that any block that has a level lower or equal to genesis will be level 0.
 	MaxBlockLevel: 225,
 	MergeDepth:    defaultMergeDepth,
+	LevelDiamanteUnlockScore: 42_000_000,
+	LevelPlatinoUnlockScore:  84_000_000,
+	LevelRodioUnlockScore:    126_000_000,
+	LevelKingsUnlockScore:    168_000_000,
 }
 
 // TestnetParams defines the network parameters for the test rupix network.
@@ -332,6 +342,10 @@ var TestnetParams = Params{
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,
+	LevelDiamanteUnlockScore: 42_000_000,
+	LevelPlatinoUnlockScore:  84_000_000,
+	LevelRodioUnlockScore:    126_000_000,
+	LevelKingsUnlockScore:    168_000_000,
 }
 
 // SimnetParams defines the network parameters for the simulation test rupix
@@ -398,6 +412,10 @@ var SimnetParams = Params{
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,
+	LevelDiamanteUnlockScore: 100,
+	LevelPlatinoUnlockScore:  1_000,
+	LevelRodioUnlockScore:    10_000,
+	LevelKingsUnlockScore:    100_000,
 }
 
 // DevnetParams defines the network parameters for the development rupix network.
@@ -460,6 +478,10 @@ var DevnetParams = Params{
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,
+	LevelDiamanteUnlockScore: 100,
+	LevelPlatinoUnlockScore:  1_000,
+	LevelRodioUnlockScore:    10_000,
+	LevelKingsUnlockScore:    100_000,
 }
 
 // ErrDuplicateNet describes an error where the parameters for a rupix

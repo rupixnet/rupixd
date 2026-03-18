@@ -9,8 +9,6 @@ import (
 
 const sigCacheSize = 10_000
 
-// transactionValidator exposes a set of validation classes, after which
-// it's possible to determine whether either a transaction is valid
 type transactionValidator struct {
 	blockCoinbaseMaturity                   uint64
 	databaseContext                         model.DBReader
@@ -24,9 +22,13 @@ type transactionValidator struct {
 	sigCache                                *txscript.SigCache
 	sigCacheECDSA                           *txscript.SigCacheECDSA
 	txMassCalculator                        *txmass.Calculator
+	// Rupix: unlock scores por red
+	levelDiamanteUnlockScore uint64
+	levelPlatinoUnlockScore  uint64
+	levelRodioUnlockScore    uint64
+	levelKingsUnlockScore    uint64
 }
 
-// New instantiates a new TransactionValidator
 func New(blockCoinbaseMaturity uint64,
 	enableNonNativeSubnetworks bool,
 	maxCoinbasePayloadLength uint64,
@@ -36,8 +38,11 @@ func New(blockCoinbaseMaturity uint64,
 	pastMedianTimeManager model.PastMedianTimeManager,
 	ghostdagDataStore model.GHOSTDAGDataStore,
 	daaBlocksStore model.DAABlocksStore,
-	txMassCalculator *txmass.Calculator) model.TransactionValidator {
-
+	txMassCalculator *txmass.Calculator,
+	levelDiamanteUnlockScore uint64,
+	levelPlatinoUnlockScore uint64,
+	levelRodioUnlockScore uint64,
+	levelKingsUnlockScore uint64) model.TransactionValidator {
 	return &transactionValidator{
 		blockCoinbaseMaturity:                   blockCoinbaseMaturity,
 		enableNonNativeSubnetworks:              enableNonNativeSubnetworks,
@@ -51,6 +56,9 @@ func New(blockCoinbaseMaturity uint64,
 		sigCache:                                txscript.NewSigCache(sigCacheSize),
 		sigCacheECDSA:                           txscript.NewSigCacheECDSA(sigCacheSize),
 		txMassCalculator:                        txMassCalculator,
+		levelDiamanteUnlockScore:                levelDiamanteUnlockScore,
+		levelPlatinoUnlockScore:                 levelPlatinoUnlockScore,
+		levelRodioUnlockScore:                   levelRodioUnlockScore,
+		levelKingsUnlockScore:                   levelKingsUnlockScore,
 	}
 }
-
