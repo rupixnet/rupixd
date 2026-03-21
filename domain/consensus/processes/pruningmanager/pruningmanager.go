@@ -1132,9 +1132,12 @@ if selectedParent == nil || selectedParent.Equal(pm.genesisHash) || selectedPare
 	}
 
 	selectedParentPruningPointHeader, err := pm.blockHeaderStore.BlockHeader(pm.databaseContext, stagingArea, selectedParentHeader.PruningPoint())
-	if err != nil {
-		return nil, err
-	}
+if err != nil {
+    if database.IsNotFoundError(err) {
+        return pm.genesisHash, nil
+    }
+    return nil, err
+}
 
 	nextOrCurrentPruningPoint := selectedParentHeader.PruningPoint()
 	pruningPoint, err := pm.pruningStore.PruningPoint(pm.databaseContext, stagingArea)

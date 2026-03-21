@@ -142,7 +142,11 @@ func (btb *blockTemplateBuilder) BuildBlockTemplate(
 		len(candidateTxs))
 
 	blockTxs := btb.selectTransactions(candidateTxs)
-	blockTemplate, err := btb.consensusReference.Consensus().BuildBlockTemplate(coinbaseData, blockTxs.selectedTxs)
+log.Infof("DEBUG: Calling consensus.BuildBlockTemplate with %d txs", len(blockTxs.selectedTxs))
+blockTemplate, err := btb.consensusReference.Consensus().BuildBlockTemplate(coinbaseData, blockTxs.selectedTxs)
+if err != nil {
+    log.Infof("DEBUG BuildBlockTemplate error: %+v", err)
+}
 
 	invalidTxsErr := ruleerrors.ErrInvalidTransactionsInNewBlock{}
 	if errors.As(err, &invalidTxsErr) {

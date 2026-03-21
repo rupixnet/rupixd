@@ -12,26 +12,32 @@ import (
 	"github.com/rupixnet/rupixd/version"
 )
 
-// HandleGetBlockTemplate handles the respectively named RPC command
 func HandleGetBlockTemplate(context *rpccontext.Context, _ *router.Router, request appmessage.Message) (appmessage.Message, error) {
-	getBlockTemplateRequest := request.(*appmessage.GetBlockTemplateRequestMessage)
+    log.Infof("DEBUG: HandleGetBlockTemplate entry")
+    getBlockTemplateRequest := request.(*appmessage.GetBlockTemplateRequestMessage)
+    log.Infof("DEBUG: PayAddress = %s", getBlockTemplateRequest.PayAddress)
 
-	payAddress, err := util.DecodeAddress(getBlockTemplateRequest.PayAddress, context.Config.ActiveNetParams.Prefix)
-	if err != nil {
-		errorMessage := &appmessage.GetBlockTemplateResponseMessage{}
-		errorMessage.Error = appmessage.RPCErrorf("Could not decode address: %s", err)
-		return errorMessage, nil
-	}
+    payAddress, err := util.DecodeAddress(getBlockTemplateRequest.PayAddress, context.Config.ActiveNetParams.Prefix)
+    if err != nil {
+        log.Infof("DEBUG: DecodeAddress failed: %+v", err)
+        errorMessage := &appmessage.GetBlockTemplateResponseMessage{}
+        errorMessage.Error = appmessage.RPCErrorf("Could not decode address: %s", err)
+        return errorMessage, nil
+    }
+    log.Infof("DEBUG: DecodeAddress OK")
 
-	scriptPublicKey, err := txscript.PayToAddrScript(payAddress)
-	if err != nil {
-		return nil, err
-	}
+    scriptPublicKey, err := txscript.PayToAddrScript(payAddress)
+    if err != nil {
+        log.Infof("DEBUG: PayToAddrScript failed: %+v", err)
+        return nil, err
+    }
+    log.Infof("DEBUG: PayToAddrScript OK")
 
-	coinbaseData := &externalapi.DomainCoinbaseData{ScriptPublicKey: scriptPublicKey, ExtraData: []byte(version.Version() + "/" + getBlockTemplateRequest.ExtraData)}
+    coinbaseData := &externalapi.DomainCoinbaseData{ScriptPublicKey: scriptPublicKey, ExtraData: []byte(version.Version() + "/" + getBlockTemplateRequest.ExtraData)}
 
-	templateBlock, isNearlySynced, err := context.Domain.MiningManager().GetBlockTemplate(coinbaseData)
-if err != nil {
+    templateBlock, isNearlySynced, err := context.Domain.MiningManager().GetBlockTemplate(coinbaseData)
+    if err != nil {
+        log.Infof("DEBUG GetBlockTemplate error detail: %+v", err)
         return nil, errors.Wrapf(err, "GetBlockTemplate failed")
     }
     
