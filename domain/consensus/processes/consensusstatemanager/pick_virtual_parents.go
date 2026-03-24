@@ -8,6 +8,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func (csm *consensusStateManager) pickVirtualParents(stagingArea *model.StagingArea, tips []*externalapi.DomainHash) ([]*externalapi.DomainHash, error) {
@@ -151,7 +152,11 @@ func (csm *consensusStateManager) selectVirtualSelectedParent(stagingArea *model
 		log.Debugf("Checking block %s for selected parent eligibility", selectedParentCandidate)
 		selectedParentCandidateStatus, err := csm.blockStatusStore.Get(csm.databaseContext, stagingArea, selectedParentCandidate)
 		if err != nil {
-			return nil, err
+			if database.IsNotFoundError(err) {
+				selectedParentCandidateStatus = externalapi.StatusUTXOPendingVerification
+			} else {
+				return nil, err
+			}
 		}
 		if selectedParentCandidateStatus == externalapi.StatusUTXOValid ||
         selectedParentCandidateStatus == externalapi.StatusUTXOPendingVerification {

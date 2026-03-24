@@ -6,8 +6,11 @@ import (
         "github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
         "github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
         "github.com/rupixnet/rupixd/infrastructure/db/database"
+        "github.com/rupixnet/rupixd/infrastructure/logger"
         "github.com/pkg/errors"
 )
+
+var log = logger.RegisterSubSystem("BPAB")
 
 type blockParentBuilder struct {
 	databaseContext       model.DBManager
@@ -56,7 +59,11 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 
 	pruningPoint, err := bpb.pruningStore.PruningPoint(bpb.databaseContext, stagingArea)
 	if err != nil {
-		return nil, err
+		if database.IsNotFoundError(err) {
+			pruningPoint = bpb.genesisHash
+		} else {
+			return nil, err
+		}
 	}
 
 	// The first candidates to be added should be from a parent in the future of the pruning
@@ -69,10 +76,13 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 	firstParentInFutureOfPruningPointIndex := 0
 	foundFirstParentInFutureOfPruningPoint := false
 	for i, directParentHash := range directParentHashesCopy {
+		log.Infof("DEBUG BuildParents: checking parent[%d]=%s vs pruningPoint=%s", i, directParentHash, pruningPoint)
 		isInFutureOfPruningPoint, err := bpb.dagTopologyManager.IsAncestorOf(stagingArea, pruningPoint, directParentHash)
 		if err != nil {
+			log.Infof("DEBUG BuildParents: IsAncestorOf failed for parent %s pruningPoint %s: %+v", directParentHash, pruningPoint, err)
 			return nil, err
 		}
+		log.Infof("DEBUG BuildParents: IsAncestorOf OK isInFuture=%v", isInFutureOfPruningPoint)
 
 		if !isInFutureOfPruningPoint {
 			continue
@@ -119,13 +129,21 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 
 	virtualGenesisChildren, err := bpb.dagTopologyManager.Children(stagingArea, model.VirtualGenesisBlockHash)
 	if err != nil {
-		return nil, err
+		if database.IsNotFoundError(err) {
+			virtualGenesisChildren = nil
+		} else {
+			return nil, err
+		}
 	}
+	log.Infof("DEBUG BuildParents: VirtualGenesisChildren count=%d", len(virtualGenesisChildren))
 
 	virtualGenesisChildrenHeaders := make(map[externalapi.DomainHash]externalapi.BlockHeader, len(virtualGenesisChildren))
 	for _, child := range virtualGenesisChildren {
 		virtualGenesisChildrenHeaders[*child], err = bpb.blockHeaderStore.BlockHeader(bpb.databaseContext, stagingArea, child)
 		if err != nil {
+			if database.IsNotFoundError(err) {
+				continue
+			}
 			return nil, err
 		}
 	}

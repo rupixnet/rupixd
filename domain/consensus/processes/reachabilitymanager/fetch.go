@@ -74,5 +74,12 @@ func (rt *reachabilityManager) parent(stagingArea *model.StagingArea, blockHash 
 }
 
 func (rt *reachabilityManager) reindexRoot(stagingArea *model.StagingArea) (*externalapi.DomainHash, error) {
-	return rt.reachabilityDataStore.ReachabilityReindexRoot(rt.databaseContext, stagingArea)
+	root, err := rt.reachabilityDataStore.ReachabilityReindexRoot(rt.databaseContext, stagingArea)
+	if err != nil {
+		if database.IsNotFoundError(err) {
+			return model.VirtualGenesisBlockHash, nil
+		}
+		return nil, err
+	}
+	return root, nil
 }

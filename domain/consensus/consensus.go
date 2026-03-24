@@ -110,6 +110,12 @@ func (s *consensus) Init(skipAddingGenesis bool) error {
 		}
 
 		s.consensusStateStore.StageTips(stagingArea, []*externalapi.DomainHash{model.VirtualGenesisBlockHash})
+		for _, dagTopologyManager := range s.dagTopologyManagers {
+			err = dagTopologyManager.SetParents(stagingArea, model.VirtualBlockHash, []*externalapi.DomainHash{model.VirtualGenesisBlockHash})
+			if err != nil {
+				return err
+			}
+		}
 		for _, ghostdagDataStore := range s.ghostdagDataStores {
 			ghostdagDataStore.Stage(stagingArea, model.VirtualGenesisBlockHash, externalapi.NewBlockGHOSTDAGData(
 				0,
@@ -128,6 +134,21 @@ func (s *consensus) Init(skipAddingGenesis bool) error {
 			&model.ReachabilityInterval{Start: 0, End: math.MaxUint64},
 			model.FutureCoveringTreeNodeSet{},
 		))
+
+		// Rupix: initialize VirtualBlockHash GHOSTDAG data so BuildParents works on fresh node
+		for _, ghostdagDataStore := range s.ghostdagDataStores {
+			ghostdagDataStore.Stage(stagingArea, model.VirtualBlockHash, externalapi.NewBlockGHOSTDAGData(
+				0,
+				big.NewInt(0),
+				model.VirtualGenesisBlockHash,
+				[]*externalapi.DomainHash{model.VirtualGenesisBlockHash},
+				nil,
+				nil,
+			), false)
+		}
+
+		// Rupix: initialize pruning point to genesis so BuildParents works on fresh node
+		s.pruningStore.StagePruningPoint(s.databaseContext, stagingArea, s.genesisHash)
 
 		err = staging.CommitAllChanges(s.databaseContext, stagingArea)
 		if err != nil {

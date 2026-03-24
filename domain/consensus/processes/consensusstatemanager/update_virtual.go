@@ -21,22 +21,33 @@ func (csm *consensusStateManager) updateVirtual(stagingArea *model.StagingArea, 
 	if !newBlockHash.Equal(csm.genesisHash) {
 		oldVirtualGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, model.VirtualBlockHash, false)
 		if err != nil {
-			return nil, nil, err
+			if database.IsNotFoundError(err) {
+				oldVirtualSelectedParent = csm.genesisHash
+			} else {
+				return nil, nil, err
+			}
+		} else {
+			oldVirtualSelectedParent = oldVirtualGHOSTDAGData.SelectedParent()
 		}
-		oldVirtualSelectedParent = oldVirtualGHOSTDAGData.SelectedParent()
 	}
 
 	log.Debugf("Picking virtual parents from tips len: %d", len(tips))
+	log.Infof("DEBUG updateVirtual: calling pickVirtualParents tips=%d", len(tips))
 	virtualParents, err := csm.pickVirtualParents(stagingArea, tips)
 	if err != nil {
+		log.Infof("DEBUG updateVirtual: pickVirtualParents failed: %+v", err)
 		return nil, nil, err
 	}
+	log.Infof("DEBUG updateVirtual: pickVirtualParents OK parents=%d", len(virtualParents))
 	log.Debugf("Picked virtual parents: %s", virtualParents)
 
+	log.Infof("DEBUG updateVirtual: calling updateVirtualWithParents")
 	virtualUTXODiff, err := csm.updateVirtualWithParents(stagingArea, virtualParents)
 	if err != nil {
+		log.Infof("DEBUG updateVirtual: updateVirtualWithParents failed: %+v", err)
 		return nil, nil, err
 	}
+	log.Infof("DEBUG updateVirtual: updateVirtualWithParents OK")
 
 	log.Debugf("Calculating selected parent chain changes")
 	var selectedParentChainChanges *externalapi.SelectedChainPath
