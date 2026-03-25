@@ -6,6 +6,7 @@ import (
 	
 	"github.com/rupixnet/rupixd/domain/consensus/utils/reachabilitydata"
 
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
@@ -388,6 +389,9 @@ func (rt *reachabilityManager) findNextReindexRoot(stagingArea *model.StagingAre
 	if !isCurrentAncestorOfTip {
 		currentRootGHOSTDAGData, err := rt.ghostdagDataStore.Get(rt.databaseContext, stagingArea, currentReindexRoot, false)
 		if err != nil {
+			if database.IsNotFoundError(err) {
+				return currentReindexRoot, currentReindexRoot, nil
+			}
 			return nil, nil, err
 		}
 

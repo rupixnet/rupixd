@@ -35,6 +35,14 @@ func (rt *reachabilityManager) UpdateReindexRoot(stagingArea *model.StagingArea,
     if selectedTip.Equal(model.VirtualGenesisBlockHash) {
         return nil
     }
+    // Si el selectedTip no tiene reachability data aun, no hay nada que hacer
+    hasData, err := rt.reachabilityDataStore.HasReachabilityData(rt.databaseContext, stagingArea, selectedTip)
+    if err != nil {
+        return err
+    }
+    if !hasData {
+        return nil
+    }
     return rt.updateReindexRoot(stagingArea, selectedTip)
 }
 

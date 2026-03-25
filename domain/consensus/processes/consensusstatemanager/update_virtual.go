@@ -57,11 +57,14 @@ func (csm *consensusStateManager) updateVirtual(stagingArea *model.StagingArea, 
 			return nil, nil, err
 		}
 		newVirtualSelectedParent := newVirtualGHOSTDAGData.SelectedParent()
+		log.Infof("DEBUG updateVirtual: calling CalculateChainPath from %s to %s", oldVirtualSelectedParent, newVirtualSelectedParent)
 		selectedParentChainChanges, err = csm.dagTraversalManager.
 			CalculateChainPath(stagingArea, oldVirtualSelectedParent, newVirtualSelectedParent)
 		if err != nil {
+			log.Infof("DEBUG updateVirtual: CalculateChainPath failed: %+v", err)
 			return nil, nil, err
 		}
+		log.Infof("DEBUG updateVirtual: CalculateChainPath OK")
 		log.Debugf("Selected parent chain changes: %d blocks were removed and %d blocks were added",
 			len(selectedParentChainChanges.Removed), len(selectedParentChainChanges.Added))
 	}

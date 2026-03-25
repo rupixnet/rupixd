@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const minerTimeout = 10 * time.Second
+const minerTimeout = 60 * time.Second
 
 type minerClient struct {
 	*rpcclient.RPCClient
