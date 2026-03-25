@@ -131,6 +131,7 @@ func handleFoundBlock(client *minerClient, block *externalapi.DomainBlock) error
         }
         if rejectReason == appmessage.RejectReasonBlockInvalid {
                 log.Warnf("Block %s rejected (stale/invalid): %s", blockHash, err)
+                templatemanager.Invalidate()
                 return nil
         }
         return errors.Wrapf(err, "Error submitting block %s to %s", blockHash, client.Address())

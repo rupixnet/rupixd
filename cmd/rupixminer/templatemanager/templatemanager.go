@@ -25,6 +25,14 @@ func Get() (*externalapi.DomainBlock, *pow.State, bool) {
 	return &block, &state, isSynced
 }
 
+// Invalidate clears the current template forcing the miner to wait for a new one
+func Invalidate() {
+	lock.Lock()
+	defer lock.Unlock()
+	currentTemplate = nil
+	currentState = nil
+}
+
 // Set sets the current template to work on
 func Set(template *appmessage.GetBlockTemplateResponseMessage) error {
 	block, err := appmessage.RPCBlockToDomainBlock(template.Block)
