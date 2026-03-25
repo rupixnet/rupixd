@@ -18,8 +18,8 @@ require (
 	github.com/tyler-smith/go-bip39 v1.1.0
 	golang.org/x/crypto v0.49.0
 	golang.org/x/term v0.41.0
-	google.golang.org/grpc v1.69.2
-	google.golang.org/protobuf v1.35.1
+	google.golang.org/grpc v1.71.0
+	google.golang.org/protobuf v1.36.4
 )
 
 require (
@@ -27,7 +27,7 @@ require (
 	golang.org/x/net v0.52.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/text v0.35.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241015192408-796eee8c2d53 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250115164207-1a7da9e5054f // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
 
