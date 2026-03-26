@@ -119,6 +119,9 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 	prefixBucket := consensusdatabase.MakeBucket(dbPrefix.Serialize())
 
 	pruningWindowSizeForCaches := int(config.PruningDepth())
+	if pruningWindowSizeForCaches > 200000 {
+		pruningWindowSizeForCaches = 200000
+	}
 
 	var preallocateCaches bool
 	if f.preallocateCaches != nil {
@@ -130,6 +133,9 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 	// This is used for caches that are used as part of deletePastBlocks that need to traverse until
 	// the previous pruning point.
 	pruningWindowSizePlusFinalityDepthForCache := int(config.PruningDepth() + config.FinalityDepth())
+	if pruningWindowSizePlusFinalityDepthForCache > 400000 {
+		pruningWindowSizePlusFinalityDepthForCache = 400000
+	}
 
 	// Data Structures
 	mergeDepthRootStore := mergedepthrootstore.New(prefixBucket, 200, preallocateCaches)

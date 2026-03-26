@@ -688,7 +688,7 @@ func (flow *handleIBDFlow) syncMissingBlockBodies(highHash *externalapi.DomainHa
 				return err
 			}
 
-			err = flow.Domain().Consensus().ValidateAndInsertBlock(block, updateVirtual)
+			err = flow.Domain().Consensus().ValidateAndInsertBlock(block, true)
 			if err != nil {
 				if errors.Is(err, ruleerrors.ErrDuplicateBlock) {
 					log.Debugf("Skipping IBD Block %s as it has already been added to the DAG", blockHash)
