@@ -6,6 +6,7 @@ type Consensus interface {
 	BuildBlock(coinbaseData *DomainCoinbaseData, transactions []*DomainTransaction) (*DomainBlock, error)
 	BuildBlockTemplate(coinbaseData *DomainCoinbaseData, transactions []*DomainTransaction) (*DomainBlockTemplate, error)
 	ValidateAndInsertBlock(block *DomainBlock, updateVirtual bool) error
+	ValidateAndInsertBlockAsTrusted(block *DomainBlock, updateVirtual bool) error
 	ValidateAndInsertBlockWithTrustedData(block *BlockWithTrustedData, validateUTXO bool) error
 	ValidateTransactionAndPopulateWithConsensusData(transaction *DomainTransaction) error
 	ImportPruningPoints(pruningPoints []BlockHeader) error

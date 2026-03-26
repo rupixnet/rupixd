@@ -69,6 +69,28 @@ type consensus struct {
 
 const virtualResolveChunk = 100
 
+func (s *consensus) ValidateAndInsertBlockAsTrusted(block *externalapi.DomainBlock, updateVirtual bool) error {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+	_, err := s.validateAndInsertBlockAsTrustedNoLock(block, updateVirtual)
+	return err
+}
+
+func (s *consensus) validateAndInsertBlockAsTrustedNoLock(block *externalapi.DomainBlock, updateVirtual bool) (*externalapi.VirtualChangeSet, error) {
+	virtualChangeSet, blockStatus, err := s.blockProcessor.ValidateAndInsertBlockAsTrusted(block, updateVirtual)
+	if err != nil {
+		return nil, err
+	}
+	if !updateVirtual && blockStatus != externalapi.StatusHeaderOnly {
+		s.virtualNotUpdated = true
+	}
+	err = s.sendBlockAddedEvent(block, blockStatus)
+	if err != nil {
+		return nil, err
+	}
+	return virtualChangeSet, nil
+}
+
 func (s *consensus) ValidateAndInsertBlockWithTrustedData(block *externalapi.BlockWithTrustedData, validateUTXO bool) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()

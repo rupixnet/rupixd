@@ -161,6 +161,14 @@ func (bp *blockProcessor) ValidateAndInsertImportedPruningPoint(newPruningPoint 
 	return bp.validateAndInsertImportedPruningPoint(stagingArea, newPruningPoint)
 }
 
+func (bp *blockProcessor) ValidateAndInsertBlockAsTrusted(block *externalapi.DomainBlock,
+	shouldValidateAgainstUTXO bool) (*externalapi.VirtualChangeSet, externalapi.BlockStatus, error) {
+	onEnd := logger.LogAndMeasureExecutionTime(log, "ValidateAndInsertBlockAsTrusted")
+	defer onEnd()
+	stagingArea := model.NewStagingArea()
+	return bp.validateAndInsertBlock(stagingArea, block, false, shouldValidateAgainstUTXO, true)
+}
+
 func (bp *blockProcessor) ValidateAndInsertBlockWithTrustedData(block *externalapi.BlockWithTrustedData,
 	shouldValidateAgainstUTXO bool) (*externalapi.VirtualChangeSet, externalapi.BlockStatus, error) {
 	onEnd := logger.LogAndMeasureExecutionTime(log, "ValidateAndInsertBlockWithTrustedData")
