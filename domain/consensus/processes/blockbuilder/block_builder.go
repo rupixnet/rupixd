@@ -219,13 +219,11 @@ func (bb *blockBuilder) buildHeader(stagingArea *model.StagingArea, transactions
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("DEBUG HEADER: newBlockDAAScore OK")
 
 	parents, err := bb.newBlockParents(stagingArea, daaScore)
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("DEBUG HEADER: newBlockParents OK")
 
 timeInMilliseconds, err := bb.newBlockTime(stagingArea)
 if err != nil {
@@ -235,35 +233,28 @@ if err != nil {
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("DEBUG HEADER: newBlockDifficulty OK")
-	log.Infof("DEBUG HEADER: newBlockTime OK")
 
 	hashMerkleRoot := bb.newBlockHashMerkleRoot(transactions)
-	log.Infof("DEBUG HEADER: hashMerkleRoot OK")
 
 	acceptedIDMerkleRoot, err := bb.newBlockAcceptedIDMerkleRoot(stagingArea)
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("DEBUG HEADER: newBlockAcceptedIDMerkleRoot OK")
 
 	utxoCommitment, err := bb.newBlockUTXOCommitment(stagingArea)
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("DEBUG HEADER: newBlockUTXOCommitment OK")
 
 	blueWork, err := bb.newBlockBlueWork(stagingArea)
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("DEBUG HEADER: newBlockBlueWork OK")
 
 	blueScore, err := bb.newBlockBlueScore(stagingArea)
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("DEBUG HEADER: newBlockBlueScore OK")
 
 	return blockheader.NewImmutableBlockHeader(
 		constants.BlockVersion,
@@ -284,13 +275,10 @@ if err != nil {
 func (bb *blockBuilder) newBlockParents(stagingArea *model.StagingArea, daaScore uint64) ([]externalapi.BlockLevelParents, error) {
         virtualBlockRelations, err := bb.blockRelationStore.BlockRelation(bb.databaseContext, stagingArea, model.VirtualBlockHash)
         if err != nil {
-                log.Infof("DEBUG newBlockParents: blockRelation failed: %+v", err)
                 return nil, err
         }
-        log.Infof("DEBUG newBlockParents: blockRelation OK parents=%d", len(virtualBlockRelations.Parents))
         parents, err := bb.blockParentBuilder.BuildParents(stagingArea, daaScore, virtualBlockRelations.Parents)
         if err != nil {
-                log.Infof("DEBUG newBlockParents: BuildParents failed: %+v", err)
         }
         return parents, err
 }

@@ -121,13 +121,10 @@ func (bp *blockProcessor) validateAndInsertBlock(stagingArea *model.StagingArea,
 	}
 
 	if shouldAddHeaderSelectedTip {
-		log.Infof("DEBUG validateInsert: calling AddHeaderTip")
 		err = bp.headerTipsManager.AddHeaderTip(stagingArea, blockHash)
 		if err != nil {
-			log.Infof("DEBUG validateInsert: AddHeaderTip failed: %+v", err)
 			return nil, externalapi.StatusInvalid, err
 		}
-		log.Infof("DEBUG validateInsert: AddHeaderTip OK")
 	}
 
 	bp.loadUTXODataForGenesis(stagingArea, block)
@@ -143,13 +140,10 @@ func (bp *blockProcessor) validateAndInsertBlock(stagingArea *model.StagingArea,
 	}
 
 	if hasHeaderSelectedTip {
-		log.Infof("DEBUG validateInsert: calling updateReachabilityReindexRoot oldTip=%s", oldHeadersSelectedTip)
 		err := bp.updateReachabilityReindexRoot(stagingArea, oldHeadersSelectedTip)
 		if err != nil {
-			log.Infof("DEBUG validateInsert: updateReachabilityReindexRoot failed: %+v", err)
 			return nil, externalapi.StatusInvalid, err
 		}
-		log.Infof("DEBUG validateInsert: updateReachabilityReindexRoot OK")
 	}
 
 	if !isHeaderOnlyBlock && shouldValidateAgainstUTXO {
@@ -238,13 +232,10 @@ func (bp *blockProcessor) updateReachabilityReindexRoot(stagingArea *model.Stagi
 	headersSelectedTip, err := bp.headersSelectedTipStore.HeadersSelectedTip(bp.databaseContext, stagingArea)
 	if err != nil {
 		if database.IsNotFoundError(err) {
-			log.Infof("DEBUG updateReachability: not found returning nil")
 			return nil
 		}
-		log.Infof("DEBUG updateReachability: error TYPE=%T MSG=%s", err, err.Error())
 		return err
 	}
-	log.Infof("DEBUG updateReachability: headersSelectedTip OK = %s oldTip = %s", headersSelectedTip, oldHeadersSelectedTip)
 
 	if headersSelectedTip.Equal(oldHeadersSelectedTip) {
 		return nil

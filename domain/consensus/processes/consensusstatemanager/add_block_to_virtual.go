@@ -50,14 +50,11 @@ if err != nil {
 		}
 	}
 
-	log.Infof("DEBUG AddBlock: calling addTip for %s", blockHash)
 	newTips, err := csm.addTip(stagingArea, blockHash)
 if err != nil {
-    log.Infof("DEBUG AddBlock: addTip failed: %+v", err)
     fmt.Printf("FAIL addTip: %T :: %+v\n", err, err)
     return nil, nil, nil, err
 }
-	log.Infof("DEBUG AddBlock: addTip OK, tips=%d", len(newTips))
 	log.Debugf("After adding %s, the amount of new tips are %d", blockHash, len(newTips))
 
 	if !updateVirtual {

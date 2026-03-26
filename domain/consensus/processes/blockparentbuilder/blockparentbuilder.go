@@ -76,13 +76,10 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 	firstParentInFutureOfPruningPointIndex := 0
 	foundFirstParentInFutureOfPruningPoint := false
 	for i, directParentHash := range directParentHashesCopy {
-		log.Infof("DEBUG BuildParents: checking parent[%d]=%s vs pruningPoint=%s", i, directParentHash, pruningPoint)
 		isInFutureOfPruningPoint, err := bpb.dagTopologyManager.IsAncestorOf(stagingArea, pruningPoint, directParentHash)
 		if err != nil {
-			log.Infof("DEBUG BuildParents: IsAncestorOf failed for parent %s pruningPoint %s: %+v", directParentHash, pruningPoint, err)
 			return nil, err
 		}
-		log.Infof("DEBUG BuildParents: IsAncestorOf OK isInFuture=%v", isInFutureOfPruningPoint)
 
 		if !isInFutureOfPruningPoint {
 			continue
@@ -135,7 +132,6 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 			return nil, err
 		}
 	}
-	log.Infof("DEBUG BuildParents: VirtualGenesisChildren count=%d", len(virtualGenesisChildren))
 
 	virtualGenesisChildrenHeaders := make(map[externalapi.DomainHash]externalapi.BlockHeader, len(virtualGenesisChildren))
 	for _, child := range virtualGenesisChildren {

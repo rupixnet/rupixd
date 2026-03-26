@@ -32,22 +32,16 @@ func (csm *consensusStateManager) updateVirtual(stagingArea *model.StagingArea, 
 	}
 
 	log.Debugf("Picking virtual parents from tips len: %d", len(tips))
-	log.Infof("DEBUG updateVirtual: calling pickVirtualParents tips=%d", len(tips))
 	virtualParents, err := csm.pickVirtualParents(stagingArea, tips)
 	if err != nil {
-		log.Infof("DEBUG updateVirtual: pickVirtualParents failed: %+v", err)
 		return nil, nil, err
 	}
-	log.Infof("DEBUG updateVirtual: pickVirtualParents OK parents=%d", len(virtualParents))
 	log.Debugf("Picked virtual parents: %s", virtualParents)
 
-	log.Infof("DEBUG updateVirtual: calling updateVirtualWithParents")
 	virtualUTXODiff, err := csm.updateVirtualWithParents(stagingArea, virtualParents)
 	if err != nil {
-		log.Infof("DEBUG updateVirtual: updateVirtualWithParents failed: %+v", err)
 		return nil, nil, err
 	}
-	log.Infof("DEBUG updateVirtual: updateVirtualWithParents OK")
 
 	log.Debugf("Calculating selected parent chain changes")
 	var selectedParentChainChanges *externalapi.SelectedChainPath
@@ -57,14 +51,11 @@ func (csm *consensusStateManager) updateVirtual(stagingArea *model.StagingArea, 
 			return nil, nil, err
 		}
 		newVirtualSelectedParent := newVirtualGHOSTDAGData.SelectedParent()
-		log.Infof("DEBUG updateVirtual: calling CalculateChainPath from %s to %s", oldVirtualSelectedParent, newVirtualSelectedParent)
 		selectedParentChainChanges, err = csm.dagTraversalManager.
 			CalculateChainPath(stagingArea, oldVirtualSelectedParent, newVirtualSelectedParent)
 		if err != nil {
-			log.Infof("DEBUG updateVirtual: CalculateChainPath failed: %+v", err)
 			return nil, nil, err
 		}
-		log.Infof("DEBUG updateVirtual: CalculateChainPath OK")
 		log.Debugf("Selected parent chain changes: %d blocks were removed and %d blocks were added",
 			len(selectedParentChainChanges.Removed), len(selectedParentChainChanges.Added))
 	}

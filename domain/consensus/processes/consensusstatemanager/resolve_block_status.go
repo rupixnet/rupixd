@@ -20,7 +20,6 @@ func (csm *consensusStateManager) resolveBlockStatus(stagingArea *model.StagingA
 	onEnd := logger.LogAndMeasureExecutionTime(log, fmt.Sprintf("resolveBlockStatus for %s", blockHash))
 	defer onEnd()
 
-	log.Infof("DEBUG resolveBlockStatus START blockHash=%s", blockHash)
 
 	unverifiedBlocks, err := csm.getUnverifiedChainBlocks(stagingArea, blockHash)
 if err != nil {
@@ -28,13 +27,10 @@ if err != nil {
 }
 
 	if len(unverifiedBlocks) == 0 {
-		log.Infof("DEBUG resolveBlock: unverifiedBlocks=0 getting status for %s", blockHash)
 		status, err := csm.blockStatusStore.Get(csm.databaseContext, stagingArea, blockHash)
 		if err != nil {
-			log.Infof("DEBUG resolveBlock: blockStatusStore failed: %+v", err)
 			return 0, nil, err
 		}
-		log.Infof("DEBUG resolveBlock: status=%s", status)
 		return status, nil, nil
 	}
 
@@ -117,10 +113,8 @@ func (csm *consensusStateManager) selectedParentInfo(
 
 	lastUnverifiedBlockGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, lastUnverifiedBlock, false)
 	if err != nil {
-		log.Infof("DEBUG selectedParentInfo: ghostdagDataStore failed for %s: %+v", lastUnverifiedBlock, err)
 		return nil, 0, nil, err
 	}
-	log.Infof("DEBUG selectedParentInfo: ghostdagData OK selectedParent=%s", lastUnverifiedBlockGHOSTDAGData.SelectedParent())
 
 	selectedParent := lastUnverifiedBlockGHOSTDAGData.SelectedParent()
 	if selectedParent == nil || selectedParent.Equal(model.VirtualGenesisBlockHash) {
@@ -129,22 +123,17 @@ func (csm *consensusStateManager) selectedParentInfo(
 
 	selectedParentStatus, err := csm.blockStatusStore.Get(csm.databaseContext, stagingArea, selectedParent)
 	if err != nil {
-		log.Infof("DEBUG selectedParentInfo: blockStatusStore failed for %s: %+v", selectedParent, err)
 		return nil, 0, nil, err
 	}
-	log.Infof("DEBUG selectedParentInfo: selectedParentStatus=%s", selectedParentStatus)
 
 	if selectedParentStatus != externalapi.StatusUTXOValid {
     return selectedParent, selectedParentStatus, nil, nil
 }
 
-	log.Infof("DEBUG selectedParentInfo: calling restorePastUTXO for %s", selectedParent)
 	selectedParentUTXOSet, err := csm.restorePastUTXO(stagingArea, selectedParent)
 	if err != nil {
-		log.Infof("DEBUG selectedParentInfo: restorePastUTXO failed: %+v", err)
 		return nil, 0, nil, err
 	}
-	log.Infof("DEBUG selectedParentInfo: restorePastUTXO OK")
 	return selectedParent, selectedParentStatus, selectedParentUTXOSet, nil
 }
 
@@ -192,27 +181,21 @@ func (csm *consensusStateManager) resolveSingleBlockStatus(stagingArea *model.St
 	onEnd := logger.LogAndMeasureExecutionTime(log, fmt.Sprintf("resolveSingleBlockStatus for %s", blockHash))
 	defer onEnd()
 
-	log.Infof("DEBUG resolveSingle: calling calculatePastUTXO for %s", blockHash)
 	pastUTXOSet, acceptanceData, multiset, err := csm.calculatePastUTXOAndAcceptanceDataWithSelectedParentUTXO(
     stagingArea, blockHash, selectedParentPastUTXOSet)
 if err != nil {
-    log.Infof("DEBUG resolveSingle: calculatePastUTXO failed: %+v", err)
     return 0, nil, err
 }
-	log.Infof("DEBUG resolveSingle: calculatePastUTXO OK")
 
 	csm.acceptanceDataStore.Stage(stagingArea, blockHash, acceptanceData)
 
-	log.Infof("DEBUG resolveSingle: getting block from store for %s", blockHash)
 	block, err := csm.blockStore.Block(csm.databaseContext, stagingArea, blockHash)
 if err != nil {
     if database.IsNotFoundError(err) {
-        log.Infof("DEBUG resolveSingle: block not found in store for %s", blockHash)
         return externalapi.StatusDisqualifiedFromChain, nil, nil
     }
     return 0, nil, err
 }
-	log.Infof("DEBUG resolveSingle: block found OK")
 
 	err = csm.verifyUTXO(stagingArea, block, blockHash, pastUTXOSet, acceptanceData, multiset)
 	if err != nil {
@@ -229,38 +212,28 @@ if err != nil {
 		return externalapi.StatusUTXOValid, nil, nil
 	}
 
-	log.Infof("DEBUG resolveSingle: calling virtualSelectedParent")
 	oldSelectedTip, err := csm.virtualSelectedParent(stagingArea)
 	if err != nil {
-		log.Infof("DEBUG resolveSingle: virtualSelectedParent failed: %+v", err)
 		return 0, nil, err
 	}
-	log.Infof("DEBUG resolveSingle: virtualSelectedParent OK = %s", oldSelectedTip)
 
 	if isResolveTip {
 		oldSelectedTipUTXOSet, err := csm.restorePastUTXO(stagingArea, oldSelectedTip)
 		if err != nil {
 			return 0, nil, err
 		}
-		log.Infof("DEBUG resolveSingle: calling isNewSelectedTip")
 		isNewSelectedTip, err := csm.isNewSelectedTip(stagingArea, blockHash, oldSelectedTip)
 		if err != nil {
-			log.Infof("DEBUG resolveSingle: isNewSelectedTip failed: %+v", err)
 			return 0, nil, err
 		}
-		log.Infof("DEBUG resolveSingle: isNewSelectedTip OK = %v", isNewSelectedTip)
 
 		if isNewSelectedTip {
-			log.Infof("DEBUG resolveSingle: calling DiffFrom")
 			updatedOldSelectedTipUTXOSet, err := pastUTXOSet.DiffFrom(oldSelectedTipUTXOSet)
 			if err != nil {
-				log.Infof("DEBUG resolveSingle: DiffFrom failed: %+v", err)
 				return 0, nil, err
 			}
-			log.Infof("DEBUG resolveSingle: DiffFrom OK")
 			csm.stageDiff(stagingArea, oldSelectedTip, updatedOldSelectedTipUTXOSet, blockHash)
 			csm.stageDiff(stagingArea, blockHash, pastUTXOSet, nil)
-			log.Infof("DEBUG resolveSingle: stageDiff OK")
 		} else {
 			utxoDiff, err := oldSelectedTipUTXOSet.DiffFrom(pastUTXOSet)
 			if err != nil {

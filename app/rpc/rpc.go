@@ -1,7 +1,6 @@
 ﻿package rpc
 
 import (
-	"runtime/debug"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/rpc/rpccontext"
 	"github.com/rupixnet/rupixd/app/rpc/rpchandlers"
@@ -98,10 +97,8 @@ func (m *Manager) handleIncomingMessages(router *router.Router, incomingRoute *r
         if !ok {
             return errors.Errorf("unknown RPC command: %d", request.Command())
         }
-		log.Infof("DEBUG RPC handling command: %d", request.Command())
 response, err := handler(m.context, router, request)
 if err != nil {
-    log.Infof("DEBUG RPC handler error for command %d TYPE=%T MSG=%s\nSTACK:\n%s", request.Command(), err, err.Error(), debug.Stack())
     return err
 }
 		err = outgoingRoute.Enqueue(response)
