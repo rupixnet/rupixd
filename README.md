@@ -21,11 +21,11 @@ El oro es valioso porque es escaso y porque cuesta trabajo extraerlo. Rupix llev
 
 | Nivel | Nombre | Supply máximo | Cómo se obtiene |
 |-------|--------|---------------|-----------------|
-| L1 | Gold | 42,000,000 | Minando |
-| L2 | Diamond | 2,100,000 | Quemar 10 Gold |
-| L3 | Platinum | 210,000 | Quemar 10 Diamond |
-| L4 | Rhodium | 21,000 | Quemar 10 Platinum |
-| L5 | Kings Rupix | 2,100 | Quemar 10 Rhodium |
+| L1 | Rupix Gold | 42,000,000 | Minando |
+| L2 | Rupix Diamond | 2,100,000 | Quemar 10 Gold |
+| L3 | Rupix Platinum | 210,000 | Quemar 10 Diamond |
+| L4 | Rupix Rhodium | 21,000 | Quemar 10 Platinum |
+| L5 | Rupix | 2,100 | Quemar 10 Rhodium |
 
 Cada nivel es 10 veces más escaso que el anterior. Para crear 1 Kings Rupix hay que haber destruido 10,000 Gold a lo largo de toda la cadena. Solo pueden existir 2,100 Kings Rupix en el mundo — para siempre. El burn es irreversible. Nadie puede revertirlo, ni los fundadores.
 
