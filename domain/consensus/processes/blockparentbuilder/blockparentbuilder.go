@@ -255,6 +255,13 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 			levelBlocks = append(levelBlocks, &block)
 		}
 
+		// RUPIX-013 fix: limit every level to 1 parent when maxBlockParents=1
+		// Without this, levels 1-N still build multiple parents causing checkParentsIncest
+		// to reject blocks with ancestor-of-ancestor relationships across all DAG levels.
+		if len(levelBlocks) > 1 && bpb.maxBlockLevel > 0 {
+			levelBlocks = levelBlocks[:1]
+		}
+
 		parents = append(parents, levelBlocks)
 	}
 	return parents, nil

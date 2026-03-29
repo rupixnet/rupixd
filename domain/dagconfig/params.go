@@ -262,7 +262,7 @@ var MainnetParams = Params{
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
 	MaxBlockMass:                            defaultMaxBlockMass,
-	MaxBlockParents:                         defaultMaxBlockParents,
+	MaxBlockParents:                         1,
 	MassPerTxByte:                           defaultMassPerTxByte,
 	MassPerScriptPubKeyByte:                 defaultMassPerScriptPubKeyByte,
 	MassPerSigOp:                            defaultMassPerSigOp,
@@ -300,7 +300,7 @@ var TestnetParams = Params{
 	PreDeflationaryPhaseBaseSubsidy: defaultPreDeflationaryPhaseBaseSubsidy,
 	DeflationaryPhaseBaseSubsidy:    defaultDeflationaryPhaseBaseSubsidy,
 	TargetTimePerBlock:              defaultTargetTimePerBlock,
-	FinalityDuration:                365 * 24 * time.Hour,
+	FinalityDuration:                48 * time.Hour,
 	DifficultyAdjustmentWindowSize:  defaultDifficultyAdjustmentWindowSize,
 	TimestampDeviationTolerance:     defaultTimestampDeviationTolerance,
 
@@ -331,7 +331,7 @@ var TestnetParams = Params{
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
 	MaxBlockMass:                            defaultMaxBlockMass,
-	MaxBlockParents:                         defaultMaxBlockParents,
+	MaxBlockParents:                         1,
 	MassPerTxByte:                           defaultMassPerTxByte,
 	MassPerScriptPubKeyByte:                 defaultMassPerScriptPubKeyByte,
 	MassPerSigOp:                            defaultMassPerSigOp,
@@ -401,7 +401,7 @@ var SimnetParams = Params{
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
 	MaxBlockMass:                            defaultMaxBlockMass,
-	MaxBlockParents:                         defaultMaxBlockParents,
+	MaxBlockParents:                         1,
 	MassPerTxByte:                           defaultMassPerTxByte,
 	MassPerScriptPubKeyByte:                 defaultMassPerScriptPubKeyByte,
 	MassPerSigOp:                            defaultMassPerSigOp,
@@ -467,7 +467,7 @@ var DevnetParams = Params{
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
 	MaxBlockMass:                            defaultMaxBlockMass,
-	MaxBlockParents:                         defaultMaxBlockParents,
+	MaxBlockParents:                         1,
 	MassPerTxByte:                           defaultMassPerTxByte,
 	MassPerScriptPubKeyByte:                 defaultMassPerScriptPubKeyByte,
 	MassPerSigOp:                            defaultMassPerSigOp,

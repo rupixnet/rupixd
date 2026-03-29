@@ -591,7 +591,8 @@ func createDefaultConfigFile(destinationPath string) error {
 	}
 	defer dest.Close()
 
-	_, err = dest.WriteString(sampleConfig)
+	// Write as ASCII/UTF-8 explicitly to avoid UTF-16 encoding on Windows
+	_, err = dest.Write([]byte(sampleConfig))
 
 	return err
 }
