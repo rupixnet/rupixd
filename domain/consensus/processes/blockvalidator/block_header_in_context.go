@@ -211,13 +211,6 @@ func (v *blockValidator) checkDAAScore(stagingArea *model.StagingArea, blockHash
 		return err
 	}
 	if header.DAAScore() != expectedDAAScore {
-		// DEBUG RUPIX-017
-		selParent := "unknown"
-		ghostdagData, gErr := v.ghostdagDataStores[0].Get(v.databaseContext, stagingArea, blockHash, false)
-		if gErr == nil && ghostdagData.SelectedParent() != nil {
-			selParent = ghostdagData.SelectedParent().String()
-		}
-		log.Warnf("DAA MISMATCH: block=%s header.daaScore=%d expected=%d selectedParent=%s", blockHash, header.DAAScore(), expectedDAAScore, selParent)
 		return errors.Wrapf(ruleerrors.ErrUnexpectedDAAScore, "block DAA score of %d is not the expected value of %d", header.DAAScore(), expectedDAAScore)
 	}
 	return nil

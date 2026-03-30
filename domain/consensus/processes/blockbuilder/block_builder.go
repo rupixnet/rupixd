@@ -273,27 +273,11 @@ if err != nil {
 }
 
 func (bb *blockBuilder) newBlockParents(stagingArea *model.StagingArea, daaScore uint64) ([]externalapi.BlockLevelParents, error) {
-        // RUPIX-017: Use GHOSTDAG selectedParent instead of blockRelationStore.
-        // blockRelationStore can be stale when two blocks arrive in rapid succession:
-        // the Virtual's GHOSTDAG updates to the new tip but blockRelationStore still
-        // holds the previous parent, causing templates with mismatched parent/daaScore.
-        virtualGHOSTDAGData, err := bb.ghostdagDataStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash, false)
+        virtualBlockRelations, err := bb.blockRelationStore.BlockRelation(bb.databaseContext, stagingArea, model.VirtualBlockHash)
         if err != nil {
                 return nil, err
         }
-        selectedParent := virtualGHOSTDAGData.SelectedParent()
-        var directParents []*externalapi.DomainHash
-        if selectedParent == nil || selectedParent.Equal(model.VirtualGenesisBlockHash) {
-                // Genesis case: fall back to blockRelationStore
-                virtualBlockRelations, err := bb.blockRelationStore.BlockRelation(bb.databaseContext, stagingArea, model.VirtualBlockHash)
-                if err != nil {
-                        return nil, err
-                }
-                directParents = virtualBlockRelations.Parents
-        } else {
-                directParents = []*externalapi.DomainHash{selectedParent}
-        }
-        parents, err := bb.blockParentBuilder.BuildParents(stagingArea, daaScore, directParents)
+        parents, err := bb.blockParentBuilder.BuildParents(stagingArea, daaScore, virtualBlockRelations.Parents)
         if err != nil {
                 return nil, err
         }
