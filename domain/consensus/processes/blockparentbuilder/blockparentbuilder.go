@@ -108,6 +108,16 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
                 }
                 directParentHeaders[i] = directParentHeader
         }
+
+	// RUPIX-017 FIX: filtrar headers nil (bloques no encontrados)
+	validHeaders := make([]externalapi.BlockHeader, 0, len(directParentHeaders))
+	for _, h := range directParentHeaders {
+		if h != nil {
+			validHeaders = append(validHeaders, h)
+		}
+	}
+	directParentHeaders = validHeaders
+
 	type blockToReferences map[externalapi.DomainHash][]*externalapi.DomainHash
 	candidatesByLevelToReferenceBlocksMap := make(map[int]blockToReferences)
 

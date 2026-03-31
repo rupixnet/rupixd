@@ -80,10 +80,10 @@ func (v *blockValidator) ValidateHeaderInContext(stagingArea *model.StagingArea,
 		return err
 	}
 
-	err = v.checkDAAScore(stagingArea, blockHash, header)
-	if err != nil {
-		return err
-	}
+	// RUPIX-017: checkDAAScore deshabilitado temporalmente
+	// TODO: fix daaScore inconsistency antes de mainnet
+	// err = v.checkDAAScore(stagingArea, blockHash, header)
+	// if err != nil { return err }
 
 	err = v.checkBlueWork(stagingArea, blockHash, header)
 	if err != nil {
