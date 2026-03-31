@@ -133,6 +133,10 @@ func (v *blockValidator) validateDifficulty(stagingArea *model.StagingArea,
 	// difficulty retarget rules.
 	expectedBits, err := v.difficultyManager.StageDAADataAndReturnRequiredDifficulty(stagingArea, blockHash, isBlockWithTrustedData)
 	if err != nil {
+		// RUPIX: durante IBD ignorar errores de datos faltantes
+		if isBlockWithTrustedData && database.IsNotFoundError(err) {
+			return nil
+		}
 		return err
 	}
 
