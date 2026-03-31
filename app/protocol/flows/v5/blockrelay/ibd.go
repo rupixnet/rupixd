@@ -2,6 +2,7 @@ package blockrelay
 
 import (
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
+	"strings"
 	"fmt"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/protocol/common"
@@ -520,8 +521,8 @@ func (flow *handleIBDFlow) processHeader(consensus externalapi.Consensus, msgBlo
 	err = consensus.ValidateAndInsertBlockAsTrusted(block, true)
 	if err != nil {
 		if !errors.As(err, &ruleerrors.RuleError{}) {
-			// RUPIX: ignorar not found durante IBD
-			if database.IsNotFoundError(err) {
+			// RUPIX: ignorar not found durante IBD (datos GHOSTDAG faltantes)
+			if database.IsNotFoundError(err) || strings.Contains(err.Error(), "not found") {
 				log.Debugf("Skipping header %s during IBD missing data", blockHash)
 				return nil
 			}
