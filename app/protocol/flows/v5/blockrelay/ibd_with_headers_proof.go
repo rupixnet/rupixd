@@ -87,6 +87,18 @@ func (flow *handleIBDFlow) shouldSyncAndShouldDownloadHeadersProof(
 		}
 
 		if highestKnownSyncerChainHash == nil {
+			// RUPIX: si el nodo local esta en genesis, siempre permitir IBD
+			localTip, err := flow.Domain().Consensus().GetVirtualSelectedParent()
+			if err != nil {
+				return false, false, err
+			}
+			localTipInfo, err := flow.Domain().Consensus().GetBlockInfo(localTip)
+			if err != nil {
+				return false, false, err
+			}
+			if localTipInfo.BlueScore == 0 {
+				return true, true, nil
+			}
 			log.Infof("Stopping IBD since IBD from this node will cause a finality conflict")
 			return false, false, nil
 		}
