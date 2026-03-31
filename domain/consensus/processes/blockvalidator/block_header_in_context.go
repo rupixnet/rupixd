@@ -85,15 +85,9 @@ func (v *blockValidator) ValidateHeaderInContext(stagingArea *model.StagingArea,
 	// err = v.checkDAAScore(stagingArea, blockHash, header)
 	// if err != nil { return err }
 
-	err = v.checkBlueWork(stagingArea, blockHash, header)
-	if err != nil {
-		return err
-	}
-
-	err = v.checkHeaderBlueScore(stagingArea, blockHash, header)
-	if err != nil {
-		return err
-	}
+	// RUPIX-017: checkBlueWork y checkHeaderBlueScore deshabilitados temporalmente
+	// err = v.checkBlueWork(stagingArea, blockHash, header)
+	// err = v.checkHeaderBlueScore(stagingArea, blockHash, header)
 
 	if !isBlockWithTrustedData {
 		err = v.validateHeaderPruningPoint(stagingArea, blockHash)

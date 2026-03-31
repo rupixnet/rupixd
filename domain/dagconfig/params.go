@@ -331,7 +331,7 @@ var TestnetParams = Params{
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
 	MaxBlockMass:                            defaultMaxBlockMass,
-	MaxBlockParents:                         defaultMaxBlockParents,
+	MaxBlockParents:                         1,
 	MassPerTxByte:                           defaultMassPerTxByte,
 	MassPerScriptPubKeyByte:                 defaultMassPerScriptPubKeyByte,
 	MassPerSigOp:                            defaultMassPerSigOp,
@@ -340,7 +340,7 @@ var TestnetParams = Params{
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
 
-	MaxBlockLevel: 250,
+	MaxBlockLevel: 10,
 	MergeDepth:    defaultMergeDepth,
 	LevelDiamanteUnlockScore: 42_000_000,
 	LevelPlatinoUnlockScore:  84_000_000,
@@ -410,7 +410,7 @@ var SimnetParams = Params{
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
 
-	MaxBlockLevel: 250,
+	MaxBlockLevel: 10,
 	MergeDepth:    defaultMergeDepth,
 	LevelDiamanteUnlockScore: 100,
 	LevelPlatinoUnlockScore:  1_000,
@@ -476,7 +476,7 @@ var DevnetParams = Params{
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
 
-	MaxBlockLevel: 250,
+	MaxBlockLevel: 10,
 	MergeDepth:    defaultMergeDepth,
 	LevelDiamanteUnlockScore: 100,
 	LevelPlatinoUnlockScore:  1_000,
