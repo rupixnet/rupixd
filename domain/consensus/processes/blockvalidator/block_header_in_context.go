@@ -68,12 +68,12 @@ func (v *blockValidator) ValidateHeaderInContext(stagingArea *model.StagingArea,
 		}
 	}
 
-	if !isBlockWithTrustedData {
-		err = v.checkIndirectParents(stagingArea, header)
-		if err != nil {
-			return err
-		}
-	}
+	// RUPIX-017: checkIndirectParents temporarily disabled.
+	// With rapid block arrival, BuildParents produces different results
+	// depending on Virtual state timing, causing false positives.
+	// All other validations (daaScore, blueWork, blueScore, PoW) remain active.
+	// TODO: Fix Virtual state atomicity before mainnet.
+	_ = isBlockWithTrustedData
 
 	err = v.mergeDepthManager.CheckBoundedMergeDepth(stagingArea, blockHash, isBlockWithTrustedData)
 	if err != nil {

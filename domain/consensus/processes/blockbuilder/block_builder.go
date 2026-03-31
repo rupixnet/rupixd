@@ -3,7 +3,6 @@ package blockbuilder
 import (
 	"encoding/binary"
 	"math/big"
-	"github.com/rupixnet/rupixd/util/difficulty"
 	"sort"
 
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
@@ -273,15 +272,29 @@ if err != nil {
 }
 
 func (bb *blockBuilder) newBlockParents(stagingArea *model.StagingArea, daaScore uint64) ([]externalapi.BlockLevelParents, error) {
-        virtualBlockRelations, err := bb.blockRelationStore.BlockRelation(bb.databaseContext, stagingArea, model.VirtualBlockHash)
-        if err != nil {
-                return nil, err
-        }
-        parents, err := bb.blockParentBuilder.BuildParents(stagingArea, daaScore, virtualBlockRelations.Parents)
-        if err != nil {
-                return nil, err
-        }
-        return parents, err
+	// RUPIX-017: Use GHOSTDAG selectedParent to ensure consistency with daaScore.
+	// blockRelationStore[Virtual] can be stale when two blocks arrive rapidly,
+	// but ghostdagDataStore[Virtual].SelectedParent() is always current.
+	virtualGHOSTDAGData, err := bb.ghostdagDataStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash, false)
+	if err != nil {
+		return nil, err
+	}
+	selectedParent := virtualGHOSTDAGData.SelectedParent()
+	var directParents []*externalapi.DomainHash
+	if selectedParent == nil || selectedParent.Equal(model.VirtualGenesisBlockHash) {
+		virtualBlockRelations, err := bb.blockRelationStore.BlockRelation(bb.databaseContext, stagingArea, model.VirtualBlockHash)
+		if err != nil {
+			return nil, err
+		}
+		directParents = virtualBlockRelations.Parents
+	} else {
+		directParents = []*externalapi.DomainHash{selectedParent}
+	}
+	parents, err := bb.blockParentBuilder.BuildParents(stagingArea, daaScore, directParents)
+	if err != nil {
+		return nil, err
+	}
+	return parents, err
 }
 
 func (bb *blockBuilder) newBlockTime(stagingArea *model.StagingArea) (int64, error) {
@@ -360,60 +373,26 @@ func (bb *blockBuilder) newBlockUTXOCommitment(stagingArea *model.StagingArea) (
 }
 
 func (bb *blockBuilder) newBlockDAAScore(stagingArea *model.StagingArea) (uint64, error) {
+	// RUPIX-017: Use Virtual's daaScore directly — it is always computed fresh
+	// by StageDAADataAndReturnRequiredDifficulty during updateVirtual.
+	// The inconsistency is in blockRelationStore, not in daaBlocksStore.
 	return bb.daaBlocksStore.DAAScore(bb.databaseContext, stagingArea, model.VirtualBlockHash)
 }
 
 func (bb *blockBuilder) newBlockBlueWork(stagingArea *model.StagingArea) (*big.Int, error) {
-    virtualGHOSTDAGData, err := bb.ghostdagDataStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash, false)
-    if err != nil {
-        return nil, err
-    }
-    selectedParent := virtualGHOSTDAGData.SelectedParent()
-
- if selectedParent == nil {
-    genesisHeader, err := bb.blockHeaderStore.BlockHeader(bb.databaseContext, stagingArea, bb.genesisHash)
-    if err != nil {
-        return nil, err
-    }
-    result := difficulty.CalcWork(genesisHeader.Bits())
-    return result, nil
-}
-    selectedParentGHOSTDAGData, err := bb.ghostdagDataStore.Get(bb.databaseContext, stagingArea, selectedParent, false)
-    if err != nil {
-        return nil, err
-    }
-
-    // Heredar blueWork del selectedParent (igual que GHOSTDAG)
-    blueWork := new(big.Int).Set(selectedParentGHOSTDAGData.BlueWork())
-
-    // Sumar CalcWork de cada blue en mergeSetBlues del Virtual (igual que GHOSTDAG)
-    for _, blue := range virtualGHOSTDAGData.MergeSetBlues() {
-        if blue.Equal(model.VirtualGenesisBlockHash) {
-            continue
-        }
-        header, err := bb.blockHeaderStore.BlockHeader(bb.databaseContext, stagingArea, blue)
-        if err != nil {
-            return nil, err
-        }
-        blueWork.Add(blueWork, difficulty.CalcWork(header.Bits()))
-    }
-
-    return blueWork, nil
+	virtualGHOSTDAGData, err := bb.ghostdagDataStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash, false)
+	if err != nil {
+		return nil, err
+	}
+	return virtualGHOSTDAGData.BlueWork(), nil
 }
 
 func (bb *blockBuilder) newBlockBlueScore(stagingArea *model.StagingArea) (uint64, error) {
-    virtualGHOSTDAGData, err := bb.ghostdagDataStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash, false)
-    if err != nil {
-        return 0, err
-    }
-
-    // Si el Virtual no tiene selectedParent, estamos construyendo el primer
-    // hijo del genesis. GHOSTDAG calculará BlueScore = genesis.BlueScore(0) + len(mergeSetBlues=1) = 1
-    if virtualGHOSTDAGData.SelectedParent() == nil {
-        return 1, nil
-    }
-
-    return virtualGHOSTDAGData.BlueScore(), nil
+	virtualGHOSTDAGData, err := bb.ghostdagDataStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash, false)
+	if err != nil {
+		return 0, err
+	}
+	return virtualGHOSTDAGData.BlueScore(), nil
 }
 
 func (bb *blockBuilder) newBlockPruningPoint(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash) (*externalapi.DomainHash, error) {

@@ -331,7 +331,7 @@ var TestnetParams = Params{
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
 	MaxBlockMass:                            defaultMaxBlockMass,
-	MaxBlockParents:                         1,
+	MaxBlockParents:                         defaultMaxBlockParents,
 	MassPerTxByte:                           defaultMassPerTxByte,
 	MassPerScriptPubKeyByte:                 defaultMassPerScriptPubKeyByte,
 	MassPerSigOp:                            defaultMassPerSigOp,

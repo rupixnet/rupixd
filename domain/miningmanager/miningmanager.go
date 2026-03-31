@@ -84,14 +84,12 @@ func (mm *miningManager) ClearBlockTemplate() {
 }
 
 func (mm *miningManager) getImmutableCachedTemplate() *externalapi.DomainBlockTemplate {
-	if time.Since(mm.cachingTime) > time.Second {
-		// No point in cache optimizations if queries are more than a second apart -- we prefer rechecking the mempool.
-		// Full explanation: On the one hand this is a sub-millisecond optimization, so there is no harm in doing the full block building
-		// every ~1 second. Additionally, we would like to refresh the mempool access even if virtual info was
-		// unmodified for a while. All in all, caching for max 1 second is a good compromise.
-		mm.cachedBlockTemplate = nil
-	}
-	return mm.cachedBlockTemplate
+	// RUPIX-017: Always rebuild template to prevent daaScore inconsistency
+	// when two blocks arrive in rapid succession. The cache causes stale
+	// parent/daaScore combinations that the validator correctly rejects.
+	// Performance impact is minimal since BuildBlockTemplate is fast.
+	mm.cachedBlockTemplate = nil
+	return nil
 }
 
 func (mm *miningManager) setImmutableCachedTemplate(blockTemplate *externalapi.DomainBlockTemplate) {
