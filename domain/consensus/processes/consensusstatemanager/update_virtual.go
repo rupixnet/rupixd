@@ -65,6 +65,16 @@ func (csm *consensusStateManager) updateVirtual(stagingArea *model.StagingArea, 
 
 func (csm *consensusStateManager) updateVirtualWithParents(
 	stagingArea *model.StagingArea, virtualParents []*externalapi.DomainHash) (externalapi.UTXODiff, error) {
+	// RUPIX-017 FIX: deduplicar virtualParents antes de SetParents
+	seenVP := make(map[externalapi.DomainHash]struct{})
+	uniqueVP := make([]*externalapi.DomainHash, 0, len(virtualParents))
+	for _, p := range virtualParents {
+		if _, exists := seenVP[*p]; !exists {
+			seenVP[*p] = struct{}{}
+			uniqueVP = append(uniqueVP, p)
+		}
+	}
+	virtualParents = uniqueVP
 	err := csm.dagTopologyManager.SetParents(stagingArea, model.VirtualBlockHash, virtualParents)
 	if err != nil {
 		return nil, err

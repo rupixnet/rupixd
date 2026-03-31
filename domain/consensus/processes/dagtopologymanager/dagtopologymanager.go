@@ -179,8 +179,17 @@ func (dtm *dagTopologyManager) SetParents(stagingArea *model.StagingArea, blockH
 	}
 
 	// Finally - create the relations for the block itself
+	// RUPIX-017 FIX: deduplicar parentHashes antes de guardar
+	seenParents := make(map[externalapi.DomainHash]struct{})
+	uniqueParentHashes := make([]*externalapi.DomainHash, 0, len(parentHashes))
+	for _, p := range parentHashes {
+		if _, exists := seenParents[*p]; !exists {
+			seenParents[*p] = struct{}{}
+			uniqueParentHashes = append(uniqueParentHashes, p)
+		}
+	}
 	dtm.blockRelationStore.StageBlockRelation(stagingArea, blockHash, &model.BlockRelations{
-		Parents:  parentHashes,
+		Parents:  uniqueParentHashes,
 		Children: []*externalapi.DomainHash{},
 	})
 

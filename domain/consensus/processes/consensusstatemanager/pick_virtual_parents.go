@@ -113,8 +113,17 @@ func (csm *consensusStateManager) pickVirtualParents(stagingArea *model.StagingA
 			}
 		}
 	}
-	log.Debugf("The virtual parents resolved to be: %s", selectedVirtualParents)
-	return selectedVirtualParents, nil
+	// RUPIX-017 FIX: deduplicar selectedVirtualParents antes de retornar
+	seenFinal := make(map[externalapi.DomainHash]struct{})
+	uniqueVirtualParents := make([]*externalapi.DomainHash, 0, len(selectedVirtualParents))
+	for _, p := range selectedVirtualParents {
+		if _, exists := seenFinal[*p]; !exists {
+			seenFinal[*p] = struct{}{}
+			uniqueVirtualParents = append(uniqueVirtualParents, p)
+		}
+	}
+	log.Debugf("The virtual parents resolved to be: %s", uniqueVirtualParents)
+	return uniqueVirtualParents, nil
 }
 
 func (csm *consensusStateManager) removeHashesInFutureOf(stagingArea *model.StagingArea, hashes []*externalapi.DomainHash,

@@ -294,7 +294,17 @@ func (bb *blockBuilder) newBlockParents(stagingArea *model.StagingArea, daaScore
 		}
 		directParents = virtualBlockRelations.Parents
 	}
-	parents, err := bb.blockParentBuilder.BuildParents(stagingArea, daaScore, directParents)
+	// RUPIX-017 FIX: deduplicar directParents antes de BuildParents
+	// blockRelationStore puede tener duplicados cuando bloques llegan simultáneamente
+	seen := make(map[externalapi.DomainHash]struct{})
+	uniqueParents := make([]*externalapi.DomainHash, 0, len(directParents))
+	for _, p := range directParents {
+		if _, exists := seen[*p]; !exists {
+			seen[*p] = struct{}{}
+			uniqueParents = append(uniqueParents, p)
+		}
+	}
+	parents, err := bb.blockParentBuilder.BuildParents(stagingArea, daaScore, uniqueParents)
 	if err != nil {
 		return nil, err
 	}
