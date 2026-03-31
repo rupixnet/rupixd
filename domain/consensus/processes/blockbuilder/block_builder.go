@@ -288,7 +288,11 @@ func (bb *blockBuilder) newBlockParents(stagingArea *model.StagingArea, daaScore
 		}
 		directParents = virtualBlockRelations.Parents
 	} else {
-		directParents = []*externalapi.DomainHash{selectedParent}
+		virtualBlockRelations, err := bb.blockRelationStore.BlockRelation(bb.databaseContext, stagingArea, model.VirtualBlockHash)
+		if err != nil {
+			return nil, err
+		}
+		directParents = virtualBlockRelations.Parents
 	}
 	parents, err := bb.blockParentBuilder.BuildParents(stagingArea, daaScore, directParents)
 	if err != nil {
