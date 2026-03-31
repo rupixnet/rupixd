@@ -1,6 +1,7 @@
 ﻿package blockvalidator
 
 import (
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"fmt"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -171,6 +172,10 @@ func (v *blockValidator) validateMedianTime(stagingArea *model.StagingArea, head
 func (v *blockValidator) checkMergeSizeLimit(stagingArea *model.StagingArea, hash *externalapi.DomainHash) error {
 	ghostdagData, err := v.ghostdagDataStores[0].Get(v.databaseContext, stagingArea, hash, false)
 	if err != nil {
+		// RUPIX: durante IBD ignorar datos faltantes
+		if database.IsNotFoundError(err) {
+			return nil
+		}
 		return err
 	}
 
