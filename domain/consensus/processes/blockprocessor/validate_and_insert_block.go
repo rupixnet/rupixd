@@ -322,7 +322,7 @@ func (bp *blockProcessor) validatePostProofOfWork(stagingArea *model.StagingArea
 		return err
 	}
 
-	if !hasValidatedHeader {
+	if !hasValidatedHeader && !isBlockWithTrustedData {
 		err = bp.blockValidator.ValidateHeaderInContext(stagingArea, blockHash, isBlockWithTrustedData)
 		if err != nil {
 			return err
