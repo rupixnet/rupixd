@@ -474,6 +474,9 @@ func (s *consensus) GetBlockInfo(blockHash *externalapi.DomainHash) (*externalap
 
 	ghostdagData, err := s.ghostdagDataStores[0].Get(s.databaseContext, stagingArea, blockHash, false)
 	if err != nil {
+		if database.IsNotFoundError(err) {
+			return blockInfo, nil
+		}
 		return nil, err
 	}
 
