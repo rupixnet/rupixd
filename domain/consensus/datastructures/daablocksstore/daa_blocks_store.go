@@ -1,6 +1,7 @@
 package daablocksstore
 
 import (
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/domain/consensus/database/binaryserialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -84,6 +85,9 @@ func (daas *daaBlocksStore) DAAAddedBlocks(dbContext model.DBReader, stagingArea
 
 	addedBlocksBytes, err := dbContext.Get(daas.daaAddedBlocksHashAsKey(blockHash))
 	if err != nil {
+		if database.IsNotFoundError(err) {
+			return nil, nil
+		}
 		return nil, err
 	}
 
