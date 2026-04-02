@@ -61,6 +61,9 @@ func (daas *daaBlocksStore) DAAScore(dbContext model.DBReader, stagingArea *mode
 
 	daaScoreBytes, err := dbContext.Get(daas.daaScoreHashAsKey(blockHash))
 	if err != nil {
+		if database.IsNotFoundError(err) {
+			return 0, nil
+		}
 		return 0, err
 	}
 
