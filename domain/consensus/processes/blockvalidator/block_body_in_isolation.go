@@ -48,10 +48,11 @@ func (v *blockValidator) ValidateBodyInIsolation(stagingArea *model.StagingArea,
 		return err
 	}
 
-	err = v.checkCoinbaseBlueScore(block)
-	if err != nil {
-		return err
-	}
+	// RUPIX: checkCoinbaseBlueScore deshabilitado temporalmente para testnet
+	// err = v.checkCoinbaseBlueScore(block)
+	// if err != nil {
+	// 	return err
+	// }
 
 	err = v.checkBlockTransactionOrder(block)
 	if err != nil {
