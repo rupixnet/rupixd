@@ -94,7 +94,7 @@ func (rds *reachabilityDataStore) ReachabilityData(dbContext model.DBReader, sta
 	reachabilityDataBytes, err := dbContext.Get(rds.reachabilityDataBlockHashAsKey(blockHash))
 if database.IsNotFoundError(err) {
     rds.reachabilityDataCache.Add(blockHash, nil)
-    return reachabilitydata.EmptyReachabilityData(), nil
+    return nil, err
 }
 if err != nil {
     return nil, err
