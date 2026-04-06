@@ -1,6 +1,7 @@
 package reachabilitydatastore
 
 import (
+	"github.com/rupixnet/rupixd/domain/consensus/utils/reachabilitydata"
 	"github.com/golang/protobuf/proto"
 	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
@@ -93,7 +94,7 @@ func (rds *reachabilityDataStore) ReachabilityData(dbContext model.DBReader, sta
 	reachabilityDataBytes, err := dbContext.Get(rds.reachabilityDataBlockHashAsKey(blockHash))
 if database.IsNotFoundError(err) {
     rds.reachabilityDataCache.Add(blockHash, nil)
-    return nil, err
+    return reachabilitydata.EmptyReachabilityData(), nil
 }
 if err != nil {
     return nil, err
