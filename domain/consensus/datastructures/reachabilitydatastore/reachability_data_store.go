@@ -1,7 +1,6 @@
 package reachabilitydatastore
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/utils/reachabilitydata"
 	"github.com/golang/protobuf/proto"
 	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
