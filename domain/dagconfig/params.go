@@ -300,7 +300,7 @@ var TestnetParams = Params{
 	PreDeflationaryPhaseBaseSubsidy: defaultPreDeflationaryPhaseBaseSubsidy,
 	DeflationaryPhaseBaseSubsidy:    defaultDeflationaryPhaseBaseSubsidy,
 	TargetTimePerBlock:              defaultTargetTimePerBlock,
-	FinalityDuration:                time.Minute,
+	FinalityDuration:                12 * time.Hour,
 	DifficultyAdjustmentWindowSize:  defaultDifficultyAdjustmentWindowSize,
 	TimestampDeviationTolerance:     defaultTimestampDeviationTolerance,
 
@@ -331,7 +331,7 @@ var TestnetParams = Params{
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
 	MaxBlockMass:                            defaultMaxBlockMass,
-	MaxBlockParents:                         1,
+	MaxBlockParents:                         10,
 	MassPerTxByte:                           defaultMassPerTxByte,
 	MassPerScriptPubKeyByte:                 defaultMassPerScriptPubKeyByte,
 	MassPerSigOp:                            defaultMassPerSigOp,
