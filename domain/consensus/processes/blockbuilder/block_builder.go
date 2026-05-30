@@ -272,43 +272,17 @@ if err != nil {
 }
 
 func (bb *blockBuilder) newBlockParents(stagingArea *model.StagingArea, daaScore uint64) ([]externalapi.BlockLevelParents, error) {
-	// RUPIX-017: Use GHOSTDAG selectedParent to ensure consistency with daaScore.
-	// blockRelationStore[Virtual] can be stale when two blocks arrive rapidly,
-	// but ghostdagDataStore[Virtual].SelectedParent() is always current.
-	virtualGHOSTDAGData, err := bb.ghostdagDataStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash, false)
+	// FIX-005 (2026-05-30): revertido parche RUPIX-017 al comportamiento Kaspa upstream.
+	// El parche anterior bifurcaba segun virtualGHOSTDAGData.SelectedParent() y
+	// dedupaba parents al final. Pero ambas ramas terminaban usando blockRelationStore
+	// igual, y la deduplicacion por hash no eliminaba parents con relacion de ancestro.
+	// Resultado del bug: minero recibia templates con padres invalidos (uno ancestro de otro).
+	// Comportamiento ahora alineado con kaspad upstream master.
+	virtualBlockRelations, err := bb.blockRelationStore.BlockRelation(bb.databaseContext, stagingArea, model.VirtualBlockHash)
 	if err != nil {
 		return nil, err
 	}
-	selectedParent := virtualGHOSTDAGData.SelectedParent()
-	var directParents []*externalapi.DomainHash
-	if selectedParent == nil || selectedParent.Equal(model.VirtualGenesisBlockHash) {
-		virtualBlockRelations, err := bb.blockRelationStore.BlockRelation(bb.databaseContext, stagingArea, model.VirtualBlockHash)
-		if err != nil {
-			return nil, err
-		}
-		directParents = virtualBlockRelations.Parents
-	} else {
-		virtualBlockRelations, err := bb.blockRelationStore.BlockRelation(bb.databaseContext, stagingArea, model.VirtualBlockHash)
-		if err != nil {
-			return nil, err
-		}
-		directParents = virtualBlockRelations.Parents
-	}
-	// RUPIX-017 FIX: deduplicar directParents antes de BuildParents
-	// blockRelationStore puede tener duplicados cuando bloques llegan simultáneamente
-	seen := make(map[externalapi.DomainHash]struct{})
-	uniqueParents := make([]*externalapi.DomainHash, 0, len(directParents))
-	for _, p := range directParents {
-		if _, exists := seen[*p]; !exists {
-			seen[*p] = struct{}{}
-			uniqueParents = append(uniqueParents, p)
-		}
-	}
-	parents, err := bb.blockParentBuilder.BuildParents(stagingArea, daaScore, uniqueParents)
-	if err != nil {
-		return nil, err
-	}
-	return parents, err
+	return bb.blockParentBuilder.BuildParents(stagingArea, daaScore, virtualBlockRelations.Parents)
 }
 
 func (bb *blockBuilder) newBlockTime(stagingArea *model.StagingArea) (int64, error) {

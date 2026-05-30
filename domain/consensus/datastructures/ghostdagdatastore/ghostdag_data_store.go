@@ -1,9 +1,7 @@
 package ghostdagdatastore
 
 import (
-	"math/big"
 	"github.com/golang/protobuf/proto"
-	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -60,9 +58,11 @@ func (gds *ghostdagDataStore) Get(dbContext model.DBReader, stagingArea *model.S
 
 	blockGHOSTDAGDataBytes, err := dbContext.Get(gds.serializeKey(key))
 	if err != nil {
-		if database.IsNotFoundError(err) {
-			return externalapi.NewBlockGHOSTDAGData(0, new(big.Int), nil, nil, nil, nil), nil
-		}
+		// FIX-004 (2026-05-30): revertido parche P-003 inseguro.
+		// Antes devolvia datos vacios (SelectedParent=nil) en NotFound,
+		// rompiendo coinbaseManager que esperaba el error para hacer fallback.
+		// Resultado del bug: balance=0 y circulatingRupia=0 permanentes.
+		// Ahora alineado con kaspad upstream master.
 		return nil, err
 	}
 
