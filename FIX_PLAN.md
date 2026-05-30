@@ -114,3 +114,21 @@ No taguear v0.2.3 hasta que cadena supere 200+ bloques estable.
 Lesson: verificar empirically al doble del umbral conocido antes de
 declarar victoria. 120s no fue suficiente cuando ayer la cadena
 duraba ~120s antes de atascarse.
+
+### 2026-05-30 - FIX-006 + FIX-007 commiteados
+
+Progreso real medible:
+- Antes FIX-007: cadena se atasca en 71 con 45 rechazos + 135 panics
+- Despues FIX-007: 160 bloques limpios sin rechazos ni panics
+
+Bug actual diferente:
+- blockCount sigue creciendo (no se atasca)
+- Pero virtualDaaScore congelado en 65
+- 95 tips paralelos = no convergencia del DAG
+- Balance/supply congelados
+
+Hipotesis FIX-008: parches en update_virtual.go
+- oldVirtualGHOSTDAGData NotFound -> genesisHash
+- RUPIX-017: dedupe virtualParents antes SetParents
+- selectedTip == nil -> return early
+- selectedTipUTXODiff NotFound -> UTXODiff vacio
