@@ -1,4 +1,4 @@
-﻿package pruningmanager
+package pruningmanager
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model"
@@ -142,10 +142,9 @@ func (pm *pruningManager) UpdatePruningPointByVirtual(stagingArea *model.Staging
 		return err
 	}
 
-	selectedParent := virtualGHOSTDAGData.SelectedParent()
-if selectedParent == nil || selectedParent.Equal(pm.genesisHash) || selectedParent.Equal(model.VirtualGenesisBlockHash) {
-    return nil
-}
+	if virtualGHOSTDAGData.SelectedParent().Equal(pm.genesisHash) {
+		return nil
+	}
 
 	newPruningPoint, newCandidate, err := pm.nextPruningPointAndCandidateByBlockHash(stagingArea, virtualGHOSTDAGData.SelectedParent(), nil)
 	if err != nil {
@@ -1121,10 +1120,9 @@ func (pm *pruningManager) ExpectedHeaderPruningPoint(stagingArea *model.StagingA
 		return nil, err
 	}
 
-	selectedParent := ghostdagData.SelectedParent()
-if selectedParent == nil || selectedParent.Equal(pm.genesisHash) || selectedParent.Equal(model.VirtualGenesisBlockHash) {
-    return pm.genesisHash, nil
-}
+	if ghostdagData.SelectedParent().Equal(pm.genesisHash) {
+		return pm.genesisHash, nil
+	}
 
 	selectedParentHeader, err := pm.blockHeaderStore.BlockHeader(pm.databaseContext, stagingArea, ghostdagData.SelectedParent())
 	if err != nil {
@@ -1132,12 +1130,9 @@ if selectedParent == nil || selectedParent.Equal(pm.genesisHash) || selectedPare
 	}
 
 	selectedParentPruningPointHeader, err := pm.blockHeaderStore.BlockHeader(pm.databaseContext, stagingArea, selectedParentHeader.PruningPoint())
-if err != nil {
-    if database.IsNotFoundError(err) {
-        return pm.genesisHash, nil
-    }
-    return nil, err
-}
+	if err != nil {
+		return nil, err
+	}
 
 	nextOrCurrentPruningPoint := selectedParentHeader.PruningPoint()
 	pruningPoint, err := pm.pruningStore.PruningPoint(pm.databaseContext, stagingArea)

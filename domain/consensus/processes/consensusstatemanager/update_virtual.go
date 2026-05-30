@@ -4,8 +4,6 @@ import (
         "github.com/rupixnet/rupixd/domain/consensus/model"
         "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
         "github.com/rupixnet/rupixd/infrastructure/logger"
-        "github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
-        "github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func (csm *consensusStateManager) updateVirtual(stagingArea *model.StagingArea, newBlockHash *externalapi.DomainHash,
@@ -21,14 +19,9 @@ func (csm *consensusStateManager) updateVirtual(stagingArea *model.StagingArea, 
 	if !newBlockHash.Equal(csm.genesisHash) {
 		oldVirtualGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, model.VirtualBlockHash, false)
 		if err != nil {
-			if database.IsNotFoundError(err) {
-				oldVirtualSelectedParent = csm.genesisHash
-			} else {
-				return nil, nil, err
-			}
-		} else {
-			oldVirtualSelectedParent = oldVirtualGHOSTDAGData.SelectedParent()
+			return nil, nil, err
 		}
+		oldVirtualSelectedParent = oldVirtualGHOSTDAGData.SelectedParent()
 	}
 
 	log.Debugf("Picking virtual parents from tips len: %d", len(tips))
@@ -65,16 +58,6 @@ func (csm *consensusStateManager) updateVirtual(stagingArea *model.StagingArea, 
 
 func (csm *consensusStateManager) updateVirtualWithParents(
 	stagingArea *model.StagingArea, virtualParents []*externalapi.DomainHash) (externalapi.UTXODiff, error) {
-	// RUPIX-017 FIX: deduplicar virtualParents antes de SetParents
-	seenVP := make(map[externalapi.DomainHash]struct{})
-	uniqueVP := make([]*externalapi.DomainHash, 0, len(virtualParents))
-	for _, p := range virtualParents {
-		if _, exists := seenVP[*p]; !exists {
-			seenVP[*p] = struct{}{}
-			uniqueVP = append(uniqueVP, p)
-		}
-	}
-	virtualParents = uniqueVP
 	err := csm.dagTopologyManager.SetParents(stagingArea, model.VirtualBlockHash, virtualParents)
 	if err != nil {
 		return nil, err
@@ -121,22 +104,15 @@ func (csm *consensusStateManager) updateSelectedTipUTXODiff(
 	defer onEnd()
 
 	selectedTip, err := csm.virtualSelectedParent(stagingArea)
-if err != nil {
-    return err
-}
-if selectedTip == nil {
-    return nil
-}
+	if err != nil {
+		return err
+	}
 
 	log.Debugf("Calculating new UTXO diff for virtual diff parent %s", selectedTip)
 	selectedTipUTXODiff, err := csm.utxoDiffStore.UTXODiff(csm.databaseContext, stagingArea, selectedTip)
-if err != nil {
-    if database.IsNotFoundError(err) {
-        selectedTipUTXODiff = utxo.NewUTXODiff()
-    } else {
-        return err
-    }
-}
+	if err != nil {
+		return err
+	}
 	newDiff, err := virtualUTXODiff.DiffFrom(selectedTipUTXODiff)
 	if err != nil {
 		return err
