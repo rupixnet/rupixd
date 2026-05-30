@@ -340,7 +340,7 @@ var TestnetParams = Params{
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
 
-	MaxBlockLevel: 10,
+	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,
 	LevelDiamanteUnlockScore: 42_000_000,
 	LevelPlatinoUnlockScore:  84_000_000,
@@ -410,7 +410,7 @@ var SimnetParams = Params{
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
 
-	MaxBlockLevel: 10,
+	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,
 	LevelDiamanteUnlockScore: 100,
 	LevelPlatinoUnlockScore:  1_000,
@@ -476,7 +476,7 @@ var DevnetParams = Params{
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
 
-	MaxBlockLevel: 10,
+	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,
 	LevelDiamanteUnlockScore: 100,
 	LevelPlatinoUnlockScore:  1_000,
