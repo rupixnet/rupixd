@@ -132,3 +132,37 @@ Hipotesis FIX-008: parches en update_virtual.go
 - RUPIX-017: dedupe virtualParents antes SetParents
 - selectedTip == nil -> return early
 - selectedTipUTXODiff NotFound -> UTXODiff vacio
+
+### 2026-05-30 - FIX-008 + FIX-009 commiteados
+
+Resumen 16 parches RUPIX-017 ya revertidos:
+- FIX-004: P-003 ghostdag_data_store.go (1 parche)
+- FIX-005: RUPIX-017 block_builder.go newBlockParents (1)
+- FIX-006: 3 parches pick_virtual_parents.go
+- FIX-007: 5 parches blockparentbuilder.go
+- FIX-008: 4 parches update_virtual.go
+- FIX-009: 3 parches pruningmanager.go
+
+Total: 17 parches revertidos. Codigo de consenso ahora MUCHO mas
+alineado con kaspad upstream master, conservando 100% identidad Rupix.
+
+**Bug persistente del "67-73":**
+- Cadena llega limpia hasta DAA=65 con tips=1
+- Despues del bloque 66-67, aparecen InvalidParentsRelation
+- tips diverge (1 -> 50+)
+- DAA queda congelado en 65-66
+- balance/supply se atascan
+
+**Hipotesis para investigar (Dia 7):**
+1. Hay mas parches en resolve_block_status.go, add_block_to_virtual.go,
+   multisets.go que no hemos auditado
+2. Bug estructural en config testnet (params.go) incompatible
+   con K=18 / MaxBlockParents=10 / TargetTime=1s
+3. Algo en el flujo de genesis -> first pruning point que ningun
+   parche cubrio porque era cosmetico
+
+**Plan Dia 7:**
+- Agregar logs DEBUG en newBlockParents y BuildParents para ver
+  EXACTAMENTE que padres se eligen y por que
+- Identificar el bloque especifico donde se rompe la convergencia
+- No revertir mas parches a ciegas hasta tener datos
