@@ -92,3 +92,25 @@ Auditoria del dia 3 (28 mayo 2026) revela que estos parches:
 - Branch fix-deep-cleanup creada
 - FIX_PLAN.md inicial committeado
 - Auditoria a fondo pendiente
+
+### 2026-05-30 - CORRECCION HONESTA
+
+FIX-004 + FIX-005 aplicados con verificación incompleta.
+
+- v0.2.3 fue tagueado prematuramente (BORRADO).
+- Verificación a 120s mostró cadena estable y balance creciendo (28 RUPIX).
+- Pero verificación a 180s revelo: cadena se atasca en bloque 67 igual.
+- 50 rechazos + 150 panics en los 60s adicionales.
+
+Conclusion: FIX-004 + FIX-005 son CORRECTOS pero INSUFICIENTES.
+Hay otro parche oculto que se manifiesta despues de N bloques (N=67?).
+
+Hipotesis: probable culprit en pick_virtual_parents.go RUPIX-017
+(deduplicacion final) o consensusstatemanager (selectVirtualSelectedParent
+con StatusUTXOPendingVerification aceptado como valido).
+
+No taguear v0.2.3 hasta que cadena supere 200+ bloques estable.
+
+Lesson: verificar empirically al doble del umbral conocido antes de
+declarar victoria. 120s no fue suficiente cuando ayer la cadena
+duraba ~120s antes de atascarse.
