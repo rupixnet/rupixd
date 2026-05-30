@@ -5,7 +5,6 @@ import (
         "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
         "github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
         "github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
-        "github.com/rupixnet/rupixd/infrastructure/db/database"
         "github.com/rupixnet/rupixd/infrastructure/logger"
         "github.com/pkg/errors"
 )
@@ -59,11 +58,7 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 
 	pruningPoint, err := bpb.pruningStore.PruningPoint(bpb.databaseContext, stagingArea)
 	if err != nil {
-		if database.IsNotFoundError(err) {
-			pruningPoint = bpb.genesisHash
-		} else {
-			return nil, err
-		}
+		return nil, err
 	}
 
 	// The first candidates to be added should be from a parent in the future of the pruning
@@ -99,24 +94,12 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 	directParentHashesCopy[firstParentInFutureOfPruningPointIndex] = oldFirstDirectParent
 
 	for i, directParentHash := range directParentHashesCopy {
-                directParentHeader, err := bpb.blockHeaderStore.BlockHeader(bpb.databaseContext, stagingArea, directParentHash)
-                if err != nil {
-                        if database.IsNotFoundError(err) {
-                                continue
-                        }
-                        return nil, err
-                }
-                directParentHeaders[i] = directParentHeader
-        }
-
-	// RUPIX-017 FIX: filtrar headers nil (bloques no encontrados)
-	validHeaders := make([]externalapi.BlockHeader, 0, len(directParentHeaders))
-	for _, h := range directParentHeaders {
-		if h != nil {
-			validHeaders = append(validHeaders, h)
+		directParentHeader, err := bpb.blockHeaderStore.BlockHeader(bpb.databaseContext, stagingArea, directParentHash)
+		if err != nil {
+			return nil, err
 		}
+		directParentHeaders[i] = directParentHeader
 	}
-	directParentHeaders = validHeaders
 
 	type blockToReferences map[externalapi.DomainHash][]*externalapi.DomainHash
 	candidatesByLevelToReferenceBlocksMap := make(map[int]blockToReferences)
@@ -136,20 +119,13 @@ func (bpb *blockParentBuilder) BuildParents(stagingArea *model.StagingArea,
 
 	virtualGenesisChildren, err := bpb.dagTopologyManager.Children(stagingArea, model.VirtualGenesisBlockHash)
 	if err != nil {
-		if database.IsNotFoundError(err) {
-			virtualGenesisChildren = nil
-		} else {
-			return nil, err
-		}
+		return nil, err
 	}
 
 	virtualGenesisChildrenHeaders := make(map[externalapi.DomainHash]externalapi.BlockHeader, len(virtualGenesisChildren))
 	for _, child := range virtualGenesisChildren {
 		virtualGenesisChildrenHeaders[*child], err = bpb.blockHeaderStore.BlockHeader(bpb.databaseContext, stagingArea, child)
 		if err != nil {
-			if database.IsNotFoundError(err) {
-				continue
-			}
 			return nil, err
 		}
 	}

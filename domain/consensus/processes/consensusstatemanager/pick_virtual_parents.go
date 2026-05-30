@@ -8,7 +8,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
-	"github.com/rupixnet/rupixd/infrastructure/db/database"
 )
 
 func (csm *consensusStateManager) pickVirtualParents(stagingArea *model.StagingArea, tips []*externalapi.DomainHash) ([]*externalapi.DomainHash, error) {
@@ -113,17 +112,12 @@ func (csm *consensusStateManager) pickVirtualParents(stagingArea *model.StagingA
 			}
 		}
 	}
-	// RUPIX-017 FIX: deduplicar selectedVirtualParents antes de retornar
-	seenFinal := make(map[externalapi.DomainHash]struct{})
-	uniqueVirtualParents := make([]*externalapi.DomainHash, 0, len(selectedVirtualParents))
-	for _, p := range selectedVirtualParents {
-		if _, exists := seenFinal[*p]; !exists {
-			seenFinal[*p] = struct{}{}
-			uniqueVirtualParents = append(uniqueVirtualParents, p)
-		}
-	}
-	log.Debugf("The virtual parents resolved to be: %s", uniqueVirtualParents)
-	return uniqueVirtualParents, nil
+	// FIX-006 (2026-05-30): revertido parche RUPIX-017 al comportamiento Kaspa upstream.
+	// La deduplicacion por hash NO eliminaba parents con relacion de ancestro,
+	// solo duplicados exactos. La logica correcta de Kaspa garantiza que ningun
+	// parent es ancestro de otro mediante mergeSetIncrease y boundedMergeBreakingParents.
+	log.Debugf("The virtual parents resolved to be: %s", selectedVirtualParents)
+	return selectedVirtualParents, nil
 }
 
 func (csm *consensusStateManager) removeHashesInFutureOf(stagingArea *model.StagingArea, hashes []*externalapi.DomainHash,
@@ -161,19 +155,14 @@ func (csm *consensusStateManager) selectVirtualSelectedParent(stagingArea *model
 		log.Debugf("Checking block %s for selected parent eligibility", selectedParentCandidate)
 		selectedParentCandidateStatus, err := csm.blockStatusStore.Get(csm.databaseContext, stagingArea, selectedParentCandidate)
 		if err != nil {
-			if database.IsNotFoundError(err) {
-				selectedParentCandidateStatus = externalapi.StatusUTXOPendingVerification
-			} else {
-				return nil, err
-			}
+			return nil, err
 		}
-		if selectedParentCandidateStatus == externalapi.StatusUTXOValid ||
-        selectedParentCandidateStatus == externalapi.StatusUTXOPendingVerification {
-        log.Debugf("Block %s is valid. Returning it as the selected parent", selectedParentCandidate)
-        return selectedParentCandidate, nil
-        }
+		if selectedParentCandidateStatus == externalapi.StatusUTXOValid {
+			log.Debugf("Block %s is valid. Returning it as the selected parent", selectedParentCandidate)
+			return selectedParentCandidate, nil
+		}
 
-		log.Infof("Block %s status=%d is not valid. Adding it to the disqualified set", selectedParentCandidate, selectedParentCandidateStatus)
+		log.Debugf("Block %s is not valid. Adding it to the disqualified set", selectedParentCandidate)
 		disqualifiedCandidates.Add(selectedParentCandidate)
 
 		candidateParents, err := csm.dagTopologyManager.Parents(stagingArea, selectedParentCandidate)
