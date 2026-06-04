@@ -46,3 +46,4 @@ kaspad.db
 *.tmp
 *.bak
 *.orig
+.kaspa-*
