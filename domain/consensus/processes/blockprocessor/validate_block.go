@@ -1,7 +1,6 @@
 package blockprocessor
 
 import (
-	"fmt"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
@@ -20,9 +19,8 @@ func (bp *blockProcessor) validateBlock(stagingArea *model.StagingArea, block *e
 		return errors.Wrapf(ruleerrors.ErrGenesisOnInitializedConsensus, "Cannot add genesis to an initialized consensus")
 	}
 
-err := bp.checkBlockStatus(stagingArea, block)
+	err := bp.checkBlockStatus(stagingArea, block)
 	if err != nil {
-		fmt.Printf("FAIL checkBlockStatus: %T :: %+v\n", err, err)
 		return err
 	}
 
@@ -31,26 +29,6 @@ err := bp.checkBlockStatus(stagingArea, block)
 		return err
 	}
 
-	if !hasValidatedHeader {
-		log.Debugf("Staging block %s header", blockHash)
-		bp.blockHeaderStore.Stage(stagingArea, blockHash, block.Header)
-	} else {
-		log.Debugf("Block %s header is already known, so no need to stage it", blockHash)
-	}
-
-	err = bp.validatePreProofOfWork(stagingArea, block)
-	if err != nil {
-		fmt.Printf("FAIL validatePreProofOfWork: %T :: %+v\n", err, err)
-		return err
-	}
-
-	if !hasValidatedHeader {
-		err = bp.blockValidator.ValidatePruningPointViolationAndProofOfWorkAndDifficulty(stagingArea, blockHash, isBlockWithTrustedData)
-		if err != nil {
-			fmt.Printf("FAIL ValidatePruningPoint: %T :: %+v\n", err, err)
-			return err
-		}
-	}
 	if !hasValidatedHeader {
 		log.Debugf("Staging block %s header", blockHash)
 		bp.blockHeaderStore.Stage(stagingArea, blockHash, block.Header)
@@ -76,8 +54,7 @@ err := bp.checkBlockStatus(stagingArea, block)
 	// If in-context validations fail, discard all changes and store the
 	// block with StatusInvalid.
 	err = bp.validatePostProofOfWork(stagingArea, block, isBlockWithTrustedData)
-if err != nil {
-    fmt.Printf("FAIL validatePostProofOfWork: %T :: %+v\n", err, err)
+	if err != nil {
 		if errors.As(err, &ruleerrors.RuleError{}) {
 			// We mark invalid blocks with status externalapi.StatusInvalid except in the
 			// case of the following errors:
@@ -106,4 +83,3 @@ if err != nil {
 	}
 	return nil
 }
-
