@@ -6,13 +6,13 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/server"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/keys"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet/serialization"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/consensushashing"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/txscript"
-	"github.com/kaspanet/kaspad/util/txmass"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/server"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/keys"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet/serialization"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
+	"github.com/rupixnet/rupixd/util/txmass"
 	"github.com/pkg/errors"
 )
 
@@ -60,7 +60,7 @@ func parse(conf *parseConfig) error {
 
 			if conf.Verbose {
 				fmt.Printf("Input %d: \tOutpoint: %s:%d \tAmount: %.2f Kaspa\n", index, input.PreviousOutpoint.TransactionID,
-					input.PreviousOutpoint.Index, float64(partiallySignedInput.PrevOutput.Value)/float64(constants.SompiPerKaspa))
+					input.PreviousOutpoint.Index, float64(partiallySignedInput.PrevOutput.Value)/float64(constants.RupiaPerRupix))
 			}
 
 			allInputSompi += partiallySignedInput.PrevOutput.Value
@@ -83,14 +83,14 @@ func parse(conf *parseConfig) error {
 			}
 
 			fmt.Printf("Output %d: \tRecipient: %s \tAmount: %.2f Kaspa\n",
-				index, addressString, float64(output.Value)/float64(constants.SompiPerKaspa))
+				index, addressString, float64(output.Value)/float64(constants.RupiaPerRupix))
 
 			allOutputSompi += output.Value
 		}
 		fmt.Println()
 
 		fee := allInputSompi - allOutputSompi
-		fmt.Printf("Fee:\t%d Sompi (%f KAS)\n", fee, float64(fee)/float64(constants.SompiPerKaspa))
+		fmt.Printf("Fee:\t%d Sompi (%f KAS)\n", fee, float64(fee)/float64(constants.RupiaPerRupix))
 		mass, err := server.EstimateMassAfterSignatures(partiallySignedTransaction, keysFile.ECDSA, keysFile.MinimumSignatures, txMassCalculator)
 		if err != nil {
 			return err

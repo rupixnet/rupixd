@@ -5,11 +5,11 @@
 package util_test
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"math"
 	"testing"
 
-	. "github.com/kaspanet/kaspad/util"
+	. "github.com/rupixnet/rupixd/util"
 )
 
 func TestAmountCreation(t *testing.T) {
@@ -36,7 +36,7 @@ func TestAmountCreation(t *testing.T) {
 			name:     "one hundred",
 			amount:   100,
 			valid:    true,
-			expected: 100 * constants.SompiPerKaspa,
+			expected: 100 * constants.RupiaPerRupix,
 		},
 		{
 			name:     "fraction",
@@ -48,13 +48,13 @@ func TestAmountCreation(t *testing.T) {
 			name:     "rounding up",
 			amount:   54.999999999999943157,
 			valid:    true,
-			expected: 55 * constants.SompiPerKaspa,
+			expected: 55 * constants.RupiaPerRupix,
 		},
 		{
 			name:     "rounding down",
 			amount:   55.000000000000056843,
 			valid:    true,
-			expected: 55 * constants.SompiPerKaspa,
+			expected: 55 * constants.RupiaPerRupix,
 		},
 
 		// Negative tests.

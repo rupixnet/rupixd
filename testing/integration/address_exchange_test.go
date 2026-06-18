@@ -1,7 +1,7 @@
 package integration
 
 import (
-	"github.com/kaspanet/kaspad/infrastructure/network/addressmanager"
+	"github.com/rupixnet/rupixd/infrastructure/network/addressmanager"
 	"testing"
 )
 

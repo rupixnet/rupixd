@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
-	"github.com/kaspanet/kaspad/cmd/kaspawallet/libkaspawallet"
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/utxo"
-	"github.com/kaspanet/kaspad/util"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+	"github.com/rupixnet/rupixd/util"
 	"github.com/pkg/errors"
 )
 
@@ -20,7 +20,7 @@ import (
 // in the order of magnitude of compute mass and wil not incur additional charges.
 // Additionally, every transaction with send value > ~0.1 KAS should succeed (at most ~99K storage mass for payment
 // output, thus overall lower than standard mass upper bound which is 100K gram)
-const minChangeTarget = constants.SompiPerKaspa * 10
+const minChangeTarget = constants.RupiaPerRupix * 10
 
 // The current minimal fee rate according to mempool standards
 const minFeeRate = 1.0
@@ -77,7 +77,7 @@ func (s *server) calculateFeeLimits(requestFeePolicy *pb.FeePolicy) (feeRate flo
 		}
 		feeRate = estimate.Estimate.NormalBuckets[0].Feerate
 		// Default to a bound of max 1 KAS as fee
-		maxFee = constants.SompiPerKaspa
+		maxFee = constants.RupiaPerRupix
 	}
 
 	return feeRate, maxFee, nil
@@ -254,7 +254,7 @@ func (s *server) selectUTXOsWithPreselected(preSelectedUTXOs []*walletUTXO, allo
 	}
 	if totalValue < totalSpend {
 		return nil, 0, 0, errors.Errorf("Insufficient funds for send: %f required, while only %f available",
-			float64(totalSpend)/constants.SompiPerKaspa, float64(totalValue)/constants.SompiPerKaspa)
+			float64(totalSpend)/constants.RupiaPerRupix, float64(totalValue)/constants.RupiaPerRupix)
 	}
 
 	return selectedUTXOs, totalReceived, totalValue - totalSpend, nil

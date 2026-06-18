@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/pkg/errors"
 )
 
@@ -15,7 +15,7 @@ import (
 func FormatKas(amount uint64) string {
 	res := "                   "
 	if amount > 0 {
-		res = fmt.Sprintf("%19.8f", float64(amount)/constants.SompiPerKaspa)
+		res = fmt.Sprintf("%19.8f", float64(amount)/constants.RupiaPerRupix)
 	}
 	return res
 }
@@ -33,11 +33,11 @@ func KasToSompi(amount string) (uint64, error) {
 	parts := strings.Split(amount, ".")
 	amountStr := ""
 
-	if constants.SompiPerKaspa%10 != 0 {
-		return 0, errors.Errorf("Unable to convert to sompi when SompiPerKaspa is not a multiple of 10")
+	if constants.RupiaPerRupix%10 != 0 {
+		return 0, errors.Errorf("Unable to convert to sompi when RupiaPerRupix is not a multiple of 10")
 	}
 
-	decimalPlaces := int(math.Log10(constants.SompiPerKaspa))
+	decimalPlaces := int(math.Log10(constants.RupiaPerRupix))
 	decimalStr := ""
 
 	if len(parts) == 2 {

@@ -1,4 +1,4 @@
-module github.com/kaspanet/kaspad
+module github.com/rupixnet/rupixd
 
 go 1.23
 

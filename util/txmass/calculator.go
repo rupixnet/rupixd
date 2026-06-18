@@ -1,9 +1,9 @@
 package txmass
 
 import (
-	"github.com/kaspanet/kaspad/domain/consensus/model/externalapi"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/constants"
-	"github.com/kaspanet/kaspad/domain/consensus/utils/transactionhelper"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
 )
 
 // Calculator exposes methods to calculate the mass of a transaction
@@ -22,7 +22,7 @@ func NewCalculator(massPerTxByte, massPerScriptPubKeyByte, massPerSigOp uint64) 
 		massPerTxByte:           massPerTxByte,
 		massPerScriptPubKeyByte: massPerScriptPubKeyByte,
 		massPerSigOp:            massPerSigOp,
-		storageMassParameter:    constants.SompiPerKaspa * 10_000,
+		storageMassParameter:    constants.RupiaPerRupix * 10_000,
 	}
 }
 
