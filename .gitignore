@@ -1,0 +1,24 @@
+# Binarios compilados
+rupixd
+rupixctl
+rupixminer
+rupixwallet
+*.exe
+
+# Archivos temporales
+*.log
+*.tmp
+*.swp
+*.bak
+
+# Datos blockchain
+.rupixd/
+.kaspa-*/
+
+# IDEs
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db
