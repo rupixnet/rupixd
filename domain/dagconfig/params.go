@@ -211,29 +211,11 @@ var MainnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "rupix-mainnet",
 	Net:         appmessage.Mainnet,
-	RPCPort:     "16110",
-	DefaultPort: "16111",
+	RPCPort:     "17110",
+	DefaultPort: "17111",
 	DNSSeeds: []string{
-		// This DNS seeder is run by Wolfie
-		"mainnet-dnsseed.kas.pa",
-		// This DNS seeder is run by Denis Mashkevich
-		"mainnet-dnsseed-1.kaspanet.org",
-		// This DNS seeder is run by Denis Mashkevich
-		"mainnet-dnsseed-2.kaspanet.org",
-		// This DNS seeder is run by Constantine Bytensky
-		"dnsseed.cbytensky.org",
-		// This DNS seeder is run by Georges Künzli
-		"seeder1.kaspad.net",
-		// This DNS seeder is run by Georges Künzli
-		"seeder2.kaspad.net",
-		// This DNS seeder is run by Georges Künzli
-		"seeder3.kaspad.net",
-		// This DNS seeder is run by Georges Künzli
-		"seeder4.kaspad.net",
-		// This DNS seeder is run by Tim
-		"kaspadns.kaspacalc.net",
-		// This DNS seeder is run by supertypo
-		"n-mainnet.kaspa.ws",
+		// Seed oficial Rupix
+		"seed.rupix.network",
 	},
 
 	// DAG parameters
@@ -297,12 +279,11 @@ var TestnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "rupix-testnet",
 	Net:         appmessage.Testnet,
-	RPCPort:     "16210",
-	DefaultPort: "16211",
+	RPCPort:     "17210",
+	DefaultPort: "17211",
 	DNSSeeds: []string{
-		"testnet-10-dnsseed.kas.pa",
-		// This DNS seeder is run by Tiram
-		"seeder1-testnet.kaspad.net",
+		// Seed oficial Rupix
+		"seed.rupix.network",
 	},
 
 	// DAG parameters
@@ -369,8 +350,8 @@ var SimnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "rupix-simnet",
 	Net:         appmessage.Simnet,
-	RPCPort:     "16510",
-	DefaultPort: "16511",
+	RPCPort:     "17510",
+	DefaultPort: "17511",
 	DNSSeeds:    []string{}, // NOTE: There must NOT be any seeds.
 
 	// DAG parameters
@@ -429,8 +410,8 @@ var DevnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "rupix-devnet",
 	Net:         appmessage.Devnet,
-	RPCPort:     "16610",
-	DefaultPort: "16611",
+	RPCPort:     "17610",
+	DefaultPort: "17611",
 	DNSSeeds:    []string{}, // NOTE: There must NOT be any seeds.
 
 	// DAG parameters
