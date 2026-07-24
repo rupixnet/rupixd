@@ -61,6 +61,11 @@ func TestRandomUint64(t *testing.T) {
 // TestRandomUint64Errors uses a fake reader to force error paths to be executed
 // and checks the results accordingly.
 func TestRandomUint64Errors(t *testing.T) {
+	t.Skip("Incompatible con Go 1.24+: crypto/rand.Read ya no devuelve error, " +
+		"aborta el proceso (go.dev/issue/66821). La ruta de error de Uint64() " +
+		"ya no es testeable via fakeRandReader. Uint64() funciona correctamente " +
+		"en produccion; esto es un cambio de contrato de la stdlib, no un bug.")
+
 	// Test short reads.
 	reader := rand.Reader
 	rand.Reader = &fakeRandReader{n: 2, err: io.EOF}

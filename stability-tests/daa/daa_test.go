@@ -15,7 +15,7 @@ import (
 )
 
 const rpcAddress = "localhost:9000"
-const miningAddress = "kaspadev:qrcqat6l9zcjsu7swnaztqzrv0s7hu04skpaezxk43y4etj8ncwfkuhy0zmax"
+const miningAddress = "rupixdev:qrcqat6l9zcjsu7swnaztqzrv0s7hu04skpaezxk43y4etj8ncwfkscazwtdf"
 const blockRateDeviationThreshold = 0.5
 const averageBlockRateSampleSize = 60
 const averageHashRateSampleSize = 100_000

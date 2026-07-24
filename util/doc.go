@@ -25,7 +25,7 @@ types.
 
 To decode/encode an address:
 
-	addrString := "kaspa:qqj9fg59mptxkr9j0y53j5mwurcmda5mtza9n6v9pm9uj8h0wgk6uma5pvumr"
+	addrString := "rupix:qqj9fg59mptxkr9j0y53j5mwurcmda5mtza9n6v9pm9uj8h0wgk6ucxu3j4us"
 	defaultPrefix := util.Bech32PrefixRupix
 	addr, err := util.DecodeAddress(addrString, defaultPrefix)
 	if err != nil {

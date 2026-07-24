@@ -29,8 +29,8 @@ func TestAddresses(t *testing.T) {
 		// Positive P2PK tests.
 		{
 			name:    "mainnet p2pk",
-			addr:    "kaspa:qr35ennsep3hxfe7lnz5ee7j5jgmkjswsn35ennsep3hxfe7ln35cdv0dy335",
-			encoded: "kaspa:qr35ennsep3hxfe7lnz5ee7j5jgmkjswsn35ennsep3hxfe7ln35cdv0dy335",
+			addr:    "rupix:qr35ennsep3hxfe7lnz5ee7j5jgmkjswsn35ennsep3hxfe7ln35cwh8a6ck8",
+			encoded: "rupix:qr35ennsep3hxfe7lnz5ee7j5jgmkjswsn35ennsep3hxfe7ln35cwh8a6ck8",
 			valid:   true,
 			result: util.TstAddressPubKey(
 				util.Bech32PrefixRupix,
@@ -53,8 +53,8 @@ func TestAddresses(t *testing.T) {
 		},
 		{
 			name:    "mainnet p2pk 2",
-			addr:    "kaspa:qq80qvqs0lfxuzmt7sz3909ze6camq9d4t35ennsep3hxfe7ln35cvfqgz3z8",
-			encoded: "kaspa:qq80qvqs0lfxuzmt7sz3909ze6camq9d4t35ennsep3hxfe7ln35cvfqgz3z8",
+			addr:    "rupix:qq80qvqs0lfxuzmt7sz3909ze6camq9d4t35ennsep3hxfe7ln35c0jgcuc95",
+			encoded: "rupix:qq80qvqs0lfxuzmt7sz3909ze6camq9d4t35ennsep3hxfe7ln35c0jgcuc95",
 			valid:   true,
 			result: util.TstAddressPubKey(
 				util.Bech32PrefixRupix,
@@ -78,8 +78,8 @@ func TestAddresses(t *testing.T) {
 		},
 		{
 			name:    "testnet p2pk",
-			addr:    "kaspatest:qputx94qseratdmjs0j395mq8u03er0x3l35ennsep3hxfe7ln35ckquw528z",
-			encoded: "kaspatest:qputx94qseratdmjs0j395mq8u03er0x3l35ennsep3hxfe7ln35ckquw528z",
+			addr:    "rupixtest:qputx94qseratdmjs0j395mq8u03er0x3l35ennsep3hxfe7ln35cjdedvwrw",
+			encoded: "rupixtest:qputx94qseratdmjs0j395mq8u03er0x3l35ennsep3hxfe7ln35cjdedvwrw",
 			valid:   true,
 			result: util.TstAddressPubKey(
 				util.Bech32PrefixRupixTest,
@@ -105,8 +105,8 @@ func TestAddresses(t *testing.T) {
 		// ECDSA P2PK tests.
 		{
 			name:    "mainnet ecdsa p2pk",
-			addr:    "kaspa:qyp0r5mcq4rd5grj3652ra09u5dcgwqq9ntuswp247nama5quyj40eq03sc2dkx",
-			encoded: "kaspa:qyp0r5mcq4rd5grj3652ra09u5dcgwqq9ntuswp247nama5quyj40eq03sc2dkx",
+			addr:    "rupix:qyp0r5mcq4rd5grj3652ra09u5dcgwqq9ntuswp247nama5quyj40eqq2wt4thp",
+			encoded: "rupix:qyp0r5mcq4rd5grj3652ra09u5dcgwqq9ntuswp247nama5quyj40eqq2wt4thp",
 			valid:   true,
 			result: util.TstAddressPubKeyECDSA(
 				util.Bech32PrefixRupix,
@@ -140,7 +140,7 @@ func TestAddresses(t *testing.T) {
 		},
 		{
 			name:           "p2pk bad checksum",
-			addr:           "kaspa:qr35ennsep3hxfe7lnz5ee7j5jgmkjswss74as46gx",
+			addr:           "rupix:qr35ennsep3hxfe7lnz5ee7j5jgmkjswss74as46gx",
 			valid:          false,
 			passedPrefix:   util.Bech32PrefixRupix,
 			expectedPrefix: util.Bech32PrefixRupix,
@@ -149,8 +149,8 @@ func TestAddresses(t *testing.T) {
 		// Positive P2SH tests.
 		{
 			name:    "mainnet p2sh",
-			addr:    "kaspa:prq20q4qd9ulr044cauyy9wtpeupqpjv67pn2vyc6acly7xqkrjdzmh8rj9f4",
-			encoded: "kaspa:prq20q4qd9ulr044cauyy9wtpeupqpjv67pn2vyc6acly7xqkrjdzmh8rj9f4",
+			addr:    "rupix:prq20q4qd9ulr044cauyy9wtpeupqpjv67pn2vyc6acly7xqkrjdzcv0nvvwx",
+			encoded: "rupix:prq20q4qd9ulr044cauyy9wtpeupqpjv67pn2vyc6acly7xqkrjdzcv0nvvwx",
 			valid:   true,
 			result: util.TstAddressScriptHash(
 				util.Bech32PrefixRupix,
@@ -190,8 +190,8 @@ func TestAddresses(t *testing.T) {
 		},
 		{
 			name:    "mainnet p2sh 2",
-			addr:    "kaspa:pr5vxqxg0xrwl2zvxlq9rxffqx00sm44kn5vxqxg0xrwl2zvxl5vxyhvsake2",
-			encoded: "kaspa:pr5vxqxg0xrwl2zvxlq9rxffqx00sm44kn5vxqxg0xrwl2zvxl5vxyhvsake2",
+			addr:    "rupix:pr5vxqxg0xrwl2zvxlq9rxffqx00sm44kn5vxqxg0xrwl2zvxl5vx8vyqrl7e",
+			encoded: "rupix:pr5vxqxg0xrwl2zvxlq9rxffqx00sm44kn5vxqxg0xrwl2zvxl5vx8vyqrl7e",
 			valid:   true,
 			result: util.TstAddressScriptHash(
 				util.Bech32PrefixRupix,
@@ -215,8 +215,8 @@ func TestAddresses(t *testing.T) {
 		},
 		{
 			name:    "testnet p2sh",
-			addr:    "kaspatest:przhjdpv93xfygpqtckdc2zkzuzqeyj2pt5vxqxg0xrwl2zvxl5vx35yyy2h9",
-			encoded: "kaspatest:przhjdpv93xfygpqtckdc2zkzuzqeyj2pt5vxqxg0xrwl2zvxl5vx35yyy2h9",
+			addr:    "rupixtest:przhjdpv93xfygpqtckdc2zkzuzqeyj2pt5vxqxg0xrwl2zvxl5vx4ep8uwnf",
+			encoded: "rupixtest:przhjdpv93xfygpqtckdc2zkzuzqeyj2pt5vxqxg0xrwl2zvxl5vx4ep8uwnf",
 			valid:   true,
 			result: util.TstAddressScriptHash(
 				util.Bech32PrefixRupixTest,
@@ -382,17 +382,17 @@ func TestDecodeAddressErrorConditions(t *testing.T) {
 			"decoded address's prefix could not be parsed",
 		},
 		{
-			"kaspasim:raskzctpv9skzctpv9skzctpv9skzctpvy37ct7zafpv9skzctpvymmnd3gh8",
+			"rupixsim:raskzctpv9skzctpv9skzctpv9skzctpvy37ct7zafpv9skzctpvyh52qac8g",
 			util.Bech32PrefixRupixSim,
 			"unknown address type",
 		},
 		{
-			"kaspasim:raskzcg58mth0an",
+			"rupixsim:raskzcguz77nsgd",
 			util.Bech32PrefixRupixSim,
 			"unknown address type",
 		},
 		{
-			"kaspatest:qqq65mvpxcmajeq44n2n8vfn6u9f8l4zsy0xez0tzw",
+			"rupixtest:qqq65mvpxcmajeq44n2n8vfn6u9f8l4zsy5w59s9uq",
 			util.Bech32PrefixRupix,
 			"decoded address is of wrong network",
 		},
@@ -415,9 +415,9 @@ func TestParsePrefix(t *testing.T) {
 		expectedPrefix util.Bech32Prefix
 		expectedError  bool
 	}{
-		{"kaspa", util.Bech32PrefixRupix, false},
-		{"kaspatest", util.Bech32PrefixRupixTest, false},
-		{"kaspasim", util.Bech32PrefixRupixSim, false},
+		{"rupix", util.Bech32PrefixRupix, false},
+		{"rupixtest", util.Bech32PrefixRupixTest, false},
+		{"rupixsim", util.Bech32PrefixRupixSim, false},
 		{"blabla", util.Bech32PrefixUnknown, true},
 		{"unknown", util.Bech32PrefixUnknown, true},
 		{"", util.Bech32PrefixUnknown, true},
@@ -442,9 +442,9 @@ func TestPrefixToString(t *testing.T) {
 		prefix            util.Bech32Prefix
 		expectedPrefixStr string
 	}{
-		{util.Bech32PrefixRupix, "kaspa"},
-		{util.Bech32PrefixRupixTest, "kaspatest"},
-		{util.Bech32PrefixRupixSim, "kaspasim"},
+		{util.Bech32PrefixRupix, "rupix"},
+		{util.Bech32PrefixRupixTest, "rupixtest"},
+		{util.Bech32PrefixRupixSim, "rupixsim"},
 		{util.Bech32PrefixUnknown, ""},
 	}
 
