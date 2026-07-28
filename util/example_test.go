@@ -12,17 +12,17 @@ import (
 func ExampleAmount() {
 
 	a := util.Amount(0)
-	fmt.Println("Zero Sompi:", a)
+	fmt.Println("Zero rupias:", a)
 
 	a = util.Amount(1e8)
-	fmt.Println("100,000,000 Sompi:", a)
+	fmt.Println("100,000,000 rupias:", a)
 
 	a = util.Amount(1e5)
-	fmt.Println("100,000 Sompi:", a)
+	fmt.Println("100,000 rupias:", a)
 	// Output:
-	// Zero Sompi: 0 KAS
-	// 100,000,000 Sompi: 1 KAS
-	// 100,000 Sompi: 0.001 KAS
+	// Zero rupias: 0 RUPIX
+	// 100,000,000 rupias: 1 RUPIX
+	// 100,000 rupias: 0.001 RUPIX
 }
 
 func ExampleNewAmount() {
@@ -54,27 +54,27 @@ func ExampleNewAmount() {
 	}
 	fmt.Println(amountNaN) //Output 4
 
-	// Output: 1 KAS
-	// 0.01234567 KAS
-	// 0 KAS
-	// invalid kaspa amount
+	// Output: 1 RUPIX
+	// 0.01234567 RUPIX
+	// 0 RUPIX
+	// invalid RUPIX amount
 }
 
 func ExampleAmount_unitConversions() {
 	amount := util.Amount(44433322211100)
 
-	fmt.Println("Sompi to kKAS:", amount.Format(util.AmountKiloKAS))
-	fmt.Println("Sompi to KAS:", amount)
-	fmt.Println("Sompi to MilliKAS:", amount.Format(util.AmountMilliKAS))
-	fmt.Println("Sompi to MicroKAS:", amount.Format(util.AmountMicroKAS))
-	fmt.Println("Sompi to Sompi:", amount.Format(util.AmountSompi))
+	fmt.Println("rupias to kRUPIX:", amount.Format(util.AmountKiloRupix))
+	fmt.Println("rupias to RUPIX:", amount)
+	fmt.Println("rupias to mRUPIX:", amount.Format(util.AmountMilliRupix))
+	fmt.Println("rupias to microRUPIX:", amount.Format(util.AmountMicroRupix))
+	fmt.Println("rupias to rupias:", amount.Format(util.AmountRupia))
 
 	// Output:
-	// Sompi to kKAS: 444.333222111 kKAS
-	// Sompi to KAS: 444333.222111 KAS
-	// Sompi to MilliKAS: 444333222.111 mKAS
-	// Sompi to MicroKAS: 444333222111 μKAS
-	// Sompi to Sompi: 44433322211100 Sompi
+	// rupias to kRUPIX: 444.333222111 kRUPIX
+	// rupias to RUPIX: 444333.222111 RUPIX
+	// rupias to mRUPIX: 444333222.111 mRUPIX
+	// rupias to microRUPIX: 444333222111 μRUPIX
+	// rupias to rupias: 44433322211100 rupia
 }
 
 // This example demonstrates how to convert the compact "bits" in a block header

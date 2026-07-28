@@ -3,7 +3,7 @@ package utils
 import "testing"
 
 // Takes in a string representation of the Kas value to convert to Sompi
-func TestKasToSompi(t *testing.T) {
+func TestRupixToRupia(t *testing.T) {
 	type testVector struct {
 		originalAmount  string
 		convertedAmount uint64
@@ -18,7 +18,7 @@ func TestKasToSompi(t *testing.T) {
 	}
 
 	for _, currentTestVector := range validCases {
-		convertedAmount, err := KasToSompi(currentTestVector.originalAmount)
+		convertedAmount, err := RupixToRupia(currentTestVector.originalAmount)
 
 		if err != nil {
 			t.Error(err)
@@ -35,7 +35,7 @@ func TestKasToSompi(t *testing.T) {
 	}
 
 	for _, currentTestVector := range invalidCases {
-		_, err := KasToSompi(currentTestVector)
+		_, err := RupixToRupia(currentTestVector)
 
 		if err == nil {
 			t.Errorf("Expected an error but succeeded validation for test case %s", currentTestVector)

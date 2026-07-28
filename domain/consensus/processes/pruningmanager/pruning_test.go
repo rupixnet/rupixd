@@ -36,10 +36,14 @@ func TestPruning(t *testing.T) {
 			dagconfig.SimnetParams.Name:  "1582",
 		},
 		"dag-for-test-pruning.json": {
+			// Los bloques 502 y 503 del JSON son gemelos (mismos 5 padres):
+			// empatan en blue work y la selected chain entre ellos se decide
+			// por hash (ghostdagmanager/compare.go). Upstream Kaspa ya tenia
+			// devnet en 502; con los hashes de Rupix, simnet tambien da 502.
 			dagconfig.MainnetParams.Name: "503",
 			dagconfig.TestnetParams.Name: "503",
 			dagconfig.DevnetParams.Name:  "502",
-			dagconfig.SimnetParams.Name:  "503",
+			dagconfig.SimnetParams.Name:  "502",
 		},
 	}
 

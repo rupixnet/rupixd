@@ -150,7 +150,7 @@ func TestIsTransactionOutputDust(t *testing.T) {
 		{
 			// Maximum allowed value is never dust.
 			"max sompi amount is never dust",
-			externalapi.DomainTransactionOutput{Value: constants.MaxSompi, ScriptPublicKey: scriptPublicKey},
+			externalapi.DomainTransactionOutput{Value: constants.MaxRupia, ScriptPublicKey: scriptPublicKey},
 			util.Amount(1000),
 			false,
 		},

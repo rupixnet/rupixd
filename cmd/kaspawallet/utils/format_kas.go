@@ -20,8 +20,8 @@ func FormatKas(amount uint64) string {
 	return res
 }
 
-// KasToSompi takes in a string representation of the Kas value to convert to Sompi
-func KasToSompi(amount string) (uint64, error) {
+// RupixToRupia takes in a string representation of the Kas value to convert to Sompi
+func RupixToRupia(amount string) (uint64, error) {
 	err := validateKASAmountFormat(amount)
 
 	if err != nil {

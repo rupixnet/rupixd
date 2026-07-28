@@ -76,9 +76,9 @@ func (v *transactionValidator) checkTransactionAmountRanges(tx *externalapi.Doma
 			return errors.Wrap(ruleerrors.ErrTxOutValueZero, "zero value outputs are forbidden")
 		}
 
-		if sompi > constants.MaxSompi {
+		if sompi > constants.MaxRupia {
 			return errors.Wrapf(ruleerrors.ErrBadTxOutValue, "transaction output value of %d is "+
-				"higher than max allowed value of %d", sompi, constants.MaxSompi)
+				"higher than max allowed value of %d", sompi, constants.MaxRupia)
 		}
 
 		// Binary arithmetic guarantees that any overflow is detected and reported.
@@ -88,14 +88,14 @@ func (v *transactionValidator) checkTransactionAmountRanges(tx *externalapi.Doma
 		if newTotalSompi < totalSompi {
 			return errors.Wrapf(ruleerrors.ErrBadTxOutValue, "total value of all transaction "+
 				"outputs exceeds max allowed value of %d",
-				constants.MaxSompi)
+				constants.MaxRupia)
 		}
 		totalSompi = newTotalSompi
-		if totalSompi > constants.MaxSompi {
+		if totalSompi > constants.MaxRupia {
 			return errors.Wrapf(ruleerrors.ErrBadTxOutValue, "total value of all transaction "+
 				"outputs is %d which is higher than max "+
 				"allowed value of %d", totalSompi,
-				constants.MaxSompi)
+				constants.MaxRupia)
 		}
 	}
 

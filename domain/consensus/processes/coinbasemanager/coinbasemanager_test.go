@@ -1,126 +1,90 @@
 package coinbasemanager
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
-	"github.com/rupixnet/rupixd/domain/dagconfig"
-	"strconv"
-	"testing"
+"testing"
+
+"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+"github.com/rupixnet/rupixd/domain/dagconfig"
 )
 
-func TestCalcDeflationaryPeriodBlockSubsidy(t *testing.T) {
-	const secondsPerMonth = 2629800
-	const secondsPerHalving = secondsPerMonth * 12
-	const deflationaryPhaseDaaScore = secondsPerMonth * 6
-	const deflationaryPhaseBaseSubsidy = 440 * constants.RupiaPerRupix
-	coinbaseManagerInterface := New(
-		nil,
-		0,
-		0,
-		0,
-		&externalapi.DomainHash{},
-		deflationaryPhaseDaaScore,
-		deflationaryPhaseBaseSubsidy,
-		nil,
-		nil,
-		nil,
-		nil,
-		nil,
-		nil,
-		nil)
-	coinbaseManagerInstance := coinbaseManagerInterface.(*coinbaseManager)
+// baseSubsidy es la emision por bloque al inicio: 0.5 RUPIX
+const baseSubsidy = 50_000_000
 
-	tests := []struct {
-		name                 string
-		blockDaaScore        uint64
-		expectedBlockSubsidy uint64
-	}{
-		{
-			name:                 "start of deflationary phase",
-			blockDaaScore:        deflationaryPhaseDaaScore,
-			expectedBlockSubsidy: deflationaryPhaseBaseSubsidy,
-		},
-		{
-			name:                 "after one halving",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving,
-			expectedBlockSubsidy: deflationaryPhaseBaseSubsidy / 2,
-		},
-		{
-			name:                 "after two halvings",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving*2,
-			expectedBlockSubsidy: deflationaryPhaseBaseSubsidy / 4,
-		},
-		{
-			name:                 "after five halvings",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving*5,
-			expectedBlockSubsidy: deflationaryPhaseBaseSubsidy / 32,
-		},
-		{
-			name:                 "after 32 halvings",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving*32,
-			expectedBlockSubsidy: deflationaryPhaseBaseSubsidy / 4294967296,
-		},
-		{
-			name:                 "just before subsidy depleted",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving*35,
-			expectedBlockSubsidy: 1,
-		},
-		{
-			name:                 "after subsidy depleted",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving*36,
-			expectedBlockSubsidy: 0,
-		},
-	}
-
-	for _, test := range tests {
-		blockSubsidy := coinbaseManagerInstance.calcDeflationaryPeriodBlockSubsidy(test.blockDaaScore)
-		if blockSubsidy != test.expectedBlockSubsidy {
-			t.Errorf("TestCalcDeflationaryPeriodBlockSubsidy: test '%s' failed. Want: %d, got: %d",
-				test.name, test.expectedBlockSubsidy, blockSubsidy)
-		}
-	}
+func newTestCoinbaseManager(deflationaryPhaseDaaScore, baseSub uint64) *coinbaseManager {
+iface := New(nil, 0, 0, 0, &externalapi.DomainHash{},
+deflationaryPhaseDaaScore, baseSub,
+nil, nil, nil, nil, nil, nil, nil)
+return iface.(*coinbaseManager)
 }
 
-func TestBuildSubsidyTable(t *testing.T) {
-	deflationaryPhaseBaseSubsidy := dagconfig.MainnetParams.DeflationaryPhaseBaseSubsidy
-	if deflationaryPhaseBaseSubsidy != 440*constants.RupiaPerRupix {
-		t.Errorf("TestBuildSubsidyTable: table generation function was not updated to reflect "+
-			"the new base subsidy %d. Please fix the constant above and replace subsidyByDeflationaryMonthTable "+
-			"in coinbasemanager.go with the printed table", deflationaryPhaseBaseSubsidy)
-	}
-	coinbaseManagerInterface := New(
-		nil,
-		0,
-		0,
-		0,
-		&externalapi.DomainHash{},
-		0,
-		deflationaryPhaseBaseSubsidy,
-		nil,
-		nil,
-		nil,
-		nil,
-		nil,
-		nil,
-		nil)
-	coinbaseManagerInstance := coinbaseManagerInterface.(*coinbaseManager)
+func TestCalcDeflationaryPeriodBlockSubsidy(t *testing.T) {
+cbm := newTestCoinbaseManager(0, baseSubsidy)
 
-	var subsidyTable []uint64
-	for M := uint64(0); ; M++ {
-		subsidy := coinbaseManagerInstance.calcDeflationaryPeriodBlockSubsidyFloatCalc(M)
-		subsidyTable = append(subsidyTable, subsidy)
-		if subsidy == 0 {
-			break
-		}
-	}
+tests := []struct {
+name          string
+blockDaaScore uint64
+expected      uint64
+}{
+{"bloque 1", 1, baseSubsidy},
+{"ultimo bloque antes del primer halving", blocksPerHalving - 1, baseSubsidy},
+{"primer halving", blocksPerHalving, baseSubsidy / 2},
+{"segundo halving", blocksPerHalving * 2, baseSubsidy / 4},
+{"quinto halving", blocksPerHalving * 5, baseSubsidy / 32},
+{"halving 25 - ultimo con emision", blocksPerHalving * 25, 1},
+{"halving 26 - emision agotada", blocksPerHalving * 26, 0},
+{"halving 64 - guarda contra overflow", blocksPerHalving * 64, 0},
+{"halving 100 - muy despues del final", blocksPerHalving * 100, 0},
+}
 
-	tableStr := "\n{\t"
-	for i := 0; i < len(subsidyTable); i++ {
-		tableStr += strconv.FormatUint(subsidyTable[i], 10) + ", "
-		if (i+1)%25 == 0 {
-			tableStr += "\n\t"
-		}
-	}
-	tableStr += "\n}"
-	t.Logf(tableStr)
+for _, test := range tests {
+got := cbm.calcDeflationaryPeriodBlockSubsidy(test.blockDaaScore)
+if got != test.expected {
+t.Errorf("%s: esperado %d, obtenido %d", test.name, test.expected, got)
+}
+}
+}
+
+// TestTotalSupply verifica la emision total de Rupix sumando cada periodo
+// de halving. Este test es la prueba verificable de la tokenomics.
+func TestTotalSupply(t *testing.T) {
+var total uint64
+for halving := uint64(0); halving < 64; halving++ {
+subsidy := uint64(baseSubsidy) >> halving
+if subsidy == 0 {
+break
+}
+total += subsidy * blocksPerHalving
+}
+
+if total > constants.MaxRupia {
+t.Errorf("la emision total (%d rupias) supera MaxRupia (%d)", total, constants.MaxRupia)
+}
+
+const esperado = 4_199_999_496_000_000 // 41,999,994.96 RUPIX
+if total != esperado {
+t.Errorf("emision total: esperado %d rupias, obtenido %d", esperado, total)
+}
+
+t.Logf("Emision total Rupix: %d rupias = %.2f RUPIX",
+total, float64(total)/float64(constants.RupiaPerRupix))
+t.Logf("MaxRupia (techo):    %d rupias = %.2f RUPIX",
+constants.MaxRupia, float64(constants.MaxRupia)/float64(constants.RupiaPerRupix))
+}
+
+// TestNoPremine verifica que el bloque genesis no emite nada.
+// PENDIENTE 1.F: el genesis actual es el de Kaspa hardcodeado con 1 unidad.
+// Al regenerar el genesis Rupix en 1.F, SubsidyGenesisReward vuelve a 0
+// y este skip se elimina.
+func TestNoPremine(t *testing.T) {
+t.Skip("pendiente SUB-FASE 1.F: regenerar genesis Rupix con reward 0")
+for _, params := range []*dagconfig.Params{
+&dagconfig.MainnetParams, &dagconfig.TestnetParams,
+&dagconfig.SimnetParams, &dagconfig.DevnetParams,
+} {
+if params.SubsidyGenesisReward != 0 {
+t.Errorf("%s: el genesis emite %d rupias, debe ser 0 (sin premine)",
+params.Name, params.SubsidyGenesisReward)
+}
+}
 }

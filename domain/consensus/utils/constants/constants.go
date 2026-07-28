@@ -12,11 +12,11 @@ const (
 	// MaxScriptPublicKeyVersion is the current latest supported public key script version.
 	MaxScriptPublicKeyVersion uint16 = 0
 
-	// RupiaPerRupix is the number of sompi in one kaspa (1 KAS).
+	// RupiaPerRupix is the number of rupias in one RUPIX (1 RUPIX).
 	RupiaPerRupix = 100_000_000
 
-	// MaxSompi is the maximum transaction amount allowed in sompi.
-	MaxSompi = uint64(29_000_000_000 * RupiaPerRupix)
+	// MaxRupia is the maximum transaction amount allowed in sompi.
+	MaxRupia = uint64(42_000_000 * RupiaPerRupix)
 
 	// MaxTxInSequenceNum is the maximum sequence number the sequence field
 	// of a transaction input can be.

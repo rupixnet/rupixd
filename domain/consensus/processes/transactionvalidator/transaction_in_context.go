@@ -173,11 +173,11 @@ func (v *transactionValidator) checkEntryAmounts(entry externalapi.UTXOEntry, to
 	originTxSompi := entry.Amount()
 	totalSompiInAfter = totalSompiInBefore + originTxSompi
 	if totalSompiInAfter < totalSompiInBefore ||
-		totalSompiInAfter > constants.MaxSompi {
+		totalSompiInAfter > constants.MaxRupia {
 		return 0, errors.Wrapf(ruleerrors.ErrBadTxOutValue, "total value of all transaction "+
 			"inputs is %d which is higher than max "+
 			"allowed value of %d", totalSompiInBefore,
-			constants.MaxSompi)
+			constants.MaxRupia)
 	}
 	return totalSompiInAfter, nil
 }

@@ -28,9 +28,9 @@ func TestAmountCreation(t *testing.T) {
 		},
 		{
 			name:     "max producible",
-			amount:   29e9,
+			amount:   42e6,
 			valid:    true,
-			expected: Amount(constants.MaxSompi),
+			expected: Amount(constants.MaxRupia),
 		},
 		{
 			name:     "one hundred",
@@ -102,48 +102,48 @@ func TestAmountUnitConversions(t *testing.T) {
 		s         string
 	}{
 		{
-			name:      "MKAS",
-			amount:    Amount(constants.MaxSompi),
-			unit:      AmountMegaKAS,
-			converted: 29000,
-			s:         "29000 MKAS",
+			name:      "MRUPIX",
+			amount:    Amount(constants.MaxRupia),
+			unit:      AmountMegaRupix,
+			converted: 42,
+			s:         "42 MRUPIX",
 		},
 		{
-			name:      "kKAS",
+			name:      "kRUPIX",
 			amount:    44433322211100,
-			unit:      AmountKiloKAS,
+			unit:      AmountKiloRupix,
 			converted: 444.33322211100,
-			s:         "444.333222111 kKAS",
+			s:         "444.333222111 kRUPIX",
 		},
 		{
-			name:      "KAS",
+			name:      "RUPIX",
 			amount:    44433322211100,
-			unit:      AmountKAS,
+			unit:      AmountRupix,
 			converted: 444333.22211100,
-			s:         "444333.222111 KAS",
+			s:         "444333.222111 RUPIX",
 		},
 		{
-			name:      "mKAS",
+			name:      "mRUPIX",
 			amount:    44433322211100,
-			unit:      AmountMilliKAS,
+			unit:      AmountMilliRupix,
 			converted: 444333222.11100,
-			s:         "444333222.111 mKAS",
+			s:         "444333222.111 mRUPIX",
 		},
 		{
 
-			name:      "μKAS",
+			name:      "μRUPIX",
 			amount:    44433322211100,
-			unit:      AmountMicroKAS,
+			unit:      AmountMicroRupix,
 			converted: 444333222111.00,
-			s:         "444333222111 μKAS",
+			s:         "444333222111 μRUPIX",
 		},
 		{
 
-			name:      "sompi",
+			name:      "rupia",
 			amount:    44433322211100,
-			unit:      AmountSompi,
+			unit:      AmountRupia,
 			converted: 44433322211100,
-			s:         "44433322211100 Sompi",
+			s:         "44433322211100 rupia",
 		},
 		{
 
@@ -151,7 +151,7 @@ func TestAmountUnitConversions(t *testing.T) {
 			amount:    44433322211100,
 			unit:      AmountUnit(-1),
 			converted: 4443332.2211100,
-			s:         "4443332.22111 1e-1 KAS",
+			s:         "4443332.22111 1e-1 RUPIX",
 		},
 	}
 
@@ -168,18 +168,18 @@ func TestAmountUnitConversions(t *testing.T) {
 			continue
 		}
 
-		// Verify that Amount.ToKAS works as advertised.
-		f1 := test.amount.ToUnit(AmountKAS)
-		f2 := test.amount.ToKAS()
+		// Verify that Amount.ToRupix works as advertised.
+		f1 := test.amount.ToUnit(AmountRupix)
+		f2 := test.amount.ToRupix()
 		if f1 != f2 {
-			t.Errorf("%v: ToKAS does not match ToUnit(AmountKAS): %v != %v", test.name, f1, f2)
+			t.Errorf("%v: ToRupix does not match ToUnit(AmountRupix): %v != %v", test.name, f1, f2)
 		}
 
 		// Verify that Amount.String works as advertised.
-		s1 := test.amount.Format(AmountKAS)
+		s1 := test.amount.Format(AmountRupix)
 		s2 := test.amount.String()
 		if s1 != s2 {
-			t.Errorf("%v: String does not match Format(AmountKAS): %v != %v", test.name, s1, s2)
+			t.Errorf("%v: String does not match Format(AmountRupix): %v != %v", test.name, s1, s2)
 		}
 	}
 }

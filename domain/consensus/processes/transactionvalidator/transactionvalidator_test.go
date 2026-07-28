@@ -103,7 +103,7 @@ func TestValidateTransactionInContextAndPopulateFee(t *testing.T) {
 			Sequence:         constants.MaxTxInSequenceNum,
 			SigOpCount:       1,
 			UTXOEntry: utxo.NewUTXOEntry(
-				constants.MaxSompi+1,
+				constants.MaxRupia+1,
 				scriptPublicKey,
 				false,
 				0),
@@ -226,7 +226,7 @@ func TestValidateTransactionInContextAndPopulateFee(t *testing.T) {
 				isValid:       true,
 				expectedError: nil,
 			},
-			{ // The total inputs amount is bigger than the allowed maximum (constants.MaxSompi)
+			{ // The total inputs amount is bigger than the allowed maximum (constants.MaxRupia)
 				name:          "checkTransactionInputAmounts - invalid - after HF",
 				tx:            &txWithInvalidAmount,
 				povBlockHash:  povBlockHash,

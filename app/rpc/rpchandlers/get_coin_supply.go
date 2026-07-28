@@ -21,7 +21,7 @@ func HandleGetCoinSupply(context *rpccontext.Context, _ *router.Router, _ appmes
 	}
 
 	response := appmessage.NewGetCoinSupplyResponseMessage(
-		constants.MaxSompi,
+		constants.MaxRupia,
 		circulatingSompiSupply,
 	)
 
