@@ -1,73 +1,125 @@
-# DEPRECATED
+# Rupix
 
-The full node reference implementation was [rewritten in Rust](https://github.com/kaspanet/rusty-kaspa), as a result, the Go implementation is now deprecated.
+**Una blockchain L1 con escasez progresiva en 5 niveles.**
 
-PLEASE NOTE: Any pull requests or issues that will be opened in this repository will be closed without treatment, except for issues or pull requests related to the kaspawallet, which remains maintained. In any other case, please use the [Rust implementation](https://github.com/kaspanet/rusty-kaspa) instead.
+Supply máximo: 42,000,000 RUPIX. Sin pre-mine. Sin reserva de fundador. Sin atajos.
 
-# Kaspad
+[rupix.network](https://rupix.network) | [Código](https://github.com/rupixnet/rupixd) | [Changelog](./CHANGELOG.md)
 
-[![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](https://choosealicense.com/licenses/isc/)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/kaspanet/kaspad)
+---
 
-Kaspad was the reference full node Kaspa implementation written in Go (golang).
+## Qué es Rupix
 
-## What is kaspa
+Rupix es una blockchain Layer 1 con consenso Proof of Work sobre un BlockDAG (no una cadena lineal). Está construida sobre la arquitectura GHOSTDAG, el protocolo de consenso desarrollado por el equipo de investigación de DAGLabs y publicado en código abierto bajo licencia ISC. Reconocemos y agradecemos ese trabajo: sin esa base, Rupix no existiría.
 
-Kaspa is an attempt at a proof-of-work cryptocurrency with instant confirmations and sub-second block times. It is based on [the PHANTOM protocol](https://eprint.iacr.org/2018/104.pdf), a generalization of Nakamoto consensus.
+Lo que Rupix añade encima:
 
-## Requirements
+- **Modelo económico propio de 5 niveles** con quema permanente para acceder a cada nivel superior
+- **Supply absoluto de 42,000,000 RUPIX**, sellado en el protocolo
+- **Tokenomics deflacionaria**: cada transacción destruye tokens permanentemente
+- **Genesis sin pre-mine**: el primer RUPIX se mineó después del bloque 0, como Bitcoin
+- **Identidad propia**: parámetros de red, prefijos de dirección, denominaciones y reglas económicas únicas
 
-Go 1.23 or later.
+## Por qué creemos en el trilema
 
-## Installation
+El trilema de blockchain plantea que cualquier red distribuida tiene que elegir entre descentralización, seguridad y escalabilidad, y solo puede tener dos al mismo tiempo.
 
-#### Build from Source
+Rupix se construye sobre la premisa de que un BlockDAG con Proof of Work permite empujar las tres al mismo tiempo más lejos que las arquitecturas tradicionales. No decimos que el trilema esté resuelto: decimos que estamos empujándolo en una dirección que respeta los tres principios.
 
-- Install Go according to the installation instructions here:
-  http://golang.org/doc/install
+- **Descentralización**: PoW sin pre-mine, código abierto, sin gobernanza centralizada, anyone-can-mine
+- **Seguridad**: validación criptográfica completa, sin atajos, sin trusted parties
+- **Escalabilidad**: BlockDAG permite múltiples bloques paralelos sin perder consistencia
 
-- Ensure Go was installed properly and is a supported version:
+## Los 5 niveles de escasez
 
-```bash
-$ go version
-```
+| Nivel | Nombre | Supply máximo | Cómo se obtiene |
+|-------|--------|---------------|-----------------|
+| L1 | Rupix Gold | 42,000,000 | Minando |
+| L2 | Rupix Diamante | 2,100,000 | Quemar 10 Gold |
+| L3 | Rupix Platino | 210,000 | Quemar 10 Diamante |
+| L4 | Rupix Rodio | 21,000 | Quemar 10 Platino |
+| L5 | Kings Rupix | 2,100 | Quemar 10 Rodio |
 
-- Run the following commands to obtain and install kaspad including all dependencies:
+Cada nivel se obtiene quemando 10 unidades del anterior. Llenar el supply completo de Kings implicaría destruir 21 millones de Gold — la mitad de todo el que existirá jamás. Para crear 1 Kings Rupix hay que haber destruido 10,000 Gold a lo largo de toda la cadena. La quema es irreversible y queda registrada en la blockchain para siempre. Nadie puede revertirla, ni los fundadores, ni los mineros, ni ningún acuerdo social futuro.
 
-```bash
-$ git clone https://github.com/kaspanet/kaspad
-$ cd kaspad
-$ go install . ./cmd/...
-```
+## Deflación permanente
 
-- Kaspad (and utilities) should now be installed in `$(go env GOPATH)/bin`. If you did
-  not already add the bin directory to your system path during Go installation,
-  you are encouraged to do so now.
+Por diseño (implementación en desarrollo), cada transacción de Rupix destruirá una pequeña cantidad de tokens:
 
-## Getting Started
+    burn = 1,000 rupias + (bytes_de_la_tx * 10 rupias)
 
-Kaspad has several configuration options available to tweak how it runs, but all
-of the basic operations work with zero configuration.
+Donde 1 RUPIX = 100,000,000 rupias.
 
-```bash
-$ kaspad
-```
+Estos tokens no van a un fondo, no van al minero, no van a nadie. Desaparecen. El supply total solo puede bajar.
 
-## Discord
+## Estado actual
 
-Join our discord server using the following link: https://discord.gg/YNYnNN5Pf2
+Rupix está en desarrollo activo. Trabajamos en público y documentamos cada avance verificable en [CHANGELOG.md](./CHANGELOG.md).
 
-## Issue Tracker
+**Lo que funciona hoy:**
+- Red de testnet operativa con nodo semilla
+- Minado funcional con rupixminer
+- Sincronización inicial (IBD) sin nil pointer crashes (corregido en v0.2.1)
+- Sistema de 5 niveles implementado a nivel de protocolo
+- Tipo de transacción TxTypeBurn para transiciones de nivel
 
-The [integrated github issue tracker](https://github.com/kaspanet/kaspad/issues)
-is used for this project.
+**Lo que estamos arreglando:**
+- Parámetros de pruning del testnet (FIX-002 en curso)
+- Revisión de parches inseguros heredados durante desarrollo inicial
+- Calibración del sistema de burn entre niveles
 
-Issue priorities may be seen at https://github.com/orgs/kaspanet/projects/4
+**Lo que falta antes de mainnet:**
+- Testnet pública estable y sincronizable por cualquier usuario
+- Auditoría externa del código de consenso
+- Infraestructura redundante (múltiples nodos semilla)
+- Block explorer público
+- Hashrate inicial comprometido
 
-## Documentation
+Fecha de mainnet: la anunciaremos cuando el código esté listo, no antes. Preferimos lanzar tarde y bien que pronto y comprometidos.
 
-The [documentation](https://github.com/kaspanet/docs) is a work-in-progress
+## Cómo correr un nodo
 
-## License
+Requisitos: Go 1.21+, 4 GB RAM, 50 GB de disco.
 
-Kaspad is licensed under the copyfree [ISC License](https://choosealicense.com/licenses/isc/).
+    git clone https://github.com/rupixnet/rupixd.git
+    cd rupixd
+    go build -o rupixd .
+    go build -o rupixminer ./cmd/rupixminer
+    go build -o rupixctl ./cmd/rupixctl
+
+Conectarte al testnet:
+
+    ./rupixd --testnet --utxoindex
+
+Verificar el supply (que coincida con lo prometido):
+
+    ./rupixctl --testnet GetCoinSupply
+
+Resultado esperado: maxRupia: 4200000000000000 — son exactamente 42,000,000 RUPIX.
+
+## Verificabilidad
+
+Todo en Rupix se puede verificar leyendo el código. No confíes en nosotros, verifica:
+
+- Que no hay pre-mine: revisa domain/dagconfig/genesis.go
+- Que el supply está sellado en 42M: revisa domain/consensus/utils/constants/constants.go
+- Que el sistema de niveles existe: revisa domain/consensus/processes/burnmanager/
+- Que PoW no se puede desactivar en ninguna red: corre go test ./domain/dagconfig/... -run TestSkipProofOfWork
+
+## Filosofía
+
+Rupix no es un fork por novedad ni por hype. Es una arquitectura económica nueva sobre un motor de consenso probado. Tomamos lo que ya estaba bien hecho (el motor GHOSTDAG) y construimos encima una propuesta económica original que apuesta por la escasez verificable y la honestidad radical.
+
+Quien fundó Rupix mina desde el bloque 0, como cualquiera. No hay direcciones privilegiadas, no hay sales, no hay rondas. La única ventaja del que llega temprano es haber estado despierto cuando arrancó la red.
+
+## Licencia
+
+ISC - Rupix developers, 2026.
+
+## Reconocimientos
+
+A los investigadores y desarrolladores que crearon y publicaron GHOSTDAG bajo licencia abierta. Su trabajo permite que proyectos como Rupix existan.
+
+---
+
+*No confíes, verifica.*
