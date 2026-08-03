@@ -41,9 +41,9 @@ func TestPruning(t *testing.T) {
 			// por hash (ghostdagmanager/compare.go). Upstream Kaspa ya tenia
 			// devnet en 502; con los hashes de Rupix, simnet tambien da 502.
 			dagconfig.MainnetParams.Name: "503",
-			dagconfig.TestnetParams.Name: "503",
+			dagconfig.TestnetParams.Name: "502",
 			dagconfig.DevnetParams.Name:  "502",
-			dagconfig.SimnetParams.Name:  "502",
+			dagconfig.SimnetParams.Name:  "503",
 		},
 	}
 

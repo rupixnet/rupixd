@@ -1,7 +1,6 @@
 package dagconfig
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"time"
 )
 
@@ -48,7 +47,7 @@ const (
 	// in block take longer)
 	defaultMergeSetSizeLimit                       = defaultGHOSTDAGK * 10
 	// Rupix: sin premine. El bloque genesis no emite nada.
-	defaultSubsidyGenesisReward                    = 1 * constants.RupiaPerRupix
+	defaultSubsidyGenesisReward                    = 0 // CERO PREMINE: el genesis no emite nada
 	// Rupix: no hay fase pre-deflacionaria privilegiada.
 	defaultPreDeflationaryPhaseBaseSubsidy         = 50_000_000
 	// Rupix: 0.5 RUPIX por bloque desde el bloque 1.

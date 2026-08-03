@@ -73,11 +73,7 @@ constants.MaxRupia, float64(constants.MaxRupia)/float64(constants.RupiaPerRupix)
 }
 
 // TestNoPremine verifica que el bloque genesis no emite nada.
-// PENDIENTE 1.F: el genesis actual es el de Kaspa hardcodeado con 1 unidad.
-// Al regenerar el genesis Rupix en 1.F, SubsidyGenesisReward vuelve a 0
-// y este skip se elimina.
 func TestNoPremine(t *testing.T) {
-t.Skip("pendiente SUB-FASE 1.F: regenerar genesis Rupix con reward 0")
 for _, params := range []*dagconfig.Params{
 &dagconfig.MainnetParams, &dagconfig.TestnetParams,
 &dagconfig.SimnetParams, &dagconfig.DevnetParams,
