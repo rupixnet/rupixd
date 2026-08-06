@@ -27,14 +27,14 @@ blockDaaScore uint64
 expected      uint64
 }{
 {"bloque 1", 1, baseSubsidy},
-{"ultimo bloque antes del primer halving", blocksPerHalving - 1, baseSubsidy},
-{"primer halving", blocksPerHalving, baseSubsidy / 2},
-{"segundo halving", blocksPerHalving * 2, baseSubsidy / 4},
-{"quinto halving", blocksPerHalving * 5, baseSubsidy / 32},
-{"halving 25 - ultimo con emision", blocksPerHalving * 25, 1},
-{"halving 26 - emision agotada", blocksPerHalving * 26, 0},
-{"halving 64 - guarda contra overflow", blocksPerHalving * 64, 0},
-{"halving 100 - muy despues del final", blocksPerHalving * 100, 0},
+{"ultimo bloque antes del primer halving", constants.BlocksPerHalving - 1, baseSubsidy},
+{"primer halving", constants.BlocksPerHalving, baseSubsidy / 2},
+{"segundo halving", constants.BlocksPerHalving * 2, baseSubsidy / 4},
+{"quinto halving", constants.BlocksPerHalving * 5, baseSubsidy / 32},
+{"halving 25 - ultimo con emision", constants.BlocksPerHalving * 25, 1},
+{"halving 26 - emision agotada", constants.BlocksPerHalving * 26, 0},
+{"halving 64 - guarda contra overflow", constants.BlocksPerHalving * 64, 0},
+{"halving 100 - muy despues del final", constants.BlocksPerHalving * 100, 0},
 }
 
 for _, test := range tests {
@@ -54,7 +54,7 @@ subsidy := uint64(baseSubsidy) >> halving
 if subsidy == 0 {
 break
 }
-total += subsidy * blocksPerHalving
+total += subsidy * constants.BlocksPerHalving
 }
 
 if total > constants.MaxRupia {

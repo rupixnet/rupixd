@@ -5,6 +5,7 @@ import (
 	"os"
 	"sync"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/blockwindowheapslicestore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/daawindowstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/mergedepthrootstore"
@@ -13,7 +14,6 @@ import (
 	parentssanager "github.com/rupixnet/rupixd/domain/consensus/processes/parentsmanager"
 	"github.com/rupixnet/rupixd/domain/consensus/processes/pruningproofmanager"
 	"github.com/rupixnet/rupixd/util/staging"
-	"github.com/pkg/errors"
 
 	"github.com/rupixnet/rupixd/domain/prefixmanager/prefix"
 	"github.com/rupixnet/rupixd/util/txmass"
@@ -53,6 +53,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/processes/reachabilitymanager"
 	"github.com/rupixnet/rupixd/domain/consensus/processes/syncmanager"
 	"github.com/rupixnet/rupixd/domain/consensus/processes/transactionvalidator"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
 	infrastructuredatabase "github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/infrastructure/db/database/ldb"
@@ -222,7 +223,8 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		pastMedianTimeManager,
 		ghostdagDataStore,
 		daaBlocksStore,
-		txMassCalculator)
+		txMassCalculator,
+		constants.BlocksPerHalving)
 	difficultyManager := f.difficultyConstructor(
 		dbManager,
 		ghostdagManager,

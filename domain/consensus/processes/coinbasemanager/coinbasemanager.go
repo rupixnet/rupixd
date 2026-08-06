@@ -192,17 +192,16 @@ func (c *coinbaseManager) CalcBlockSubsidy(stagingArea *model.StagingArea, block
 	return blockSubsidy, nil
 }
 
-// blocksPerHalving es el numero de bloques entre cada halving.
+
 // Rupix: 42,000,000 bloques (~15.97 meses a 1 bloque/segundo).
 //
 // Emision total = 0.5 RUPIX * 42,000,000 * 2 = 42,000,000 RUPIX teoricos.
 // El valor real es 41,999,994.96 RUPIX por truncamiento entero en los
 // ultimos halvings, igual que ocurre en Bitcoin. Verificable con
 // TestTotalSupply en coinbasemanager_test.go.
-const blocksPerHalving = 42_000_000
 
 func (c *coinbaseManager) calcDeflationaryPeriodBlockSubsidy(blockDaaScore uint64) uint64 {
-	halvings := (blockDaaScore - c.deflationaryPhaseDaaScore) / blocksPerHalving
+	halvings := (blockDaaScore - c.deflationaryPhaseDaaScore) / constants.BlocksPerHalving
 	if halvings >= 64 {
 		return 0
 	}

@@ -18,6 +18,10 @@ const (
 	// MaxRupia is the maximum transaction amount allowed in sompi.
 	MaxRupia = uint64(42_000_000 * RupiaPerRupix)
 
+	// BlocksPerHalving es el numero de bloques entre cada halving (~16 meses
+	// a 1 bloque/seg). Define la emision Y el calendario de desbloqueo de niveles.
+	BlocksPerHalving = uint64(42_000_000)
+
 	// MaxTxInSequenceNum is the maximum sequence number the sequence field
 	// of a transaction input can be.
 	MaxTxInSequenceNum uint64 = math.MaxUint64
