@@ -35,6 +35,22 @@ func (v *transactionValidator) checkLevelRules(tx *externalapi.DomainTransaction
 	outputsPorNivel := make(map[uint16]int)
 	for _, output := range tx.Outputs {
 		ver := output.ScriptPublicKey.Version
+		// Una gema jamas puede ir a un script imposible de gastar: seria una tumba
+		// que el UTXO set excluye — destruccion disfrazada de creacion. Solo el Gold se quema.
+		if ver >= constants.LevelDiamante && txscript.IsUnspendable(output.ScriptPublicKey.Script) {
+			return errors.Wrapf(ruleerrors.ErrBadTxOutValue,
+				"output de gema (nivel %d) con script imposible de gastar: las gemas no se queman a la nada", ver)
+		}
+		// No existen niveles mas alla de Kings: un output Version > 4 no es gema ni Gold.
+		if ver > constants.LevelKings {
+			return errors.Wrapf(ruleerrors.ErrBadTxOutValue,
+				"output con nivel %d: no existe (max %d, Kings)", ver, constants.LevelKings)
+		}
+		// La coinbase solo emite Gold: la recompensa del minero jamas es una gema.
+		if isCoinbase && ver != constants.LevelGold {
+			return errors.Wrapf(ruleerrors.ErrBadTxOutValue,
+				"la coinbase emite un output de nivel %d: la recompensa solo puede ser Gold", ver)
+		}
 		outputsPorNivel[ver]++
 		if ver >= constants.LevelDiamante && output.Value != constants.GemAmount {
 			return errors.Wrapf(ruleerrors.ErrBadTxOutValue,

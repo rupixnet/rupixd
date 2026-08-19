@@ -37,7 +37,11 @@ func (csm *consensusStateManager) calculateKingsCount(stagingArea *model.Staging
 			tx := transactionAcceptanceData.Transaction
 			for _, input := range tx.Inputs {
 				if input.UTXOEntry.ScriptPublicKey().Version == constants.LevelKings {
-					count-- // un King quemado (o gastado hacia... nada: los Kings solo se transfieren)
+					if count == 0 {
+						return 0, errors.Wrapf(ruleerrors.ErrKingsCapExceeded,
+							"el bloque %s gasta un King que el conteo del padre no registra (underflow)", blockHash)
+					}
+					count--
 				}
 			}
 			for _, output := range tx.Outputs {

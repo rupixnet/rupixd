@@ -128,6 +128,33 @@ func TestLevelRules(t *testing.T) {
 		}
 	})
 
+	t.Run("ataque: gema a OpReturn (destruccion disfrazada de ascenso)", func(t *testing.T) {
+		// 10 diamantes entran, "nace" un platino... con script OpReturn: una tumba.
+		// El UTXO set lo excluiria: los 10 diamantes desaparecen sin que nazca nada.
+		in := append(gems(constants.LevelDiamante, 10), gemInput(0, 200_000))
+		tumba := &externalapi.DomainTransactionOutput{Value: 1,
+			ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{0x6a}, Version: constants.LevelPlatino}}
+		tx := makeTx(in, []*externalapi.DomainTransactionOutput{tumba, burnOutput(txBurn)})
+		if err := v.checkLevelRules(tx, abierto, false); err == nil {
+			t.Fatal("gema hacia OpReturn ACEPTADA — destruccion disfrazada de ascenso")
+		}
+	})
+
+	t.Run("ataque: nivel fantasma (Version 99)", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(0, 500_000)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(99, 1), burnOutput(txBurn)})
+		if err := v.checkLevelRules(tx, abierto, false); err == nil {
+			t.Fatal("output Version 99 ACEPTADO — no existe ese nivel")
+		}
+	})
+	t.Run("ataque: la coinbase se regala un King", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{},
+			[]*externalapi.DomainTransactionOutput{gemOutput(0, 50_000_000), gemOutput(constants.LevelKings, 1)})
+		if err := v.checkLevelRules(tx, abierto, true); err == nil {
+			t.Fatal("coinbase con un King ACEPTADA — la recompensa solo es Gold")
+		}
+	})
+
 	// ===== LA PUERTA: GOLD -> DIAMANTE =====
 	diez := uint64(10 * constants.RupiaPerRupix)
 	t.Run("ascenso valido: quema 10 gold -> 1 diamante (con cambio)", func(t *testing.T) {
