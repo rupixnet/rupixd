@@ -9,10 +9,10 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/utils/merkle"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
-	"github.com/pkg/errors"
 )
 
 func (csm *consensusStateManager) verifyUTXO(stagingArea *model.StagingArea, block *externalapi.DomainBlock,

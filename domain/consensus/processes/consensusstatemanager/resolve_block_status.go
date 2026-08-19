@@ -5,11 +5,11 @@ import (
 
 	"github.com/rupixnet/rupixd/util/staging"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
-	"github.com/pkg/errors"
 )
 
 func (csm *consensusStateManager) resolveBlockStatus(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash,

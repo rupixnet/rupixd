@@ -68,6 +68,11 @@ func addTransactionToMultiset(multiset model.Multiset, transaction *externalapi.
 	}
 
 	for i, output := range transaction.Outputs {
+		// Rupix: las quemas (OpReturn) no entran al UTXO set, asi que tampoco
+		// al multiset — inventario y commitment deben ser el mismo conjunto.
+		if len(output.ScriptPublicKey.Script) > 0 && output.ScriptPublicKey.Script[0] == 0x6a {
+			continue
+		}
 		outpoint := &externalapi.DomainOutpoint{
 			TransactionID: *transactionID,
 			Index:         uint32(i),

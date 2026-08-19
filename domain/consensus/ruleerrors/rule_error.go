@@ -3,9 +3,9 @@ package ruleerrors
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
-	"github.com/pkg/errors"
 )
 
 // These constants are used to identify a specific RuleError.
@@ -89,8 +89,13 @@ var (
 
 	// ErrBadTxOutValue indicates an output value for a transaction is
 	// invalid in some way such as being out of range.
-	ErrBadTxOutValue  = newRuleError("ErrBadTxOutValue")
-	ErrTxOutValueZero = newRuleError("ErrTxOutValueZero")
+	ErrBadTxOutValue = newRuleError("ErrBadTxOutValue")
+
+	// ErrKingsCapExceeded (Rupix) indicates a block would push the total
+	// count of Kings (level 4) above constants.MaxKings. The 2,101st King
+	// cannot exist in any valid chain.
+	ErrKingsCapExceeded = newRuleError("ErrKingsCapExceeded")
+	ErrTxOutValueZero   = newRuleError("ErrTxOutValueZero")
 
 	// ErrDuplicateTxInputs indicates a transaction references the same
 	// input more than once.

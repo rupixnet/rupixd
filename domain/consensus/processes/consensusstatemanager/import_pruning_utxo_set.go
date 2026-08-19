@@ -1,6 +1,7 @@
 package consensusstatemanager
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
@@ -9,7 +10,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/util/staging"
-	"github.com/pkg/errors"
 )
 
 func (csm *consensusStateManager) ImportPruningPointUTXOSet(stagingArea *model.StagingArea, newPruningPoint *externalapi.DomainHash) error {
@@ -118,6 +118,16 @@ func (csm *consensusStateManager) importPruningPointUTXOSet(stagingArea *model.S
 
 	log.Debugf("Staging the new pruning point multiset")
 	csm.multisetStore.Stage(stagingArea, newPruningPoint, importedPruningPointMultiset)
+
+	// Rupix: el pruning point importado necesita su conteo de Kings, igual que su
+	// multiset. Se deriva del UTXO set importado: contar entradas de nivel Kings.
+	// Asi la muralla de MaxKings sobrevive tambien la sincronizacion rapida.
+	kingsCount, err := csm.countKingsInImportedUTXOSet()
+	if err != nil {
+		return err
+	}
+	log.Debugf("Staging the new pruning point Kings count: %d", kingsCount)
+	csm.kingsCountStore.Stage(stagingArea, newPruningPoint, kingsCount)
 
 	_, err = csm.difficultyManager.StageDAADataAndReturnRequiredDifficulty(stagingArea, model.VirtualBlockHash, false)
 	if err != nil {

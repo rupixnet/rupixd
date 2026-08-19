@@ -1,9 +1,9 @@
 package consensusstatemanager
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/util/math"
-	"github.com/pkg/errors"
 
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"

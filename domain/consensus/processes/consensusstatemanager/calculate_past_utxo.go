@@ -1,10 +1,10 @@
 package consensusstatemanager
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
-	"github.com/pkg/errors"
 
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -79,6 +79,15 @@ func (csm *consensusStateManager) calculatePastUTXOAndAcceptanceDataWithSelected
 		return nil, nil, nil, err
 	}
 	log.Debugf("The multiset of block %s resolved to: %s", blockHash, multiset.Hash())
+
+	// Rupix: el tope de Kings se valida aqui, junto al multiset, del mismo acceptanceData.
+	// Si el bloque supera MaxKings, es invalido y no llega a resolverse como valido.
+	kingsCount, err := csm.calculateKingsCount(stagingArea, blockHash, acceptanceData, blockGHOSTDAGData)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	csm.kingsCountStore.Stage(stagingArea, blockHash, kingsCount)
+	log.Debugf("The Kings count of block %s resolved to: %d", blockHash, kingsCount)
 
 	return utxoDiff.ToImmutable(), acceptanceData, multiset, nil
 }
