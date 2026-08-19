@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
@@ -11,7 +12,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
-	"github.com/pkg/errors"
 )
 
 func (s *server) Broadcast(_ context.Context, request *pb.BroadcastRequest) (*pb.BroadcastResponse, error) {

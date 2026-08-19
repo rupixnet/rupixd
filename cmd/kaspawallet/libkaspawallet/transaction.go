@@ -1,6 +1,7 @@
 package libkaspawallet
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet/bip32"
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -9,13 +10,16 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 	"github.com/rupixnet/rupixd/util"
-	"github.com/pkg/errors"
 )
 
 // Payment contains a recipient payment details
 type Payment struct {
 	Address util.Address
 	Amount  uint64
+	// ScriptPublicKey (Rupix): si esta presente, el output usa este script
+	// directamente en vez de derivarlo de Address. Para outputs de quema
+	// (OpReturn), que no tienen direccion.
+	ScriptPublicKey *externalapi.ScriptPublicKey
 }
 
 // UTXO is a type that stores a UTXO and meta data
@@ -130,6 +134,13 @@ func createUnsignedTransaction(
 
 	outputs := make([]*externalapi.DomainTransactionOutput, len(payments))
 	for i, payment := range payments {
+		if payment.ScriptPublicKey != nil {
+			outputs[i] = &externalapi.DomainTransactionOutput{
+				Value:           payment.Amount,
+				ScriptPublicKey: payment.ScriptPublicKey,
+			}
+			continue
+		}
 		scriptPublicKey, err := txscript.PayToAddrScript(payment.Address)
 		if err != nil {
 			return nil, err

@@ -21,6 +21,7 @@ type ScriptClass byte
 // Classes of script payment known about in the blockDAG.
 const (
 	NonStandardTy ScriptClass = iota // None of the recognized forms.
+	BurnTy                           // Rupix: OpReturn burn output (provably unspendable)
 	PubKeyTy                         // Pay to pubkey.
 	PubKeyECDSATy                    // Pay to pubkey ECDSA.
 	ScriptHashTy                     // Pay to script hash.
@@ -37,6 +38,7 @@ const (
 // script class.
 var scriptClassToName = []string{
 	NonStandardTy: "nonstandard",
+	BurnTy:        "burn", // Rupix
 	PubKeyTy:      "pubkey",
 	PubKeyECDSATy: "pubkeyecdsa",
 	ScriptHashTy:  "scripthash",
@@ -72,6 +74,11 @@ func isPayToPubkeyECDSA(pops []parsedOpcode) bool {
 // scriptType returns the type of the script being inspected from the known
 // standard types.
 func typeOfScript(pops []parsedOpcode) ScriptClass {
+	// Rupix: un script que comienza con OpReturn es una quema —
+	// imposible de gastar, estandar en Rupix (la ley lo exige en cada tx).
+	if len(pops) > 0 && pops[0].opcode.value == OpReturn {
+		return BurnTy
+	}
 	switch {
 	case isPayToPubkey(pops):
 		return PubKeyTy

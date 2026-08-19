@@ -1,8 +1,8 @@
 package protowire
 
 import (
-	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 type converter interface {
@@ -970,6 +970,13 @@ func toRPCPayload(message appmessage.Message) (isKaspadMessage_Payload, error) {
 		return payload, nil
 	case *appmessage.GetFeeEstimateRequestMessage:
 		payload := new(KaspadMessage_GetFeeEstimateRequest)
+		err := payload.fromAppMessage(message)
+		if err != nil {
+			return nil, err
+		}
+		return payload, nil
+	case *appmessage.GetFeeEstimateResponseMessage:
+		payload := new(KaspadMessage_GetFeeEstimateResponse)
 		err := payload.fromAppMessage(message)
 		if err != nil {
 			return nil, err

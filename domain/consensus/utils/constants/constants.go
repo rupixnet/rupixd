@@ -10,7 +10,7 @@ const (
 	MaxTransactionVersion uint16 = 0
 
 	// MaxScriptPublicKeyVersion is the current latest supported public key script version.
-	MaxScriptPublicKeyVersion uint16 = 0
+	MaxScriptPublicKeyVersion uint16 = 4 // Rupix: hasta LevelKings — las gemas viajan por el mempool
 
 	// RupiaPerRupix is the number of rupias in one RUPIX (1 RUPIX).
 	RupiaPerRupix = 100_000_000

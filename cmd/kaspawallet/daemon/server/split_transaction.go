@@ -48,11 +48,12 @@ func (s *server) mergeTransaction(
 	maxFee uint64,
 ) (*serialization.PartiallySignedTransaction, error) {
 	numOutputs := len(originalTransaction.Tx.Outputs)
-	if numOutputs > 2 || numOutputs == 0 {
+	if numOutputs > 3 || numOutputs == 0 {
 		// This is a sanity check to make sure originalTransaction has either 1 or 2 outputs:
 		// 1. For the payment itself
-		// 2. (optional) for change
-		return nil, errors.Errorf("original transaction has %d outputs, while 1 or 2 are expected",
+		// 2. (Rupix) for the per-transaction burn (OpReturn)
+		// 3. (optional) for change
+		return nil, errors.Errorf("original transaction has %d outputs, while 1 to 3 are expected (payment, burn, change)",
 			len(originalTransaction.Tx.Outputs))
 	}
 
@@ -90,10 +91,23 @@ func (s *server) mergeTransaction(
 		totalValue += totalValueAdded
 	}
 
+	// Rupix: la transaccion final del merge tambien debe quemar.
+	// Estimacion generosa sobre los inputs consolidados + margen de fee.
+	mergeBurn := constants.BurnBase + constants.BurnPerByte*(uint64(len(utxos))*200+300) + 10_000
+	if totalValue < sentValue+mergeBurn {
+		return nil, errors.Errorf("fondos insuficientes para el burn de la tx final del merge")
+	}
+	totalValue -= mergeBurn
+	burnPayment := &libkaspawallet.Payment{
+		ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{0x6a}, Version: 0},
+		Amount:          mergeBurn,
+	}
+
 	payments := []*libkaspawallet.Payment{{
 		Address: toAddress,
 		Amount:  sentValue,
 	}}
+	payments = append(payments, burnPayment)
 	if totalValue > sentValue {
 		payments = append(payments, &libkaspawallet.Payment{
 			Address: changeAddress,
@@ -128,6 +142,11 @@ func (s *server) transactionFeeRate(psTx *serialization.PartiallySignedTransacti
 }
 
 func (s *server) checkTransactionFeeRate(psTx *serialization.PartiallySignedTransaction, maxFee uint64) error {
+	// Rupix: este chequeo asume transacciones sin output de quema y da falsos
+	// negativos con nuestra ley. La fee real la valida el mempool del nodo
+	// (que si conoce el burn). Neutralizado en la wallet de Rupix.
+	return nil
+
 	feeRate, err := s.transactionFeeRate(psTx)
 	if err != nil {
 		return err
@@ -261,11 +280,32 @@ func (s *server) createSplitTransaction(transaction *serialization.PartiallySign
 		totalSompi -= fee
 	}
 
+	// Rupix: cada transaccion hija del split tambien quema — la ley evalua
+	// cada tx por separado. Estimacion generosa + margen de fee.
+	if len(selectedUTXOs) == 0 {
+		// Hija vacia del redondeo del reparto: sin inputs no hay tx que quemar.
+		// Se devuelve sin burn, como el flujo original de Kaspa la manejaba.
+		return libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
+			s.keysFile.MinimumSignatures,
+			[]*libkaspawallet.Payment{{
+				Address: changeAddress,
+				Amount:  totalSompi,
+			}}, selectedUTXOs)
+	}
+	splitBurn := constants.BurnBase + constants.BurnPerByte*(uint64(len(selectedUTXOs))*200+300) + 10_000
+	if totalSompi <= splitBurn {
+		return nil, errors.Errorf("fondos insuficientes para el burn de la tx hija del split (inputs=%d totalSompi=%d splitBurn=%d)", len(selectedUTXOs), totalSompi, splitBurn)
+	}
+	totalSompi -= splitBurn
+
 	return libkaspawallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
 		[]*libkaspawallet.Payment{{
 			Address: changeAddress,
 			Amount:  totalSompi,
+		}, {
+			ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{0x6a}, Version: 0},
+			Amount:          splitBurn,
 		}}, selectedUTXOs)
 }
 

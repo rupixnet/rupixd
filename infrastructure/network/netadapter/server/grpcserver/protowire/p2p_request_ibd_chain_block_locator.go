@@ -1,9 +1,9 @@
 package protowire
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/pkg/errors"
 )
 
 func (x *KaspadMessage_RequestIBDChainBlockLocator) toAppMessage() (appmessage.Message, error) {

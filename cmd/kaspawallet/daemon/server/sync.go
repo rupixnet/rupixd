@@ -8,8 +8,8 @@ import (
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
-	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 var keyChains = []uint8{libkaspawallet.ExternalKeychain, libkaspawallet.InternalKeychain}

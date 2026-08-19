@@ -7,9 +7,9 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionid"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/util/mstime"
-	"github.com/pkg/errors"
 )
 
 var errorNil = errors.New("a required field is nil")

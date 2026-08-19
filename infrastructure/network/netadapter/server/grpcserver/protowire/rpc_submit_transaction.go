@@ -3,8 +3,8 @@ package protowire
 import (
 	"math"
 
-	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 func (x *KaspadMessage_SubmitTransactionRequest) toAppMessage() (appmessage.Message, error) {

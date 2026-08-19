@@ -82,12 +82,12 @@ func (mp *mempool) checkTransactionStandardInIsolation(transaction *externalapi.
 			return transactionRuleError(RejectNonstandard, "The version of the scriptPublicKey is higher than the known version.")
 		}
 		scriptClass := txscript.GetScriptClass(output.ScriptPublicKey.Script)
-		if scriptClass == txscript.NonStandardTy {
+		if scriptClass == txscript.NonStandardTy && scriptClass != txscript.BurnTy {
 			str := fmt.Sprintf("transaction output %d: non-standard script form", i)
 			return transactionRuleError(RejectNonstandard, str)
 		}
 
-		if mp.IsTransactionOutputDust(output) {
+		if scriptClass != txscript.BurnTy && mp.IsTransactionOutputDust(output) {
 			str := fmt.Sprintf("transaction output %d: payment "+
 				"of %d is dust", i, output.Value)
 			return transactionRuleError(RejectDust, str)

@@ -1,8 +1,8 @@
 package protowire
 
 import (
-	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 func (x *KaspadMessage_IbdBlockLocatorHighestHashNotFound) toAppMessage() (appmessage.Message, error) {

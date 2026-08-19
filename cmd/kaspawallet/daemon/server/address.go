@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
 	"github.com/rupixnet/rupixd/util"
-	"github.com/pkg/errors"
 )
 
 func (s *server) changeAddress(useExisting bool, fromAddresses []*walletAddress) (util.Address, *walletAddress, error) {

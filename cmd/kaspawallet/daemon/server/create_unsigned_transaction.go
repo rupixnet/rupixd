@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"math"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 	"github.com/rupixnet/rupixd/util"
-	"github.com/pkg/errors"
 )
 
 // The minimal change amount to target in order to avoid large storage mass (see KIP9 for more details).
@@ -123,10 +123,35 @@ func (s *server) createUnsignedTransactions(address string, amount uint64, isSen
 		return nil, errors.Errorf("couldn't find funds to spend")
 	}
 
+	// Rupix: burn por transaccion — la ley exige quemar al menos
+	// BurnBase + BurnPerByte * bytes en un output OpReturn de Gold. Estimado
+	// con margen generoso (la regla es "al menos"). La ceniza se paga del cambio.
+	estimatedBytes := uint64(len(selectedUTXOs))*200 + 300
+	burnAmount := constants.BurnBase + constants.BurnPerByte*estimatedBytes
+	if changeSompi < burnAmount {
+		return nil, errors.Errorf(
+			"fondos insuficientes para el burn por transaccion (%d rupias): "+
+				"reduce el monto a enviar o agrega fondos", burnAmount)
+	}
+	changeSompi -= burnAmount
+	// El output de quema agrega masa a la tx: la fee minima (1 sompi/gramo)
+	// sube en proporcion. Se reserva del cambio un margen de fee extra
+	// generoso (~5000 gramos de sobra) para que el rate no caiga bajo 1.
+	const burnFeeMargin = 50_000
+	if changeSompi < burnFeeMargin {
+		return nil, errors.Errorf("fondos insuficientes para la fee del burn")
+	}
+	changeSompi -= burnFeeMargin
+
 	payments := []*libkaspawallet.Payment{{
 		Address: toAddress,
 		Amount:  spendValue,
 	}}
+	payments = append(payments, &libkaspawallet.Payment{
+		ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{0x6a}, Version: 0},
+		Amount:          burnAmount,
+	})
+
 	if changeSompi > 0 {
 		payments = append(payments, &libkaspawallet.Payment{
 			Address: changeAddress,
@@ -300,13 +325,20 @@ func (s *server) estimateFee(selectedUTXOs []*libkaspawallet.UTXO, feeRate float
 	if err != nil {
 		return 0, err
 	}
+	// Rupix: la tx real llevara un output de quema (OpReturn) — el mock debe
+	// incluirlo para que la masa medida (y la fee) cubran la tx verdadera.
+	mockPayments = append(mockPayments, &libkaspawallet.Payment{
+		ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{0x6a}, Version: 0},
+		Amount:          1,
+	})
 
 	mass, err := s.estimateMassAfterSignatures(mockTx)
 	if err != nil {
 		return 0, err
 	}
 
-	return min(uint64(math.Ceil(float64(mass)*feeRate)), maxFee), nil
+	// Rupix: +100 rupias de colchon — la masa real puede diferir del mock por bytes de serializacion
+	return min(uint64(math.Ceil(float64(mass)*feeRate))+100, maxFee), nil
 }
 
 func (s *server) estimateFeePerInput(feeRate float64) (uint64, error) {

@@ -16,13 +16,13 @@ import (
 
 	"github.com/rupixnet/rupixd/util/profiling"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
 	"github.com/rupixnet/rupixd/cmd/kaspawallet/keys"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
 	"github.com/rupixnet/rupixd/infrastructure/os/signal"
 	"github.com/rupixnet/rupixd/util/panics"
-	"github.com/pkg/errors"
 
 	"google.golang.org/grpc"
 )

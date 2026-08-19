@@ -1,12 +1,12 @@
 package rpc
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/rpc/rpccontext"
 	"github.com/rupixnet/rupixd/app/rpc/rpchandlers"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
-	"github.com/pkg/errors"
 )
 
 type handler func(context *rpccontext.Context, router *router.Router, request appmessage.Message) (appmessage.Message, error)
@@ -29,6 +29,7 @@ var handlers = map[appmessage.MessageCommand]handler{
 	appmessage.CmdGetBlocksRequestMessage:                                   rpchandlers.HandleGetBlocks,
 	appmessage.CmdGetBlockCountRequestMessage:                               rpchandlers.HandleGetBlockCount,
 	appmessage.CmdGetBalanceByAddressRequestMessage:                         rpchandlers.HandleGetBalanceByAddress,
+	appmessage.CmdGetFeeEstimateRequestMessage:                              rpchandlers.HandleGetFeeEstimate,
 	appmessage.CmdGetBlockDAGInfoRequestMessage:                             rpchandlers.HandleGetBlockDAGInfo,
 	appmessage.CmdResolveFinalityConflictRequestMessage:                     rpchandlers.HandleResolveFinalityConflict,
 	appmessage.CmdNotifyFinalityConflictsRequestMessage:                     rpchandlers.HandleNotifyFinalityConflicts,

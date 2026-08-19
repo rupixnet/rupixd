@@ -1,10 +1,10 @@
 package protowire
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/id"
 	"github.com/rupixnet/rupixd/util/mstime"
-	"github.com/pkg/errors"
 )
 
 func (x *KaspadMessage_Version) toAppMessage() (appmessage.Message, error) {

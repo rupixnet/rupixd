@@ -3,8 +3,8 @@ package server
 import (
 	"context"
 
-	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/cmd/kaspawallet/daemon/pb"
 )
 
 func (s *server) Send(_ context.Context, request *pb.SendRequest) (*pb.SendResponse, error) {

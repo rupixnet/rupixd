@@ -1,8 +1,8 @@
 package protowire
 
 import (
-	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 func (x *KaspadMessage_GetFeeEstimateRequest) toAppMessage() (appmessage.Message, error) {
@@ -64,4 +64,35 @@ func feeRateBucketsToAppMessage(protoBuckets []*RpcFeerateBucket) []appmessage.R
 		}
 	}
 	return appMsgBuckets
+}
+
+func (x *KaspadMessage_GetFeeEstimateResponse) fromAppMessage(message *appmessage.GetFeeEstimateResponseMessage) error {
+	var rpcErr *RPCError
+	if message.Error != nil {
+		rpcErr = &RPCError{Message: message.Error.Message}
+	}
+	x.GetFeeEstimateResponse = &GetFeeEstimateResponseMessage{
+		Estimate: &RpcFeeEstimate{
+			PriorityBucket: feeRateBucketFromAppMessage(&message.Estimate.PriorityBucket),
+			NormalBuckets:  feeRateBucketsFromAppMessage(message.Estimate.NormalBuckets),
+			LowBuckets:     feeRateBucketsFromAppMessage(message.Estimate.LowBuckets),
+		},
+		Error: rpcErr,
+	}
+	return nil
+}
+
+func feeRateBucketFromAppMessage(bucket *appmessage.RPCFeeRateBucket) *RpcFeerateBucket {
+	return &RpcFeerateBucket{
+		Feerate:          bucket.Feerate,
+		EstimatedSeconds: bucket.EstimatedSeconds,
+	}
+}
+
+func feeRateBucketsFromAppMessage(buckets []appmessage.RPCFeeRateBucket) []*RpcFeerateBucket {
+	protoBuckets := make([]*RpcFeerateBucket, len(buckets))
+	for i := range buckets {
+		protoBuckets[i] = feeRateBucketFromAppMessage(&buckets[i])
+	}
+	return protoBuckets
 }
