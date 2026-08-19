@@ -191,3 +191,9 @@ func TransactionOutputEstimatedSerializedSize(output *externalapi.DomainTransact
 	size += uint64(len(output.ScriptPublicKey.Script))
 	return size
 }
+
+// TransactionSerializedSize devuelve el tamano estimado de la transaccion en
+// bytes. Rupix lo usa para el burn por transaccion (10 rupias por byte).
+func TransactionSerializedSize(tx *externalapi.DomainTransaction) uint64 {
+	return transactionEstimatedSerializedSize(tx)
+}

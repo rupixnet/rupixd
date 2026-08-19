@@ -25,6 +25,8 @@ type transactionValidator struct {
 	sigCacheECDSA                           *txscript.SigCacheECDSA
 	txMassCalculator                        *txmass.Calculator
 	blocksPerHalving                        uint64 // Rupix: para LevelUnlockDaaScore
+	burnBase                                uint64 // Rupix: burn por tx (base)
+	burnPerByte                             uint64 // Rupix: burn por tx (por byte)
 }
 
 // New instantiates a new TransactionValidator
@@ -38,7 +40,9 @@ func New(blockCoinbaseMaturity uint64,
 	ghostdagDataStore model.GHOSTDAGDataStore,
 	daaBlocksStore model.DAABlocksStore,
 	txMassCalculator *txmass.Calculator,
-	blocksPerHalving uint64) model.TransactionValidator {
+	blocksPerHalving uint64,
+	burnBase uint64,
+	burnPerByte uint64) model.TransactionValidator {
 
 	return &transactionValidator{
 		blockCoinbaseMaturity:                   blockCoinbaseMaturity,
@@ -54,5 +58,7 @@ func New(blockCoinbaseMaturity uint64,
 		sigCacheECDSA:                           txscript.NewSigCacheECDSA(sigCacheSize),
 		txMassCalculator:                        txMassCalculator,
 		blocksPerHalving:                        blocksPerHalving,
+		burnBase:                                burnBase,
+		burnPerByte:                             burnPerByte,
 	}
 }

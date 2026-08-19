@@ -226,7 +226,9 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		ghostdagDataStore,
 		daaBlocksStore,
 		txMassCalculator,
-		constants.BlocksPerHalving)
+		constants.BlocksPerHalving,
+		config.BurnBase,
+		config.BurnPerByte)
 	difficultyManager := f.difficultyConstructor(
 		dbManager,
 		ghostdagManager,

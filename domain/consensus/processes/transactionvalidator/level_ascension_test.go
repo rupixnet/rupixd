@@ -1,191 +1,168 @@
 package transactionvalidator
 
 import (
-"strings"
-"testing"
+	"strings"
+	"testing"
 
-"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
-"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
+	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 )
 
-// helpers: construir inputs/outputs sinteticos por nivel
+// ---- helpers ----
 func gemInput(version uint16, amount uint64) *externalapi.DomainTransactionInput {
-return &externalapi.DomainTransactionInput{
-UTXOEntry: utxo.NewUTXOEntry(amount,
-&externalapi.ScriptPublicKey{Script: []byte{}, Version: version}, false, 0),
+	return &externalapi.DomainTransactionInput{
+		UTXOEntry: utxo.NewUTXOEntry(amount,
+			&externalapi.ScriptPublicKey{Script: []byte{}, Version: version}, false, 0),
+	}
 }
-}
-
 func gemOutput(version uint16, amount uint64) *externalapi.DomainTransactionOutput {
-return &externalapi.DomainTransactionOutput{
-Value:           amount,
-ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{}, Version: version},
+	return &externalapi.DomainTransactionOutput{
+		Value:           amount,
+		ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{}, Version: version},
+	}
 }
-}
-
 func burnOutput(amount uint64) *externalapi.DomainTransactionOutput {
-return &externalapi.DomainTransactionOutput{
-Value: amount,
-ScriptPublicKey: &externalapi.ScriptPublicKey{
-Script: []byte{0x6a}, Version: constants.LevelGold}, // OpReturn
+	return &externalapi.DomainTransactionOutput{
+		Value:           amount,
+		ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{0x6a}, Version: constants.LevelGold},
+	}
 }
+func makeTx(in []*externalapi.DomainTransactionInput, out []*externalapi.DomainTransactionOutput) *externalapi.DomainTransaction {
+	return &externalapi.DomainTransaction{Inputs: in, Outputs: out}
 }
-
-func makeTx(inputs []*externalapi.DomainTransactionInput,
-outputs []*externalapi.DomainTransactionOutput) *externalapi.DomainTransaction {
-return &externalapi.DomainTransaction{Inputs: inputs, Outputs: outputs}
+func gems(version uint16, n int) []*externalapi.DomainTransactionInput {
+	r := []*externalapi.DomainTransactionInput{}
+	for i := 0; i < n; i++ {
+		r = append(r, gemInput(version, constants.GemAmount))
+	}
+	return r
 }
-
 func newTestValidator() *transactionValidator {
-return &transactionValidator{blocksPerHalving: 100} // halvings chicos para test
+	// halvings chicos (D:100 P:200 R:300 K:400), burn con valores reales de mainnet
+	return &transactionValidator{blocksPerHalving: 100, burnBase: constants.BurnBase, burnPerByte: constants.BurnPerByte}
 }
+
+// txBurn: quema generosa que cubre el burn por tx de cualquier tx de test (0.001 RUPIX)
+const txBurn = uint64(100_000)
 
 func TestLevelRules(t *testing.T) {
-v := newTestValidator()
-// Con blocksPerHalving=100: Diamante abre en 100, Platino 200, Rodio 300, Kings 400
-const desbloqueado = uint64(1000) // todos los niveles abiertos
+	v := newTestValidator()
+	const abierto = uint64(1000)
 
-t.Run("gold puro pasa siempre", func(t *testing.T) {
-tx := makeTx(
-[]*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 500_000)},
-[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelGold, 499_000)})
-if err := v.checkLevelRules(tx, 0); err != nil {
-t.Fatalf("tx de gold puro rechazada: %v", err)
-}
-})
+	// ===== BURN POR TRANSACCION =====
+	t.Run("gold puro con quema pasa", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(0, 500_000)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(0, 399_000), burnOutput(txBurn)})
+		if err := v.checkLevelRules(tx, 0, false); err != nil {
+			t.Fatalf("gold puro con quema rechazado: %v", err)
+		}
+	})
+	t.Run("ataque: tx sin quema muere", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(0, 500_000)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(0, 499_000)})
+		err := v.checkLevelRules(tx, abierto, false)
+		if !errors.Is(err, ruleerrors.ErrInsufficientBurn) {
+			t.Fatalf("tx sin quema debe morir con ErrInsufficientBurn, got: %v", err)
+		}
+	})
+	t.Run("ataque: quema por debajo del minimo", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(0, 500_000)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(0, 499_000), burnOutput(500)}) // < 1000 base
+		if err := v.checkLevelRules(tx, abierto, false); !errors.Is(err, ruleerrors.ErrInsufficientBurn) {
+			t.Fatalf("quema de 500 (< base 1000) debe morir, got: %v", err)
+		}
+	})
+	t.Run("coinbase exenta del burn", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{},
+			[]*externalapi.DomainTransactionOutput{gemOutput(0, 50_000_000)})
+		if err := v.checkLevelRules(tx, abierto, true); err != nil {
+			t.Fatalf("la coinbase no debe quemar: %v", err)
+		}
+	})
 
-t.Run("ascenso valido: 10 diamantes -> 1 platino", func(t *testing.T) {
-inputs := []*externalapi.DomainTransactionInput{}
-for i := 0; i < 10; i++ {
-inputs = append(inputs, gemInput(constants.LevelDiamante, constants.GemAmount))
-}
-tx := makeTx(inputs,
-[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelPlatino, constants.GemAmount)})
-if err := v.checkLevelRules(tx, desbloqueado); err != nil {
-t.Fatalf("ascenso valido rechazado: %v", err)
-}
-})
+	// ===== ESCALERA: ASCENSOS ENTRE GEMAS =====
+	t.Run("ascenso valido: 10 diamantes -> 1 platino", func(t *testing.T) {
+		in := append(gems(constants.LevelDiamante, 10), gemInput(0, 200_000))
+		tx := makeTx(in, []*externalapi.DomainTransactionOutput{gemOutput(constants.LevelPlatino, 1), burnOutput(txBurn)})
+		if err := v.checkLevelRules(tx, abierto, false); err != nil {
+			t.Fatalf("ascenso valido rechazado: %v", err)
+		}
+	})
+	t.Run("ataque: quemar solo 9", func(t *testing.T) {
+		in := append(gems(constants.LevelDiamante, 9), gemInput(0, 200_000))
+		tx := makeTx(in, []*externalapi.DomainTransactionOutput{gemOutput(constants.LevelPlatino, 1), burnOutput(txBurn)})
+		if err := v.checkLevelRules(tx, abierto, false); err == nil {
+			t.Fatal("ascenso con 9 quemados ACEPTADO — deben ser 10")
+		}
+	})
+	t.Run("ataque: nivel bloqueado (platino antes del halving 2)", func(t *testing.T) {
+		in := append(gems(constants.LevelDiamante, 10), gemInput(0, 200_000))
+		tx := makeTx(in, []*externalapi.DomainTransactionOutput{gemOutput(constants.LevelPlatino, 1), burnOutput(txBurn)})
+		err := v.checkLevelRules(tx, 150, false) // platino abre en 200
+		if err == nil || !strings.Contains(err.Error(), "bloqueado") {
+			t.Fatalf("platino antes de su halving debe estar bloqueado, got: %v", err)
+		}
+	})
+	t.Run("ataque: gema fraccionada", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(constants.LevelRodio, 1), gemInput(0, 200_000)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelRodio, 5), burnOutput(txBurn)})
+		if err := v.checkLevelRules(tx, abierto, false); err == nil {
+			t.Fatal("gema con monto 5 ACEPTADA — piezas enteras")
+		}
+	})
+	t.Run("ataque: gemas desaparecen sin ascenso", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(constants.LevelRodio, 1), gemInput(constants.LevelRodio, 1), gemInput(0, 200_000)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelRodio, 1), burnOutput(txBurn)})
+		if err := v.checkLevelRules(tx, abierto, false); err == nil {
+			t.Fatal("2 rodios entran, 1 sale, sin ascenso — ACEPTADO")
+		}
+	})
+	t.Run("transferencia de King pasa", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(constants.LevelKings, 1), gemInput(0, 200_000)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelKings, 1), burnOutput(txBurn)})
+		if err := v.checkLevelRules(tx, abierto, false); err != nil {
+			t.Fatalf("transferencia de King rechazada: %v", err)
+		}
+	})
 
-t.Run("ataque: quemar solo 9", func(t *testing.T) {
-inputs := []*externalapi.DomainTransactionInput{}
-for i := 0; i < 9; i++ {
-inputs = append(inputs, gemInput(constants.LevelDiamante, constants.GemAmount))
-}
-tx := makeTx(inputs,
-[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelPlatino, constants.GemAmount)})
-if err := v.checkLevelRules(tx, desbloqueado); err == nil {
-t.Fatal("ascenso con 9 quemados fue ACEPTADO — debe exigir 10")
-}
-})
-
-t.Run("ataque: nivel bloqueado (platino antes del halving 2)", func(t *testing.T) {
-inputs := []*externalapi.DomainTransactionInput{}
-for i := 0; i < 10; i++ {
-inputs = append(inputs, gemInput(constants.LevelDiamante, constants.GemAmount))
-}
-tx := makeTx(inputs,
-[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelPlatino, constants.GemAmount)})
-err := v.checkLevelRules(tx, 150) // platino abre en 200
-if err == nil {
-t.Fatal("platino creado ANTES de su halving — debe estar bloqueado")
-}
-if !strings.Contains(err.Error(), "bloqueado") {
-t.Fatalf("error inesperado: %v", err)
-}
-})
-
-t.Run("ataque: gema fraccionada", func(t *testing.T) {
-tx := makeTx(
-[]*externalapi.DomainTransactionInput{gemInput(constants.LevelRodio, constants.GemAmount)},
-[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelRodio, 5)}) // monto != 1
-if err := v.checkLevelRules(tx, desbloqueado); err == nil {
-t.Fatal("gema con monto 5 ACEPTADA — las gemas son piezas enteras")
-}
-})
-
-t.Run("ataque: gemas desaparecen sin ascenso", func(t *testing.T) {
-tx := makeTx(
-[]*externalapi.DomainTransactionInput{
-gemInput(constants.LevelRodio, constants.GemAmount),
-gemInput(constants.LevelRodio, constants.GemAmount)},
-[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelRodio, constants.GemAmount)})
-if err := v.checkLevelRules(tx, desbloqueado); err == nil {
-t.Fatal("2 rodios entraron, 1 salio, sin ascenso — destruccion invalida ACEPTADA")
-}
-})
-
-t.Run("transferencia simple de gema pasa", func(t *testing.T) {
-tx := makeTx(
-[]*externalapi.DomainTransactionInput{gemInput(constants.LevelKings, constants.GemAmount)},
-[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelKings, constants.GemAmount)})
-if err := v.checkLevelRules(tx, desbloqueado); err != nil {
-t.Fatalf("transferencia de King rechazada: %v", err)
-}
-})
-
-// --- El burn Gold -> Diamante: la puerta de entrada a la escalera ---
-
-t.Run("ascenso valido: quema 10 gold -> 1 diamante", func(t *testing.T) {
-tx := makeTx(
-[]*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 12*constants.RupiaPerRupix)},
-[]*externalapi.DomainTransactionOutput{
-gemOutput(constants.LevelDiamante, constants.GemAmount),
-burnOutput(10 * constants.RupiaPerRupix),
-gemOutput(constants.LevelGold, 2*constants.RupiaPerRupix), // cambio: permitido
-})
-if err := v.checkLevelRules(tx, desbloqueado); err != nil {
-t.Fatalf("ascenso valido con quema exacta rechazado: %v", err)
-}
-})
-
-t.Run("ascenso multiple: quema 30 gold -> 3 diamantes", func(t *testing.T) {
-tx := makeTx(
-[]*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 30*constants.RupiaPerRupix)},
-[]*externalapi.DomainTransactionOutput{
-gemOutput(constants.LevelDiamante, constants.GemAmount),
-gemOutput(constants.LevelDiamante, constants.GemAmount),
-gemOutput(constants.LevelDiamante, constants.GemAmount),
-burnOutput(30 * constants.RupiaPerRupix),
-})
-if err := v.checkLevelRules(tx, desbloqueado); err != nil {
-t.Fatalf("ascenso multiple valido rechazado: %v", err)
-}
-})
-
-t.Run("ataque: quema insuficiente (9 gold por 1 diamante)", func(t *testing.T) {
-tx := makeTx(
-[]*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 10*constants.RupiaPerRupix)},
-[]*externalapi.DomainTransactionOutput{
-gemOutput(constants.LevelDiamante, constants.GemAmount),
-burnOutput(9 * constants.RupiaPerRupix),
-})
-if err := v.checkLevelRules(tx, desbloqueado); err == nil {
-t.Fatal("diamante con quema de 9 ACEPTADO — deben ser 10 exactos")
-}
-})
-
-t.Run("ataque: diamante sin OpReturn (la quema seria fee del minero)", func(t *testing.T) {
-// Mete 11, saca 1 diamante: los 10 "quemados" caerian en la fee
-tx := makeTx(
-[]*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 11*constants.RupiaPerRupix)},
-[]*externalapi.DomainTransactionOutput{
-gemOutput(constants.LevelDiamante, constants.GemAmount),
-})
-if err := v.checkLevelRules(tx, desbloqueado); err == nil {
-t.Fatal("diamante sin output de quema ACEPTADO — el gold iria al minero, no a la quema")
-}
-})
-
-t.Run("ataque: diamante antes del halving 1", func(t *testing.T) {
-tx := makeTx(
-[]*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 10*constants.RupiaPerRupix)},
-[]*externalapi.DomainTransactionOutput{
-gemOutput(constants.LevelDiamante, constants.GemAmount),
-burnOutput(10 * constants.RupiaPerRupix),
-})
-if err := v.checkLevelRules(tx, 50); err == nil { // diamante abre en 100
-t.Fatal("diamante creado ANTES del halving 1 — debe estar bloqueado")
-}
-})
+	// ===== LA PUERTA: GOLD -> DIAMANTE =====
+	diez := uint64(10 * constants.RupiaPerRupix)
+	t.Run("ascenso valido: quema 10 gold -> 1 diamante (con cambio)", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(0, 12*constants.RupiaPerRupix)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelDiamante, 1), burnOutput(diez), gemOutput(0, 2*constants.RupiaPerRupix-txBurn)})
+		if err := v.checkLevelRules(tx, abierto, false); err != nil {
+			t.Fatalf("ascenso a diamante rechazado: %v", err)
+		}
+	})
+	t.Run("ascenso multiple: 30 gold -> 3 diamantes", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(0, 30*constants.RupiaPerRupix)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelDiamante, 1), gemOutput(constants.LevelDiamante, 1), gemOutput(constants.LevelDiamante, 1), burnOutput(3 * diez)})
+		if err := v.checkLevelRules(tx, abierto, false); err != nil {
+			t.Fatalf("ascenso multiple rechazado: %v", err)
+		}
+	})
+	t.Run("ataque: quema insuficiente para diamante (9 gold)", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(0, 10*constants.RupiaPerRupix)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelDiamante, 1), burnOutput(9 * constants.RupiaPerRupix)})
+		if err := v.checkLevelRules(tx, abierto, false); err == nil {
+			t.Fatal("diamante con 9 gold ACEPTADO — deben ser 10 exactos")
+		}
+	})
+	t.Run("ataque: diamante sin OpReturn (gold iria al minero)", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(0, 11*constants.RupiaPerRupix)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelDiamante, 1)})
+		if err := v.checkLevelRules(tx, abierto, false); err == nil {
+			t.Fatal("diamante sin quema ACEPTADO — el gold iria al minero")
+		}
+	})
+	t.Run("ataque: diamante antes del halving 1", func(t *testing.T) {
+		tx := makeTx([]*externalapi.DomainTransactionInput{gemInput(0, 10*constants.RupiaPerRupix)},
+			[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelDiamante, 1), burnOutput(diez)})
+		if err := v.checkLevelRules(tx, 50, false); err == nil { // diamante abre en 100
+			t.Fatal("diamante ANTES del halving 1 — debe estar bloqueado")
+		}
+	})
 }

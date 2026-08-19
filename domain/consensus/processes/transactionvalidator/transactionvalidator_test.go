@@ -12,11 +12,11 @@ import (
 
 	"testing"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
-	"github.com/pkg/errors"
 )
 
 func TestValidateTransactionInContextAndPopulateFee(t *testing.T) {

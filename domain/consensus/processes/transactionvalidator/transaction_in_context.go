@@ -3,6 +3,7 @@ package transactionvalidator
 import (
 	"math"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
@@ -10,7 +11,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
-	"github.com/pkg/errors"
 )
 
 // IsFinalizedTransaction determines whether or not a transaction is finalized.
@@ -84,6 +84,16 @@ func (v *transactionValidator) ValidateTransactionInContextAndPopulateFee(stagin
 	}
 
 	tx.Fee = totalSompiIn - totalSompiOut
+
+	// Rupix: reglas de la escalera y del burn por transaccion
+	levelsPovDaaScore, err := v.daaBlocksStore.DAAScore(v.databaseContext, stagingArea, povBlockHash)
+	if err != nil {
+		return err
+	}
+	err = v.checkLevelRules(tx, levelsPovDaaScore, transactionhelper.IsCoinBase(tx))
+	if err != nil {
+		return err
+	}
 
 	err = v.checkTransactionSequenceLock(stagingArea, povBlockHash, tx)
 	if err != nil {

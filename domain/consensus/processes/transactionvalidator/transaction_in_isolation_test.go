@@ -3,6 +3,7 @@ package transactionvalidator_test
 import (
 	"testing"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
@@ -10,7 +11,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
-	"github.com/pkg/errors"
 )
 
 type txSubnetworkData struct {

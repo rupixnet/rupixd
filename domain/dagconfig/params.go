@@ -5,6 +5,7 @@
 package dagconfig
 
 import (
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"math/big"
 	"time"
 
@@ -151,6 +152,12 @@ type Params struct {
 	// MaxCoinbasePayloadLength is the maximum length in bytes allowed for a block's coinbase's payload
 	MaxCoinbasePayloadLength uint64
 
+	// BurnBase and BurnPerByte (Rupix): per-transaction burn rule.
+	// Every non-coinbase tx must burn at least BurnBase + BurnPerByte*bytes
+	// in an OpReturn Gold output. Zero on simnet/devnet (test networks).
+	BurnBase    uint64
+	BurnPerByte uint64
+
 	// MaxBlockMass is the maximum mass a block is allowed
 	MaxBlockMass uint64
 
@@ -257,6 +264,8 @@ var MainnetParams = Params{
 	DisableDifficultyAdjustment: false,
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
+	BurnBase:                                constants.BurnBase, // Rupix (mainnet)
+	BurnPerByte:                             constants.BurnPerByte,
 	MaxBlockMass:                            defaultMaxBlockMass,
 	MaxBlockParents:                         defaultMaxBlockParents,
 	MassPerTxByte:                           defaultMassPerTxByte,
@@ -325,6 +334,8 @@ var TestnetParams = Params{
 	DisableDifficultyAdjustment: false,
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
+	BurnBase:                                constants.BurnBase, // Rupix (testnet)
+	BurnPerByte:                             constants.BurnPerByte,
 	MaxBlockMass:                            defaultMaxBlockMass,
 	MaxBlockParents:                         defaultMaxBlockParents,
 	MassPerTxByte:                           defaultMassPerTxByte,
@@ -391,6 +402,8 @@ var SimnetParams = Params{
 	DisableDifficultyAdjustment: true,
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
+	BurnBase:                                0, // Rupix (simnet)
+	BurnPerByte:                             0,
 	MaxBlockMass:                            defaultMaxBlockMass,
 	MaxBlockParents:                         defaultMaxBlockParents,
 	MassPerTxByte:                           defaultMassPerTxByte,
@@ -453,6 +466,8 @@ var DevnetParams = Params{
 	DisableDifficultyAdjustment: false,
 
 	MaxCoinbasePayloadLength:                defaultMaxCoinbasePayloadLength,
+	BurnBase:                                0, // Rupix (devnet)
+	BurnPerByte:                             0,
 	MaxBlockMass:                            defaultMaxBlockMass,
 	MaxBlockParents:                         defaultMaxBlockParents,
 	MassPerTxByte:                           defaultMassPerTxByte,

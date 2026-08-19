@@ -1,12 +1,12 @@
 package transactionvalidator
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
-	"github.com/pkg/errors"
 )
 
 // ValidateTransactionInIsolation validates the parts of the transaction that can be validated context-free

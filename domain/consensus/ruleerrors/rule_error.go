@@ -95,6 +95,10 @@ var (
 	// count of Kings (level 4) above constants.MaxKings. The 2,101st King
 	// cannot exist in any valid chain.
 	ErrKingsCapExceeded = newRuleError("ErrKingsCapExceeded")
+
+	// ErrInsufficientBurn (Rupix) indicates a transaction does not burn the
+	// minimum required by the per-transaction burn rule (base + per byte).
+	ErrInsufficientBurn = newRuleError("ErrInsufficientBurn")
 	ErrTxOutValueZero   = newRuleError("ErrTxOutValueZero")
 
 	// ErrDuplicateTxInputs indicates a transaction references the same
