@@ -4,6 +4,7 @@ import (
 "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 "github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 "github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 "github.com/pkg/errors"
 )
 
@@ -41,6 +42,16 @@ ver, output.Value, constants.GemAmount)
 }
 }
 
+// Total de Gold quemado: outputs Version 0 con script imposible de gastar
+// (OpReturn). Visible en la cadena para siempre, intocable para todos.
+burnedGold := uint64(0)
+for _, output := range tx.Outputs {
+if output.ScriptPublicKey.Version == constants.LevelGold &&
+txscript.IsUnspendable(output.ScriptPublicKey.Script) {
+burnedGold += output.Value
+}
+}
+
 // Revisar cada nivel de gema: ascensos y transferencias
 for nivel := constants.LevelDiamante; nivel <= constants.LevelKings; nivel++ {
 in := inputsPorNivel[nivel]
@@ -59,12 +70,24 @@ transferidasInferior := outputsPorNivel[nivel-1]
 quemadas := inferior - transferidasInferior
 
 if nivel == constants.LevelDiamante {
-// El nivel inferior del Diamante es Gold: no se cuenta por piezas.
-// El ascenso a Diamante se valida por separado (requiere quemar
-// 10 Gold ENTEROS — pendiente de la fase de burn de Gold).
-// Por ahora: prohibido crear Diamantes hasta implementar esa via.
+// La puerta de entrada a la escalera: el Diamante nace quemando Gold.
+// El Gold es divisible, asi que la regla es por MONTO, no por piezas:
+// crear N Diamantes exige un output de quema (OpReturn) con
+// exactamente N * 10 RUPIX. El cambio en Gold esta permitido
+// (el Gold es dinero); la quema queda visible y intocable.
+requerido := uint64(creadas) * constants.BurnRatio * constants.RupiaPerRupix
+if burnedGold != requerido {
 return errors.Wrapf(ruleerrors.ErrBadTxOutValue,
-"creacion de Diamante aun no habilitada (pendiente burn de Gold)")
+"ascenso a Diamante: crea %d pero quema %d rupias en OpReturn (se requieren exactamente %d)",
+creadas, burnedGold, requerido)
+}
+unlock := constants.LevelUnlockDaaScore(nivel, v.blocksPerHalving)
+if povDaaScore < unlock {
+return errors.Wrapf(ruleerrors.ErrBadTxOutValue,
+"nivel %d bloqueado: se desbloquea en DAA score %d (actual: %d)",
+nivel, unlock, povDaaScore)
+}
+continue
 }
 
 if quemadas != constants.BurnRatio*creadas {

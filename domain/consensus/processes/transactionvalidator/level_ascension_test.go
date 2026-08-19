@@ -24,6 +24,14 @@ ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{}, Version: version
 }
 }
 
+func burnOutput(amount uint64) *externalapi.DomainTransactionOutput {
+return &externalapi.DomainTransactionOutput{
+Value: amount,
+ScriptPublicKey: &externalapi.ScriptPublicKey{
+Script: []byte{0x6a}, Version: constants.LevelGold}, // OpReturn
+}
+}
+
 func makeTx(inputs []*externalapi.DomainTransactionInput,
 outputs []*externalapi.DomainTransactionOutput) *externalapi.DomainTransaction {
 return &externalapi.DomainTransaction{Inputs: inputs, Outputs: outputs}
@@ -116,12 +124,68 @@ t.Fatalf("transferencia de King rechazada: %v", err)
 }
 })
 
-t.Run("gold->diamante bloqueado por ahora", func(t *testing.T) {
+// --- El burn Gold -> Diamante: la puerta de entrada a la escalera ---
+
+t.Run("ascenso valido: quema 10 gold -> 1 diamante", func(t *testing.T) {
+tx := makeTx(
+[]*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 12*constants.RupiaPerRupix)},
+[]*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelDiamante, constants.GemAmount),
+burnOutput(10 * constants.RupiaPerRupix),
+gemOutput(constants.LevelGold, 2*constants.RupiaPerRupix), // cambio: permitido
+})
+if err := v.checkLevelRules(tx, desbloqueado); err != nil {
+t.Fatalf("ascenso valido con quema exacta rechazado: %v", err)
+}
+})
+
+t.Run("ascenso multiple: quema 30 gold -> 3 diamantes", func(t *testing.T) {
+tx := makeTx(
+[]*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 30*constants.RupiaPerRupix)},
+[]*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelDiamante, constants.GemAmount),
+gemOutput(constants.LevelDiamante, constants.GemAmount),
+gemOutput(constants.LevelDiamante, constants.GemAmount),
+burnOutput(30 * constants.RupiaPerRupix),
+})
+if err := v.checkLevelRules(tx, desbloqueado); err != nil {
+t.Fatalf("ascenso multiple valido rechazado: %v", err)
+}
+})
+
+t.Run("ataque: quema insuficiente (9 gold por 1 diamante)", func(t *testing.T) {
 tx := makeTx(
 []*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 10*constants.RupiaPerRupix)},
-[]*externalapi.DomainTransactionOutput{gemOutput(constants.LevelDiamante, constants.GemAmount)})
+[]*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelDiamante, constants.GemAmount),
+burnOutput(9 * constants.RupiaPerRupix),
+})
 if err := v.checkLevelRules(tx, desbloqueado); err == nil {
-t.Fatal("creacion de Diamante ACEPTADA — debe estar bloqueada hasta implementar burn de Gold")
+t.Fatal("diamante con quema de 9 ACEPTADO — deben ser 10 exactos")
+}
+})
+
+t.Run("ataque: diamante sin OpReturn (la quema seria fee del minero)", func(t *testing.T) {
+// Mete 11, saca 1 diamante: los 10 "quemados" caerian en la fee
+tx := makeTx(
+[]*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 11*constants.RupiaPerRupix)},
+[]*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelDiamante, constants.GemAmount),
+})
+if err := v.checkLevelRules(tx, desbloqueado); err == nil {
+t.Fatal("diamante sin output de quema ACEPTADO — el gold iria al minero, no a la quema")
+}
+})
+
+t.Run("ataque: diamante antes del halving 1", func(t *testing.T) {
+tx := makeTx(
+[]*externalapi.DomainTransactionInput{gemInput(constants.LevelGold, 10*constants.RupiaPerRupix)},
+[]*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelDiamante, constants.GemAmount),
+burnOutput(10 * constants.RupiaPerRupix),
+})
+if err := v.checkLevelRules(tx, 50); err == nil { // diamante abre en 100
+t.Fatal("diamante creado ANTES del halving 1 — debe estar bloqueado")
 }
 })
 }

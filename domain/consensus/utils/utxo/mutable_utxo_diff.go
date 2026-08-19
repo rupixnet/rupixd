@@ -3,10 +3,10 @@ package utxo
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
-	"github.com/pkg/errors"
 )
 
 type mutableUTXODiff struct {
@@ -106,6 +106,12 @@ func (mud *mutableUTXODiff) AddTransaction(transaction *externalapi.DomainTransa
 	isCoinbase := transactionhelper.IsCoinBase(transaction)
 	transactionID := *consensushashing.TransactionID(transaction)
 	for i, output := range transaction.Outputs {
+		// Rupix: los outputs de quema (script imposible de gastar, OpReturn)
+		// NO entran al UTXO set. La quema queda visible para siempre en la
+		// historia del bloque, pero jamas en el inventario de lo gastable.
+		if isBurnScript(output.ScriptPublicKey.Script) {
+			continue
+		}
 		outpoint := &externalapi.DomainOutpoint{
 			TransactionID: transactionID,
 			Index:         uint32(i),
@@ -164,4 +170,11 @@ func (mud *mutableUTXODiff) Reversed() *mutableUTXODiff {
 		toRemove:            mud.toAdd,
 		immutableReferences: mud.immutableReferences,
 	}
+}
+
+// isBurnScript reconoce un script de quema: comienza con OpReturn (0x6a),
+// imposible de gastar. Equivale a txscript.IsUnspendable sin crear un ciclo
+// de imports (txscript depende indirectamente de utxo).
+func isBurnScript(script []byte) bool {
+	return len(script) > 0 && script[0] == 0x6a
 }
