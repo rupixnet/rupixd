@@ -199,8 +199,8 @@ func (ui *UTXOIndex) UTXOs(scriptPublicKey *externalapi.ScriptPublicKey) (UTXOOu
 	return ui.store.getUTXOOutpointEntryPairs(scriptPublicKey)
 }
 
-// GetCirculatingSompiSupply returns the current circulating supply of sompis in the network
-func (ui *UTXOIndex) GetCirculatingSompiSupply() (uint64, error) {
+// GetCirculatingRupiaSupply returns the current circulating supply of rupias in the network
+func (ui *UTXOIndex) GetCirculatingRupiaSupply() (uint64, error) {
 
 	ui.mutex.Lock()
 	defer ui.mutex.Unlock()

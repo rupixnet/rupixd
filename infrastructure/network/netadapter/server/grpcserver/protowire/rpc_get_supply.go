@@ -27,8 +27,8 @@ func (x *KaspadMessage_GetCoinSupplyResponse) fromAppMessage(message *appmessage
 		err = &RPCError{Message: message.Error.Message}
 	}
 	x.GetCoinSupplyResponse = &GetCoinSupplyResponseMessage{
-		MaxSompi:         message.MaxRupia,
-		CirculatingSompi: message.CirculatingSompi,
+		MaxRupias:         message.MaxRupia,
+		CirculatingRupias: message.CirculatingRupia,
 
 		Error: err,
 	}
@@ -46,8 +46,8 @@ func (x *GetCoinSupplyResponseMessage) toAppMessage() (appmessage.Message, error
 	}
 
 	return &appmessage.GetCoinSupplyResponseMessage{
-		MaxRupia:         x.MaxSompi,
-		CirculatingSompi: x.CirculatingSompi,
+		MaxRupia:         x.MaxRupias,
+		CirculatingRupia: x.CirculatingRupias,
 
 		Error: rpcErr,
 	}, nil

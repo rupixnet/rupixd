@@ -351,7 +351,7 @@ func (uis *utxoIndexStore) initializeCirculatingSompiSupply() error {
 	}
 	defer cursor.Close()
 
-	circulatingSompiSupplyInDatabase := uint64(0)
+	circulatingRupiaSupplyInDatabase := uint64(0)
 	for cursor.Next() {
 		serializedUTXOEntry, err := cursor.Value()
 		if err != nil {
@@ -362,12 +362,12 @@ func (uis *utxoIndexStore) initializeCirculatingSompiSupply() error {
 			return err
 		}
 
-		circulatingSompiSupplyInDatabase = circulatingSompiSupplyInDatabase + utxoEntry.Amount()
+		circulatingRupiaSupplyInDatabase = circulatingRupiaSupplyInDatabase + utxoEntry.Amount()
 	}
 
 	err = uis.database.Put(
 		circulatingSupplyKey,
-		binaryserialization.SerializeUint64(circulatingSompiSupplyInDatabase),
+		binaryserialization.SerializeUint64(circulatingRupiaSupplyInDatabase),
 	)
 
 	if err != nil {

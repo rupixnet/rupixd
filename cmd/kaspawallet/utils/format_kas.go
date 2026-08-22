@@ -11,8 +11,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// FormatKas takes the amount of sompis as uint64, and returns amount of KAS with 8  decimal places
-func FormatKas(amount uint64) string {
+// FormatRupix takes the amount of sompis as uint64, and returns amount of KAS with 8  decimal places
+func FormatRupix(amount uint64) string {
 	res := "                   "
 	if amount > 0 {
 		res = fmt.Sprintf("%19.8f", float64(amount)/constants.RupiaPerRupix)

@@ -24,82 +24,82 @@ var BitcoinMainnetPublic = [4]byte{
 
 // KaspaMainnetPrivate is the version that is used for
 // kaspa mainnet bip32 private extended keys.
-// Ecnodes to xprv in base58.
+// Encodes to rprv in base58. (Rupix)
 var KaspaMainnetPrivate = [4]byte{
-	0x03,
-	0x8f,
-	0x2e,
-	0xf4,
+	0xea,
+	0xb4,
+	0x04,
+	0x55,
 }
 
 // KaspaMainnetPublic is the version that is used for
 // kaspa mainnet bip32 public extended keys.
-// Ecnodes to kpub in base58.
+// Encodes to rpub in base58. (Rupix)
 var KaspaMainnetPublic = [4]byte{
-	0x03,
-	0x8f,
-	0x33,
-	0x2e,
+	0xea,
+	0xb4,
+	0xfa,
+	0x80,
 }
 
 // KaspaTestnetPrivate is the version that is used for
 // kaspa testnet bip32 public extended keys.
-// Ecnodes to ktrv in base58.
+// Encodes to rtrv in base58. (Rupix)
 var KaspaTestnetPrivate = [4]byte{
-	0x03,
-	0x90,
-	0x9e,
+	0xeb,
 	0x07,
+	0x2f,
+	0x80,
 }
 
 // KaspaTestnetPublic is the version that is used for
 // kaspa testnet bip32 public extended keys.
-// Ecnodes to ktub in base58.
+// Encodes to rtub in base58. (Rupix)
 var KaspaTestnetPublic = [4]byte{
-	0x03,
-	0x90,
-	0xa2,
-	0x41,
+	0xeb,
+	0x08,
+	0x24,
+	0x80,
 }
 
 // KaspaDevnetPrivate is the version that is used for
 // kaspa devnet bip32 public extended keys.
-// Ecnodes to kdrv in base58.
+// Encodes to rdrv in base58. (Rupix)
 var KaspaDevnetPrivate = [4]byte{
-	0x03,
-	0x8b,
-	0x3d,
+	0xe9,
+	0xcf,
+	0x50,
 	0x80,
 }
 
 // KaspaDevnetPublic is the version that is used for
 // kaspa devnet bip32 public extended keys.
-// Ecnodes to xdub in base58.
+// Encodes to rdub in base58. (Rupix)
 var KaspaDevnetPublic = [4]byte{
-	0x03,
-	0x8b,
-	0x41,
-	0xba,
+	0xe9,
+	0xd0,
+	0x45,
+	0x55,
 }
 
 // KaspaSimnetPrivate is the version that is used for
 // kaspa simnet bip32 public extended keys.
-// Ecnodes to ksrv in base58.
+// Encodes to rsrv in base58. (Rupix)
 var KaspaSimnetPrivate = [4]byte{
-	0x03,
-	0x90,
-	0x42,
-	0x42,
+	0xea,
+	0xf2,
+	0x64,
+	0x55,
 }
 
 // KaspaSimnetPublic is the version that is used for
 // kaspa simnet bip32 public extended keys.
-// Ecnodes to xsub in base58.
+// Encodes to rsub in base58. (Rupix)
 var KaspaSimnetPublic = [4]byte{
-	0x03,
-	0x90,
-	0x46,
-	0x7d,
+	0xea,
+	0xf3,
+	0x59,
+	0x55,
 }
 
 func toPublicVersion(version [4]byte) ([4]byte, error) {
