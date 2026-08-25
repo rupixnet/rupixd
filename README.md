@@ -93,7 +93,7 @@ Conectarte al testnet:
 
 ## Camino a mainnet
 
-- Explorador público (en construcción — con contador de ceniza, supplies por nivel y countdown de halving)
+- - ✅ **Explorador público: [explorer.rupix.network](https://explorer.rupix.network)** — countdown al halving, supply en vivo, bloques en tiempo real (próximo: contador de ceniza y supplies por nivel)
 - Testnet pública sincronizable por cualquiera
 - Auditoría externa del código de consenso
 - Infraestructura redundante (múltiples nodos semilla)
