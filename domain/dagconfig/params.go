@@ -433,8 +433,8 @@ var DevnetParams = Params{
 	PowMax:                          devnetPowMax,
 	BlockCoinbaseMaturity:           100,
 	SubsidyGenesisReward:            defaultSubsidyGenesisReward,
-	PreDeflationaryPhaseBaseSubsidy: defaultPreDeflationaryPhaseBaseSubsidy,
-	DeflationaryPhaseBaseSubsidy:    defaultDeflationaryPhaseBaseSubsidy,
+	PreDeflationaryPhaseBaseSubsidy: 50_000_000_000, // Rupix devnet: subsidio inflado para pruebas de la escalera
+	DeflationaryPhaseBaseSubsidy:    50_000_000_000, // (solo laboratorio, no toca mainnet/testnet)
 	TargetTimePerBlock:              defaultTargetTimePerBlock,
 	FinalityDuration:                defaultFinalityDuration,
 	DifficultyAdjustmentWindowSize:  defaultDifficultyAdjustmentWindowSize,
