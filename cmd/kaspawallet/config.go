@@ -21,6 +21,8 @@ const (
 	showAddressesSubCmd             = "show-addresses"
 	newAddressSubCmd                = "new-address"
 	forgeSubCmd                     = "forge"
+	gemsSubCmd                     = "gems"
+	transferGemSubCmd                     = "transfer-gem"
 	dumpUnencryptedDataSubCmd       = "dump-unencrypted-data"
 	startDaemonSubCmd               = "start-daemon"
 	versionSubCmd                   = "version"
@@ -134,6 +136,19 @@ type forgeConfig struct {
 	config.NetworkFlags
 }
 
+type gemsConfig struct {
+	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
+	config.NetworkFlags
+}
+
+type transferGemConfig struct {
+	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
+	Level         uint32 `long:"level" short:"l" description:"Nivel de la gema a transferir: 1-4"`
+	ToAddress     string `long:"to-address" description:"Direccion destino de la gema"`
+	Password      string `long:"password" short:"p" description:"Wallet password"`
+	config.NetworkFlags
+}
+
 type startDaemonConfig struct {
 	KeysFile  string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
 	Password  string `long:"password" short:"p" description:"Wallet password"`
@@ -231,6 +246,12 @@ func parseCommandLine() (subCommand string, config interface{}) {
 	forgeConf := &forgeConfig{DaemonAddress: defaultListen}
 	parser.AddCommand(forgeSubCmd, "Forja una gema quemando Gold (ascenso de nivel)",
 		"Quema 10 Gold por gema y crea una gema del nivel indicado", forgeConf)
+	gemsConf := &gemsConfig{DaemonAddress: defaultListen}
+	parser.AddCommand(gemsSubCmd, "Lista tus gemas por nivel",
+		"Muestra el inventario de gemas (Diamante, Platino, Rodio, Kings)", gemsConf)
+	transferGemConf := &transferGemConfig{DaemonAddress: defaultListen}
+	parser.AddCommand(transferGemSubCmd, "Transfiere una gema a otra direccion",
+		"Mueve una gema (sin quemarla) a la direccion indicada", transferGemConf)
 
 	dumpUnencryptedDataConf := &dumpUnencryptedDataConfig{}
 	parser.AddCommand(dumpUnencryptedDataSubCmd, "Prints the unencrypted wallet data",
@@ -356,6 +377,20 @@ func parseCommandLine() (subCommand string, config interface{}) {
 			printErrorAndExit(err)
 		}
 		config = forgeConf
+	case gemsSubCmd:
+		combineNetworkFlags(&gemsConf.NetworkFlags, &cfg.NetworkFlags)
+		err := gemsConf.ResolveNetwork(parser)
+		if err != nil {
+			printErrorAndExit(err)
+		}
+		config = gemsConf
+	case transferGemSubCmd:
+		combineNetworkFlags(&transferGemConf.NetworkFlags, &cfg.NetworkFlags)
+		err := transferGemConf.ResolveNetwork(parser)
+		if err != nil {
+			printErrorAndExit(err)
+		}
+		config = transferGemConf
 	case dumpUnencryptedDataSubCmd:
 		combineNetworkFlags(&dumpUnencryptedDataConf.NetworkFlags, &cfg.NetworkFlags)
 		err := dumpUnencryptedDataConf.ResolveNetwork(parser)

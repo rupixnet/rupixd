@@ -30,6 +30,10 @@ func main() {
 		err = newAddress(config.(*newAddressConfig))
 	case forgeSubCmd:
 		err = forge(config.(*forgeConfig))
+	case gemsSubCmd:
+		err = gems(config.(*gemsConfig))
+	case transferGemSubCmd:
+		err = transferGem(config.(*transferGemConfig))
 	case dumpUnencryptedDataSubCmd:
 		err = dumpUnencryptedData(config.(*dumpUnencryptedDataConfig))
 	case startDaemonSubCmd:

@@ -26,6 +26,8 @@ service kaspawalletd {
   // Forge crea una gema quemando Gold (ascenso de nivel). Contiene password:
   // usar solo en conexion segura.
   rpc Forge(ForgeRequest) returns (ForgeResponse) {}
+  rpc Gems(GemsRequest) returns (GemsResponse) {}
+  rpc TransferGem(TransferGemRequest) returns (TransferGemResponse) {}
 }
 
 message GetBalanceRequest {}
@@ -133,6 +135,23 @@ message ForgeRequest {
   string password = 3;
 }
 message ForgeResponse {
+  repeated string txIDs = 1;
+}
+
+message GemsRequest {}
+message GemsResponse {
+  uint64 diamante = 1;
+  uint64 platino = 2;
+  uint64 rodio = 3;
+  uint64 kings = 4;
+}
+
+message TransferGemRequest {
+  uint32 level = 1;
+  string toAddress = 2;
+  string password = 3;
+}
+message TransferGemResponse {
   repeated string txIDs = 1;
 }
 

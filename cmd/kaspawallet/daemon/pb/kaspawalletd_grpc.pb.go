@@ -42,6 +42,8 @@ type KaspawalletdClient interface {
 	// Forge crea una gema quemando Gold (ascenso de nivel). Contiene password:
 	// usar solo en conexion segura.
 	Forge(ctx context.Context, in *ForgeRequest, opts ...grpc.CallOption) (*ForgeResponse, error)
+	Gems(ctx context.Context, in *GemsRequest, opts ...grpc.CallOption) (*GemsResponse, error)
+	TransferGem(ctx context.Context, in *TransferGemRequest, opts ...grpc.CallOption) (*TransferGemResponse, error)
 }
 
 type kaspawalletdClient struct {
@@ -169,6 +171,24 @@ func (c *kaspawalletdClient) Forge(ctx context.Context, in *ForgeRequest, opts .
 	return out, nil
 }
 
+func (c *kaspawalletdClient) Gems(ctx context.Context, in *GemsRequest, opts ...grpc.CallOption) (*GemsResponse, error) {
+	out := new(GemsResponse)
+	err := c.cc.Invoke(ctx, "/kaspawalletd.kaspawalletd/Gems", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kaspawalletdClient) TransferGem(ctx context.Context, in *TransferGemRequest, opts ...grpc.CallOption) (*TransferGemResponse, error) {
+	out := new(TransferGemResponse)
+	err := c.cc.Invoke(ctx, "/kaspawalletd.kaspawalletd/TransferGem", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KaspawalletdServer is the server API for Kaspawalletd service.
 // All implementations must embed UnimplementedKaspawalletdServer
 // for forward compatibility
@@ -193,6 +213,8 @@ type KaspawalletdServer interface {
 	// Forge crea una gema quemando Gold (ascenso de nivel). Contiene password:
 	// usar solo en conexion segura.
 	Forge(context.Context, *ForgeRequest) (*ForgeResponse, error)
+	Gems(context.Context, *GemsRequest) (*GemsResponse, error)
+	TransferGem(context.Context, *TransferGemRequest) (*TransferGemResponse, error)
 	mustEmbedUnimplementedKaspawalletdServer()
 }
 
@@ -238,6 +260,12 @@ func (UnimplementedKaspawalletdServer) BumpFee(context.Context, *BumpFeeRequest)
 }
 func (UnimplementedKaspawalletdServer) Forge(context.Context, *ForgeRequest) (*ForgeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Forge not implemented")
+}
+func (UnimplementedKaspawalletdServer) Gems(context.Context, *GemsRequest) (*GemsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Gems not implemented")
+}
+func (UnimplementedKaspawalletdServer) TransferGem(context.Context, *TransferGemRequest) (*TransferGemResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TransferGem not implemented")
 }
 func (UnimplementedKaspawalletdServer) mustEmbedUnimplementedKaspawalletdServer() {}
 
@@ -486,6 +514,42 @@ func _Kaspawalletd_Forge_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Kaspawalletd_Gems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GemsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KaspawalletdServer).Gems(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/kaspawalletd.kaspawalletd/Gems",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KaspawalletdServer).Gems(ctx, req.(*GemsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Kaspawalletd_TransferGem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferGemRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KaspawalletdServer).TransferGem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/kaspawalletd.kaspawalletd/TransferGem",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KaspawalletdServer).TransferGem(ctx, req.(*TransferGemRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Kaspawalletd_ServiceDesc is the grpc.ServiceDesc for Kaspawalletd service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -544,6 +608,14 @@ var Kaspawalletd_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Forge",
 			Handler:    _Kaspawalletd_Forge_Handler,
+		},
+		{
+			MethodName: "Gems",
+			Handler:    _Kaspawalletd_Gems_Handler,
+		},
+		{
+			MethodName: "TransferGem",
+			Handler:    _Kaspawalletd_TransferGem_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

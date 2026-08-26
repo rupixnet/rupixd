@@ -5,6 +5,7 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/database/binaryserialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/pkg/errors"
@@ -268,33 +269,58 @@ func (uis *utxoIndexStore) getUTXOOutpointEntryPairs(scriptPublicKey *externalap
 		return nil, errors.Errorf("cannot get utxo outpoint entry pairs while staging isn't empty")
 	}
 
+	utxoOutpointEntryPairs := make(UTXOOutpointEntryPairs)
+
+	// Rupix: una direccion (script Version 0) es duena de su Gold Y de sus gemas
+	// (mismo script, Versions 1..LevelKings). El indice guarda cada UTXO bajo su
+	// bucket exacto (Version incluida); al consultar por una direccion recorremos
+	// tambien los buckets de gema del mismo pubkey y unimos todo. Solo se expande
+	// cuando la consulta entra por Version 0 (una direccion).
+	versionsToScan := []uint16{scriptPublicKey.Version}
+	if scriptPublicKey.Version == constants.LevelGold {
+		for lvl := constants.LevelDiamante; lvl <= constants.LevelKings; lvl++ {
+			versionsToScan = append(versionsToScan, lvl)
+		}
+	}
+
+	for _, ver := range versionsToScan {
+		spk := &externalapi.ScriptPublicKey{Script: scriptPublicKey.Script, Version: ver}
+		err := uis.collectUTXOsFromBucket(spk, utxoOutpointEntryPairs)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return utxoOutpointEntryPairs, nil
+}
+
+// collectUTXOsFromBucket lee los UTXOs de un scriptPublicKey exacto (Script+Version).
+func (uis *utxoIndexStore) collectUTXOsFromBucket(scriptPublicKey *externalapi.ScriptPublicKey, utxoOutpointEntryPairs UTXOOutpointEntryPairs) error {
 	bucket := uis.bucketForScriptPublicKey(scriptPublicKey)
 	cursor, err := uis.database.Cursor(bucket)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer cursor.Close()
-	utxoOutpointEntryPairs := make(UTXOOutpointEntryPairs)
 	for cursor.Next() {
 		key, err := cursor.Key()
 		if err != nil {
-			return nil, err
+			return err
 		}
 		outpoint, err := uis.convertKeyToOutpoint(key)
 		if err != nil {
-			return nil, err
+			return err
 		}
 		serializedUTXOEntry, err := cursor.Value()
 		if err != nil {
-			return nil, err
+			return err
 		}
 		utxoEntry, err := deserializeUTXOEntry(serializedUTXOEntry)
 		if err != nil {
-			return nil, err
+			return err
 		}
 		utxoOutpointEntryPairs[*outpoint] = utxoEntry
 	}
-	return utxoOutpointEntryPairs, nil
+	return nil
 }
 
 func (uis *utxoIndexStore) getVirtualParents() ([]*externalapi.DomainHash, error) {
