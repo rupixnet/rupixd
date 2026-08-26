@@ -28,6 +28,8 @@ func main() {
 		err = showAddresses(config.(*showAddressesConfig))
 	case newAddressSubCmd:
 		err = newAddress(config.(*newAddressConfig))
+	case forgeSubCmd:
+		err = forge(config.(*forgeConfig))
 	case dumpUnencryptedDataSubCmd:
 		err = dumpUnencryptedData(config.(*dumpUnencryptedDataConfig))
 	case startDaemonSubCmd:

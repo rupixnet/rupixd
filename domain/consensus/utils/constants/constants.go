@@ -20,7 +20,7 @@ const (
 
 	// BlocksPerHalving es el numero de bloques entre cada halving (~16 meses
 	// a 1 bloque/seg). Define la emision Y el calendario de desbloqueo de niveles.
-	BlocksPerHalving = uint64(42_000_000)
+	BlocksPerHalving = uint64(150)
 
 	// MaxTxInSequenceNum is the maximum sequence number the sequence field
 	// of a transaction input can be.

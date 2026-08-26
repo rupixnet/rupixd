@@ -20,6 +20,7 @@ const (
 	parseSubCmd                     = "parse"
 	showAddressesSubCmd             = "show-addresses"
 	newAddressSubCmd                = "new-address"
+	forgeSubCmd                     = "forge"
 	dumpUnencryptedDataSubCmd       = "dump-unencrypted-data"
 	startDaemonSubCmd               = "start-daemon"
 	versionSubCmd                   = "version"
@@ -125,6 +126,14 @@ type newAddressConfig struct {
 	config.NetworkFlags
 }
 
+type forgeConfig struct {
+	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
+	Level         uint32 `long:"level" short:"l" description:"Nivel: 1=Diamante 2=Platino 3=Rodio 4=Kings"`
+	GemAddress    string `long:"gem-address" description:"Direccion donde nace la gema"`
+	Password      string `long:"password" short:"p" description:"Wallet password"`
+	config.NetworkFlags
+}
+
 type startDaemonConfig struct {
 	KeysFile  string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
 	Password  string `long:"password" short:"p" description:"Wallet password"`
@@ -219,6 +228,9 @@ func parseCommandLine() (subCommand string, config interface{}) {
 	newAddressConf := &newAddressConfig{DaemonAddress: defaultListen}
 	parser.AddCommand(newAddressSubCmd, "Generates new public address of the current wallet and shows it",
 		"Generates new public address of the current wallet and shows it", newAddressConf)
+	forgeConf := &forgeConfig{DaemonAddress: defaultListen}
+	parser.AddCommand(forgeSubCmd, "Forja una gema quemando Gold (ascenso de nivel)",
+		"Quema 10 Gold por gema y crea una gema del nivel indicado", forgeConf)
 
 	dumpUnencryptedDataConf := &dumpUnencryptedDataConfig{}
 	parser.AddCommand(dumpUnencryptedDataSubCmd, "Prints the unencrypted wallet data",
@@ -337,6 +349,13 @@ func parseCommandLine() (subCommand string, config interface{}) {
 			printErrorAndExit(err)
 		}
 		config = newAddressConf
+	case forgeSubCmd:
+		combineNetworkFlags(&forgeConf.NetworkFlags, &cfg.NetworkFlags)
+		err := forgeConf.ResolveNetwork(parser)
+		if err != nil {
+			printErrorAndExit(err)
+		}
+		config = forgeConf
 	case dumpUnencryptedDataSubCmd:
 		combineNetworkFlags(&dumpUnencryptedDataConf.NetworkFlags, &cfg.NetworkFlags)
 		err := dumpUnencryptedDataConf.ResolveNetwork(parser)

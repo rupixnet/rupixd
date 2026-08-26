@@ -23,6 +23,9 @@ service kaspawalletd {
   rpc Sign(SignRequest) returns (SignResponse) {}
   rpc GetVersion(GetVersionRequest) returns (GetVersionResponse) {}
   rpc BumpFee(BumpFeeRequest) returns (BumpFeeResponse) {}
+  // Forge crea una gema quemando Gold (ascenso de nivel). Contiene password:
+  // usar solo en conexion segura.
+  rpc Forge(ForgeRequest) returns (ForgeResponse) {}
 }
 
 message GetBalanceRequest {}
@@ -122,6 +125,15 @@ message SendRequest {
 message SendResponse {
   repeated string txIDs = 1;
   repeated bytes signedTransactions = 2;
+}
+
+message ForgeRequest {
+  uint32 level = 1;
+  string gemAddress = 2;
+  string password = 3;
+}
+message ForgeResponse {
+  repeated string txIDs = 1;
 }
 
 // Since SignRequest contains a password - this command should only be used on a

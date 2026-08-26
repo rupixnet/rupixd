@@ -87,7 +87,10 @@ func (mp *mempool) checkTransactionStandardInIsolation(transaction *externalapi.
 			return transactionRuleError(RejectNonstandard, str)
 		}
 
-		if scriptClass != txscript.BurnTy && mp.IsTransactionOutputDust(output) {
+		// Rupix: las gemas (Version >= Diamante) valen 1 por diseño — piezas
+		// enteras e indivisibles, no polvo. Se eximen del chequeo de dust.
+		esGema := output.ScriptPublicKey.Version >= constants.LevelDiamante
+		if !esGema && scriptClass != txscript.BurnTy && mp.IsTransactionOutputDust(output) {
 			str := fmt.Sprintf("transaction output %d: payment "+
 				"of %d is dust", i, output.Value)
 			return transactionRuleError(RejectDust, str)
