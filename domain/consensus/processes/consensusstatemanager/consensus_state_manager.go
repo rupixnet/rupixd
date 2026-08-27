@@ -28,6 +28,7 @@ type consensusStateManager struct {
 	consensusStateStore     model.ConsensusStateStore
 	multisetStore           model.MultisetStore
 	kingsCountStore         model.KingsCountStore
+	gemsHistoryStore        model.GemsHistoryStore
 	blockStore              model.BlockStore
 	utxoDiffStore           model.UTXODiffStore
 	blockRelationStore      model.BlockRelationStore
@@ -68,7 +69,8 @@ func New(
 	headersSelectedTipStore model.HeaderSelectedTipStore,
 	pruningStore model.PruningStore,
 	daaBlocksStore model.DAABlocksStore,
-	kingsCountStore model.KingsCountStore) (model.ConsensusStateManager, error) {
+	kingsCountStore model.KingsCountStore,
+	gemsHistoryStore model.GemsHistoryStore) (model.ConsensusStateManager, error) {
 
 	csm := &consensusStateManager{
 		maxBlockParents:   maxBlockParents,
@@ -89,6 +91,7 @@ func New(
 
 		multisetStore:           multisetStore,
 		kingsCountStore:         kingsCountStore,
+		gemsHistoryStore:        gemsHistoryStore,
 		blockStore:              blockStore,
 		blockStatusStore:        blockStatusStore,
 		ghostdagDataStore:       ghostdagDataStore,

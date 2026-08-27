@@ -21,6 +21,13 @@ const (
 	// GemAmount: el monto de todo output de gema. Las gemas no se fraccionan.
 	GemAmount = 1
 
+	// Topes historicos absolutos de cada nivel de gema. Son limites de EMISION:
+	// cuentan cuantas gemas NACIERON en toda la historia, no cuantas viven. Una
+	// vez alcanzado el tope, jamas nace otra gema de ese nivel — aunque se quemen.
+	// La piramide 10x hace que cada nivel, lleno, cueste lo mismo: 21M RUPIX.
+	MaxDiamante = 2_100_000
+	MaxPlatino  = 210_000
+	MaxRodio    = 21_000
 	// MaxKings: tope absoluto del nivel mas alto. El King 2,101 no puede existir.
 	MaxKings = 2_100
 
@@ -39,4 +46,22 @@ func LevelUnlockDaaScore(level uint16, blocksPerHalving uint64) uint64 {
 		return 0
 	}
 	return uint64(level) * blocksPerHalving
+}
+
+// MaxForLevel devuelve el tope historico de un nivel de gema (cuantas pueden
+// nacer en toda la historia). Gold no tiene tope de piezas (es divisible y su
+// escasez la rige el techo de 42M). Devuelve 0 para niveles sin tope de gema.
+func MaxForLevel(level uint16) uint64 {
+	switch level {
+	case LevelDiamante:
+		return MaxDiamante
+	case LevelPlatino:
+		return MaxPlatino
+	case LevelRodio:
+		return MaxRodio
+	case LevelKings:
+		return MaxKings
+	default:
+		return 0 // Gold u otro: sin tope de piezas
+	}
 }

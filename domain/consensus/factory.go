@@ -31,6 +31,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/headersselectedchainstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/headersselectedtipstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/kingscountstore"
+	"github.com/rupixnet/rupixd/domain/consensus/datastructures/gemshistorystore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/multisetstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/pruningstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/reachabilitydatastore"
@@ -148,6 +149,7 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 	blockStatusStore := blockstatusstore.New(prefixBucket, pruningWindowSizePlusFinalityDepthForCache, preallocateCaches)
 	multisetStore := multisetstore.New(prefixBucket, 200, preallocateCaches)
 	kingsCountStore := kingscountstore.New(prefixBucket, 200, preallocateCaches)
+	gemsHistoryStore := gemshistorystore.New(prefixBucket, 200, preallocateCaches)
 	pruningStore := pruningstore.New(prefixBucket, 2, preallocateCaches)
 	utxoDiffStore := utxodiffstore.New(prefixBucket, 200, preallocateCaches)
 	consensusStateStore := consensusstatestore.New(prefixBucket, 10_000, preallocateCaches)
@@ -311,7 +313,8 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		headersSelectedTipStore,
 		pruningStore,
 		daaBlocksStore,
-		kingsCountStore)
+		kingsCountStore,
+		gemsHistoryStore)
 	if err != nil {
 		return nil, false, err
 	}

@@ -95,6 +95,10 @@ var (
 	// count of Kings (level 4) above constants.MaxKings. The 2,101st King
 	// cannot exist in any valid chain.
 	ErrKingsCapExceeded = newRuleError("ErrKingsCapExceeded")
+// ErrGemsCapExceeded (Rupix) indicates a block would push the historical
+// count of Diamante/Platino/Rodio above their max. Once a level's historical
+// cap is reached, no more gems of that level can ever be born.
+ErrGemsCapExceeded = newRuleError("ErrGemsCapExceeded")
 
 	// ErrInsufficientBurn (Rupix) indicates a transaction does not burn the
 	// minimum required by the per-transaction burn rule (base + per byte).
