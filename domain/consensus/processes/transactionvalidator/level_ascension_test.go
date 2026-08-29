@@ -193,3 +193,90 @@ func TestLevelRules(t *testing.T) {
 		}
 	})
 }
+
+// ============================================================================
+// TestGemAscensionAttacksRound2 — ataques del auditor "mas cabron", ronda 2.
+// Angulos nuevos no cubiertos por TestLevelRules: robo multi-pieza, timing
+// exacto del halving (off-by-one), descenso fantasma, cambio excesivo, y
+// doble ascenso contradictorio. Todos DEBEN ser rechazados.
+// ============================================================================
+func TestGemAscensionAttacksRound2(t *testing.T) {
+v := newTestValidator()
+const abierto = uint64(1000) // todos los niveles desbloqueados (K abre en 400)
+
+// --- ATAQUE 1: 2 Kings quemando solo 10 Rodios (deben ser 20) ---
+t.Run("ataque: 2 kings con solo 10 rodios", func(t *testing.T) {
+in := append(gems(constants.LevelRodio, 10), gemInput(0, 200_000))
+tx := makeTx(in, []*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelKings, 1), gemOutput(constants.LevelKings, 1), burnOutput(txBurn)})
+if err := v.checkLevelRules(tx, abierto, false); err == nil {
+t.Fatal("2 kings con 10 rodios ACEPTADO — deben ser 20 rodios")
+}
+})
+
+// --- ATAQUE 2: timing EXACTO del halving (off-by-one) ---
+// Kings abre en nivel*blocksPerHalving = 4*100 = 400.
+t.Run("timing: king en unlock-1 (399) debe fallar", func(t *testing.T) {
+in := append(gems(constants.LevelRodio, 10), gemInput(0, 200_000))
+tx := makeTx(in, []*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelKings, 1), burnOutput(txBurn)})
+if err := v.checkLevelRules(tx, 399, false); err == nil {
+t.Fatal("king en DAA 399 (unlock-1) ACEPTADO — abre en 400")
+}
+})
+t.Run("timing: king en unlock exacto (400) debe pasar", func(t *testing.T) {
+in := append(gems(constants.LevelRodio, 10), gemInput(0, 200_000))
+tx := makeTx(in, []*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelKings, 1), burnOutput(txBurn)})
+if err := v.checkLevelRules(tx, 400, false); err != nil {
+t.Fatalf("king en DAA 400 (unlock exacto) rechazado: %v", err)
+}
+})
+
+// --- ATAQUE 3: robo con cambio excesivo (11 rodio in, 2 out, 1 king) ---
+// Consume solo 9 rodios reales pero crea 1 king (exige 10).
+t.Run("ataque: cambio excesivo esconde quema insuficiente", func(t *testing.T) {
+in := append(gems(constants.LevelRodio, 11), gemInput(0, 200_000))
+tx := makeTx(in, []*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelRodio, 1), gemOutput(constants.LevelRodio, 1),
+gemOutput(constants.LevelKings, 1), burnOutput(txBurn)})
+if err := v.checkLevelRules(tx, abierto, false); err == nil {
+t.Fatal("11 rodio - 2 cambio = 9 quemados, 1 king ACEPTADO — faltan rodios")
+}
+})
+
+// --- ATAQUE 4: descenso fantasma / doble ascenso contradictorio ---
+// Intento crear Platino Y Kings desde un set de Rodios insuficiente.
+t.Run("ataque: doble ascenso desde rodios insuficientes", func(t *testing.T) {
+in := append(gems(constants.LevelRodio, 10), gemInput(0, 200_000))
+tx := makeTx(in, []*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelKings, 1), gemOutput(constants.LevelPlatino, 1), burnOutput(txBurn)})
+if err := v.checkLevelRules(tx, abierto, false); err == nil {
+t.Fatal("king + platino desde solo 10 rodios ACEPTADO — imposible")
+}
+})
+
+// --- ATAQUE 5: transferir rodios Y crear king con los mismos ---
+// in: 10 rodio; out: 10 rodio (transferidos) + 1 king. No queda nada quemado.
+t.Run("ataque: transferir y ascender con las mismas piezas", func(t *testing.T) {
+out := []*externalapi.DomainTransactionOutput{}
+for i := 0; i < 10; i++ {
+out = append(out, gemOutput(constants.LevelRodio, 1))
+}
+out = append(out, gemOutput(constants.LevelKings, 1), burnOutput(txBurn))
+in := append(gems(constants.LevelRodio, 10), gemInput(0, 200_000))
+if err := v.checkLevelRules(makeTx(in, out), abierto, false); err == nil {
+t.Fatal("transferir 10 rodios Y crear king ACEPTADO — no se quemo nada")
+}
+})
+
+// --- ATAQUE 6: king legitimo con cambio correcto (debe PASAR) ---
+t.Run("control: king legitimo con cambio (11 rodio, 1 cambio)", func(t *testing.T) {
+in := append(gems(constants.LevelRodio, 11), gemInput(0, 200_000))
+tx := makeTx(in, []*externalapi.DomainTransactionOutput{
+gemOutput(constants.LevelRodio, 1), gemOutput(constants.LevelKings, 1), burnOutput(txBurn)})
+if err := v.checkLevelRules(tx, abierto, false); err != nil {
+t.Fatalf("king legitimo con cambio rechazado: %v", err)
+}
+})
+}
