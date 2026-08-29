@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/rupixnet/rupixd/cmd/kaspawallet/libkaspawallet"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/util"
 )
 
@@ -12,7 +12,7 @@ func main() {
 		panic(err)
 	}
 
-	privateKey, publicKey, err := libkaspawallet.CreateKeyPair(false)
+	privateKey, publicKey, err := librupixwallet.CreateKeyPair(false)
 	if err != nil {
 		panic(err)
 	}
