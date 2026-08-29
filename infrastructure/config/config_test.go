@@ -18,10 +18,10 @@ func TestCreateDefaultConfigFile(t *testing.T) {
 	if !ok {
 		t.Fatalf("Failed finding config file path")
 	}
-	sampleConfigFile := filepath.Join(filepath.Dir(path), "sample-kaspad.conf")
+	sampleConfigFile := filepath.Join(filepath.Dir(path), "sample-rupixd.conf")
 
 	// Setup a temporary directory
-	tmpDir, err := ioutil.TempDir("", "kaspad")
+	tmpDir, err := ioutil.TempDir("", "rupixd")
 	if err != nil {
 		t.Fatalf("Failed creating a temporary directory: %v", err)
 	}
@@ -36,7 +36,7 @@ func TestCreateDefaultConfigFile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed obtaining app path: %v", err)
 	}
-	tmpConfigFile := filepath.Join(appPath, "sample-kaspad.conf")
+	tmpConfigFile := filepath.Join(appPath, "sample-rupixd.conf")
 	err = ioutil.WriteFile(tmpConfigFile, data, 0644)
 	if err != nil {
 		t.Fatalf("Failed copying sample config file: %v", err)

@@ -28,10 +28,10 @@ import (
 )
 
 const (
-	defaultConfigFilename      = "kaspad.conf"
+	defaultConfigFilename      = "rupixd.conf"
 	defaultLogLevel            = "info"
 	defaultLogDirname          = "logs"
-	defaultLogFilename         = "kaspad.log"
+	defaultLogFilename         = "rupixd.log"
 	defaultErrLogFilename      = "kaspad_err.log"
 	defaultTargetOutboundPeers = 8
 	defaultMaxInboundPeers     = 117
@@ -51,14 +51,14 @@ const (
 	//DefaultMaxOrphanTxSize is the default maximum size for an orphan transaction
 	DefaultMaxOrphanTxSize  = 100_000
 	defaultSigCacheMaxSize  = 100_000
-	sampleConfigFilename    = "sample-kaspad.conf"
+	sampleConfigFilename    = "sample-rupixd.conf"
 	defaultMaxUTXOCacheSize = 5_000_000_000
 	defaultProtocolVersion  = 5
 )
 
 var (
-	// DefaultAppDir is the default home directory for kaspad.
-	DefaultAppDir = util.AppDir("kaspad", false)
+	// DefaultAppDir is the default home directory for rupixd.
+	DefaultAppDir = util.AppDir("rupixd", false)
 
 	defaultConfigFile  = filepath.Join(DefaultAppDir, defaultConfigFilename)
 	defaultDataDir     = filepath.Join(DefaultAppDir)
@@ -66,7 +66,7 @@ var (
 	defaultRPCCertFile = filepath.Join(DefaultAppDir, "rpc.cert")
 )
 
-//go:embed sample-kaspad.conf
+//go:embed sample-rupixd.conf
 var sampleConfig string
 
 // RunServiceCommand is only set to a real function on Windows. It is used
@@ -575,7 +575,7 @@ func LoadConfig() (*Config, error) {
 	return cfg, nil
 }
 
-// createDefaultConfig copies the file sample-kaspad.conf to the given destination path,
+// createDefaultConfig copies the file sample-rupixd.conf to the given destination path,
 // and populates it with some randomly generated RPC username and password.
 func createDefaultConfigFile(destinationPath string) error {
 	// Create the destination directory if it does not exists
