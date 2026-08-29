@@ -189,6 +189,12 @@ type Params struct {
 	// to its deflationary phase
 	DeflationaryPhaseDaaScore uint64
 
+	// BlocksPerHalving (Rupix) es el numero de bloques entre cada halving. Define
+	// la emision Y el calendario de desbloqueo de niveles de la escalera. Es
+	// por-red: mainnet usa el valor real (largo), testnet uno corto para probar
+	// la escalera sin esperar anos, devnet uno minimo para el laboratorio.
+	BlocksPerHalving uint64
+
 	DisallowDirectBlocksOnTopOfGenesis bool
 
 	// MaxBlockLevel is the maximum possible block level.
@@ -275,6 +281,7 @@ var MainnetParams = Params{
 	CoinbasePayloadScriptPublicKeyMaxLength: defaultCoinbasePayloadScriptPublicKeyMaxLength,
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
+	BlocksPerHalving:                        42_000_000,                   // Rupix mainnet: ~decadas por halving
 	DisallowDirectBlocksOnTopOfGenesis:      true,
 
 	// This is technically 255, but we clamped it at 256 - block level of mainnet genesis
@@ -345,6 +352,7 @@ var TestnetParams = Params{
 	CoinbasePayloadScriptPublicKeyMaxLength: defaultCoinbasePayloadScriptPublicKeyMaxLength,
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
+	BlocksPerHalving:                        10_000,                       // Rupix testnet: escalera probable en horas
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,
@@ -413,6 +421,7 @@ var SimnetParams = Params{
 	CoinbasePayloadScriptPublicKeyMaxLength: defaultCoinbasePayloadScriptPublicKeyMaxLength,
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
+	BlocksPerHalving:                        42_000_000,                   // Rupix simnet: valor real
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,
@@ -477,6 +486,7 @@ var DevnetParams = Params{
 	CoinbasePayloadScriptPublicKeyMaxLength: defaultCoinbasePayloadScriptPublicKeyMaxLength,
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
+	BlocksPerHalving:                        150,                          // Rupix devnet: laboratorio veloz
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,

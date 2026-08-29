@@ -55,7 +55,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/processes/reachabilitymanager"
 	"github.com/rupixnet/rupixd/domain/consensus/processes/syncmanager"
 	"github.com/rupixnet/rupixd/domain/consensus/processes/transactionvalidator"
-	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
 	infrastructuredatabase "github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/infrastructure/db/database/ldb"
@@ -228,7 +227,7 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		ghostdagDataStore,
 		daaBlocksStore,
 		txMassCalculator,
-		constants.BlocksPerHalving,
+		config.BlocksPerHalving,
 		config.BurnBase,
 		config.BurnPerByte)
 	difficultyManager := f.difficultyConstructor(
@@ -254,6 +253,7 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		config.GenesisHash,
 		config.DeflationaryPhaseDaaScore,
 		config.DeflationaryPhaseBaseSubsidy,
+		config.BlocksPerHalving,
 
 		dagTraversalManager,
 		ghostdagDataStore,

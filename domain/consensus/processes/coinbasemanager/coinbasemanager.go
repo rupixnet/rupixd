@@ -18,6 +18,7 @@ type coinbaseManager struct {
 	genesisHash                             *externalapi.DomainHash
 	deflationaryPhaseDaaScore               uint64
 	deflationaryPhaseBaseSubsidy            uint64
+	blocksPerHalving                        uint64
 
 	databaseContext     model.DBReader
 	dagTraversalManager model.DAGTraversalManager
@@ -201,7 +202,7 @@ func (c *coinbaseManager) CalcBlockSubsidy(stagingArea *model.StagingArea, block
 // TestTotalSupply en coinbasemanager_test.go.
 
 func (c *coinbaseManager) calcDeflationaryPeriodBlockSubsidy(blockDaaScore uint64) uint64 {
-	halvings := (blockDaaScore - c.deflationaryPhaseDaaScore) / constants.BlocksPerHalving
+	halvings := (blockDaaScore - c.deflationaryPhaseDaaScore) / c.blocksPerHalving
 	if halvings >= 64 {
 		return 0
 	}
@@ -250,6 +251,7 @@ func New(
 	genesisHash *externalapi.DomainHash,
 	deflationaryPhaseDaaScore uint64,
 	deflationaryPhaseBaseSubsidy uint64,
+	blocksPerHalving uint64,
 
 	dagTraversalManager model.DAGTraversalManager,
 	ghostdagDataStore model.GHOSTDAGDataStore,
@@ -268,6 +270,7 @@ func New(
 		genesisHash:                             genesisHash,
 		deflationaryPhaseDaaScore:               deflationaryPhaseDaaScore,
 		deflationaryPhaseBaseSubsidy:            deflationaryPhaseBaseSubsidy,
+		blocksPerHalving:                        blocksPerHalving,
 
 		dagTraversalManager: dagTraversalManager,
 		ghostdagDataStore:   ghostdagDataStore,

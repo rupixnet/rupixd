@@ -11,9 +11,14 @@ import (
 // baseSubsidy es la emision por bloque al inicio: 0.5 RUPIX
 const baseSubsidy = 50_000_000
 
+// testBlocksPerHalving: valor de prueba para el calendario de halvings.
+// El test prueba la LOGICA (independiente del valor real por-red).
+const testBlocksPerHalving = uint64(150)
+
 func newTestCoinbaseManager(deflationaryPhaseDaaScore, baseSub uint64) *coinbaseManager {
 iface := New(nil, 0, 0, 0, &externalapi.DomainHash{},
 deflationaryPhaseDaaScore, baseSub,
+testBlocksPerHalving,
 nil, nil, nil, nil, nil, nil, nil)
 return iface.(*coinbaseManager)
 }
@@ -27,14 +32,14 @@ blockDaaScore uint64
 expected      uint64
 }{
 {"bloque 1", 1, baseSubsidy},
-{"ultimo bloque antes del primer halving", constants.BlocksPerHalving - 1, baseSubsidy},
-{"primer halving", constants.BlocksPerHalving, baseSubsidy / 2},
-{"segundo halving", constants.BlocksPerHalving * 2, baseSubsidy / 4},
-{"quinto halving", constants.BlocksPerHalving * 5, baseSubsidy / 32},
-{"halving 25 - ultimo con emision", constants.BlocksPerHalving * 25, 1},
-{"halving 26 - emision agotada", constants.BlocksPerHalving * 26, 0},
-{"halving 64 - guarda contra overflow", constants.BlocksPerHalving * 64, 0},
-{"halving 100 - muy despues del final", constants.BlocksPerHalving * 100, 0},
+{"ultimo bloque antes del primer halving", testBlocksPerHalving - 1, baseSubsidy},
+{"primer halving", testBlocksPerHalving, baseSubsidy / 2},
+{"segundo halving", testBlocksPerHalving * 2, baseSubsidy / 4},
+{"quinto halving", testBlocksPerHalving * 5, baseSubsidy / 32},
+{"halving 25 - ultimo con emision", testBlocksPerHalving * 25, 1},
+{"halving 26 - emision agotada", testBlocksPerHalving * 26, 0},
+{"halving 64 - guarda contra overflow", testBlocksPerHalving * 64, 0},
+{"halving 100 - muy despues del final", testBlocksPerHalving * 100, 0},
 }
 
 for _, test := range tests {
@@ -54,7 +59,7 @@ subsidy := uint64(baseSubsidy) >> halving
 if subsidy == 0 {
 break
 }
-total += subsidy * constants.BlocksPerHalving
+total += subsidy * dagconfig.MainnetParams.BlocksPerHalving
 }
 
 if total > constants.MaxRupia {
