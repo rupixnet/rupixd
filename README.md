@@ -93,11 +93,11 @@ Conectarte al testnet:
 
 ## Camino a mainnet
 
-- ✅ **Explorador público: [explorer.rupix.network](https://explorer.rupix.network)** — countdown al halving, supply en vivo, bloques en tiempo real (próximo: contador de ceniza y supplies por nivel)
-- Testnet pública sincronizable por cualquiera
-- Auditoría externa del código de consenso
-- Infraestructura redundante (múltiples nodos semilla)
-- Hashrate inicial comprometido
+- **Cambio a minado accesible para todos** — migrar del algoritmo actual (heredado de Kaspa, dominado por máquinas industriales) a uno pensado para que cualquiera mine desde su computadora. Rupix es para todos.
+- **Conteo histórico de gemas verificable en el punto de poda** — que un nodo nuevo pueda comprobar los topes sin confiar en nadie (coherente con "verifica desde el génesis")
+- **Auditoría externa del código de consenso**
+- **Infraestructura redundante** (múltiples nodos semilla) y **hashrate comprometido**
+- **Checkpoints temporales al arranque**, con fecha de caducidad publicada — protección honesta contra el 51% mientras la red crece su propio hashrate
 
 **Fecha de mainnet: la anunciaremos cuando el código esté listo, no antes.** Preferimos lanzar tarde y bien que pronto y comprometidos.
 
