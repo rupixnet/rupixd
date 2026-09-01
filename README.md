@@ -6,14 +6,14 @@
 
 ---
 
-## Estado actual (agosto 2026)
+## Estado actual (Rupix v0.4.0)
 
-La testnet está **viva**: un nodo corre 24/7 como servicio, minando sobre un génesis propio con cero premine, y la economía completa vive en el consenso.
+La **testnet pública está viva**: acepta nodos externos, mina sobre un génesis propio con cero premine, y la economía completa vive en el consenso. Cualquiera puede conectar su nodo — ver [GUIA-TESTNET.md](./GUIA-TESTNET.md).
 
-- ✅ **Génesis propio minado el 3 de agosto de 2026** — subsidy en cero, byte por byte, regenerable con `cmd/genesisgen`
-- ✅ **Testnet operativa 24/7** — 200,000+ bloques minados, dificultad ajustándose sola
-- ✅ **Primera transacción de la historia (19 de agosto)** — 4 txs, cada una quemando por ley; el nodo rechazó primero la que no quemaba (`ErrInsufficientBurn`) y aceptó las que cumplen
-- ✅ **Economía completa en consenso**: escalera de 5 niveles, quema 10:1, burn por transacción, muralla de 2,100 Kings — 18 escenarios de ataque cubiertos por tests
+- ✅ **Testnet pública operativa 24/7** — génesis propio, subsidy en cero, dificultad ajustándose sola, escuchando conexiones (seed público)
+- ✅ **Binarios descargables** para Windows, macOS y Linux — ver [Releases](https://github.com/rupixnet/rupixd/releases)
+- ✅ **Explorador público en vivo** — [explorer.rupix.network](https://explorer.rupix.network)
+- ✅ **Economía completa en consenso**: escalera de 5 niveles, quema 10:1, burn por transacción, murallas históricas (2.1M/210k/21k/2,100) — 25+ escenarios de ataque cubiertos por tests
 - ✅ **Identidad completa**: direcciones `rupix:`/`rupixtest:`, llaves extendidas `rpub`/`rtub`, RPC en rupias
 
 ## Qué es Rupix
