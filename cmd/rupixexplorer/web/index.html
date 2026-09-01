@@ -56,7 +56,7 @@ footer a{color:var(--violet);text-decoration:none}
     <h2>⛏ Próximo halving</h2>
     <div class="big" id="halv-count">…</div>
     <div class="bar"><div id="halv-bar" style="width:0%"></div></div>
-    <div class="sub" id="halv-sub">la recompensa bajará de 0.5 a 0.25 RUPIX por bloque</div>
+    <div class="sub" id="halv-sub">en cada halving la emisión se reduce a la mitad</div>
   </div>
   <div class="card">
     <h2>🪙 Gold circulante</h2>
@@ -71,10 +71,10 @@ footer a{color:var(--violet);text-decoration:none}
   <div class="card full">
     <h2>💎 La escalera — cada nivel se forja quemando 10 del anterior</h2>
     <div class="ladder">
-      <div class="rung"><span class="name" style="color:#9ad8ff">💎 Diamante</span><span class="lock">🔒 se desbloquea en el halving 1</span></div>
-      <div class="rung"><span class="name" style="color:#d8dde3">⬜ Platino</span><span class="lock">🔒 halving 2</span></div>
-      <div class="rung"><span class="name" style="color:#8f9aa8">◼ Rodio</span><span class="lock">🔒 halving 3</span></div>
-      <div class="rung"><span class="name" style="color:var(--gold)">👑 Kings — solo 2,100 existirán</span><span class="lock">🔒 halving 4</span></div>
+      <div class="rung"><span class="name" style="color:#9ad8ff">💎 Diamante</span><span class="lock" id="rung1">🔒 halving 1</span></div>
+      <div class="rung"><span class="name" style="color:#d8dde3">⬜ Platino</span><span class="lock" id="rung2">🔒 halving 2</span></div>
+      <div class="rung"><span class="name" style="color:#8f9aa8">◼ Rodio</span><span class="lock" id="rung3">🔒 halving 3</span></div>
+      <div class="rung"><span class="name" style="color:var(--gold)">👑 Kings — solo 2,100 existirán</span><span class="lock" id="rung4">🔒 halving 4</span></div>
     </div>
   </div>
   <div class="card full blocks">
@@ -96,7 +96,8 @@ footer a{color:var(--violet);text-decoration:none}
 <script>
 const API="";
 const fmt=n=>Number(n).toLocaleString("en-US");
-const HALVING=42000000;
+const HALVINGS={"rupix-mainnet":42000000,"rupix-testnet":10000,"rupix-simnet":42000000,"rupix-devnet":150};
+let HALVING=42000000;
 
 async function j(u){const r=await fetch(API+u);return r.json()}
 
@@ -105,13 +106,30 @@ async function refresh(){
     const dag=await j("/api/dag");
     document.getElementById("netname").textContent=dag.NetworkName;
     const daa=Number(dag.VirtualDAAScore);
+    HALVING=HALVINGS[dag.NetworkName]||42000000;
+    // Actualizar la escalera: cada nivel se desbloquea en su halving
+    const niveles=[["rung1",1],["rung2",2],["rung3",3],["rung4",4]];
+    for(const [id,n] of niveles){
+      const el=document.getElementById(id);
+      if(!el) continue;
+      if(daa>=HALVING*n){
+        el.textContent="✅ desbloqueado";
+        el.style.color="#7dd88f";
+      }else{
+        el.textContent="🔒 se desbloquea en el halving "+n;
+        el.style.color="";
+      }
+    }
     document.getElementById("daa").textContent=fmt(dag.BlockCount)+" bloques";
     document.getElementById("netstats").textContent="dificultad "+fmt(Math.round(dag.Difficulty))+" · DAA "+fmt(daa);
-    const restante=HALVING-daa;
+    const halvingActual=Math.floor(daa/HALVING);
+    const proximoHalvingBloque=(halvingActual+1)*HALVING;
+    const restante=proximoHalvingBloque-daa;
+    const progresoEnEste=daa-(halvingActual*HALVING);
     document.getElementById("halv-count").textContent=fmt(restante)+" bloques restantes";
-    document.getElementById("halv-bar").style.width=Math.max(daa/HALVING*100,0.5).toFixed(2)+"%";
+    document.getElementById("halv-bar").style.width=Math.max(progresoEnEste/HALVING*100,0.5).toFixed(2)+"%";
     const dias=Math.round(restante/86400);
-    document.getElementById("halv-sub").textContent="≈ "+fmt(dias)+" días al ritmo de 1 bloque/seg · la recompensa bajará de 0.5 a 0.25 RUPIX";
+    document.getElementById("halv-sub").textContent="≈ "+fmt(dias)+" días al ritmo de 1 bloque/seg · en cada halving la emisión se reduce a la mitad";
 
     const sup=await j("/api/supply");
     document.getElementById("supply").textContent=fmt((sup.CirculatingRupia/1e8).toFixed(0))+" RUPIX";
