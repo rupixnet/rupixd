@@ -32,6 +32,10 @@ http.HandleFunc("/api/supply", func(w http.ResponseWriter, r *http.Request) {
 resp, err := client.GetCoinSupply()
 writeJSON(w, resp, err)
 })
+http.HandleFunc("/api/hashrate", func(w http.ResponseWriter, r *http.Request) {
+resp, err := client.EstimateNetworkHashesPerSecond("", 1000)
+writeJSON(w, resp, err)
+})
 http.HandleFunc("/api/block", func(w http.ResponseWriter, r *http.Request) {
 hash := r.URL.Query().Get("hash")
 resp, err := client.GetBlock(hash, true)

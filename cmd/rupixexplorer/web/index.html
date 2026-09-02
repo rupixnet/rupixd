@@ -67,6 +67,7 @@ footer a{color:var(--violet);text-decoration:none}
     <h2>📡 La red ahora</h2>
     <div class="big" id="daa">…</div>
     <div class="sub" id="netstats">…</div>
+    <div class="sub" id="hashrate" style="color:#7dd88f;margin-top:6px">⚡ Hashrate…</div>
   </div>
   <div class="card full">
     <h2>💎 La escalera — cada nivel se forja quemando 10 del anterior</h2>
@@ -122,6 +123,18 @@ async function refresh(){
     }
     document.getElementById("daa").textContent=fmt(dag.BlockCount)+" bloques";
     document.getElementById("netstats").textContent="dificultad "+fmt(Math.round(dag.Difficulty))+" · DAA "+fmt(daa);
+    // Hashrate de la red (dato real del nodo)
+    try{
+      const hr=await j("/api/hashrate");
+      const h=Number(hr.NetworkHashesPerSecond);
+      let txt;
+      if(h>=1e9) txt=(h/1e9).toFixed(2)+" GH/s";
+      else if(h>=1e6) txt=(h/1e6).toFixed(2)+" MH/s";
+      else if(h>=1e3) txt=(h/1e3).toFixed(2)+" KH/s";
+      else txt=h+" H/s";
+      const el=document.getElementById("hashrate");
+      if(el) el.textContent="⚡ Hashrate de la red: "+txt;
+    }catch(e){}
     const halvingActual=Math.floor(daa/HALVING);
     const proximoHalvingBloque=(halvingActual+1)*HALVING;
     const restante=proximoHalvingBloque-daa;
