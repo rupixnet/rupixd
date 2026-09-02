@@ -61,7 +61,8 @@ footer a{color:var(--violet);text-decoration:none}
   <div class="card">
     <h2>🪙 Gold circulante</h2>
     <div class="big" id="supply">…</div>
-    <div class="sub">de 42,000,000 RUPIX — techo grabado en el génesis</div>
+    <div class="sub" id="supply-sub">de 42,000,000 RUPIX — techo grabado en el génesis</div>
+    <div class="bar" style="margin-top:8px"><div id="supply-bar" style="width:0%"></div></div>
   </div>
   <div class="card">
     <h2>📡 La red ahora</h2>
@@ -145,7 +146,14 @@ async function refresh(){
     document.getElementById("halv-sub").textContent="≈ "+fmt(dias)+" días al ritmo de 1 bloque/seg · en cada halving la emisión se reduce a la mitad";
 
     const sup=await j("/api/supply");
-    document.getElementById("supply").textContent=fmt((sup.CirculatingRupia/1e8).toFixed(0))+" RUPIX";
+    const circR=Number(sup.CirculatingRupia)/1e8;
+    const techoR=42000000;
+    const pct=circR/techoR*100;
+    document.getElementById("supply").textContent=fmt(circR.toFixed(2))+" RUPIX";
+    const ssub=document.getElementById("supply-sub");
+    if(ssub) ssub.textContent="de 42,000,000 RUPIX — "+pct.toFixed(3)+"% emitido";
+    const sbar=document.getElementById("supply-bar");
+    if(sbar) sbar.style.width=Math.max(pct,0.3).toFixed(2)+"%";
 
     // caminar hacia atras desde el tip por SelectedParentHash
     let hash=dag.TipHashes[0];
