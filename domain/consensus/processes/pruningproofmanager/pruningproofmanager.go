@@ -12,6 +12,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/processes/dagtraversalmanager"
 	"github.com/rupixnet/rupixd/domain/consensus/processes/ghostdagmanager"
 	"github.com/rupixnet/rupixd/domain/consensus/processes/reachabilitymanager"
+"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
@@ -338,6 +339,18 @@ func (ppm *pruningProofManager) ValidatePruningPointProof(pruningPointProof *ext
 	level0Headers := pruningPointProof.Headers[0]
 	pruningPointHeader := level0Headers[len(level0Headers)-1]
 	pruningPoint := consensushashing.HeaderHash(pruningPointHeader)
+	// Rupix: validacion de cordura del conteo de gemas del proof.
+	// El nodo rechaza conteos imposibles (topes historicos excedidos).
+	// El verificable total (commitment en header) es trabajo futuro.
+	if pruningPointProof.GemsHistory != nil {
+		gh := pruningPointProof.GemsHistory
+		if gh.Diamante > constants.MaxDiamante ||
+			gh.Platino > constants.MaxPlatino ||
+			gh.Rodio > constants.MaxRodio {
+			return errors.Wrap(ruleerrors.ErrGemsCapExceeded,
+				"el conteo de gemas del pruning proof excede los topes historicos")
+		}
+	}
 	pruningPointBlockLevel := pruningPointHeader.BlockLevel(ppm.maxBlockLevel)
 	maxLevel := len(ppm.parentsManager.Parents(pruningPointHeader)) - 1
 	if maxLevel >= len(pruningPointProof.Headers) {
