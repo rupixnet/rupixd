@@ -104,3 +104,15 @@ Todo compila (go build ./domain/consensus/...). Sin romper nada.
 Verificado: falla IGUAL en main (sin la cirugia). NO es del pruning.
 Relacionado con H-5 (campo Version sobrecargado por niveles de gema).
 Es un pendiente conocido de la escalera, ajeno al pruning verificable.
+
+## RANKING DE DIFICULTAD (corregido - Edu tiene razon)
+LA MÁS DIFÍCIL DE TODO RUPIX = EL CAMBIO DE ALGORITMO (Autolykos), no el pruning.
+Razones: toca el corazón del PoW (todos los bloques), sin ejemplo con GHOSTDAG,
+irreversible en mainnet, la seguridad depende de que esté perfecto, requiere
+criptografía de PoW + código C. Un error = red no produce bloques o hackeable.
+
+El pruning fue el ENTRENAMIENTO: enseñó el method de tocar el motor (rama, tests,
+devnet, radiografías). Ese method será el que salve el cambio de algoritmo.
+
+Orden: 1)Algoritmo 2)Pruning total(commitment header) 3)Pruning cordura(hecho)
+4)Endurecimiento 5)Hallazgos.
