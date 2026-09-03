@@ -11,7 +11,7 @@ esencia de Rupix: destruir para crear algo más escaso.
 
 > **⚠️ Windows vs Linux/Mac:** los comandos de abajo empiezan con `./` (Linux/Mac).
 > En **Windows PowerShell**, usa `.\` en vez de `./` — por ejemplo: `.\rupixd.exe`.
-> Sin el `./` o `.\`, el sistema no encuentra el programa. (¡Gracias a Coco por el aviso!)
+> Sin el `./` o `.\`, el sistema no encuentra el programa. (¡Gracias a JC por el aporte!)
 ---
 
 ## Paso 1 — Ten tu wallet y daemon corriendo
