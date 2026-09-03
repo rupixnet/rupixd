@@ -287,6 +287,13 @@ func (ppm *pruningProofManager) buildPruningPointProof(stagingArea *model.Stagin
 		proof.Headers[i] = headersByLevel[i]
 	}
 
+	// Rupix: incluir el conteo historico de gemas del pruning point,
+	// para que el nodo nuevo pueda verificar los topes sin bajar toda la historia.
+	gemsHistory, err := ppm.gemsHistoryStore.Get(ppm.databaseContext, stagingArea, pruningPoint)
+	if err != nil {
+		return nil, err
+	}
+	proof.GemsHistory = gemsHistory
 	return proof, nil
 }
 
