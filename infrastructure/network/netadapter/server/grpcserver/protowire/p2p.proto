@@ -219,6 +219,15 @@ message RequestPruningPointProofMessage {}
 
 message PruningPointProofMessage {
   repeated PruningPointProofHeaderArray headers = 1;
+  GemsHistoryMessage gemsHistory = 2;
+}
+
+// GemsHistoryMessage (Rupix): conteo historico de gemas hasta el pruning
+// point, para que el nodo nuevo verifique los topes sin bajar toda la historia.
+message GemsHistoryMessage {
+  uint64 diamante = 1;
+  uint64 platino = 2;
+  uint64 rodio = 3;
 }
 
 message PruningPointProofHeaderArray { repeated BlockHeader headers = 1; }
