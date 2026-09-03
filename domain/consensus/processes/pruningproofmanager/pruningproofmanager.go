@@ -868,6 +868,14 @@ func (ppm *pruningProofManager) ApplyPruningPointProof(pruningPointProof *extern
 			ppm.blockHeaderStore.Stage(stagingArea, blockHash, header)
 		}
 	}
+	// Rupix: guardar el conteo de gemas verificado del pruning point.
+	if pruningPointProof.GemsHistory != nil && len(pruningPointProof.Headers) > 0 {
+		level0 := pruningPointProof.Headers[0]
+		if len(level0) > 0 {
+			ppHash := consensushashing.HeaderHash(level0[len(level0)-1])
+			ppm.gemsHistoryStore.Stage(stagingArea, ppHash, pruningPointProof.GemsHistory)
+		}
+	}
 	err := staging.CommitAllChanges(ppm.databaseContext, stagingArea)
 	if err != nil {
 		return err
