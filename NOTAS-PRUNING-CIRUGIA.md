@@ -69,3 +69,33 @@ Todo compila (go build ./domain/consensus/...). Sin romper nada.
    fuerte requiere COMMITMENT EN HEADER (rediseño mayor, trabajo futuro).
 
 ## DIFICULTAD RESTANTE: serialización = MEDIA (mecánica pero delicada, toca protobuf de toda la red)
+
+## ✅ SESIÓN COMPLETADA — CIRUGÍA CASI COMPLETA (rama pruning-verificable)
+
+### FLUJO INTERNO (compila):
+- PASO 1: campo GemsHistory en PruningPointProof
+- PASO 2: plomería (gemsHistoryStore en el manager: struct+New+factory)
+- PUNTO 1 (Build:285): el proof incluye el gemshistory del pruning point
+- PUNTO 2 (Validate): valida cordura vía validateGemsHistorySanity()
+- PUNTO 3 (Apply): guarda el gemshistory verificado
+
+### SERIALIZACIÓN DE RED (compila todo el proyecto):
+- p2p.proto: gemsHistory=2 + message GemsHistoryMessage (diamante/platino/rodio)
+- protobuf regenerado con protoc v3.21.12 + protoc-gen-go v1.28.1
+  (comando en generate.go; plugins en $GOPATH/bin, agregar al PATH)
+- MsgGemsHistory en appmessage (p2p_msgpruningpointproof.go)
+- 3 conversiones: protowire (p2p_pruning_point_proof.go) + domainconverters.go (x2)
+
+### PRUEBAS (todas PASS):
+- NIVEL 1 serialización (app/appmessage/p2p_gemshistory_serialization_test.go): 2 tests, el conteo viaja intacto
+- NIVEL 2 validación (pruningproofmanager/gemshistory_sanity_test.go): 5 tests, acepta válidos/rechaza excesos/tope exacto ok
+
+### FALTA (próxima sesión, FRESCO):
+1. NIVEL 3: probar en DEVNET (integración real, 2 nodos, sincronización desde pruning point)
+2. Merge a main (SOLO cuando devnet pase)
+3. RECORDAR: el "verificable total" (recalcular desde tx) NO es posible con solo headers.
+   Enfoque actual = validación de cordura. El verificable fuerte = COMMITMENT EN HEADER
+   (rediseño mayor, trabajo futuro documentado).
+
+### COMMITS en rama pruning-verificable: campo, plomería, Build, Validate, Apply,
+### serialización, test nivel 1, test nivel 2. Todo compilando, 7 tests verdes.
