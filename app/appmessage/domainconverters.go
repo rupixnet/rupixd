@@ -584,8 +584,17 @@ func MsgPruningPointProofToDomainPruningPointProof(pruningPointProofMessage *Msg
 			headers[blockLevel][i] = BlockHeaderToDomainBlockHeader(header)
 		}
 	}
+	var gemsHistory *externalapi.GemsHistory
+	if pruningPointProofMessage.GemsHistory != nil {
+		gemsHistory = &externalapi.GemsHistory{
+			Diamante: pruningPointProofMessage.GemsHistory.Diamante,
+			Platino:  pruningPointProofMessage.GemsHistory.Platino,
+			Rodio:    pruningPointProofMessage.GemsHistory.Rodio,
+		}
+	}
 	return &externalapi.PruningPointProof{
 		Headers: headers,
+GemsHistory: gemsHistory,
 	}
 }
 
@@ -598,7 +607,16 @@ func DomainPruningPointProofToMsgPruningPointProof(pruningPointProof *externalap
 			headers[blockLevel][i] = DomainBlockHeaderToBlockHeader(header)
 		}
 	}
+	var gemsHistory *MsgGemsHistory
+	if pruningPointProof.GemsHistory != nil {
+		gemsHistory = &MsgGemsHistory{
+			Diamante: pruningPointProof.GemsHistory.Diamante,
+			Platino:  pruningPointProof.GemsHistory.Platino,
+			Rodio:    pruningPointProof.GemsHistory.Rodio,
+		}
+	}
 	return &MsgPruningPointProof{
 		Headers: headers,
+GemsHistory: gemsHistory,
 	}
 }

@@ -40,6 +40,7 @@ type pruningProofManager struct {
 	consensusStateStore   model.ConsensusStateStore
 	blockRelationStore    model.BlockRelationStore
 	reachabilityDataStore model.ReachabilityDataStore
+gemsHistoryStore      model.GemsHistoryStore
 
 	genesisHash   *externalapi.DomainHash
 	k             externalapi.KType
@@ -69,6 +70,7 @@ func New(
 	consensusStateStore model.ConsensusStateStore,
 	blockRelationStore model.BlockRelationStore,
 	reachabilityDataStore model.ReachabilityDataStore,
+gemsHistoryStore model.GemsHistoryStore,
 
 	genesisHash *externalapi.DomainHash,
 	k externalapi.KType,
@@ -93,6 +95,7 @@ func New(
 		consensusStateStore:   consensusStateStore,
 		blockRelationStore:    blockRelationStore,
 		reachabilityDataStore: reachabilityDataStore,
+gemsHistoryStore:      gemsHistoryStore,
 
 		genesisHash:   genesisHash,
 		k:             k,
@@ -284,6 +287,13 @@ func (ppm *pruningProofManager) buildPruningPointProof(stagingArea *model.Stagin
 		proof.Headers[i] = headersByLevel[i]
 	}
 
+	// Rupix: incluir el conteo historico de gemas del pruning point,
+	// para que el nodo nuevo pueda verificar los topes sin bajar toda la historia.
+	gemsHistory, err := ppm.gemsHistoryStore.Get(ppm.databaseContext, stagingArea, pruningPoint)
+	if err != nil {
+		return nil, err
+	}
+	proof.GemsHistory = gemsHistory
 	return proof, nil
 }
 
@@ -328,6 +338,12 @@ func (ppm *pruningProofManager) ValidatePruningPointProof(pruningPointProof *ext
 	level0Headers := pruningPointProof.Headers[0]
 	pruningPointHeader := level0Headers[len(level0Headers)-1]
 	pruningPoint := consensushashing.HeaderHash(pruningPointHeader)
+	// Rupix: validacion de cordura del conteo de gemas del proof.
+	// El nodo rechaza conteos imposibles (topes historicos excedidos).
+	// El verificable total (commitment en header) es trabajo futuro.
+	if err := validateGemsHistorySanity(pruningPointProof.GemsHistory); err != nil {
+		return err
+	}
 	pruningPointBlockLevel := pruningPointHeader.BlockLevel(ppm.maxBlockLevel)
 	maxLevel := len(ppm.parentsManager.Parents(pruningPointHeader)) - 1
 	if maxLevel >= len(pruningPointProof.Headers) {
@@ -843,6 +859,14 @@ func (ppm *pruningProofManager) ApplyPruningPointProof(pruningPointProof *extern
 		for _, header := range headers {
 			blockHash := consensushashing.HeaderHash(header)
 			ppm.blockHeaderStore.Stage(stagingArea, blockHash, header)
+		}
+	}
+	// Rupix: guardar el conteo de gemas verificado del pruning point.
+	if pruningPointProof.GemsHistory != nil && len(pruningPointProof.Headers) > 0 {
+		level0 := pruningPointProof.Headers[0]
+		if len(level0) > 0 {
+			ppHash := consensushashing.HeaderHash(level0[len(level0)-1])
+			ppm.gemsHistoryStore.Stage(stagingArea, ppHash, pruningPointProof.GemsHistory)
 		}
 	}
 	err := staging.CommitAllChanges(ppm.databaseContext, stagingArea)

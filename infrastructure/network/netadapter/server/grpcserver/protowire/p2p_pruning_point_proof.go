@@ -25,8 +25,17 @@ func (x *KaspadMessage_PruningPointProof) toAppMessage() (appmessage.Message, er
 			}
 		}
 	}
+	var gemsHistory *appmessage.MsgGemsHistory
+	if x.PruningPointProof.GemsHistory != nil {
+		gemsHistory = &appmessage.MsgGemsHistory{
+			Diamante: x.PruningPointProof.GemsHistory.Diamante,
+			Platino:  x.PruningPointProof.GemsHistory.Platino,
+			Rodio:    x.PruningPointProof.GemsHistory.Rodio,
+		}
+	}
 	return &appmessage.MsgPruningPointProof{
 		Headers: blockHeaders,
+GemsHistory: gemsHistory,
 	}, nil
 }
 
@@ -43,8 +52,17 @@ func (x *KaspadMessage_PruningPointProof) fromAppMessage(msgPruningPointProof *a
 		}
 	}
 
+	var gemsHistory *GemsHistoryMessage
+	if msgPruningPointProof.GemsHistory != nil {
+		gemsHistory = &GemsHistoryMessage{
+			Diamante: msgPruningPointProof.GemsHistory.Diamante,
+			Platino:  msgPruningPointProof.GemsHistory.Platino,
+			Rodio:    msgPruningPointProof.GemsHistory.Rodio,
+		}
+	}
 	x.PruningPointProof = &PruningPointProofMessage{
 		Headers: blockHeaders,
+GemsHistory: gemsHistory,
 	}
 	return nil
 }
