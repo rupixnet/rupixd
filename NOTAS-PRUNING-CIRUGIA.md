@@ -47,3 +47,25 @@ La PruningPointProof es la "caja" que viaja al nodo nuevo. Agregar 1 campo (Gems
 DELICADO: es el pruning proof. Error = nodos rechazan/aceptan mal. Rama + tests + devnet.
 
 ## PRÓXIMA SESIÓN: empezar a implementar, empezando por ampliar el tipo PruningPointProof, luego PUNTO 1 (build), con tests.
+
+## AVANCE SESIÓN (rama pruning-verificable) — FLUJO INTERNO COMPLETO
+✅ PASO 1: campo GemsHistory en PruningPointProof (commit)
+✅ PASO 2: plomería - gemsHistoryStore conectado (struct+New+factory)
+✅ PUNTO 1 (Build:285): buildPruningPointProof incluye el gemshistory
+✅ PUNTO 2 (Validate:341): valida cordura (rechaza si excede topes MaxDiamante/Platino/Rodio, usa ErrGemsCapExceeded)
+✅ PUNTO 3 (Apply:870): guarda el gemshistory verificado antes del CommitAllChanges
+Todo compila (go build ./domain/consensus/...). Sin romper nada.
+
+## PENDIENTE (próxima sesión, FRESCO)
+1. SERIALIZACIÓN DE RED (protobuf) — que GemsHistory VIAJE entre nodos:
+   - messages.proto / p2p.proto: agregar campo al mensaje PruningPointProof
+   - Regenerar .pb.go con protoc (INSTALAR protoc primero, verificar)
+   - Conversiones: domainconverters.go + p2p_pruning_point_proof.go
+   - DELICADO: si sale mal rompe la red. Con calma + pruebas.
+2. TESTS del flujo (build/validate/apply del gemshistory)
+3. Probar en DEVNET antes de testnet/main.
+4. NOTA: el "verificable total" (recalcular desde tx) NO es posible con
+   solo headers. Enfoque actual = validación de cordura. El verificable
+   fuerte requiere COMMITMENT EN HEADER (rediseño mayor, trabajo futuro).
+
+## DIFICULTAD RESTANTE: serialización = MEDIA (mecánica pero delicada, toca protobuf de toda la red)
