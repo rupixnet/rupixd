@@ -40,6 +40,7 @@ type pruningProofManager struct {
 	consensusStateStore   model.ConsensusStateStore
 	blockRelationStore    model.BlockRelationStore
 	reachabilityDataStore model.ReachabilityDataStore
+gemsHistoryStore      model.GemsHistoryStore
 
 	genesisHash   *externalapi.DomainHash
 	k             externalapi.KType
@@ -69,6 +70,7 @@ func New(
 	consensusStateStore model.ConsensusStateStore,
 	blockRelationStore model.BlockRelationStore,
 	reachabilityDataStore model.ReachabilityDataStore,
+gemsHistoryStore model.GemsHistoryStore,
 
 	genesisHash *externalapi.DomainHash,
 	k externalapi.KType,
@@ -93,6 +95,7 @@ func New(
 		consensusStateStore:   consensusStateStore,
 		blockRelationStore:    blockRelationStore,
 		reachabilityDataStore: reachabilityDataStore,
+gemsHistoryStore:      gemsHistoryStore,
 
 		genesisHash:   genesisHash,
 		k:             k,
