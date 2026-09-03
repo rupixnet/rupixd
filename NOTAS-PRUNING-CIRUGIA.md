@@ -99,3 +99,8 @@ Todo compila (go build ./domain/consensus/...). Sin romper nada.
 
 ### COMMITS en rama pruning-verificable: campo, plomería, Build, Validate, Apply,
 ### serialización, test nivel 1, test nivel 2. Todo compilando, 7 tests verdes.
+
+## NOTA: test preexistente ExamplePayToAddrScript (txscript) FALLA
+Verificado: falla IGUAL en main (sin la cirugia). NO es del pruning.
+Relacionado con H-5 (campo Version sobrecargado por niveles de gema).
+Es un pendiente conocido de la escalera, ajeno al pruning verificable.
