@@ -87,10 +87,6 @@ func (v *transactionValidator) checkLevelRules(tx *externalapi.DomainTransaction
 	for nivel := constants.LevelDiamante; nivel <= constants.LevelKings; nivel++ {
 		in := inputsPorNivel[nivel]
 		outMismoNivel := outputsPorNivel[nivel]
-		outSuperior := 0
-		if nivel < constants.LevelKings {
-			outSuperior = outputsPorNivel[nivel+1]
-		}
 
 		// ¿Esta tx crea gemas de este nivel sin transferir las existentes?
 		creadas := outMismoNivel - in // >0 significa que nacen gemas nuevas de este nivel
@@ -133,7 +129,6 @@ func (v *transactionValidator) checkLevelRules(tx *externalapi.DomainTransaction
 					"nivel %d bloqueado: se desbloquea en DAA score %d (actual: %d)",
 					nivel, unlock, povDaaScore)
 			}
-			_ = outSuperior
 		} else if creadas < 0 {
 			// Se consumen mas gemas de las que se transfieren: deben ser quema de ascenso
 			quemadas := -creadas
