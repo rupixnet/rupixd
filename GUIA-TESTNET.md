@@ -7,6 +7,9 @@ No necesitas ser experto — sigue los pasos.
 > NO tienen valor real. Es para probar, aprender y ayudar a fortalecer
 > la red antes de mainnet. ¡Gracias por sumarte!
 
+> **⚠️ Windows vs Linux/Mac:** los comandos de abajo empiezan con `./` (Linux/Mac).
+> En **Windows PowerShell**, usa `.\` en vez de `./` — por ejemplo: `.\rupixd.exe`.
+> Sin el `./` o `.\`, el sistema no encuentra el programa. (¡Gracias a Coco por el aviso!)
 ---
 
 ## Paso 1 — Descarga Rupix
@@ -35,7 +38,7 @@ Abre una terminal en la carpeta donde descomprimiste Rupix, y corre:
 
 **Windows:**
 ```
-rupixd.exe --testnet --utxoindex --addpeer=178.104.69.148:17211
+.\rupixd.exe --testnet --utxoindex --addpeer=178.104.69.148:17211
 ```
 
 Tu nodo se conectará al nodo semilla de Rupix y empezará a
@@ -56,7 +59,7 @@ En OTRA terminal (deja el nodo corriendo en la primera), corre:
 
 **Windows:**
 ```
-rupixctl.exe --testnet GetBlockDagInfo
+.\rupixctl.exe --testnet GetBlockDagInfo
 ```
 
 Deberías ver:

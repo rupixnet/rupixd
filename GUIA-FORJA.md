@@ -9,6 +9,9 @@ esencia de Rupix: destruir para crear algo más escaso.
 > menos 10 Gold** (10 se queman) + un poquito extra para la
 > comisión de la transacción.
 
+> **⚠️ Windows vs Linux/Mac:** los comandos de abajo empiezan con `./` (Linux/Mac).
+> En **Windows PowerShell**, usa `.\` en vez de `./` — por ejemplo: `.\rupixd.exe`.
+> Sin el `./` o `.\`, el sistema no encuentra el programa. (¡Gracias a Coco por el aviso!)
 ---
 
 ## Paso 1 — Ten tu wallet y daemon corriendo
