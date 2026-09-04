@@ -116,3 +116,10 @@ devnet, radiografías). Ese method será el que salve el cambio de algoritmo.
 
 Orden: 1)Algoritmo 2)Pruning total(commitment header) 3)Pruning cordura(hecho)
 4)Endurecimiento 5)Hallazgos.
+
+## PENDIENTES DEL EXPLORADOR (cazados usando la red de verdad)
+1. NO busca transacciones, solo bloques. Si pegas un hash de tx da "Block not found".
+   IMPORTANTE: sin poder ver una tx, la gente no puede VERIFICAR la quema. Y verificar es el lema.
+   ARREGLO: agregar búsqueda de tx (GetMempoolEntry / buscar en bloques) + mostrar sus outputs
+   incluida la quema (OpReturn) para que cualquiera compruebe cuánto se destruyó.
+2. Textos de ayuda del wallet dicen "Kaspa"/"Sompi"/"KAS" — renombrar a Rupix/rupia/RUPIX.
