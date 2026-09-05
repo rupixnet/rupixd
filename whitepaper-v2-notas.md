@@ -19,3 +19,11 @@ privilegios, con lo que ya tienen o inversión chica. NO literal "8 mil millones
 CONCLUSIÓN FINAL DEL ALGORITMO: RupixHeavyHash (GPU, fácil, 3 archivos) es el camino
 correcto — no un compromiso, sino LO ideal para el público real. Autolykos = plan B si
 aparecen ASICs (señal de éxito). La pieza más difícil se volvió un plan claro y manejable.
+
+## RESUMEN DEL DÍA (cierre) — todo visible en repo
+CERRADO: H-4, H-6 (Kings en proof, el grave), SHA256, textos Kaspa→Rupix, quema explicada en web, pruning mergeado a main.
+VIVO: testnet renacida (halving 100k), Coco mina Gold real, PRIMERA TRANSFERENCIA (tx 07c6b1ab...) + quema.
+PENDIENTE AUDITOR: cero mentiroso (multi-peer, complejo), H-1 (mapeado), verificable total (commitment header), 22 vulns deps.
+IDEAS GUARDADAS: verificador de tx, Muro de Fundadores, contador de nodos, UX wallet gema, blog (Coco), Cerebro de Rupix.
+DONDE VAMOS: fin Etapa 2 + corazón de Etapa 3 hecho. ~40% a mainnet. Lo más difícil conceptual (pruning) cruzado.
+PARA X (cierre del día): resumen de avances + tx histórica 07c6b1ab...
