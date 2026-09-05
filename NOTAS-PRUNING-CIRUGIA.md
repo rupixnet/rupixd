@@ -123,3 +123,12 @@ Orden: 1)Algoritmo 2)Pruning total(commitment header) 3)Pruning cordura(hecho)
    ARREGLO: agregar búsqueda de tx (GetMempoolEntry / buscar en bloques) + mostrar sus outputs
    incluida la quema (OpReturn) para que cualquiera compruebe cuánto se destruyó.
 2. Textos de ayuda del wallet dicen "Kaspa"/"Sompi"/"KAS" — renombrar a Rupix/rupia/RUPIX.
+
+## MEJORA UX WALLET (idea de Edu): aviso al mover gema sin Gold
+Cuando el usuario intente mover/transferir una gema y NO tenga Gold suficiente,
+la wallet debe:
+1. Avisar claramente: "No puedes mover esta gema: necesitas Gold para la comisión."
+2. Mostrar el COSTO exacto: "Necesitas al menos X RUPIX para moverla."
+Así el usuario sabe en el momento exacto qué le falta, sin adivinar ni asustarse.
+Mejor que un aviso en la guía (que nadie lee). El software guía cuando se necesita.
+ARREGLO: en transfer-gem del wallet, detectar Gold insuficiente y dar ese mensaje claro con el monto.
