@@ -352,7 +352,7 @@ var TestnetParams = Params{
 	CoinbasePayloadScriptPublicKeyMaxLength: defaultCoinbasePayloadScriptPublicKeyMaxLength,
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
-	BlocksPerHalving:                        10_000,                       // Rupix testnet: escalera probable en horas
+	BlocksPerHalving:                        100_000,                      // Rupix testnet: emision util ~1 dia por halving, escalera en ~5 dias
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,

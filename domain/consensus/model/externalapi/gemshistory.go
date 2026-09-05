@@ -8,6 +8,7 @@ type GemsHistory struct {
 Diamante uint64
 Platino  uint64
 Rodio    uint64
+	Kings    uint64
 }
 
 // Clone devuelve una copia del GemsHistory.
@@ -19,5 +20,6 @@ return &GemsHistory{
 Diamante: gh.Diamante,
 Platino:  gh.Platino,
 Rodio:    gh.Rodio,
+		Kings:    gh.Kings,
 }
 }

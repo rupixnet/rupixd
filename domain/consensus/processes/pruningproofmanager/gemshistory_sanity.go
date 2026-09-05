@@ -31,5 +31,10 @@ return errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
 "conteo de Rodios (%d) excede el tope historico (%d)",
 gemsHistory.Rodio, constants.MaxRodio)
 }
+if gemsHistory.Kings > constants.MaxKings {
+	return errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
+		"conteo de Kings (%d) excede el tope historico (%d)",
+		gemsHistory.Kings, constants.MaxKings)
+}
 return nil
 }

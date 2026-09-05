@@ -13,6 +13,7 @@ type MsgGemsHistory struct {
 	Diamante uint64
 	Platino  uint64
 	Rodio    uint64
+Kings    uint64
 }
 
 // Command returns the protocol command string for the message

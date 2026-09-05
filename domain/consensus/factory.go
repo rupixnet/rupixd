@@ -476,6 +476,7 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		blockRelationStore,
 		reachabilityDataStore,
 gemsHistoryStore,
+kingsCountStore,
 
 		genesisHash,
 		config.K,

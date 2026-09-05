@@ -228,6 +228,7 @@ message GemsHistoryMessage {
   uint64 diamante = 1;
   uint64 platino = 2;
   uint64 rodio = 3;
+  uint64 kings = 4;
 }
 
 message PruningPointProofHeaderArray { repeated BlockHeader headers = 1; }

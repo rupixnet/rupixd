@@ -41,6 +41,7 @@ type pruningProofManager struct {
 	blockRelationStore    model.BlockRelationStore
 	reachabilityDataStore model.ReachabilityDataStore
 gemsHistoryStore      model.GemsHistoryStore
+kingsCountStore       model.KingsCountStore
 
 	genesisHash   *externalapi.DomainHash
 	k             externalapi.KType
@@ -71,6 +72,7 @@ func New(
 	blockRelationStore model.BlockRelationStore,
 	reachabilityDataStore model.ReachabilityDataStore,
 gemsHistoryStore model.GemsHistoryStore,
+kingsCountStore model.KingsCountStore,
 
 	genesisHash *externalapi.DomainHash,
 	k externalapi.KType,
@@ -96,6 +98,7 @@ gemsHistoryStore model.GemsHistoryStore,
 		blockRelationStore:    blockRelationStore,
 		reachabilityDataStore: reachabilityDataStore,
 gemsHistoryStore:      gemsHistoryStore,
+kingsCountStore:       kingsCountStore,
 
 		genesisHash:   genesisHash,
 		k:             k,
@@ -294,6 +297,16 @@ func (ppm *pruningProofManager) buildPruningPointProof(stagingArea *model.Stagin
 		return nil, err
 	}
 	proof.GemsHistory = gemsHistory
+	// Rupix: incluir tambien el conteo de Kings (vive en su propio store,
+	// kingscount). Sin esto, un nodo nuevo creeria que hay 0 Kings y
+	// aceptaria crear los 2100 de nuevo (el activo mas escaso).
+	kingsCount, err := ppm.kingsCountStore.Get(ppm.databaseContext, stagingArea, pruningPoint)
+	if err != nil {
+		return nil, err
+	}
+	if proof.GemsHistory != nil {
+		proof.GemsHistory.Kings = kingsCount
+	}
 	return proof, nil
 }
 
@@ -867,6 +880,7 @@ func (ppm *pruningProofManager) ApplyPruningPointProof(pruningPointProof *extern
 		if len(level0) > 0 {
 			ppHash := consensushashing.HeaderHash(level0[len(level0)-1])
 			ppm.gemsHistoryStore.Stage(stagingArea, ppHash, pruningPointProof.GemsHistory)
+			ppm.kingsCountStore.Stage(stagingArea, ppHash, pruningPointProof.GemsHistory.Kings)
 		}
 	}
 	err := staging.CommitAllChanges(ppm.databaseContext, stagingArea)

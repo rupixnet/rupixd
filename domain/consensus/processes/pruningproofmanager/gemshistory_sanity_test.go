@@ -48,4 +48,11 @@ if err := validateGemsHistorySanity(enTope); err != nil {
 t.Fatalf("conteo en el tope exacto rechazado (no deberia): %v", err)
 }
 t.Log("OK: conteo en el tope exacto aceptado (sin off-by-one)")
+
+// Caso 6: Kings exceden el tope -> RECHAZADO
+excesivoK := &externalapi.GemsHistory{Diamante: 0, Platino: 0, Rodio: 0, Kings: 3000}
+if err := validateGemsHistorySanity(excesivoK); err == nil {
+t.Fatal("exceso de Kings NO fue rechazado")
+}
+t.Log("OK: exceso de Kings rechazado")
 }

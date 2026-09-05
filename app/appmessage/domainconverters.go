@@ -590,6 +590,7 @@ func MsgPruningPointProofToDomainPruningPointProof(pruningPointProofMessage *Msg
 			Diamante: pruningPointProofMessage.GemsHistory.Diamante,
 			Platino:  pruningPointProofMessage.GemsHistory.Platino,
 			Rodio:    pruningPointProofMessage.GemsHistory.Rodio,
+Kings:    pruningPointProofMessage.GemsHistory.Kings,
 		}
 	}
 	return &externalapi.PruningPointProof{
@@ -613,6 +614,7 @@ func DomainPruningPointProofToMsgPruningPointProof(pruningPointProof *externalap
 			Diamante: pruningPointProof.GemsHistory.Diamante,
 			Platino:  pruningPointProof.GemsHistory.Platino,
 			Rodio:    pruningPointProof.GemsHistory.Rodio,
+Kings:    pruningPointProof.GemsHistory.Kings,
 		}
 	}
 	return &MsgPruningPointProof{

@@ -31,6 +31,7 @@ func (x *KaspadMessage_PruningPointProof) toAppMessage() (appmessage.Message, er
 			Diamante: x.PruningPointProof.GemsHistory.Diamante,
 			Platino:  x.PruningPointProof.GemsHistory.Platino,
 			Rodio:    x.PruningPointProof.GemsHistory.Rodio,
+Kings:    x.PruningPointProof.GemsHistory.Kings,
 		}
 	}
 	return &appmessage.MsgPruningPointProof{
@@ -58,6 +59,7 @@ func (x *KaspadMessage_PruningPointProof) fromAppMessage(msgPruningPointProof *a
 			Diamante: msgPruningPointProof.GemsHistory.Diamante,
 			Platino:  msgPruningPointProof.GemsHistory.Platino,
 			Rodio:    msgPruningPointProof.GemsHistory.Rodio,
+Kings:    msgPruningPointProof.GemsHistory.Kings,
 		}
 	}
 	x.PruningPointProof = &PruningPointProofMessage{

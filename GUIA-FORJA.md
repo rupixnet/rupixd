@@ -9,6 +9,13 @@ esencia de Rupix: destruir para crear algo más escaso.
 > menos 10 Gold** (10 se queman) + un poquito extra para la
 > comisión de la transacción.
 
+> **⚠️ Importante — guarda Gold aparte:** mover o transferir una gema
+> también cuesta una pequeña comisión en Gold. Si forjas una gema y te
+> quedas SIN nada de Gold, tu gema queda quieta: no la podrás mover ni
+> transferir hasta que tengas un poco de Gold otra vez. **No la perdiste**
+> —sigue siendo tuya y visible en la cadena—, solo necesita algo de Gold
+> para moverse. Consejo: guarda siempre un poco de Gold aparte.
+
 > **⚠️ Windows vs Linux/Mac:** los comandos de abajo empiezan con `./` (Linux/Mac).
 > En **Windows PowerShell**, usa `.\` en vez de `./` — por ejemplo: `.\rupixd.exe`.
 > Sin el `./` o `.\`, el sistema no encuentra el programa. (¡Gracias a JC por el aporte!)
