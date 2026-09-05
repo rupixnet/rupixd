@@ -36,5 +36,24 @@ if gemsHistory.Kings > constants.MaxKings {
 		"conteo de Kings (%d) excede el tope historico (%d)",
 		gemsHistory.Kings, constants.MaxKings)
 }
+// Rupix: COHERENCIA DE ESCALERA (mata al 'cero mentiroso' incoherente).
+// Por la mecanica de la escalera, un nivel superior solo existe si
+// existieron los inferiores (para quemarlos). Un proof que reporte
+// Kings sin Diamantes (o similar) es imposible: miente.
+if gemsHistory.Kings > 0 && (gemsHistory.Rodio == 0 || gemsHistory.Platino == 0 || gemsHistory.Diamante == 0) {
+	return errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
+		"conteo incoherente: hay Kings (%d) pero falta un nivel inferior (Rodio=%d Platino=%d Diamante=%d)",
+		gemsHistory.Kings, gemsHistory.Rodio, gemsHistory.Platino, gemsHistory.Diamante)
+}
+if gemsHistory.Rodio > 0 && (gemsHistory.Platino == 0 || gemsHistory.Diamante == 0) {
+	return errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
+		"conteo incoherente: hay Rodio (%d) pero falta Platino (%d) o Diamante (%d)",
+		gemsHistory.Rodio, gemsHistory.Platino, gemsHistory.Diamante)
+}
+if gemsHistory.Platino > 0 && gemsHistory.Diamante == 0 {
+	return errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
+		"conteo incoherente: hay Platino (%d) pero Diamante en 0",
+		gemsHistory.Platino)
+}
 return nil
 }

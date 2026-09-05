@@ -55,4 +55,25 @@ if err := validateGemsHistorySanity(excesivoK); err == nil {
 t.Fatal("exceso de Kings NO fue rechazado")
 }
 t.Log("OK: exceso de Kings rechazado")
+
+// Caso 7: CERO MENTIROSO - Kings sin Diamantes (incoherente) -> RECHAZADO
+mentiroso := &externalapi.GemsHistory{Diamante: 0, Platino: 0, Rodio: 0, Kings: 5}
+if err := validateGemsHistorySanity(mentiroso); err == nil {
+t.Fatal("cero mentiroso (Kings sin Diamantes) NO fue rechazado")
+}
+t.Log("OK: cero mentiroso (Kings sin niveles inferiores) rechazado")
+
+// Caso 8: Platino sin Diamante (incoherente) -> RECHAZADO
+mentiroso2 := &externalapi.GemsHistory{Diamante: 0, Platino: 3, Rodio: 0, Kings: 0}
+if err := validateGemsHistorySanity(mentiroso2); err == nil {
+t.Fatal("Platino sin Diamante NO fue rechazado")
+}
+t.Log("OK: Platino sin Diamante rechazado")
+
+// Caso 9: escalera coherente (todos los niveles presentes) -> ACEPTADO
+coherente := &externalapi.GemsHistory{Diamante: 100, Platino: 10, Rodio: 2, Kings: 1}
+if err := validateGemsHistorySanity(coherente); err != nil {
+t.Fatalf("conteo coherente rechazado: %v", err)
+}
+t.Log("OK: escalera coherente aceptada")
 }
