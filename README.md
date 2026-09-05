@@ -15,6 +15,10 @@ La **testnet pública está viva**: acepta nodos externos, mina sobre un génesi
 - ✅ **Explorador público en vivo** — [explorer.rupix.network](https://explorer.rupix.network)
 - ✅ **Economía completa en consenso**: escalera de 5 niveles, quema 10:1, burn por transacción, murallas históricas (2.1M/210k/21k/2,100) — 25+ escenarios de ataque cubiertos por tests
 - ✅ **Identidad completa**: direcciones `rupix:`/`rupixtest:`, llaves extendidas `rpub`/`rtub`, RPC en rupias
+- ✅ **Pruning verificable**: el conteo de gemas (incluidos los Kings) viaja en el pruning proof y se valida por coherencia — un nodo nuevo comprueba los topes sin bajar toda la historia ni confiar en quien se lo manda
+- ✅ **Binarios verificables con SHA256**: cada release publica la huella de cada binario, generada por el CI — descargas, comparas, y confirmas que nadie lo alteró
+- ✅ **0 vulnerabilidades** (govulncheck), compilado con Go 1.26.6
+- ✅ **Red de más de un nodo**: primer nodo externo conectado y sincronizado, primera transacción entre dos personas registrada en la cadena
 
 ## Qué es Rupix
 
@@ -89,12 +93,12 @@ Conectarte al testnet:
 ./rupixd --testnet --utxoindex
 ```
 
-*(La testnet pública con nodos semilla abiertos está en camino — hoy la red corre en modo laboratorio.)*
+*(La testnet pública está viva 24/7 con seed abierto: `--addpeer=178.104.69.148:17211`. Cualquiera puede conectarse — ver [GUIA-TESTNET.md](./GUIA-TESTNET.md).)*
 
 ## Camino a mainnet
 
 - **Cambio a minado accesible para todos** — migrar del algoritmo actual (heredado de Kaspa, dominado por máquinas industriales) a uno pensado para que cualquiera mine desde su computadora. Rupix es para todos.
-- **Conteo histórico de gemas verificable en el punto de poda** — que un nodo nuevo pueda comprobar los topes sin confiar en nadie (coherente con "verifica desde el génesis")
+- ✅ **Conteo de gemas verificable en el punto de poda** — HECHO: el proof lleva el conteo (con Kings) y se valida por coherencia. El "verificable total" (commitment en header) es el siguiente refuerzo.
 - **Auditoría externa del código de consenso**
 - **Infraestructura redundante** (múltiples nodos semilla) y **hashrate comprometido**
 - **Checkpoints temporales al arranque**, con fecha de caducidad publicada — protección honesta contra el 51% mientras la red crece su propio hashrate
