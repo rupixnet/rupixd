@@ -132,3 +132,21 @@ la wallet debe:
 Así el usuario sabe en el momento exacto qué le falta, sin adivinar ni asustarse.
 Mejor que un aviso en la guía (que nadie lee). El software guía cuando se necesita.
 ARREGLO: en transfer-gem del wallet, detectar Gold insuficiente y dar ese mensaje claro con el monto.
+
+## CERO MENTIROSO — cerrado (REGLA 1) + análisis del resto
+CERRADO (REGLA 1, coherencia de escalera): un proof que reporte un nivel superior sin
+los inferiores (Kings:5 Diamante:0, etc.) se rechaza. Mata el ataque REALISTA incoherente.
+Sin tocar el IBD, sin rechazar honestos. 3 tests PASS.
+
+REGLA 2 (nivel vs desbloqueo) — EVALUADA, NO IMPLEMENTADA: aportaría poco sobre REGLA 1.
+El consenso YA valida que no nazcan gemas de niveles bloqueados (checkLevelRules+unlock),
+así que en la cadena real nunca hay gemas de nivel bloqueado. Requeriría plomería
+(blocksPerHalving al manager) para beneficio marginal. NO justificada ahora.
+
+CASO RESTANTE (cero total puro): un proof con TODO en 0 en una cadena que sí tiene gemas.
+Difícil de detectar solo con coherencia interna (0 total ES válido si nadie forjó nunca).
+SOLO lo mata el COMMITMENT EN HEADER (verificable total, ideal futuro). Mientras tanto:
+protección natural de seeds honestos + REGLA 1. Riesgo realista: BAJO.
+
+MULTI-PEER CROSS-CHECK (auditor): descartado por ahora — toca IBD profundo, muy invasivo.
+El commitment en header es mejor solución de fondo.
