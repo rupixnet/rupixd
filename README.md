@@ -98,7 +98,7 @@ Conectarte al testnet:
 ## Camino a mainnet
 
 - **Cambio a minado accesible para todos** — migrar del algoritmo actual (heredado de Kaspa, dominado por máquinas industriales) a uno pensado para que cualquiera mine desde su computadora. Rupix es para todos.
-- ✅ **Conteo de gemas verificable en el punto de poda** — HECHO: el proof lleva el conteo (con Kings) y se valida por coherencia. El "verificable total" (commitment en header) es el siguiente refuerzo.
+- 🔄 **Conteo de gemas en el punto de poda** — el proof lleva el conteo (con Kings) y valida COHERENCIA (ratios de escalera), pero esto NO es verificable total: un conteo coherente pero falso aún pasaría. El verificable real exige **commitment en header** — pendiente, no hecho.
 - **Auditoría externa del código de consenso**
 - **Infraestructura redundante** (múltiples nodos semilla) y **hashrate comprometido**
 - **Checkpoints temporales al arranque**, con fecha de caducidad publicada — protección honesta contra el 51% mientras la red crece su propio hashrate

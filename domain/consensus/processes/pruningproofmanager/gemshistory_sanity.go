@@ -36,24 +36,28 @@ if gemsHistory.Kings > constants.MaxKings {
 		"conteo de Kings (%d) excede el tope historico (%d)",
 		gemsHistory.Kings, constants.MaxKings)
 }
-// Rupix: COHERENCIA DE ESCALERA (mata al 'cero mentiroso' incoherente).
-// Por la mecanica de la escalera, un nivel superior solo existe si
-// existieron los inferiores (para quemarlos). Un proof que reporte
-// Kings sin Diamantes (o similar) es imposible: miente.
-if gemsHistory.Kings > 0 && (gemsHistory.Rodio == 0 || gemsHistory.Platino == 0 || gemsHistory.Diamante == 0) {
+// Rupix: COHERENCIA DE ESCALERA POR RATIOS (mata conteos incoherentes).
+// Por la mecanica 10:1, cada gema de un nivel exigio quemar 10 del
+// inferior. Entonces el conteo HISTORICO de cada nivel debe ser al
+// menos 10x el del nivel superior. Un conteo que viole esto es imposible.
+// NOTA: esto valida COHERENCIA, NO es verificable total. Un conteo
+// coherente pero falsamente bajo aun pasaria. Solo el commitment en
+// header (pendiente) cierra el ataque realista por completo.
+const ratio = 10
+if gemsHistory.Rodio < ratio*gemsHistory.Kings {
 	return errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
-		"conteo incoherente: hay Kings (%d) pero falta un nivel inferior (Rodio=%d Platino=%d Diamante=%d)",
-		gemsHistory.Kings, gemsHistory.Rodio, gemsHistory.Platino, gemsHistory.Diamante)
+		"conteo incoherente: Rodio (%d) < 10x Kings (%d): imposible por la escalera 10:1",
+		gemsHistory.Rodio, gemsHistory.Kings)
 }
-if gemsHistory.Rodio > 0 && (gemsHistory.Platino == 0 || gemsHistory.Diamante == 0) {
+if gemsHistory.Platino < ratio*gemsHistory.Rodio {
 	return errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
-		"conteo incoherente: hay Rodio (%d) pero falta Platino (%d) o Diamante (%d)",
-		gemsHistory.Rodio, gemsHistory.Platino, gemsHistory.Diamante)
+		"conteo incoherente: Platino (%d) < 10x Rodio (%d): imposible por la escalera 10:1",
+		gemsHistory.Platino, gemsHistory.Rodio)
 }
-if gemsHistory.Platino > 0 && gemsHistory.Diamante == 0 {
+if gemsHistory.Diamante < ratio*gemsHistory.Platino {
 	return errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
-		"conteo incoherente: hay Platino (%d) pero Diamante en 0",
-		gemsHistory.Platino)
+		"conteo incoherente: Diamante (%d) < 10x Platino (%d): imposible por la escalera 10:1",
+		gemsHistory.Diamante, gemsHistory.Platino)
 }
 return nil
 }

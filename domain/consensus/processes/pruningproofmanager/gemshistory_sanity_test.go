@@ -12,7 +12,7 @@ import (
 // pruning verificable: acepta conteos validos, rechaza conteos imposibles.
 func TestValidateGemsHistorySanity(t *testing.T) {
 // Caso 1: conteo valido -> sin error
-valido := &externalapi.GemsHistory{Diamante: 5, Platino: 2, Rodio: 1}
+valido := &externalapi.GemsHistory{Diamante: 1000, Platino: 100, Rodio: 10, Kings: 1}
 if err := validateGemsHistorySanity(valido); err != nil {
 t.Fatalf("conteo valido rechazado: %v", err)
 }
@@ -71,9 +71,25 @@ t.Fatal("Platino sin Diamante NO fue rechazado")
 t.Log("OK: Platino sin Diamante rechazado")
 
 // Caso 9: escalera coherente (todos los niveles presentes) -> ACEPTADO
-coherente := &externalapi.GemsHistory{Diamante: 100, Platino: 10, Rodio: 2, Kings: 1}
+coherente := &externalapi.GemsHistory{Diamante: 10000, Platino: 1000, Rodio: 100, Kings: 10}
 if err := validateGemsHistorySanity(coherente); err != nil {
 t.Fatalf("conteo coherente rechazado: %v", err)
 }
 t.Log("OK: escalera coherente aceptada")
+
+// Caso 10: EL CASO DEL AUDITOR - ratios violados (Kings:5 pero pocos inferiores)
+// 5 Kings exigen >=50 Rodios, >=500 Platinos, >=5000 Diamantes.
+auditorCaso := &externalapi.GemsHistory{Diamante: 1, Platino: 1, Rodio: 1, Kings: 5}
+if err := validateGemsHistorySanity(auditorCaso); err == nil {
+t.Fatal("(Kings:5, Rodio:1, Platino:1, Diamante:1) NO fue rechazado - viola ratios 10:1")
+}
+t.Log("OK: conteo que viola ratios 10:1 rechazado (caso del auditor)")
+
+// Caso 11 (HONESTIDAD): un conteo COHERENTE pero falsamente bajo AUN PASA.
+// Esto NO lo cierra la cordura - solo el commitment en header. Documentado.
+coherenteBajo := &externalapi.GemsHistory{Diamante: 10000, Platino: 1000, Rodio: 100, Kings: 10}
+if err := validateGemsHistorySanity(coherenteBajo); err != nil {
+t.Fatalf("conteo coherente bajo rechazado (no deberia - la cordura no lo detecta): %v", err)
+}
+t.Log("HONESTO: conteo coherente bajo PASA (la cordura NO cierra esto; solo commitment en header)")
 }
