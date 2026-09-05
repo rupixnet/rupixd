@@ -101,6 +101,7 @@ func (bb *testBlockBuilder) buildUTXOInvalidHeader(stagingArea *model.StagingAre
 		hashMerkleRoot,
 		&externalapi.DomainHash{},
 		&externalapi.DomainHash{},
+&externalapi.DomainHash{}, // gemsCommitment: esqueleto (test)
 		timeInMilliseconds,
 		bits,
 		bb.nonceCounter,
@@ -133,6 +134,7 @@ func (bb *testBlockBuilder) buildHeaderWithParents(stagingArea *model.StagingAre
 		hashMerkleRoot,
 		acceptedIDMerkleRoot,
 		utxoCommitment,
+nil, // gemsCommitment: esqueleto (test)
 		header.TimeInMilliseconds(),
 		header.Bits(),
 		header.Nonce(),

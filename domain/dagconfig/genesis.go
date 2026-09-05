@@ -72,6 +72,7 @@ var genesisBlock = externalapi.DomainBlock{
 		genesisMerkleRoot,
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
+externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // gemsCommitment: genesis sin gemas
 		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x1e7fffff,
 		0x40ada,
@@ -125,6 +126,7 @@ var devnetGenesisBlock = externalapi.DomainBlock{
 		devnetGenesisMerkleRoot,
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
+externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // gemsCommitment: genesis sin gemas
 		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x1f4ee5fb,
 		0xff,
@@ -177,6 +179,7 @@ var simnetGenesisBlock = externalapi.DomainBlock{
 		simnetGenesisMerkleRoot,
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
+externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // gemsCommitment: genesis sin gemas
 		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x207fffff,
 		0x1,
@@ -230,6 +233,7 @@ var testnetGenesisBlock = externalapi.DomainBlock{
 		testnetGenesisMerkleRoot,
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
+externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // gemsCommitment: genesis sin gemas
 		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x1e7fffff,
 		0x29e3c,

@@ -63,6 +63,7 @@ header := blockheader.NewImmutableBlockHeader(
 merkleRoot,
 &externalapi.DomainHash{},          // acceptedIDMerkleRoot vacio
 externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // universo vacio
+externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // gemsCommitment: genesis sin gemas
 genesisTimestamp,
 n.bits,
 0,              // nonce inicial

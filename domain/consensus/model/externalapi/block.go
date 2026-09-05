@@ -62,6 +62,7 @@ type BaseBlockHeader interface {
 	HashMerkleRoot() *DomainHash
 	AcceptedIDMerkleRoot() *DomainHash
 	UTXOCommitment() *DomainHash
+GemsCommitment() *DomainHash
 	TimeInMilliseconds() int64
 	Bits() uint32
 	Nonce() uint64

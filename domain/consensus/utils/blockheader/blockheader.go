@@ -12,6 +12,7 @@ type blockHeader struct {
 	hashMerkleRoot       *externalapi.DomainHash
 	acceptedIDMerkleRoot *externalapi.DomainHash
 	utxoCommitment       *externalapi.DomainHash
+gemsCommitment       *externalapi.DomainHash
 	timeInMilliseconds   int64
 	bits                 uint32
 	nonce                uint64
@@ -87,6 +88,13 @@ func (bh *blockHeader) UTXOCommitment() *externalapi.DomainHash {
 	return bh.utxoCommitment
 }
 
+// GemsCommitment (Rupix): sello del conteo historico de gemas hasta este
+// bloque. Al estar en el header, entra en el hash del bloque y queda protegido
+// por el PoW: nadie puede mentir sobre el conteo sin re-minar. Verificable total.
+func (bh *blockHeader) GemsCommitment() *externalapi.DomainHash {
+	return bh.gemsCommitment
+}
+
 func (bh *blockHeader) TimeInMilliseconds() int64 {
 	return bh.timeInMilliseconds
 }
@@ -128,7 +136,10 @@ func (bh *blockHeader) Equal(other externalapi.BaseBlockHeader) bool {
 		return false
 	}
 
-	if !bh.utxoCommitment.Equal(other.UTXOCommitment()) {
+	if bh.gemsCommitment != nil && !bh.gemsCommitment.Equal(other.GemsCommitment()) {
+return false
+}
+if !bh.utxoCommitment.Equal(other.UTXOCommitment()) {
 		return false
 	}
 
@@ -170,6 +181,7 @@ func (bh *blockHeader) clone() *blockHeader {
 		hashMerkleRoot:       bh.hashMerkleRoot,
 		acceptedIDMerkleRoot: bh.acceptedIDMerkleRoot,
 		utxoCommitment:       bh.utxoCommitment,
+gemsCommitment:       bh.gemsCommitment,
 		timeInMilliseconds:   bh.timeInMilliseconds,
 		bits:                 bh.bits,
 		nonce:                bh.nonce,
@@ -200,6 +212,7 @@ func NewImmutableBlockHeader(
 	hashMerkleRoot *externalapi.DomainHash,
 	acceptedIDMerkleRoot *externalapi.DomainHash,
 	utxoCommitment *externalapi.DomainHash,
+gemsCommitment *externalapi.DomainHash,
 	timeInMilliseconds int64,
 	bits uint32,
 	nonce uint64,
@@ -214,6 +227,7 @@ func NewImmutableBlockHeader(
 		hashMerkleRoot:       hashMerkleRoot,
 		acceptedIDMerkleRoot: acceptedIDMerkleRoot,
 		utxoCommitment:       utxoCommitment,
+gemsCommitment:       gemsCommitment,
 		timeInMilliseconds:   timeInMilliseconds,
 		bits:                 bits,
 		nonce:                nonce,

@@ -231,6 +231,7 @@ func (bb *blockBuilder) buildHeader(stagingArea *model.StagingArea, transactions
 		hashMerkleRoot,
 		acceptedIDMerkleRoot,
 		utxoCommitment,
+nil, // gemsCommitment: esqueleto - calcular con newBlockGemsCommitment (pendiente, ver newBlockUTXOCommitment como molde)
 		timeInMilliseconds,
 		bits,
 		0,

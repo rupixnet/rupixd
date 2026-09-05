@@ -59,6 +59,7 @@ func DbBlockHeaderToDomainBlockHeader(dbBlockHeader *DbBlockHeader) (externalapi
 		hashMerkleRoot,
 		acceptedIDMerkleRoot,
 		utxoCommitment,
+nil, // gemsCommitment: pendiente en el formato de disco (esqueleto)
 		dbBlockHeader.TimeInMilliseconds,
 		dbBlockHeader.Bits,
 		dbBlockHeader.Nonce,

@@ -67,6 +67,7 @@ func BlockHeaderToDomainBlockHeader(blockHeader *MsgBlockHeader) externalapi.Blo
 		blockHeader.HashMerkleRoot,
 		blockHeader.AcceptedIDMerkleRoot,
 		blockHeader.UTXOCommitment,
+nil, // gemsCommitment: pendiente en el protobuf del header (esqueleto)
 		blockHeader.Timestamp.UnixMilliseconds(),
 		blockHeader.Bits,
 		blockHeader.Nonce,
@@ -416,6 +417,7 @@ func RPCBlockToDomainBlock(block *RPCBlock) (*externalapi.DomainBlock, error) {
 		hashMerkleRoot,
 		acceptedIDMerkleRoot,
 		utxoCommitment,
+nil, // gemsCommitment: pendiente en el protobuf (esqueleto)
 		block.Header.Timestamp,
 		block.Header.Bits,
 		block.Header.Nonce,
