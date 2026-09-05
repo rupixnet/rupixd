@@ -150,3 +150,21 @@ protección natural de seeds honestos + REGLA 1. Riesgo realista: BAJO.
 
 MULTI-PEER CROSS-CHECK (auditor): descartado por ahora — toca IBD profundo, muy invasivo.
 El commitment en header es mejor solución de fondo.
+
+## COMMITMENT EN HEADER — esqueleto hecho, lógica pendiente (commit 42a213834)
+HECHO (esqueleto, compila): campo gemsCommitment en struct blockHeader, interfaz
+BaseBlockHeader, getter GemsCommitment(), Equal, Clone, constructor, 2 converters,
+genesisgen, serialización de disco, 4 génesis dagconfig, blockbuilder + tests. En nil/vacío.
+
+FALTA (la lógica, el corazón - hacer FRESCO):
+1. CÁLCULO: función newBlockGemsCommitment (MOLDE: newBlockUTXOCommitment en
+   block_builder.go:315 - usa multiset.Hash()). Calcular el sello del GemsHistory del bloque.
+2. HASH: que gemsCommitment entre en la serialización que va al HASH del header
+   (buscar donde se serializa utxoCommitment para el hash - CRÍTICO, sin esto el PoW no lo protege).
+3. VALIDACIÓN: al validar el bloque, recalcular el conteo y verificar que su hash == gemsCommitment.
+4. PROTOBUF: agregar gemsCommitment al MsgBlockHeader (protobuf del header) + conversiones.
+5. GÉNESIS: definir el gemsCommitment real del génesis (0 gemas = hash de GemsHistory vacío).
+
+OJO: activar esto CAMBIA el hash de los bloques → requiere relanzar testnet (génesis nuevo).
+Es cambio de formato de bloque - se hace ANTES de mainnet, con red nueva.
+Esto es lo que cierra el CERO MENTIROSO de verdad (verificable total).
