@@ -1,6 +1,6 @@
 # Rupix
 
-**Rupix existe para ser dinero de todos: sin dueño, sin premine (sin monedas preguardadas por su creador), sin permiso para entrar. Con un techo de 42 millones que nadie puede cambiar — y una cantidad que baja cada vez que se usa. Mientras el dinero normal se imprime, Rupix se hace menos. Y no tienes que confiar en nadie: verifícalo.**
+**Rupix es un activo digital escaso para todos: sin dueño, sin premine (sin monedas preguardadas por su creador), sin permiso para entrar. No es dinero para gastar a diario — es valor para guardar, que se vuelve más raro con cada uso de la red. Con un techo de 42 millones que nadie puede cambiar, y una cantidad que solo baja. Mientras el dinero normal se imprime, Rupix se hace más escaso. Y no tienes que confiar en nadie: verifícalo.**
 
 [rupix.network](https://rupix.network) | [@RupixNetwork](https://x.com/RupixNetwork) | [Changelog](./CHANGELOG.md)
 
