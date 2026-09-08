@@ -27,3 +27,10 @@ writer := hashes.NewBlockHashWriter()
 writer.InfallibleWrite(b)
 return writer.Finalize()
 }
+
+// GenesisGemsCommitment (Rupix) es el sello del genesis: cero gemas de todos los
+// niveles. Se calcula con la misma funcion CalculateGemsCommitment, asi el genesis
+// NO se salta ninguna validacion — su sello es correcto y verificable como cualquier bloque.
+func GenesisGemsCommitment() *externalapi.DomainHash {
+return CalculateGemsCommitment(nil, 0)
+}

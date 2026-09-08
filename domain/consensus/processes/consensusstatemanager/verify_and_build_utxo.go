@@ -34,7 +34,6 @@ func (csm *consensusStateManager) verifyUTXO(stagingArea *model.StagingArea, blo
 // Recalcula el conteo (gems+kings) de este bloque y comprueba que su sello
 // coincide con el del header. Si no coincide, alguien mintio -> invalido.
 // Cierra el cero mentiroso: el conteo queda atado al PoW, infalsificable.
-if !blockHash.Equal(csm.genesisHash) {
 blockGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, blockHash, false)
 if err != nil {
 return err
@@ -54,7 +53,6 @@ return errors.Wrapf(ruleerrors.ErrBadUTXOCommitment,
 blockHash, block.Header.GemsCommitment(), calculatedGemsCommitment)
 }
 log.Debugf("Gems commitment validation passed for block %s", blockHash)
-}
 
 	log.Debugf("Validating acceptedIDMerkleRoot for block %s", blockHash)
 	err = csm.validateAcceptedIDMerkleRoot(block, blockHash, acceptanceData)

@@ -7,6 +7,7 @@ package dagconfig
 import (
 	"github.com/kaspanet/go-muhash"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
@@ -72,7 +73,7 @@ var genesisBlock = externalapi.DomainBlock{
 		genesisMerkleRoot,
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
-externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // gemsCommitment: genesis sin gemas
+		gemscommitment.GenesisGemsCommitment(), // gemsCommitment: genesis con cero gemas (sello real, verificable)
 		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x1e7fffff,
 		0x40ada,
@@ -126,7 +127,7 @@ var devnetGenesisBlock = externalapi.DomainBlock{
 		devnetGenesisMerkleRoot,
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
-externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // gemsCommitment: genesis sin gemas
+		gemscommitment.GenesisGemsCommitment(), // gemsCommitment: genesis con cero gemas (sello real, verificable)
 		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x1f4ee5fb,
 		0xff,
@@ -179,7 +180,7 @@ var simnetGenesisBlock = externalapi.DomainBlock{
 		simnetGenesisMerkleRoot,
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
-externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // gemsCommitment: genesis sin gemas
+		gemscommitment.GenesisGemsCommitment(), // gemsCommitment: genesis con cero gemas (sello real, verificable)
 		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x207fffff,
 		0x1,
@@ -233,7 +234,7 @@ var testnetGenesisBlock = externalapi.DomainBlock{
 		testnetGenesisMerkleRoot,
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
-externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // gemsCommitment: genesis sin gemas
+		gemscommitment.GenesisGemsCommitment(), // gemsCommitment: genesis con cero gemas (sello real, verificable)
 		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x1e7fffff,
 		0x29e3c,
