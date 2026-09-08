@@ -421,6 +421,8 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		acceptanceDataStore,
 		blockRelationStore,
 		multisetStore,
+gemsHistoryStore,
+kingsCountStore,
 		ghostdagDataStore,
 		daaBlocksStore,
 	)

@@ -1,6 +1,8 @@
 package blockbuilder
 
 import (
+
+	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 	"math/big"
 	"sort"
 
@@ -34,6 +36,8 @@ type blockBuilder struct {
 	acceptanceDataStore model.AcceptanceDataStore
 	blockRelationStore  model.BlockRelationStore
 	multisetStore       model.MultisetStore
+gemsHistoryStore    model.GemsHistoryStore
+kingsCountStore     model.KingsCountStore
 	ghostdagDataStore   model.GHOSTDAGDataStore
 	daaBlocksStore      model.DAABlocksStore
 }
@@ -56,6 +60,8 @@ func New(
 	acceptanceDataStore model.AcceptanceDataStore,
 	blockRelationStore model.BlockRelationStore,
 	multisetStore model.MultisetStore,
+gemsHistoryStore model.GemsHistoryStore,
+kingsCountStore model.KingsCountStore,
 	ghostdagDataStore model.GHOSTDAGDataStore,
 	daaBlocksStore model.DAABlocksStore,
 ) model.BlockBuilder {
@@ -77,6 +83,8 @@ func New(
 		acceptanceDataStore: acceptanceDataStore,
 		blockRelationStore:  blockRelationStore,
 		multisetStore:       multisetStore,
+gemsHistoryStore:    gemsHistoryStore,
+kingsCountStore:     kingsCountStore,
 		ghostdagDataStore:   ghostdagDataStore,
 		daaBlocksStore:      daaBlocksStore,
 	}
@@ -216,6 +224,10 @@ func (bb *blockBuilder) buildHeader(stagingArea *model.StagingArea, transactions
 	if err != nil {
 		return nil, err
 	}
+gemsCommitment, err := bb.newBlockGemsCommitment(stagingArea)
+if err != nil {
+return nil, err
+}
 	blueWork, err := bb.newBlockBlueWork(stagingArea)
 	if err != nil {
 		return nil, err
@@ -231,7 +243,7 @@ func (bb *blockBuilder) buildHeader(stagingArea *model.StagingArea, transactions
 		hashMerkleRoot,
 		acceptedIDMerkleRoot,
 		utxoCommitment,
-nil, // gemsCommitment: esqueleto - calcular con newBlockGemsCommitment (pendiente, ver newBlockUTXOCommitment como molde)
+		gemsCommitment,
 		timeInMilliseconds,
 		bits,
 		0,
@@ -311,6 +323,21 @@ func (bb *blockBuilder) calculateAcceptedIDMerkleRoot(acceptanceData externalapi
 	})
 
 	return merkle.CalculateIDMerkleRoot(acceptedTransactions), nil
+}
+
+// newBlockGemsCommitment (Rupix) calcula el sello del conteo historico de gemas
+// (Diamante/Platino/Rodio/Kings) del estado virtual. Este sello va en el header y
+// entra en el hash del bloque: atarlo al PoW lo hace infalsificable (verificable total).
+func (bb *blockBuilder) newBlockGemsCommitment(stagingArea *model.StagingArea) (*externalapi.DomainHash, error) {
+gemsHistory, err := bb.gemsHistoryStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash)
+if err != nil {
+return nil, err
+}
+kingsCount, err := bb.kingsCountStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash)
+if err != nil {
+return nil, err
+}
+return gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount), nil
 }
 
 func (bb *blockBuilder) newBlockUTXOCommitment(stagingArea *model.StagingArea) (*externalapi.DomainHash, error) {

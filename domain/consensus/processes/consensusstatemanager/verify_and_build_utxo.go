@@ -11,6 +11,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 )
@@ -28,6 +29,32 @@ func (csm *consensusStateManager) verifyUTXO(stagingArea *model.StagingArea, blo
 		return err
 	}
 	log.Debugf("UTXO commitment validation passed for block %s", blockHash)
+
+// Rupix: validar el sello de gemas (commitment). El genesis se salta.
+// Recalcula el conteo (gems+kings) de este bloque y comprueba que su sello
+// coincide con el del header. Si no coincide, alguien mintio -> invalido.
+// Cierra el cero mentiroso: el conteo queda atado al PoW, infalsificable.
+if !blockHash.Equal(csm.genesisHash) {
+blockGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, blockHash, false)
+if err != nil {
+return err
+}
+gemsHistory, err := csm.calculateGemsHistory(stagingArea, blockHash, acceptanceData, blockGHOSTDAGData)
+if err != nil {
+return err
+}
+kingsCount, err := csm.calculateKingsCount(stagingArea, blockHash, acceptanceData, blockGHOSTDAGData)
+if err != nil {
+return err
+}
+calculatedGemsCommitment := gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount)
+if !block.Header.GemsCommitment().Equal(calculatedGemsCommitment) {
+return errors.Wrapf(ruleerrors.ErrBadUTXOCommitment,
+"block %s gems commitment is invalid - header indicates %s, calculated %s",
+blockHash, block.Header.GemsCommitment(), calculatedGemsCommitment)
+}
+log.Debugf("Gems commitment validation passed for block %s", blockHash)
+}
 
 	log.Debugf("Validating acceptedIDMerkleRoot for block %s", blockHash)
 	err = csm.validateAcceptedIDMerkleRoot(block, blockHash, acceptanceData)
