@@ -2,6 +2,7 @@ package blockbuilder
 
 import (
 
+	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 	"math/big"
 	"sort"
@@ -329,13 +330,22 @@ func (bb *blockBuilder) calculateAcceptedIDMerkleRoot(acceptanceData externalapi
 // (Diamante/Platino/Rodio/Kings) del estado virtual. Este sello va en el header y
 // entra en el hash del bloque: atarlo al PoW lo hace infalsificable (verificable total).
 func (bb *blockBuilder) newBlockGemsCommitment(stagingArea *model.StagingArea) (*externalapi.DomainHash, error) {
+// Al inicio de la cadena (virtual = genesis) aun no hay historial guardado:
+// not-found significa legitimamente "cero gemas". Consistente con la
+// validacion, que devuelve cero gemas para el genesis.
 gemsHistory, err := bb.gemsHistoryStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash)
 if err != nil {
+if !database.IsNotFoundError(err) {
 return nil, err
+}
+gemsHistory = &externalapi.GemsHistory{}
 }
 kingsCount, err := bb.kingsCountStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash)
 if err != nil {
+if !database.IsNotFoundError(err) {
 return nil, err
+}
+kingsCount = 0
 }
 return gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount), nil
 }

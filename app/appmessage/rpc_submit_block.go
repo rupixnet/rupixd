@@ -76,6 +76,7 @@ type RPCBlockHeader struct {
 	HashMerkleRoot       string
 	AcceptedIDMerkleRoot string
 	UTXOCommitment       string
+GemsCommitment       string
 	Timestamp            int64
 	Bits                 uint32
 	Nonce                uint64

@@ -36,6 +36,7 @@ func DomainBlockHeaderToBlockHeader(domainBlockHeader externalapi.BlockHeader) *
 		HashMerkleRoot:       domainBlockHeader.HashMerkleRoot(),
 		AcceptedIDMerkleRoot: domainBlockHeader.AcceptedIDMerkleRoot(),
 		UTXOCommitment:       domainBlockHeader.UTXOCommitment(),
+		GemsCommitment:       domainBlockHeader.GemsCommitment(),
 		Timestamp:            mstime.UnixMilliseconds(domainBlockHeader.TimeInMilliseconds()),
 		Bits:                 domainBlockHeader.Bits(),
 		Nonce:                domainBlockHeader.Nonce(),
@@ -67,7 +68,7 @@ func BlockHeaderToDomainBlockHeader(blockHeader *MsgBlockHeader) externalapi.Blo
 		blockHeader.HashMerkleRoot,
 		blockHeader.AcceptedIDMerkleRoot,
 		blockHeader.UTXOCommitment,
-nil, // gemsCommitment: pendiente en el protobuf del header (esqueleto)
+		blockHeader.GemsCommitment,
 		blockHeader.Timestamp.UnixMilliseconds(),
 		blockHeader.Bits,
 		blockHeader.Nonce,
@@ -360,6 +361,7 @@ func DomainBlockToRPCBlock(block *externalapi.DomainBlock) *RPCBlock {
 		HashMerkleRoot:       block.Header.HashMerkleRoot().String(),
 		AcceptedIDMerkleRoot: block.Header.AcceptedIDMerkleRoot().String(),
 		UTXOCommitment:       block.Header.UTXOCommitment().String(),
+		GemsCommitment:       block.Header.GemsCommitment().String(),
 		Timestamp:            block.Header.TimeInMilliseconds(),
 		Bits:                 block.Header.Bits(),
 		Nonce:                block.Header.Nonce(),
@@ -403,6 +405,15 @@ func RPCBlockToDomainBlock(block *RPCBlock) (*externalapi.DomainBlock, error) {
 	if err != nil {
 		return nil, err
 	}
+var gemsCommitment *externalapi.DomainHash
+if block.Header.GemsCommitment != "" {
+gemsCommitment, err = externalapi.NewDomainHashFromString(block.Header.GemsCommitment)
+if err != nil {
+return nil, err
+}
+} else {
+gemsCommitment = &externalapi.DomainHash{}
+}
 	blueWork, success := new(big.Int).SetString(block.Header.BlueWork, 16)
 	if !success {
 		return nil, errors.Errorf("failed to parse blue work: %s", block.Header.BlueWork)
@@ -417,7 +428,7 @@ func RPCBlockToDomainBlock(block *RPCBlock) (*externalapi.DomainBlock, error) {
 		hashMerkleRoot,
 		acceptedIDMerkleRoot,
 		utxoCommitment,
-nil, // gemsCommitment: pendiente en el protobuf (esqueleto)
+		gemsCommitment,
 		block.Header.Timestamp,
 		block.Header.Bits,
 		block.Header.Nonce,

@@ -141,6 +141,7 @@ func (x *RpcBlockHeader) toAppMessage() (*appmessage.RPCBlockHeader, error) {
 		HashMerkleRoot:       x.HashMerkleRoot,
 		AcceptedIDMerkleRoot: x.AcceptedIdMerkleRoot,
 		UTXOCommitment:       x.UtxoCommitment,
+		GemsCommitment:       x.GemsCommitment,
 		Timestamp:            x.Timestamp,
 		Bits:                 x.Bits,
 		Nonce:                x.Nonce,

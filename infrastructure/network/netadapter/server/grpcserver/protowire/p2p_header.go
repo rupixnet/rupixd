@@ -29,6 +29,10 @@ func (x *BlockHeader) toAppMessage() (*appmessage.MsgBlockHeader, error) {
 	if err != nil {
 		return nil, err
 	}
+	gemsCommitment, err := x.GemsCommitment.toDomain()
+	if err != nil {
+		return nil, err
+	}
 	pruningPoint, err := x.PruningPoint.toDomain()
 	if err != nil {
 		return nil, err
@@ -42,6 +46,7 @@ func (x *BlockHeader) toAppMessage() (*appmessage.MsgBlockHeader, error) {
 		HashMerkleRoot:       hashMerkleRoot,
 		AcceptedIDMerkleRoot: acceptedIDMerkleRoot,
 		UTXOCommitment:       utxoCommitment,
+		GemsCommitment:       gemsCommitment,
 		Timestamp:            mstime.UnixMilliseconds(x.Timestamp),
 		Bits:                 x.Bits,
 		Nonce:                x.Nonce,
@@ -59,6 +64,7 @@ func (x *BlockHeader) fromAppMessage(msgBlockHeader *appmessage.MsgBlockHeader) 
 		HashMerkleRoot:       domainHashToProto(msgBlockHeader.HashMerkleRoot),
 		AcceptedIdMerkleRoot: domainHashToProto(msgBlockHeader.AcceptedIDMerkleRoot),
 		UtxoCommitment:       domainHashToProto(msgBlockHeader.UTXOCommitment),
+		GemsCommitment:       domainHashToProto(msgBlockHeader.GemsCommitment),
 		Timestamp:            msgBlockHeader.Timestamp.UnixMilliseconds(),
 		Bits:                 msgBlockHeader.Bits,
 		Nonce:                msgBlockHeader.Nonce,

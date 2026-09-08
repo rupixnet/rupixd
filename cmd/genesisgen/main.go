@@ -11,6 +11,7 @@ import (
 "github.com/kaspanet/go-muhash"
 "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 "github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 "github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 "github.com/rupixnet/rupixd/domain/consensus/utils/merkle"
 "github.com/rupixnet/rupixd/domain/consensus/utils/pow"
@@ -63,7 +64,7 @@ header := blockheader.NewImmutableBlockHeader(
 merkleRoot,
 &externalapi.DomainHash{},          // acceptedIDMerkleRoot vacio
 externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // universo vacio
-externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()), // gemsCommitment: genesis sin gemas
+		gemscommitment.GenesisGemsCommitment(), // gemsCommitment: genesis con cero gemas (mismo sello que dagconfig)
 genesisTimestamp,
 n.bits,
 0,              // nonce inicial

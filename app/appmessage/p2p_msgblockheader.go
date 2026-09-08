@@ -50,6 +50,7 @@ type MsgBlockHeader struct {
 
 	// UTXOCommitment is an ECMH UTXO commitment to the block UTXO.
 	UTXOCommitment *externalapi.DomainHash
+GemsCommitment *externalapi.DomainHash
 
 	// Time the block was created.
 	Timestamp mstime.Time

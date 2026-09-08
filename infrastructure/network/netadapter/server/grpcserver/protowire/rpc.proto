@@ -39,6 +39,7 @@ message RpcBlockHeader {
   uint64 daaScore = 9;
   string blueWork = 10;
   string pruningPoint = 14;
+  string gemsCommitment = 15;
   uint64 blueScore = 13;
 }
 
