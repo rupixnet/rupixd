@@ -347,7 +347,8 @@ return nil, err
 }
 kingsCount = 0
 }
-return gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount), nil
+sello := gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount)
+	return sello, nil
 }
 
 func (bb *blockBuilder) newBlockUTXOCommitment(stagingArea *model.StagingArea) (*externalapi.DomainHash, error) {

@@ -1,6 +1,7 @@
 package consensusstatemanager
 
 import (
+	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -26,7 +27,10 @@ func (csm *consensusStateManager) calculateKingsCount(stagingArea *model.Staging
 
 	count, err := csm.kingsCountStore.Get(csm.databaseContext, stagingArea, blockGHOSTDAGData.SelectedParent())
 	if err != nil {
-		return 0, err
+		if !database.IsNotFoundError(err) {
+			return 0, err
+		}
+		count = 0
 	}
 
 	for _, blockAcceptanceData := range acceptanceData {

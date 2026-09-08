@@ -1,6 +1,7 @@
 package consensusstatemanager
 
 import (
+	"github.com/rupixnet/rupixd/domain/consensus/database"
 "github.com/pkg/errors"
 
 "github.com/rupixnet/rupixd/domain/consensus/model"
@@ -31,7 +32,11 @@ return &externalapi.GemsHistory{}, nil // genesis: cero gemas de todo nivel (sin
 
 parent, err := csm.gemsHistoryStore.Get(csm.databaseContext, stagingArea, blockGHOSTDAGData.SelectedParent())
 if err != nil {
+if !database.IsNotFoundError(err) {
 return nil, err
+}
+// El padre (ej: genesis) aun no tiene gemshistory guardado = cero gemas.
+parent = &externalapi.GemsHistory{}
 }
 // Copia mutable a partir del padre
 history := parent.Clone()

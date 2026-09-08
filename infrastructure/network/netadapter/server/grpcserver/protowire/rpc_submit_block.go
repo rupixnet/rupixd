@@ -164,6 +164,7 @@ func (x *RpcBlockHeader) fromAppMessage(message *appmessage.RPCBlockHeader) {
 		HashMerkleRoot:       message.HashMerkleRoot,
 		AcceptedIdMerkleRoot: message.AcceptedIDMerkleRoot,
 		UtxoCommitment:       message.UTXOCommitment,
+GemsCommitment:       message.GemsCommitment,
 		Timestamp:            message.Timestamp,
 		Bits:                 message.Bits,
 		Nonce:                message.Nonce,
