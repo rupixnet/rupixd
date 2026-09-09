@@ -15,7 +15,7 @@ La **testnet pública está viva**: acepta nodos externos, mina sobre un génesi
 - ✅ **Explorador público en vivo** — [explorer.rupix.network](https://explorer.rupix.network)
 - ✅ **Economía completa en consenso**: escalera de 5 niveles, quema 10:1, burn por transacción, murallas históricas (2.1M/210k/21k/2,100) — 25+ escenarios de ataque cubiertos por tests
 - ✅ **Identidad completa**: direcciones `rupix:`/`rupixtest:`, llaves extendidas `rpub`/`rtub`, RPC en rupias
-- 🔄 **Pruning con conteo de gemas**: el conteo (con Kings) viaja en el pruning proof y se valida por coherencia de escalera (ratios 10:1). NO es verificable total todavía: un conteo coherente pero falso aún pasaría — el commitment en header (pendiente) es lo que cierra eso.
+- ✅ **Verificación total del conteo de gemas (commitment en header)**: el conteo (Diamante/Platino/Rodio/Kings) se sella en el hash de cada bloque, protegido por el minado (PoW). La red recalcula y valida el sello al recibir cada bloque, y persiste en disco. Un conteo falso NO pasa: el sello no cuadra y se rechaza. Verificable desde el génesis, sin confiar en nadie.
 - ✅ **Binarios verificables con SHA256**: cada release publica la huella de cada binario, generada por el CI — descargas, comparas, y confirmas que nadie lo alteró
 - ✅ **0 vulnerabilidades** (govulncheck), compilado con Go 1.26.6
 - ✅ **Red de más de un nodo**: primer nodo externo conectado y sincronizado, primera transacción entre dos personas registrada en la cadena
@@ -98,7 +98,7 @@ Conectarte al testnet:
 ## Camino a mainnet
 
 - **Cambio a minado accesible para todos** — migrar del algoritmo actual (heredado de Kaspa, dominado por máquinas industriales) a uno pensado para que cualquiera mine desde su computadora. Rupix es para todos.
-- 🔄 **Conteo de gemas en el punto de poda** — el proof lleva el conteo (con Kings) y valida COHERENCIA (ratios de escalera), pero esto NO es verificable total: un conteo coherente pero falso aún pasaría. El verificable real exige **commitment en header** — pendiente, no hecho.
+- ✅ **Verificación total con commitment en header** — el conteo de gemas se sella en el hash de cada bloque (protegido por PoW), se valida al recibir, y persiste en disco. Un conteo falso se rechaza: el sello no cuadra. Esto CIERRA el verificable total — probado en vivo (primera transferencia entre nodos, testnet v0.4.2).
 - **Auditoría externa del código de consenso**
 - **Infraestructura redundante** (múltiples nodos semilla) y **hashrate comprometido**
 - **Checkpoints temporales al arranque**, con fecha de caducidad publicada — protección honesta contra el 51% mientras la red crece su propio hashrate
