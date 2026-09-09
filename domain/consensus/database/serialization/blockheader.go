@@ -16,6 +16,7 @@ func DomainBlockHeaderToDbBlockHeader(domainBlockHeader externalapi.BlockHeader)
 		HashMerkleRoot:       DomainHashToDbHash(domainBlockHeader.HashMerkleRoot()),
 		AcceptedIDMerkleRoot: DomainHashToDbHash(domainBlockHeader.AcceptedIDMerkleRoot()),
 		UtxoCommitment:       DomainHashToDbHash(domainBlockHeader.UTXOCommitment()),
+		GemsCommitment:       DomainHashToDbHash(domainBlockHeader.GemsCommitment()),
 		TimeInMilliseconds:   domainBlockHeader.TimeInMilliseconds(),
 		Bits:                 domainBlockHeader.Bits(),
 		Nonce:                domainBlockHeader.Nonce(),
@@ -44,6 +45,10 @@ func DbBlockHeaderToDomainBlockHeader(dbBlockHeader *DbBlockHeader) (externalapi
 	if err != nil {
 		return nil, err
 	}
+gemsCommitment, err := DbHashToDomainHash(dbBlockHeader.GemsCommitment)
+if err != nil {
+return nil, err
+}
 	if dbBlockHeader.Version > math.MaxUint16 {
 		return nil, errors.Errorf("Invalid header version - bigger then uint16")
 	}
@@ -59,7 +64,7 @@ func DbBlockHeaderToDomainBlockHeader(dbBlockHeader *DbBlockHeader) (externalapi
 		hashMerkleRoot,
 		acceptedIDMerkleRoot,
 		utxoCommitment,
-nil, // gemsCommitment: pendiente en el formato de disco (esqueleto)
+		gemsCommitment,
 		dbBlockHeader.TimeInMilliseconds,
 		dbBlockHeader.Bits,
 		dbBlockHeader.Nonce,

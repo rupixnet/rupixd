@@ -29,9 +29,14 @@ func (x *BlockHeader) toAppMessage() (*appmessage.MsgBlockHeader, error) {
 	if err != nil {
 		return nil, err
 	}
-	gemsCommitment, err := x.GemsCommitment.toDomain()
-	if err != nil {
-		return nil, err
+	var gemsCommitment *externalapi.DomainHash
+	if x.GemsCommitment != nil {
+		gemsCommitment, err = x.GemsCommitment.toDomain()
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		gemsCommitment = &externalapi.DomainHash{}
 	}
 	pruningPoint, err := x.PruningPoint.toDomain()
 	if err != nil {

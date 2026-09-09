@@ -21,6 +21,7 @@ message DbBlockHeader {
   bytes blueWork = 10;
   DbHash pruningPoint = 12;
   uint64 blueScore = 13;
+  DbHash gemsCommitment = 14;
 }
 
 message DbBlockLevelParents {
