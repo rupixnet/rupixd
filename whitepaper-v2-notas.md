@@ -27,3 +27,30 @@ PENDIENTE AUDITOR: cero mentiroso (multi-peer, complejo), H-1 (mapeado), verific
 IDEAS GUARDADAS: verificador de tx, Muro de Fundadores, contador de nodos, UX wallet gema, blog (Coco), Cerebro de Rupix.
 DONDE VAMOS: fin Etapa 2 + corazón de Etapa 3 hecho. ~40% a mainnet. Lo más difícil conceptual (pruning) cruzado.
 PARA X (cierre del día): resumen de avances + tx histórica 07c6b1ab...
+
+## ALGORITMO — MAPA COMPLETO (radiografias hechas, listo para cirugia)
+ARCHIVOS: pow.go (112) + heavyhash.go (91) + xoshiro.go (38). Chicos, aislados.
+
+EL CORAZON (heavyhash.go):
+- Linea 11: matrix [64][64]uint16 (la matriz)
+- Linea 15: newxoShiRo256PlusPlus(hash) <- EL PRNG a reemplazar
+- Linea 25: computeRank()==64 (NO TOCAR - trampa auditor)
+
+EL PRNG (xoshiro.go) - lo que cambiamos:
+- Estado s0,s1,s2,s3 (del hash del bloque)
+- Uint64(): res=rotl(s0+s3,23)+s0; t=s1<<17; s2^=s0; s3^=s1; s1^=s2; s0^=s3; s2^=t; s3=rotl(s3,45)
+- ESTO tienen los ASICs de Kaspa en silicio.
+
+PLAN CIRUGIA RupixHeavyHash (cambio ESTRUCTURAL del PRNG):
+1. Crear rupixprng.go (mismo estado del hash, OTRA formula estructural)
+2. heavyhash.go linea 15: newxoShiRo256PlusPlus -> newRupixPRNG
+3. Vectores de prueba nuevos (xoshiro_test tiene los viejos)
+4. Probar mina/valida/rango64
+5. Relanzar testnet (hash distinto, como el commitment)
+
+DECISION PENDIENTE: que formula para RupixPRNG.
+- Constante sola = DEBIL (auditor). Cambio ESTRUCTURAL = otro algoritmo/mas operaciones.
+- Candidatos: variante con operaciones extra, PCG64, SplitMix, o xoshiro+capa extra.
+- Es EL corazon de la seguridad -> pensar con calma.
+
+TRAMPAS AUDITOR: (1) rango 64 (2) no desbordar uint16 (3) no tocar computeRank (4) vectores nuevos.
