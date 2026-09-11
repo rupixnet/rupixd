@@ -98,3 +98,45 @@ celebrado un Diamante falso. El commitment hizo EXACTAMENTE su trabajo.
 
 BUG SECUNDARIO: el wallet dice "creada" aunque la tx no se confirme. Deberia
 esperar/verificar que entre al mempool antes de reportar exito.
+
+## BUG FORJA - DIAGNOSTICO PROFUNDO (11-sep, sesion larga)
+
+CONFIRMADO con logs temporales en todo el camino:
+1. Wallet arma la forja bien (2 inputs, 3 outputs: gema+quema+cambio)
+2. [SUBMIT-DEBUG] la tx LLEGA al handler HandleSubmitTransaction
+3. [FLOW-DEBUG] AddTransaction llama a ValidateAndInsertTransaction
+4. [FLOW-DEBUG] dice "ACEPTADA en mempool" -- PERO tarda ~3 SEGUNDOS raros
+   (de 06:07:26.336 a 06:07:29.424) y coincide con un "Accepted block"
+5. El mempool SIEMPRE muestra 0 tx (monitoreado 20 veces cada 0.5s: nunca aparece)
+6. El commitment SIGUE en 2f71eee (0 gemas) tras decenas de forjas
+7. Los bloques se minan CON otras tx normales (8 tx en 4 bloques) pero NO la forja
+
+DESCARTADO:
+- checkLevelRules (auditor lo valido, codigo correcto)
+- MaxScriptPublicKeyVersion (=4, permite gemas 1-4)
+- GetScriptClass (solo mira bytes, gema es script estandar)
+- El conteo del commitment (calculateGemsHistory correcto)
+- La validacion del mempool (los logs FORJA-DEBUG nunca dispararon = no llega a rechazarse ahi)
+
+EL MISTERIO: la forja se "acepta" (FLOW-DEBUG ACEPTADA) pero:
+- No aparece en el mempool (0 siempre)
+- Tarda 3 seg raros en "aceptarse"
+- No se mina (commitment sigue 0)
+
+SOSPECHA PRINCIPAL (rematar fresco): el bug esta entre "ACEPTADA en mempool" y
+"el minero la incluye". Revisar:
+1. Como el blockTemplateBuilder selecciona tx del mempool (quiza excluye las de
+   forja por el output version != 0, o por masa, o por el OpReturn de quema)
+2. Por que tarda 3 seg (PopulateMass? ValidateTransactionAndPopulate con la gema?)
+3. Si la tx se acepta pero se remueve inmediato por revalidacion/conflicto UTXO
+4. El transactionsPool.addTransaction: la agrega pero GetMempoolEntries no la ve?
+   (quiza se agrega a un pool que el minero no consulta, o hay dos pools)
+
+ENFOQUE FRESCO: leer blocktemplatebuilder + como el minero pide tx del mempool +
+transactionsPool.addTransaction. El bug esta en la seleccion de tx para el bloque,
+no en la validacion (que pasa) ni en el conteo (que funciona).
+
+LOGS TEMPORALES PUESTOS (quitar al arreglar):
+- validate_and_insert_transaction.go: RUPIX-FORJA-DEBUG (3 logs)
+- submit_transaction.go: RUPIX-SUBMIT-DEBUG (2 logs)
+- flowcontext/transactions.go: RUPIX-FLOW-DEBUG (3 logs)
