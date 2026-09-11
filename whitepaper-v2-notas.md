@@ -54,3 +54,47 @@ DECISION PENDIENTE: que formula para RupixPRNG.
 - Es EL corazon de la seguridad -> pensar con calma.
 
 TRAMPAS AUDITOR: (1) rango 64 (2) no desbordar uint16 (3) no tocar computeRank (4) vectores nuevos.
+
+## BUG CRITICO: LA FORJA NO ENTRA AL MEMPOOL (diagnostico 11-sep, cazado por el commitment)
+
+SINTOMA: el wallet dice "Ascenso forjado — gema Diamante creada" con TxID,
+pero la gema NO existe en la cadena (gemsCommitment sigue 2f71eee = 0 gemas).
+
+DIAGNOSTICO (confirmado):
+1. La forja se ARMA bien: forge_internal.go crea output de gema (version Diamante,
+   linea 68) + output de quema OpReturn 0x6a de 10 Gold (linea 69). Correcto.
+2. El wallet marca el UTXO como usado LOCALMENTE (broadcast.go: s.usedOutpoints).
+   Por eso la 2da forja dice "already spent in the memory pool" — es el bloqueo
+   LOCAL del wallet, no el mempool real.
+3. La tx NUNCA entra al mempool del nodo (GetMempoolEntries = 0 en todo momento,
+   monitoreado t=2,4,6,8,10s).
+4. El nodo NO da error visible (rpcclient SI revisa response.Error y esta bien;
+   el handler HandleSubmitTransaction pone el error en la respuesta).
+5. La red MINA normal (bloques suben). checkLevelRules se ve correcto (auditor lo
+   valido con 400k casos). El commitment CUENTA bien (calculateGemsHistory por
+   version de output).
+
+EL PUNTO EXACTO A CAZAR (fresco):
+- La tx de forja se pierde entre "wallet la envia" y "mempool la registra".
+- Sospechoso #1: el output de gema con ScriptPublicKey.Version=1 (Diamante).
+  La validacion estandar del mempool (transaction_in_isolation / mass / script)
+  puede rechazar outputs con version != 0 ANTES de checkLevelRules, silenciosamente
+  o con un error que no se propaga.
+- Sospechoso #2: DomainTransactionToRPCTransaction / RPCTransactionToDomainTransaction
+  puede no serializar bien el output con version de gema (se pierde el version en el
+  viaje wallet->RPC->nodo).
+- Sospechoso #3: la conversion del output de gema en el mempool.
+
+PLAN DE ARREGLO (fresco):
+1. Poner un log temporal en mempool.validateAndInsertTransaction para ver si la
+   forja llega y que error da.
+2. O revisar DomainTransactionToRPCTransaction: serializa el ScriptPublicKey.Version?
+3. Verificar que la validacion estandar del mempool acepte outputs version 1-4 (gemas).
+
+IMPORTANTE: el HITO 2 (Coco forja) NO esta completo. La wallet de Coco muestra
+"1 Diamante" pero es LOCAL (usedOutpoints/conteo por UTXO version), NO esta en la
+cadena. El commitment lo destapo: 0 gemas reales. Sin el commitment, habriamos
+celebrado un Diamante falso. El commitment hizo EXACTAMENTE su trabajo.
+
+BUG SECUNDARIO: el wallet dice "creada" aunque la tx no se confirme. Deberia
+esperar/verificar que entre al mempool antes de reportar exito.
