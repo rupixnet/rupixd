@@ -12,17 +12,22 @@ import (
 // por eso vive aqui, compartido. Serializa los 4 conteos (Diamante/Platino/Rodio/Kings)
 // a 32 bytes big-endian, deterministas, y los hashea. Mismo conteo -> mismo sello, siempre.
 func CalculateGemsCommitment(gemsHistory *externalapi.GemsHistory, kingsCount uint64) *externalapi.DomainHash {
+// Rupix: FUENTE UNICA para los Kings. Si gemsHistory trae su propio Kings,
+// ese manda (evita que dos fuentes divergan y el proof rechace headers
+// honestos). El parametro kingsCount solo se usa si gemsHistory es nil.
 diamante, platino, rodio := uint64(0), uint64(0), uint64(0)
+kings := kingsCount
 if gemsHistory != nil {
 diamante = gemsHistory.Diamante
 platino = gemsHistory.Platino
 rodio = gemsHistory.Rodio
+kings = gemsHistory.Kings
 }
 b := make([]byte, 32)
 binary.BigEndian.PutUint64(b[0:8], diamante)
 binary.BigEndian.PutUint64(b[8:16], platino)
 binary.BigEndian.PutUint64(b[16:24], rodio)
-binary.BigEndian.PutUint64(b[24:32], kingsCount)
+binary.BigEndian.PutUint64(b[24:32], kings)
 writer := hashes.NewBlockHashWriter()
 writer.InfallibleWrite(b)
 return writer.Finalize()

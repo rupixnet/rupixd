@@ -46,6 +46,8 @@ kingsCount, err := csm.calculateKingsCount(stagingArea, blockHash, acceptanceDat
 if err != nil {
 return err
 }
+// Fuente unica: el kingsCount va DENTRO del gemsHistory antes de sellar.
+gemsHistory.Kings = kingsCount
 calculatedGemsCommitment := gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount)
 if !block.Header.GemsCommitment().Equal(calculatedGemsCommitment) {
 return errors.Wrapf(ruleerrors.ErrBadUTXOCommitment,

@@ -360,12 +360,16 @@ func (ppm *pruningProofManager) ValidatePruningPointProof(pruningPointProof *ext
 	}
 // Rupix: VERIFICABLE TOTAL en el pruning proof. El GemsHistory recibido debe
 // cuadrar con el gemsCommitment del header del pruning point (protegido por PoW).
-// Sin esto un peer mentiroso podria enviar un conteo falso pero coherente.
-if pruningPointProof.GemsHistory != nil {
-calculatedCommitment := gemscommitment.CalculateGemsCommitment(pruningPointProof.GemsHistory, pruningPointProof.GemsHistory.Kings)
+// El nil NO es excepcion: se trata como cero gemas y se compara igual. Asi un
+// peer no puede saltar la verificacion enviando GemsHistory=nil (H-9). El
+// genesis (sello de ceros) coincide; cualquier pruning con gemas reales falla.
+proofGemsHistory := pruningPointProof.GemsHistory
+if proofGemsHistory == nil {
+proofGemsHistory = &externalapi.GemsHistory{}
+}
+calculatedCommitment := gemscommitment.CalculateGemsCommitment(proofGemsHistory, proofGemsHistory.Kings)
 if !pruningPointHeader.GemsCommitment().Equal(calculatedCommitment) {
 return errors.Errorf("pruning proof gems history does not match the header gems commitment: header %s, calculated %s", pruningPointHeader.GemsCommitment(), calculatedCommitment)
-}
 }
 	pruningPointBlockLevel := pruningPointHeader.BlockLevel(ppm.maxBlockLevel)
 	maxLevel := len(ppm.parentsManager.Parents(pruningPointHeader)) - 1
