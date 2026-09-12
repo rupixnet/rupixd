@@ -48,7 +48,6 @@ return err
 }
 calculatedGemsCommitment := gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount)
 if !block.Header.GemsCommitment().Equal(calculatedGemsCommitment) {
-log.Warnf("RUPIX-COMMIT-DEBUG MISMATCH bloque %s: header=%s calculado=%s (gems D=%d P=%d R=%d kings=%d)", blockHash, block.Header.GemsCommitment(), calculatedGemsCommitment, gemsHistory.Diamante, gemsHistory.Platino, gemsHistory.Rodio, kingsCount)
 return errors.Wrapf(ruleerrors.ErrBadUTXOCommitment,
 "block %s gems commitment is invalid - header indicates %s, calculated %s",
 blockHash, block.Header.GemsCommitment(), calculatedGemsCommitment)
