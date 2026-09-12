@@ -16,6 +16,7 @@ La **testnet pública está viva**: acepta nodos externos, mina sobre un génesi
 - ✅ **Economía completa en consenso**: escalera de 5 niveles, quema 10:1, burn por transacción, murallas históricas (2.1M/210k/21k/2,100) — 25+ escenarios de ataque cubiertos por tests
 - ✅ **Identidad completa**: direcciones `rupix:`/`rupixtest:`, llaves extendidas `rpub`/`rtub`, RPC en rupias
 - ✅ **Verificación total del conteo de gemas (commitment en header)**: el conteo (Diamante/Platino/Rodio/Kings) se sella en el hash de cada bloque, protegido por el minado (PoW). La red recalcula y valida el sello al recibir cada bloque, y persiste en disco. Un conteo falso NO pasa: el sello no cuadra y se rechaza. Verificable desde el génesis, sin confiar en nadie.
+- ✅ **Forja funcionando de punta a punta**: minar Gold → quemarlo → forjar una gema (Diamante) → el commitment refleja el conteo real. Probado en vivo: la forja se mina, el sello del bloque cuadra con la validación, el estado persiste. La escalera vive.
 - ✅ **Binarios verificables con SHA256**: cada release publica la huella de cada binario, generada por el CI — descargas, comparas, y confirmas que nadie lo alteró
 - ✅ **0 vulnerabilidades** (govulncheck), compilado con Go 1.26.6
 - ✅ **Red de más de un nodo**: primer nodo externo conectado y sincronizado, primera transacción entre dos personas registrada en la cadena
