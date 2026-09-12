@@ -55,6 +55,13 @@ blockHash, block.Header.GemsCommitment(), calculatedGemsCommitment)
 }
 log.Debugf("Gems commitment validation passed for block %s", blockHash)
 
+// Rupix: GUARDAR el gemsHistory y kingsCount calculados. Sin esto, el conteo
+// nunca se persiste: el template lo lee del store (0 gemas) mientras la
+// validacion lo recalcula (N gemas) -> mismatch. Al guardarlo, el template
+// y la validacion leen el mismo estado.
+csm.gemsHistoryStore.Stage(stagingArea, blockHash, gemsHistory)
+csm.kingsCountStore.Stage(stagingArea, blockHash, kingsCount)
+
 	log.Debugf("Validating acceptedIDMerkleRoot for block %s", blockHash)
 	err = csm.validateAcceptedIDMerkleRoot(block, blockHash, acceptanceData)
 	if err != nil {

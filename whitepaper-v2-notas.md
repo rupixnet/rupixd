@@ -209,3 +209,32 @@ El commitment funciona (detecta el mismatch). Falta alinear los dos calculos.
 
 LOGS TEMPORALES ACTIVOS: RUPIX-COMMIT-DEBUG en verify_and_build_utxo.go
 DESBLOQUEO TEMPORAL: levels.go *10 (QUITAR, volver a *blocksPerHalving)
+
+## BUG FORJA - DIAGNOSTICO FINAL COMPLETO (12-sep, 2 dias de cirugia)
+
+3 BUGS CAZADOS Y ARREGLADOS:
+1. Anti-spam (BlockCandidateTransactions): exime forjas. OK.
+2. Wallet coinbaseMaturity: era uint64(1000) hardcodeado en server.go:100,
+   cambiado a 100 (como el nodo). AHORA EL GOLD SE GASTA. OK.
+3. newBlockGemsCommitment: recibe transactions y cuenta forjas del bloque. OK.
+4. verify_and_build_utxo: agrega Stage del gemsHistory/kingsCount tras validar. OK.
+
+EL BUG RAIZ QUE FALTA (arquitectura del gemsHistory del VIRTUAL):
+- El template (newBlockGemsCommitment) lee gemsHistory del model.VirtualBlockHash.
+- El VIRTUAL NO acumula las forjas ya confirmadas: sigue en 0 gemas.
+- La validacion lee del PADRE del bloque (que SI tiene el Diamante de la forja anterior).
+- Bloque nuevo: template=2f71eee (virtual 0 gemas), validacion=780e9027 (padre 1 Diamante).
+- MISMATCH persiste -> el bloque se rechaza.
+
+LA FORJA YA SE EJECUTA (Gold se gasta, crea el Diamante, MISMATCH muestra D=1).
+El problema es SOLO que el gemsHistory del VIRTUAL no refleja las forjas confirmadas.
+
+PARA REMATAR FRESCO:
+- Entender como se actualiza el gemsHistory del VIRTUAL tras aceptar un bloque.
+- El VIRTUAL debe recalcular su gemsHistory incluyendo las forjas confirmadas,
+  igual que el UTXO del virtual se actualiza.
+- Buscar donde se hace el "resolveVirtual" o "updateVirtual" y agregar el gemsHistory.
+- Quiza el Stage debe hacerse tambien para VirtualBlockHash, no solo por blockHash.
+
+DESBLOQUEO TEMPORAL ACTIVO: levels.go *10 (QUITAR).
+LOG TEMPORAL: RUPIX-COMMIT-DEBUG en verify_and_build_utxo.go.
