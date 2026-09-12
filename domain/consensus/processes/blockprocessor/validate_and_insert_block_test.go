@@ -70,6 +70,7 @@ func TestBlockStatus(t *testing.T) {
 			disqualifiedBlock.Header.HashMerkleRoot(),
 			externalapi.NewDomainHashFromByteArray(&[externalapi.DomainHashSize]byte{}), // This should disqualify the block
 			disqualifiedBlock.Header.UTXOCommitment(),
+disqualifiedBlock.Header.GemsCommitment(),
 			disqualifiedBlock.Header.TimeInMilliseconds(),
 			disqualifiedBlock.Header.Bits(),
 			disqualifiedBlock.Header.Nonce(),
@@ -97,6 +98,7 @@ func TestBlockStatus(t *testing.T) {
 			merkle.CalculateHashMerkleRoot(invalidBlock.Transactions),
 			disqualifiedBlock.Header.AcceptedIDMerkleRoot(),
 			disqualifiedBlock.Header.UTXOCommitment(),
+disqualifiedBlock.Header.GemsCommitment(),
 			disqualifiedBlock.Header.TimeInMilliseconds(),
 			disqualifiedBlock.Header.Bits(),
 			disqualifiedBlock.Header.Nonce(),

@@ -140,3 +140,39 @@ LOGS TEMPORALES PUESTOS (quitar al arreglar):
 - validate_and_insert_transaction.go: RUPIX-FORJA-DEBUG (3 logs)
 - submit_transaction.go: RUPIX-SUBMIT-DEBUG (2 logs)
 - flowcontext/transactions.go: RUPIX-FLOW-DEBUG (3 logs)
+
+## BUG FORJA - CAUSA RAIZ FINAL ENCONTRADA (12-sep) ✅
+
+EL BUG (100% confirmado con log RUPIX-COMMIT-DEBUG):
+Al minar un bloque con una forja, el header lleva gemsCommitment de "0 gemas"
+pero la validacion calcula "1 Diamante" -> MISMATCH -> bloque rechazado -> timeout.
+
+LOG DE LA PRUEBA:
+MISMATCH bloque fc752026...: header=2f71eee (0 gemas) calculado=780e9027 (D=1)
+
+CAUSA EXACTA:
+block_builder.go newBlockGemsCommitment() (linea 332) calcula el sello usando
+el gemsHistory del VIRTUAL (model.VirtualBlockHash) = estado ACTUAL = 0 gemas.
+NO incluye las forjas de las tx que el bloque va a incluir.
+
+Pero verify_and_build_utxo.go (linea 41) valida con calculateGemsHistory(blockHash,
+acceptanceData) que SI cuenta las forjas del bloque -> 1 Diamante.
+
+Template: 0 gemas. Validacion: 1 Diamante. Mismatch -> rechazo.
+
+FIXES YA APLICADOS HOY:
+1. BlockCandidateTransactions (mempool.go): exime forjas del anti-spam (esForja).
+   Las forjas ya no se filtran como spam. APLICADO Y COMPILA.
+
+FIX PENDIENTE (el final):
+newBlockGemsCommitment debe calcular el gemsHistory INCLUYENDO las forjas de las
+tx del bloque, igual que la validacion. Opciones:
+- A) Recalcular gemsHistory sumando las gemas creadas/quemadas en selectedTxs
+- B) Usar el mismo calculateGemsHistory con el bloque candidato antes de sellar
+- Reto: en el momento de armar el template, las tx aun no tienen acceptanceData.
+
+OTRO HALLAZGO: el minero da timeouts de 10s al submitir bloques que se rechazan
+(reintenta), por eso la red minaba lento durante las pruebas.
+
+LOGS TEMPORALES A QUITAR: RUPIX-COMMIT-DEBUG en verify_and_build_utxo.go (el resto
+ya se quitaron: SUBMIT, FLOW, FORJA, READY).

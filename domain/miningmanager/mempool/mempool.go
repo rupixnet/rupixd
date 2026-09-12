@@ -151,6 +151,20 @@ func (mp *mempool) BlockCandidateTransactions() []*externalapi.DomainTransaction
 	var spamTx *externalapi.DomainTransaction
 	var spamTxNewestUTXODaaScore uint64
 	for _, tx := range readyTxs {
+		// Rupix: las forjas (tx con output de gema, Version >= Diamante) NUNCA son
+		// spam — queman Gold real y crean gemas. Se eximen del filtro anti-spam
+		// y van directo a candidatas para minado.
+		esForja := false
+		for _, output := range tx.Outputs {
+			if output.ScriptPublicKey.Version >= constants.LevelDiamante {
+				esForja = true
+				break
+			}
+		}
+		if esForja {
+			candidateTxs = append(candidateTxs, tx)
+			continue
+		}
 		if len(tx.Outputs) > len(tx.Inputs) {
 			hasCoinbaseInput := false
 			for _, input := range tx.Inputs {
