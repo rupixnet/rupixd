@@ -389,6 +389,27 @@ kingsCount = 0
 			gemsHistory.Rodio += uint64(outR - inR)
 		}
 	}
+	// Rupix H-10: sumar los Kings que nacen en las tx de este bloque al conteo
+	// del padre (kingsCount), igual que calculateKingsCount (input King = quemado,
+	// output King = nace). El minero DEBE sellar el mismo conteo de Kings que el
+	// validador, o el bloque con un King nuevo se rechaza.
+	for _, tx := range transactions {
+		outK, inK := 0, 0
+		for _, input := range tx.Inputs {
+			if input.UTXOEntry != nil && input.UTXOEntry.ScriptPublicKey().Version == constants.LevelKings {
+				inK++
+			}
+		}
+		for _, output := range tx.Outputs {
+			if output.ScriptPublicKey.Version == constants.LevelKings {
+				outK++
+			}
+		}
+		if outK > inK {
+			kingsCount += uint64(outK - inK)
+		}
+	}
+	gemsHistory.Kings = kingsCount
 sello := gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount)
 	return sello, nil
 }

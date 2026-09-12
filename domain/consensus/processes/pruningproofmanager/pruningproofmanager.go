@@ -354,7 +354,6 @@ func (ppm *pruningProofManager) ValidatePruningPointProof(pruningPointProof *ext
 	pruningPoint := consensushashing.HeaderHash(pruningPointHeader)
 	// Rupix: validacion de cordura del conteo de gemas del proof.
 	// El nodo rechaza conteos imposibles (topes historicos excedidos).
-	// El verificable total (commitment en header) es trabajo futuro.
 	if err := validateGemsHistorySanity(pruningPointProof.GemsHistory); err != nil {
 		return err
 	}

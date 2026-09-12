@@ -154,14 +154,30 @@ func (mp *mempool) BlockCandidateTransactions() []*externalapi.DomainTransaction
 		// Rupix: las forjas (tx con output de gema, Version >= Diamante) NUNCA son
 		// spam — queman Gold real y crean gemas. Se eximen del filtro anti-spam
 		// y van directo a candidatas para minado.
-		esForja := false
+		// Rupix H-8: eximir del anti-spam SOLO las tx que CREAN gemas (una forja
+		// quema 10 RUPIX por gema). Una TRANSFERENCIA de gema (out==in en el nivel)
+		// NO se exime: tiene output de gema pero solo paga el burn-por-tx, y podria
+		// usarse para spamear. Se exime si NACEN gemas: out>in en algun nivel.
+		outPorNivel := make(map[uint16]int)
+		inPorNivel := make(map[uint16]int)
 		for _, output := range tx.Outputs {
 			if output.ScriptPublicKey.Version >= constants.LevelDiamante {
-				esForja = true
+				outPorNivel[output.ScriptPublicKey.Version]++
+			}
+		}
+		for _, input := range tx.Inputs {
+			if input.UTXOEntry != nil && input.UTXOEntry.ScriptPublicKey().Version >= constants.LevelDiamante {
+				inPorNivel[input.UTXOEntry.ScriptPublicKey().Version]++
+			}
+		}
+		creaGemas := false
+		for nivel := constants.LevelDiamante; nivel <= constants.LevelKings; nivel++ {
+			if outPorNivel[nivel] > inPorNivel[nivel] {
+				creaGemas = true
 				break
 			}
 		}
-		if esForja {
+		if creaGemas {
 			candidateTxs = append(candidateTxs, tx)
 			continue
 		}
