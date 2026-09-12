@@ -6,12 +6,12 @@
 
 ---
 
-## Estado actual (Rupix v0.4.0)
+## Estado actual (Rupix v0.4.5)
 
 La **testnet pública está viva**: acepta nodos externos, mina sobre un génesis propio con cero premine, y la economía completa vive en el consenso. Cualquiera puede conectar su nodo — ver [GUIA-TESTNET.md](./GUIA-TESTNET.md).
 
 - ✅ **Testnet pública operativa 24/7** — génesis propio, subsidy en cero, dificultad ajustándose sola, escuchando conexiones (seed público)
-- ✅ **Binarios descargables** para Windows, macOS y Linux — ver [Releases](https://github.com/rupixnet/rupixd/releases)
+- ✅ **Binarios descargables** para Windows, macOS y Linux — ver [Releases](https://github.com/rupixnet/rupixd/releases/latest) — usa siempre la última versión
 - ✅ **Explorador público en vivo** — [explorer.rupix.network](https://explorer.rupix.network)
 - ✅ **Economía completa en consenso**: escalera de 5 niveles, quema 10:1, burn por transacción, murallas históricas (2.1M/210k/21k/2,100) — 25+ escenarios de ataque cubiertos por tests
 - ✅ **Identidad completa**: direcciones `rupix:`/`rupixtest:`, llaves extendidas `rpub`/`rtub`, RPC en rupias
