@@ -92,6 +92,23 @@ func (csm *consensusStateManager) updateVirtualWithParents(
 	log.Debugf("Staging new multiset for the virtual block")
 	csm.multisetStore.Stage(stagingArea, model.VirtualBlockHash, virtualMultiset)
 
+	// Rupix: calcular y guardar el gemsHistory/kingsCount del VIRTUAL, para que el
+	// template (newBlockGemsCommitment lee del virtual) refleje las forjas confirmadas.
+	virtualGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, model.VirtualBlockHash, false)
+	if err != nil {
+		return nil, err
+	}
+	virtualGemsHistory, err := csm.calculateGemsHistory(stagingArea, model.VirtualBlockHash, virtualAcceptanceData, virtualGHOSTDAGData)
+	if err != nil {
+		return nil, err
+	}
+	csm.gemsHistoryStore.Stage(stagingArea, model.VirtualBlockHash, virtualGemsHistory)
+	virtualKingsCount, err := csm.calculateKingsCount(stagingArea, model.VirtualBlockHash, virtualAcceptanceData, virtualGHOSTDAGData)
+	if err != nil {
+		return nil, err
+	}
+	csm.kingsCountStore.Stage(stagingArea, model.VirtualBlockHash, virtualKingsCount)
+
 	log.Debugf("Staging new UTXO diff for the virtual block")
 	csm.consensusStateStore.StageVirtualUTXODiff(stagingArea, virtualUTXODiff)
 
