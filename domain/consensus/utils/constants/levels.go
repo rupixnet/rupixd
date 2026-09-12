@@ -45,7 +45,7 @@ func LevelUnlockDaaScore(level uint16, blocksPerHalving uint64) uint64 {
 	if level == LevelGold {
 		return 0
 	}
-	return uint64(level) * blocksPerHalving
+	return uint64(level) * 10 // TEMPORAL-PRUEBA-FIX: QUITAR, volver a blocksPerHalving
 }
 
 // MaxForLevel devuelve el tope historico de un nivel de gema (cuantas pueden

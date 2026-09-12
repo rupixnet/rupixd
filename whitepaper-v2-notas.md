@@ -176,3 +176,36 @@ OTRO HALLAZGO: el minero da timeouts de 10s al submitir bloques que se rechazan
 
 LOGS TEMPORALES A QUITAR: RUPIX-COMMIT-DEBUG en verify_and_build_utxo.go (el resto
 ya se quitaron: SUBMIT, FLOW, FORJA, READY).
+
+## BUG FORJA - AVANCE 12-sep noche (fix anti-spam OK, falta alinear gemsHistory virtual/padre)
+
+LOGRADO HOY:
+1. Fix anti-spam en BlockCandidateTransactions (exime forjas). APLICADO.
+2. Fix en newBlockGemsCommitment: recibe transactions y cuenta forjas del bloque
+   (Clone + nacidosNetos por nivel). APLICADO Y COMPILA.
+3. La forja se arma, se acepta en mempool, se mina. gems del wallet = 1 Diamante.
+4. Desbloqueo temporal para pruebas: levels.go return uint64(level)*10 (QUITAR despues).
+
+EL BUG RESTANTE (sutil, de arquitectura):
+- Template (block_builder.newBlockGemsCommitment) lee gemsHistory del VIRTUAL
+  (model.VirtualBlockHash) -> da 2f71eee (0 gemas).
+- Validacion (verify_and_build_utxo.calculateGemsHistory) lee del PADRE del bloque
+  (SelectedParent) + cuenta forjas -> da 780e9027 (1 Diamante).
+- Los dos NO coinciden -> MISMATCH en cada bloque -> se rechaza -> red trabada.
+
+LA CAUSA PROFUNDA:
+El gemsHistory del VIRTUAL no se actualiza/lee igual que el de los bloques minados.
+El fix de contar forjas del bloque candidato NO basta porque el problema es que el
+virtual y el padre dan bases distintas.
+
+PARA REMATAR FRESCO:
+- Entender como se actualiza gemsHistoryStore para el VIRTUAL vs bloques normales.
+- Quiza el template debe leer del SelectedParent del virtual (no del virtual mismo),
+  igual que la validacion lee del SelectedParent del bloque.
+- O asegurar que el gemsHistory del virtual incluya las forjas ya confirmadas.
+
+ESTADO: forja se mina (gems=1) pero template y validacion sellan distinto.
+El commitment funciona (detecta el mismatch). Falta alinear los dos calculos.
+
+LOGS TEMPORALES ACTIVOS: RUPIX-COMMIT-DEBUG en verify_and_build_utxo.go
+DESBLOQUEO TEMPORAL: levels.go *10 (QUITAR, volver a *blocksPerHalving)

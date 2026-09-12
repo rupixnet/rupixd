@@ -225,7 +225,7 @@ func (bb *blockBuilder) buildHeader(stagingArea *model.StagingArea, transactions
 	if err != nil {
 		return nil, err
 	}
-gemsCommitment, err := bb.newBlockGemsCommitment(stagingArea)
+gemsCommitment, err := bb.newBlockGemsCommitment(stagingArea, transactions)
 if err != nil {
 return nil, err
 }
@@ -329,7 +329,7 @@ func (bb *blockBuilder) calculateAcceptedIDMerkleRoot(acceptanceData externalapi
 // newBlockGemsCommitment (Rupix) calcula el sello del conteo historico de gemas
 // (Diamante/Platino/Rodio/Kings) del estado virtual. Este sello va en el header y
 // entra en el hash del bloque: atarlo al PoW lo hace infalsificable (verificable total).
-func (bb *blockBuilder) newBlockGemsCommitment(stagingArea *model.StagingArea) (*externalapi.DomainHash, error) {
+func (bb *blockBuilder) newBlockGemsCommitment(stagingArea *model.StagingArea, transactions []*externalapi.DomainTransaction) (*externalapi.DomainHash, error) {
 // Al inicio de la cadena (virtual = genesis) aun no hay historial guardado:
 // not-found significa legitimamente "cero gemas". Consistente con la
 // validacion, que devuelve cero gemas para el genesis.
@@ -340,6 +340,8 @@ return nil, err
 }
 gemsHistory = &externalapi.GemsHistory{}
 }
+// Clonar antes de modificar: el objeto viene del store, no debemos mutarlo.
+gemsHistory = gemsHistory.Clone()
 kingsCount, err := bb.kingsCountStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash)
 if err != nil {
 if !database.IsNotFoundError(err) {
@@ -347,6 +349,46 @@ return nil, err
 }
 kingsCount = 0
 }
+	// Rupix: sumar las gemas que NACEN en las tx de ESTE bloque, para que el
+	// sello del template coincida con el que recalcula la validacion
+	// (calculateGemsHistory). Sin esto, el header sella 0 gemas pero la
+	// validacion cuenta las forjas -> mismatch -> bloque rechazado.
+	for _, tx := range transactions {
+		inD, inP, inR := 0, 0, 0
+		for _, input := range tx.Inputs {
+			if input.UTXOEntry == nil {
+				continue
+			}
+			switch input.UTXOEntry.ScriptPublicKey().Version {
+			case constants.LevelDiamante:
+				inD++
+			case constants.LevelPlatino:
+				inP++
+			case constants.LevelRodio:
+				inR++
+			}
+		}
+		outD, outP, outR := 0, 0, 0
+		for _, output := range tx.Outputs {
+			switch output.ScriptPublicKey.Version {
+			case constants.LevelDiamante:
+				outD++
+			case constants.LevelPlatino:
+				outP++
+			case constants.LevelRodio:
+				outR++
+			}
+		}
+		if outD > inD {
+			gemsHistory.Diamante += uint64(outD - inD)
+		}
+		if outP > inP {
+			gemsHistory.Platino += uint64(outP - inP)
+		}
+		if outR > inR {
+			gemsHistory.Rodio += uint64(outR - inR)
+		}
+	}
 sello := gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount)
 	return sello, nil
 }
