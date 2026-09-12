@@ -43,7 +43,7 @@ type configFlags struct {
 }
 
 type createConfig struct {
-	KeysFile          string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
+	KeysFile          string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
 	Password          string `long:"password" short:"p" description:"Wallet password"`
 	Yes               bool   `long:"yes" short:"y" description:"Assume \"yes\" to all questions"`
 	MinimumSignatures uint32 `long:"min-signatures" short:"m" description:"Minimum required signatures" default:"1"`
@@ -61,7 +61,7 @@ type balanceConfig struct {
 }
 
 type sendConfig struct {
-	KeysFile                 string   `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
+	KeysFile                 string   `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
 	Password                 string   `long:"password" short:"p" description:"Wallet password"`
 	DaemonAddress            string   `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	ToAddress                string   `long:"to-address" short:"t" description:"The public address to send RUPIX to" required:"true"`
@@ -96,7 +96,7 @@ type createUnsignedTransactionConfig struct {
 }
 
 type signConfig struct {
-	KeysFile        string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
+	KeysFile        string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
 	Password        string `long:"password" short:"p" description:"Wallet password"`
 	Transaction     string `long:"transaction" short:"t" description:"The unsigned transaction(s) to sign on (encoded in hex)"`
 	TransactionFile string `long:"transaction-file" short:"F" description:"The file containing the unsigned transaction(s) to sign on (encoded in hex)"`
@@ -111,7 +111,7 @@ type broadcastConfig struct {
 }
 
 type parseConfig struct {
-	KeysFile        string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
+	KeysFile        string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
 	Transaction     string `long:"transaction" short:"t" description:"The transaction to parse (encoded in hex)"`
 	TransactionFile string `long:"transaction-file" short:"F" description:"The file containing the transaction to parse (encoded in hex)"`
 	Verbose         bool   `long:"verbose" short:"v" description:"Verbose: show transaction inputs"`
@@ -150,7 +150,7 @@ type transferGemConfig struct {
 }
 
 type startDaemonConfig struct {
-	KeysFile  string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
+	KeysFile  string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
 	Password  string `long:"password" short:"p" description:"Wallet password"`
 	RPCServer string `long:"rpcserver" short:"s" description:"RPC server to connect to"`
 	Listen    string `long:"listen" short:"l" description:"Address to listen on (default: 0.0.0.0:8082)"`
@@ -160,7 +160,7 @@ type startDaemonConfig struct {
 }
 
 type dumpUnencryptedDataConfig struct {
-	KeysFile string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
+	KeysFile string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
 	Password string `long:"password" short:"p" description:"Wallet password"`
 	Yes      bool   `long:"yes" short:"y" description:"Assume \"yes\" to all questions"`
 	config.NetworkFlags
@@ -179,7 +179,7 @@ type bumpFeeUnsignedConfig struct {
 
 type bumpFeeConfig struct {
 	TxID                     string   `long:"txid" short:"i" description:"The transaction ID to bump the fee for"`
-	KeysFile                 string   `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
+	KeysFile                 string   `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
 	Password                 string   `long:"password" short:"p" description:"Wallet password"`
 	DaemonAddress            string   `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send RUPIX from. Repeat multiple times (adding -a before each) to accept several addresses" required:"false"`
@@ -208,7 +208,7 @@ func parseCommandLine() (subCommand string, config interface{}) {
 
 	balanceConf := &balanceConfig{DaemonAddress: defaultListen}
 	parser.AddCommand(balanceSubCmd, "Shows the balance of a public address",
-		"Shows the balance for a public address in Kaspa", balanceConf)
+		"Shows the balance for a public address in Rupix", balanceConf)
 
 	sendConf := &sendConfig{DaemonAddress: defaultListen}
 	parser.AddCommand(sendSubCmd, "Sends a Rupix transaction to a public address",

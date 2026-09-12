@@ -21,7 +21,7 @@ func Connect(address string) (pb.KaspawalletdClient, func(), error) {
 	conn, err := grpc.DialContext(ctx, address, grpc.WithInsecure(), grpc.WithBlock(), grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(server.MaxDaemonSendMsgSize)))
 	if err != nil {
 		if errors.Is(err, context.DeadlineExceeded) {
-			return nil, nil, errors.New("kaspawallet daemon is not running, start it with `kaspawallet start-daemon`")
+			return nil, nil, errors.New("rupixwallet daemon is not running, start it with `rupixwallet start-daemon`")
 		}
 		return nil, nil, err
 	}
