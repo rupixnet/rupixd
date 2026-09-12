@@ -14,6 +14,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/processes/reachabilitymanager"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
@@ -357,6 +358,15 @@ func (ppm *pruningProofManager) ValidatePruningPointProof(pruningPointProof *ext
 	if err := validateGemsHistorySanity(pruningPointProof.GemsHistory); err != nil {
 		return err
 	}
+// Rupix: VERIFICABLE TOTAL en el pruning proof. El GemsHistory recibido debe
+// cuadrar con el gemsCommitment del header del pruning point (protegido por PoW).
+// Sin esto un peer mentiroso podria enviar un conteo falso pero coherente.
+if pruningPointProof.GemsHistory != nil {
+calculatedCommitment := gemscommitment.CalculateGemsCommitment(pruningPointProof.GemsHistory, pruningPointProof.GemsHistory.Kings)
+if !pruningPointHeader.GemsCommitment().Equal(calculatedCommitment) {
+return errors.Errorf("pruning proof gems history does not match the header gems commitment: header %s, calculated %s", pruningPointHeader.GemsCommitment(), calculatedCommitment)
+}
+}
 	pruningPointBlockLevel := pruningPointHeader.BlockLevel(ppm.maxBlockLevel)
 	maxLevel := len(ppm.parentsManager.Parents(pruningPointHeader)) - 1
 	if maxLevel >= len(pruningPointProof.Headers) {
