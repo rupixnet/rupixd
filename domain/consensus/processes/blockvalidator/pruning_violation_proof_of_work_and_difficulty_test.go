@@ -59,6 +59,7 @@ t.Skip("PENDIENTE-RUPIX: mina bloques con PoW real; en el CPX32 de desarrollo " 
 			abovePowMaxBlock.Header.HashMerkleRoot(),
 			abovePowMaxBlock.Header.AcceptedIDMerkleRoot(),
 			abovePowMaxBlock.Header.UTXOCommitment(),
+			abovePowMaxBlock.Header.GemsCommitment(),
 			abovePowMaxBlock.Header.TimeInMilliseconds(),
 			difficulty.BigToCompact(abovePowMaxTarget),
 			abovePowMaxBlock.Header.Nonce(),
@@ -84,6 +85,7 @@ t.Skip("PENDIENTE-RUPIX: mina bloques con PoW real; en el CPX32 de desarrollo " 
 			negativeTargetBlock.Header.HashMerkleRoot(),
 			negativeTargetBlock.Header.AcceptedIDMerkleRoot(),
 			negativeTargetBlock.Header.UTXOCommitment(),
+			negativeTargetBlock.Header.GemsCommitment(),
 			negativeTargetBlock.Header.TimeInMilliseconds(),
 			0x00800000,
 			negativeTargetBlock.Header.Nonce(),
@@ -155,14 +157,14 @@ func TestCheckParentHeadersExist(t *testing.T) {
 			orphanBlock.Header.HashMerkleRoot(),
 			orphanBlock.Header.AcceptedIDMerkleRoot(),
 			orphanBlock.Header.UTXOCommitment(),
+			orphanBlock.Header.GemsCommitment(),
 			orphanBlock.Header.TimeInMilliseconds(),
 			orphanBlock.Header.Bits(),
 			orphanBlock.Header.Nonce(),
 			orphanBlock.Header.DAAScore(),
 			orphanBlock.Header.BlueScore(),
 			orphanBlock.Header.BlueWork(),
-			orphanBlock.Header.PruningPoint(),
-		)
+			orphanBlock.Header.PruningPoint())
 
 		err = tc.ValidateAndInsertBlock(orphanBlock, true)
 		errMissingParents := &ruleerrors.ErrMissingParents{}
@@ -187,6 +189,7 @@ func TestCheckParentHeadersExist(t *testing.T) {
 			merkle.CalculateHashMerkleRoot(invalidBlock.Transactions),
 			orphanBlock.Header.AcceptedIDMerkleRoot(),
 			orphanBlock.Header.UTXOCommitment(),
+			orphanBlock.Header.GemsCommitment(),
 			orphanBlock.Header.TimeInMilliseconds(),
 			orphanBlock.Header.Bits(),
 			orphanBlock.Header.Nonce(),
@@ -214,6 +217,7 @@ func TestCheckParentHeadersExist(t *testing.T) {
 			invalidBlockChild.Header.HashMerkleRoot(),
 			invalidBlockChild.Header.AcceptedIDMerkleRoot(),
 			invalidBlockChild.Header.UTXOCommitment(),
+			invalidBlockChild.Header.GemsCommitment(),
 			invalidBlockChild.Header.TimeInMilliseconds(),
 			invalidBlockChild.Header.Bits(),
 			invalidBlockChild.Header.Nonce(),
@@ -278,6 +282,7 @@ func TestCheckPruningPointViolation(t *testing.T) {
 			blockWithPruningViolation.Header.HashMerkleRoot(),
 			blockWithPruningViolation.Header.AcceptedIDMerkleRoot(),
 			blockWithPruningViolation.Header.UTXOCommitment(),
+			blockWithPruningViolation.Header.GemsCommitment(),
 			blockWithPruningViolation.Header.TimeInMilliseconds(),
 			blockWithPruningViolation.Header.Bits(),
 			blockWithPruningViolation.Header.Nonce(),

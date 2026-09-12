@@ -116,14 +116,14 @@ func TestCheckParentsIncest(t *testing.T) {
 				&externalapi.DomainHash{},
 				&externalapi.DomainHash{},
 				&externalapi.DomainHash{},
+				&externalapi.DomainHash{},
 				0,
 				0,
 				0,
 				0,
 				0,
 				big.NewInt(0),
-				&externalapi.DomainHash{},
-			),
+				&externalapi.DomainHash{}),
 			Transactions: nil,
 		}
 
@@ -139,14 +139,14 @@ func TestCheckParentsIncest(t *testing.T) {
 				&externalapi.DomainHash{},
 				&externalapi.DomainHash{},
 				&externalapi.DomainHash{},
+				&externalapi.DomainHash{},
 				0,
 				0,
 				0,
 				0,
 				0,
 				big.NewInt(0),
-				&externalapi.DomainHash{},
-			),
+				&externalapi.DomainHash{}),
 			Transactions: nil,
 		}
 

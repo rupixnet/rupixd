@@ -69,14 +69,14 @@ func CheckBlockVersion(t *testing.T, tc testapi.TestConsensus, consensusConfig *
 		block.Header.HashMerkleRoot(),
 		block.Header.AcceptedIDMerkleRoot(),
 		block.Header.UTXOCommitment(),
+		block.Header.UTXOCommitment(),
 		block.Header.TimeInMilliseconds(),
 		block.Header.Bits(),
 		block.Header.Nonce(),
 		block.Header.DAAScore(),
 		block.Header.BlueScore(),
 		block.Header.BlueWork(),
-		block.Header.PruningPoint(),
-	)
+		block.Header.PruningPoint())
 
 	err = tc.ValidateAndInsertBlock(block, true)
 	if !errors.Is(err, ruleerrors.ErrWrongBlockVersion) {
@@ -109,14 +109,14 @@ func CheckBlockTimestampInIsolation(t *testing.T, tc testapi.TestConsensus, cfg 
 			block.Header.HashMerkleRoot(),
 			block.Header.AcceptedIDMerkleRoot(),
 			block.Header.UTXOCommitment(),
+			block.Header.UTXOCommitment(),
 			timestamp,
 			block.Header.Bits(),
 			block.Header.Nonce(),
 			block.Header.DAAScore(),
 			block.Header.BlueScore(),
 			block.Header.BlueWork(),
-			block.Header.PruningPoint(),
-		)
+			block.Header.PruningPoint())
 
 		err = tc.ValidateAndInsertBlock(block, true)
 		if !errors.Is(err, ruleerrors.ErrTimeTooMuchInTheFuture) {

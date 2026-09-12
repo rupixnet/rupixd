@@ -64,10 +64,10 @@ func TestUTXOIndex(t *testing.T) {
 		(getBlockCountResponse.BlockCount - 2) * constants.RupiaPerRupix * 500, // -2 because of genesis and virtual.
 	)
 
-	if getCoinSupplyResponse.CirculatingSompi != rewardsMinedSompi {
-		t.Fatalf("Error: Circulating supply Mismatch - Circulating Sompi: %d Sompi Mined: %d", getCoinSupplyResponse.CirculatingSompi, rewardsMinedSompi)
-	} else if getCoinSupplyResponse.CirculatingSompi != rewardsMinedViaBlockCountSompi {
-		t.Fatalf("Error: Circulating supply Mismatch - Circulating Sompi: %d Sompi Mined via Block count: %d", getCoinSupplyResponse.CirculatingSompi, rewardsMinedViaBlockCountSompi)
+	if getCoinSupplyResponse.CirculatingRupia != rewardsMinedSompi {
+		t.Fatalf("Error: Circulating supply Mismatch - Circulating Sompi: %d Sompi Mined: %d", getCoinSupplyResponse.CirculatingRupia, rewardsMinedSompi)
+	} else if getCoinSupplyResponse.CirculatingRupia != rewardsMinedViaBlockCountSompi {
+		t.Fatalf("Error: Circulating supply Mismatch - Circulating Sompi: %d Sompi Mined via Block count: %d", getCoinSupplyResponse.CirculatingRupia, rewardsMinedViaBlockCountSompi)
 	}
 
 	// Collect the UTXO and make sure there's nothing in Removed

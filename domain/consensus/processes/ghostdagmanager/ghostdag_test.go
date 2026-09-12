@@ -116,14 +116,14 @@ func TestGHOSTDAG(t *testing.T) {
 						nil,
 						nil,
 						nil,
+						nil,
 						0,
 						genesisHeader.Bits(),
 						0,
 						0,
 						0,
 						big.NewInt(0),
-						nil,
-					)
+						nil)
 
 					err := g.GHOSTDAG(nil, blockID)
 					if err != nil {
@@ -215,14 +215,14 @@ func TestBlueWork(t *testing.T) {
 		&externalapi.DomainHash{},
 		&externalapi.DomainHash{},
 		&externalapi.DomainHash{},
+		&externalapi.DomainHash{},
 		0,
 		0,
 		0,
 		0,
 		0,
 		big.NewInt(0),
-		&externalapi.DomainHash{},
-	)
+		&externalapi.DomainHash{})
 
 	dagTopology.parentsMap[*fakeGenesisHash] = nil
 	ghostdagDataStore.dagMap[*fakeGenesisHash] = externalapi.NewBlockGHOSTDAGData(0, new(big.Int), nil, nil, nil, nil)
@@ -244,14 +244,14 @@ func TestBlueWork(t *testing.T) {
 		&externalapi.DomainHash{},
 		&externalapi.DomainHash{},
 		&externalapi.DomainHash{},
+		&externalapi.DomainHash{},
 		0,
 		math.MaxUint32, // Put a very high difficulty so the chain that contains this block will have a very high blue work
 		0,
 		0,
 		0,
 		big.NewInt(0),
-		&externalapi.DomainHash{},
-	)
+		&externalapi.DomainHash{})
 
 	dagTopology.parentsMap[*heaviestChainBlock2Hash] = []*externalapi.DomainHash{heaviestChainBlock1Hash}
 	blockHeadersStore.dagMap[*heaviestChainBlock2Hash] = lowDifficultyHeader
