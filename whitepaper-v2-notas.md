@@ -238,3 +238,12 @@ PARA REMATAR FRESCO:
 
 DESBLOQUEO TEMPORAL ACTIVO: levels.go *10 (QUITAR).
 LOG TEMPORAL: RUPIX-COMMIT-DEBUG en verify_and_build_utxo.go.
+
+## HITO 2 COMPLETO - DIAMANTE REAL EN LA CADENA (14-sep)
+- Testnet cruzo 100,000 bloques -> Diamante desbloqueado
+- Diamante REAL forjado: gems=1, commitment=780e9027 (sellado en cadena)
+- SIN mismatch, red fluida, codigo AUDITADO (H-8, H-9, H-10 cerrados)
+- Test del King en el CI (regresion H-10 cazada automatico)
+- Binario fresco 00:47 con todos los fixes
+- El verificable total, probado en vivo en la red real.
+- De "la forja no funciona" (viernes) a "Diamante real sellado" (domingo).
