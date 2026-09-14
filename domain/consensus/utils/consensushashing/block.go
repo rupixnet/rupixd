@@ -50,6 +50,12 @@ func serializeHeader(w io.Writer, header externalapi.BaseBlockHeader) error {
 			}
 		}
 	}
-	return serialization.WriteElements(w, header.HashMerkleRoot(), header.AcceptedIDMerkleRoot(), header.UTXOCommitment(), header.GemsCommitment(), timestamp,
+	// Rupix: guard contra gemsCommitment nil (headers a mano en tests, o cualquier
+	// camino que lo deje nil). Un nil = sello de ceros, nunca panic al hashear.
+	gemsCommitment := header.GemsCommitment()
+	if gemsCommitment == nil {
+		gemsCommitment = &externalapi.DomainHash{}
+	}
+	return serialization.WriteElements(w, header.HashMerkleRoot(), header.AcceptedIDMerkleRoot(), header.UTXOCommitment(), gemsCommitment, timestamp,
 		header.Bits(), header.Nonce(), header.DAAScore(), header.BlueScore(), blueWork, header.PruningPoint())
 }

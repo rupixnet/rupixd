@@ -247,3 +247,19 @@ LOG TEMPORAL: RUPIX-COMMIT-DEBUG en verify_and_build_utxo.go.
 - Binario fresco 00:47 con todos los fixes
 - El verificable total, probado en vivo en la red real.
 - De "la forja no funciona" (viernes) a "Diamante real sellado" (domingo).
+
+## DEUDA DE TESTS - diagnostico honesto (14-sep)
+PRODUCCION FUNCIONA (go build ./... limpio, Diamante real sellado en vivo).
+Tests del commitment/escalera PASAN (corpus 9388/0, King, blockbuilder).
+
+DEUDA: 26 paquetes de test fallan, DOS tipos:
+- TIPO A (5, "build failed"): format string que Go endurecio. HEREDADO de
+  Kaspa (logs.go:183, standard_test.go:282). El codigo compila, el test no.
+- TIPO B (21, panic nil): helpers de test viejos crean headers con hashes nil;
+  al serializar a disco petan. Mezcla heredado + gems. Guards agregados en
+  consensushashing/block.go y serialization/blockheader.go ayudan pero no curan
+  todo (hay mas caminos con nil).
+
+PENDIENTE (sesion fresca): limpiar TIPO A (mecanico) + TIPO B (cuidadoso).
+Meta: go test ./... 100% verde ANTES de sellar "todo verde".
+NO se sella todo-verde hasta limpiar. Se documenta la verdad.

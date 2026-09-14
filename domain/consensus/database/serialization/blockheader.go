@@ -16,7 +16,7 @@ func DomainBlockHeaderToDbBlockHeader(domainBlockHeader externalapi.BlockHeader)
 		HashMerkleRoot:       DomainHashToDbHash(domainBlockHeader.HashMerkleRoot()),
 		AcceptedIDMerkleRoot: DomainHashToDbHash(domainBlockHeader.AcceptedIDMerkleRoot()),
 		UtxoCommitment:       DomainHashToDbHash(domainBlockHeader.UTXOCommitment()),
-		GemsCommitment:       DomainHashToDbHash(domainBlockHeader.GemsCommitment()),
+		GemsCommitment:       DomainHashToDbHash(gemsCommitmentOrZero(domainBlockHeader.GemsCommitment())),
 		TimeInMilliseconds:   domainBlockHeader.TimeInMilliseconds(),
 		Bits:                 domainBlockHeader.Bits(),
 		Nonce:                domainBlockHeader.Nonce(),
@@ -73,4 +73,14 @@ return nil, err
 		new(big.Int).SetBytes(dbBlockHeader.BlueWork),
 		pruningPoint,
 	), nil
+}
+
+// gemsCommitmentOrZero (Rupix) devuelve un hash de ceros si el gemsCommitment es
+// nil, para no petar al serializar headers sin gems (creados a mano en tests, o
+// cualquier camino que lo deje nil). Un nil = "cero gemas", nunca panic.
+func gemsCommitmentOrZero(h *externalapi.DomainHash) *externalapi.DomainHash {
+if h == nil {
+return &externalapi.DomainHash{}
+}
+return h
 }
