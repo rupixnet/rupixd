@@ -1,5 +1,5 @@
 
-## DEFINICIÓN HONESTA DE "PARA TODOS" (reflexión de Edu)
+## DEFINICIÓN HONESTA DE "PARA TODOS" (reflexión del fundador)
 "Para todos" NO = gratis/sin esfuerzo. SÍ = sin barreras de privilegio.
 - No necesitas permiso, ni ser rico, ni empresa. No hay club cerrado.
 - Con inversión pequeña y al alcance (PC gamer $500-1500 o rentar GPU $/día), cualquiera entra.
@@ -10,7 +10,7 @@ comunidad + opción de migrar a Autolykos para proteger el "para todos".
 MENSAJE HONESTO: "Para todos: cualquiera con inversión pequeña y al alcance mina, sin
 permisos ni privilegios." Realista, justo, sostenible. No prometer "gratis" (mentira/insostenible).
 
-## PÚBLICO REAL DE RUPIX (observación clave de Edu)
+## PÚBLICO REAL DE RUPIX (observación clave del fundador)
 Quien mina cripto YA es gente tech/cripto que a menudo YA tiene GPU o la consigue fácil.
 "El que sabe de cripto, entiende Rupix y le interesa, sin pensarlo minaría/compraría."
 → GPU (RupixHeavyHash) es PERFECTO para ese público. No hace falta CPU puro (Autolykos).
@@ -22,9 +22,9 @@ aparecen ASICs (señal de éxito). La pieza más difícil se volvió un plan cla
 
 ## RESUMEN DEL DÍA (cierre) — todo visible en repo
 CERRADO: H-4, H-6 (Kings en proof, el grave), SHA256, textos Kaspa→Rupix, quema explicada en web, pruning mergeado a main.
-VIVO: testnet renacida (halving 100k), Coco mina Gold real, PRIMERA TRANSFERENCIA (tx 07c6b1ab...) + quema.
+VIVO: testnet renacida (halving 100k), un nuevo nodo mina Gold real, PRIMERA TRANSFERENCIA (tx 07c6b1ab...) + quema.
 PENDIENTE AUDITOR: cero mentiroso (multi-peer, complejo), H-1 (mapeado), verificable total (commitment header), 22 vulns deps.
-IDEAS GUARDADAS: verificador de tx, Muro de Fundadores, contador de nodos, UX wallet gema, blog (Coco), Cerebro de Rupix.
+IDEAS GUARDADAS: verificador de tx, Muro de Fundadores, contador de nodos, UX wallet gema, blog (comunidad), Cerebro de Rupix.
 DONDE VAMOS: fin Etapa 2 + corazón de Etapa 3 hecho. ~40% a mainnet. Lo más difícil conceptual (pruning) cruzado.
 PARA X (cierre del día): resumen de avances + tx histórica 07c6b1ab...
 
@@ -91,7 +91,7 @@ PLAN DE ARREGLO (fresco):
 2. O revisar DomainTransactionToRPCTransaction: serializa el ScriptPublicKey.Version?
 3. Verificar que la validacion estandar del mempool acepte outputs version 1-4 (gemas).
 
-IMPORTANTE: el HITO 2 (Coco forja) NO esta completo. La wallet de Coco muestra
+IMPORTANTE: el HITO 2 (nuevo nodo forja) NO esta completo. La wallet del nuevo nodo muestra
 "1 Diamante" pero es LOCAL (usedOutpoints/conteo por UTXO version), NO esta en la
 cadena. El commitment lo destapo: 0 gemas reales. Sin el commitment, habriamos
 celebrado un Diamante falso. El commitment hizo EXACTAMENTE su trabajo.
@@ -293,16 +293,16 @@ METODO CLAVE APRENDIDO: log.Warnf se TRAGA en tests; fmt.Printf SI sale.
 Por eso el diagnostico tardo - los logs no aparecian.
 
 ## HITO HISTORICO - COMUNIDAD REAL (14-sep, 23:20)
-PRIMER FORJADOR EXTERNO: Coco forjo 3 Diamantes REALES desde su propio
+PRIMER FORJADOR EXTERNO: un nuevo nodo forjo 3 Diamantes REALES desde su propio
 nodo/wallet/computadora. Validacion TOTAL con comunidad:
-- Edu envio 50 RUPIX a Coco (transferencia entre personas) - llegaron
-- Coco forjo 3 Diamantes (tx adbfe36b...) desde su nodo externo
-- El Gold se quemo (Coco confirmo: "si quemo, si se movio el balance")
+- El fundador envio 50 RUPIX al nuevo nodo (transferencia entre personas) - llegaron
+- El nuevo nodo forjo 3 Diamantes (tx adbfe36b...) desde su nodo externo
+- El Gold se quemo (el nuevo nodo confirmo: "si quemo, si se movio el balance")
 - Las forjas se minaron (mempool 0, en la cadena)
-- El commitment de la RED cambio a 6c8f913d (refleja las gemas de Coco)
+- El commitment de la RED cambio a 6c8f913d (refleja las gemas del nuevo nodo)
 - Red fluida (203k+ bloques, sin trabarse)
-TOTAL en la red: 4 Diamantes (1 Edu + 3 Coco), sellados en el commitment.
-"Parece que todo al 100 mi chilps" - Coco.
+TOTAL en la red: 4 Diamantes (1 fundador + 3 nuevo nodo), sellados en el commitment.
+"Parece que todo al 100" - el nuevo nodo.
 El verificable total funcionando entre DOS personas reales.
 We are all Rupix - ya no es lema, es hecho.
 
