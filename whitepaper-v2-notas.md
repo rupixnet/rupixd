@@ -313,11 +313,3 @@ Segundo escalon de la escalera probado en la cadena real.
 Aprendizaje del dia: UTXOs fragmentados por minado intenso -> tx >100k mass
 -> timeout. NO es el anti-spam de Rupix (verificado en codigo). Solucion:
 consolidar / --from-address. En mainnet con muchos mineros casi no ocurre.
-
-## PRIMER PLATINO DE LA RED (14-sep)
-ER forjo 10 Diamantes (quemando 100 Gold) y con ellos el primer Platino
-(tx 939d7300...). Los 10 Diamantes desaparecieron, nacio 1 Platino.
-Segundo escalon de la escalera probado en la cadena real.
-Aprendizaje del dia: UTXOs fragmentados por minado intenso -> tx >100k mass
--> timeout. NO es el anti-spam de Rupix (verificado en codigo). Solucion:
-consolidar / --from-address. En mainnet con muchos mineros casi no ocurre.
