@@ -291,3 +291,17 @@ PENDIENTE FINAL (antes de mainnet) - EL HEADER 2:
 
 METODO CLAVE APRENDIDO: log.Warnf se TRAGA en tests; fmt.Printf SI sale.
 Por eso el diagnostico tardo - los logs no aparecian.
+
+## HITO HISTORICO - COMUNIDAD REAL (14-sep, 23:20)
+PRIMER FORJADOR EXTERNO: Coco forjo 3 Diamantes REALES desde su propio
+nodo/wallet/computadora. Validacion TOTAL con comunidad:
+- Edu envio 50 RUPIX a Coco (transferencia entre personas) - llegaron
+- Coco forjo 3 Diamantes (tx adbfe36b...) desde su nodo externo
+- El Gold se quemo (Coco confirmo: "si quemo, si se movio el balance")
+- Las forjas se minaron (mempool 0, en la cadena)
+- El commitment de la RED cambio a 6c8f913d (refleja las gemas de Coco)
+- Red fluida (203k+ bloques, sin trabarse)
+TOTAL en la red: 4 Diamantes (1 Edu + 3 Coco), sellados en el commitment.
+"Parece que todo al 100 mi chilps" - Coco.
+El verificable total funcionando entre DOS personas reales.
+We are all Rupix - ya no es lema, es hecho.
