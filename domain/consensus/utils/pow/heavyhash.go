@@ -12,7 +12,7 @@ type matrix [64][64]uint16
 
 func generateMatrix(hash *externalapi.DomainHash) *matrix {
 	var mat matrix
-	generator := newxoShiRo256PlusPlus(hash)
+	generator := newRupixPRNG(hash)
 	for {
 		for i := range mat {
 			for j := 0; j < 64; j += 16 {
