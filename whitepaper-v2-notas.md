@@ -263,3 +263,31 @@ DEUDA: 26 paquetes de test fallan, DOS tipos:
 PENDIENTE (sesion fresca): limpiar TIPO A (mecanico) + TIPO B (cuidadoso).
 Meta: go test ./... 100% verde ANTES de sellar "todo verde".
 NO se sella todo-verde hasta limpiar. Se documenta la verdad.
+
+## LIMPIEZA DE TESTS - avance 14-sep (26->18 paquetes)
+LO CURADO HOY:
+- TIPO A (5 format strings heredados de Kaspa): Wrapf->Wrap, Fprintf->Fprint,
+  Errorf->New, Criticalf con %s, %q->%v. 5 build-failed corregidos.
+- Framework de test header 1 (test_block_builder.go:105, buildBlock):
+  gemsCommitment de ceros/nil -> GenesisGemsCommitment() (sello de 0 gemas).
+  Curo dagtopologymanager + 3 mas.
+- Guards contra gemsCommitment nil (consensushashing, serialization).
+
+RESULTADO: 26 -> 18 paquetes FAIL. OK subio a 43+.
+
+PENDIENTE FINAL (antes de mainnet) - EL HEADER 2:
+- test_block_builder.go:138 (buildHeaderWithParents) tambien usa
+  GenesisGemsCommitment() FIJO (0 gemas). Pero ese camino RECONSTRUYE
+  bloques con historia -> el gems real puede ser != 0.
+- La validacion calcula el gems real (ej f7dfa586) y el header sella 0 ->
+  mismatch -> DisqualifiedFromChain en ~18 tests de consensus.
+- FIX: buildHeaderWithParents debe CALCULAR el gems real (como produccion),
+  no ponerlo fijo. Tiene los datos: tempBlockHash, ghostdagDataStore,
+  acceptanceData, stagingArea. Falta acceso a calculateGemsHistory (metodo
+  privado de consensusStateManager) - exponerlo o replicar la logica.
+- DIAGNOSTICO 100% hecho. Solo falta aplicar el calculo. Sesion fresca.
+- NO afecta produccion (testnet real funciona, Diamante sellado). Es deuda
+  de tests del framework de consensus.
+
+METODO CLAVE APRENDIDO: log.Warnf se TRAGA en tests; fmt.Printf SI sale.
+Por eso el diagnostico tardo - los logs no aparecian.

@@ -7,6 +7,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
@@ -101,7 +102,7 @@ func (bb *testBlockBuilder) buildUTXOInvalidHeader(stagingArea *model.StagingAre
 		hashMerkleRoot,
 		&externalapi.DomainHash{},
 		&externalapi.DomainHash{},
-&externalapi.DomainHash{}, // gemsCommitment: esqueleto (test)
+gemscommitment.GenesisGemsCommitment(), // gemsCommitment: sello de 0 gemas (test)
 		timeInMilliseconds,
 		bits,
 		bb.nonceCounter,
@@ -134,7 +135,7 @@ func (bb *testBlockBuilder) buildHeaderWithParents(stagingArea *model.StagingAre
 		hashMerkleRoot,
 		acceptedIDMerkleRoot,
 		utxoCommitment,
-nil, // gemsCommitment: esqueleto (test)
+gemscommitment.GenesisGemsCommitment(), // gemsCommitment: sello de 0 gemas (test)
 		header.TimeInMilliseconds(),
 		header.Bits(),
 		header.Nonce(),
