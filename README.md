@@ -6,7 +6,9 @@
 
 ---
 
-## Estado actual (Rupix v0.4.5)
+## Estado actual (Rupix v0.5.0)
+
+- ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa, del cual Rupix es un fork agradecido, bajo licencia ISC). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos). Motor de Kaspa, semilla de Rupix.
 
 La **testnet pública está viva**: acepta nodos externos, mina sobre un génesis propio con cero premine, y la economía completa vive en el consenso. Cualquiera puede conectar su nodo — ver [GUIA-TESTNET.md](./GUIA-TESTNET.md).
 
