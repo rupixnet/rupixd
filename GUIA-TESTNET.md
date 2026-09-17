@@ -18,9 +18,9 @@ Ve a las descargas oficiales:
 **https://github.com/rupixnet/rupixd/releases**
 
 Descarga el archivo de tu sistema:
-- **Windows:** `rupix-v0.4.0-win64.zip`
-- **Mac:** `rupix-v0.4.0-osx.zip`
-- **Linux:** `rupix-v0.4.0-linux.zip`
+- **Windows:** `rupix-v0.5.0-win64.zip`
+- **Mac:** `rupix-v0.5.0-osx.zip`
+- **Linux:** `rupix-v0.5.0-linux.zip`
 
 Descomprime el archivo. Dentro encontrarás 4 programas:
 `rupixd` (el nodo), `rupixctl` (control), `rupixwallet` (billetera), `rupixminer` (minero).
@@ -73,14 +73,22 @@ Compara tu `blockCount` con el del explorador oficial
 
 ## Paso 4 (opcional) — Mina Rupix
 
-> **Sobre el minado en esta fase:** hoy Rupix usa el algoritmo de
-> minado heredado de Kaspa. Puedes minar desde tu CPU (procesador
-> normal) y, como en la testnet no hay máquinas industriales
-> compitiendo, tu CPU sí puede ganar bloques — aunque irá **lento**.
-> Es totalmente normal en testnet. Lo importante ahora es que corras
-> tu **nodo** (pasos 2-3); el minado es un extra. Antes de mainnet,
-> Rupix cambiará a un algoritmo pensado para que cualquiera mine de
-> forma más eficiente. Por ahora, ¡minar lento también suma!
+> **Sobre el minado:** Rupix usa **RupixHeavyHash**, un algoritmo propio
+> construido sobre el motor de Kaspa (kHeavyHash) con nuestra propia semilla.
+> Puedes minar desde tu CPU o GPU, y en testnet tu computadora puede ganar
+> bloques. Lo importante ahora es correr tu **nodo** (pasos 2-3); minar es un
+> extra que también suma a la red.
+>
+> RupixHeavyHash impide que las máquinas industriales fabricadas para Kaspa
+> minen Rupix — un arranque justo para que todos empiecen parejos. Honesto:
+> es una ventaja de meses, no independencia permanente; un FPGA puede
+> reprogramarse. Es un arranque justo, no una barrera eterna.
+>
+> **Nota sobre el archivo de llaves:** si arrancas el daemon con
+> `--keys-file=RUTA`, el comando `send` también debe llevar el mismo
+> `--keys-file=RUTA` (firma localmente con esas llaves). Los demás comandos
+> (`new-address`, `balance`, `gems`, `forge`) NO lo llevan: consultan al daemon.
+> Si no usas `--keys-file` en ningún lado, todo usa el archivo por defecto.
 
 ¿Quieres ayudar a minar la testnet? Primero crea una dirección:
 

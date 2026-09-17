@@ -24,6 +24,7 @@ La **testnet pública está viva**: acepta nodos externos, mina sobre un génesi
 - ✅ **Diamante real sellado en la cadena** (14-sep-2026): con la testnet pasando los 100,000 bloques (halving 1, Diamante desbloqueado), se forjó un Diamante real. El commitment de la cadena refleja el conteo (sello `780e9027…`), sin discrepancia entre minero y validador. Código revisado en dos rondas de auditoría externa (huecos de verificación cerrados) y con test de regresión en el CI.
 - ✅ **Primer forjador externo — comunidad real** (14-sep-2026): un segundo usuario, desde su propia computadora y su propio nodo, forjó 3 Diamantes reales. Minó Gold, quemó para forjar, y la red selló el conteo en el commitment. La verificación total funciona entre varias personas, no solo el creador.
 - ✅ **Primer Platino de la red** (14-sep-2026): 10 Diamantes quemados para siempre, 1 Platino nacido. El segundo escalón de la escalera, probado en la cadena real.
+- ✅ **Tercer nodo externo** (16-sep-2026): un tercer participante sincronizó su nodo desde cero con la testnet de RupixHeavyHash (v0.5.0) y recibió RUPIX. La red pública corre en 3 nodos: el servidor semilla y dos externos.
 - ✅ **Binarios verificables con SHA256**: cada release publica la huella de cada binario, generada por el CI — descargas, comparas, y confirmas que nadie lo alteró
 - ✅ **0 vulnerabilidades** (govulncheck), compilado con Go 1.26.6
 - ✅ **Red de más de un nodo**: primer nodo externo conectado y sincronizado, primera transacción entre dos personas registrada en la cadena
