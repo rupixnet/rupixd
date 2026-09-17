@@ -8,7 +8,9 @@
 
 ## Estado actual (Rupix v0.5.0)
 
-- ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa, del cual Rupix es un fork agradecido, bajo licencia ISC). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos). Motor de Kaspa, semilla de Rupix.
+- ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa, del cual Rupix es un fork agradecido, bajo licencia ISC). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos) y en la testnet pública. El minero (rupixminer, incluido en cada release) usa la misma función interna que el nodo, por lo que mina con RupixHeavyHash: no hay dos algoritmos, minero y validador comparten una sola fuente. Motor de Kaspa, semilla de Rupix.
+
+**Alcance honesto:** el generador propio fue analizado de forma independiente — es lineal sobre GF(2), biyectivo (matriz de transición de rango 256, sin estados transitorios) y sin ciclos cortos en las pruebas. Se descartó el colapso catastrófico; **no** se certificó el período máximo teórico (2^256−1), lo cual exigiría verificar la primitividad del polinomio característico. Y sobre los ASIC: RupixHeavyHash impide el hardware fijo fabricado para Kaspa, lo que da una **ventaja de meses, no independencia permanente** — un FPGA puede reprogramarse en semanas. Es un arranque justo para que todos empiecen parejos, no una barrera eterna.
 
 La **testnet pública está viva**: acepta nodos externos, mina sobre un génesis propio con cero premine, y la economía completa vive en el consenso. Cualquiera puede conectar su nodo — ver [GUIA-TESTNET.md](./GUIA-TESTNET.md).
 
@@ -103,7 +105,7 @@ Conectarte al testnet:
 
 ## Camino a mainnet
 
-- **Cambio a minado accesible para todos** — migrar del algoritmo actual (heredado de Kaspa, dominado por máquinas industriales) a uno pensado para que cualquiera mine desde su computadora. Rupix es para todos.
+- **Minado accesible para todos — HECHO (v0.5.0)** — Rupix migró del algoritmo heredado de Kaspa a RupixHeavyHash, su propio algoritmo. Los ASIC de Kaspa ya no pueden minar Rupix; se mina desde una computadora normal (GPU/CPU). Rupix es para todos.
 - ✅ **Verificación total con commitment en header** — el conteo de gemas se sella en el hash de cada bloque (protegido por PoW), se valida al recibir, y persiste en disco. Un conteo falso se rechaza: el sello no cuadra. Esto CIERRA el verificable total — probado en vivo (primera transferencia entre nodos, testnet v0.4.2).
 - **Auditoría externa del código de consenso**
 - **Infraestructura redundante** (múltiples nodos semilla) y **hashrate comprometido**
