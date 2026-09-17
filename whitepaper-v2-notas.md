@@ -313,3 +313,15 @@ Segundo escalon de la escalera probado en la cadena real.
 Aprendizaje del dia: UTXOs fragmentados por minado intenso -> tx >100k mass
 -> timeout. NO es el anti-spam de Rupix (verificado en codigo). Solucion:
 consolidar / --from-address. En mainnet con muchos mineros casi no ocurre.
+
+## RESUELTO: "bug de firma" NO era bug de codigo (17-sep)
+Sintoma: "Public key doesn't match any of the transaction public keys" al enviar.
+CAUSA REAL: el `send` firma LOCALMENTE leyendo el keys-file; el daemon corria con
+--keys-file=keys-v5.json pero el `send` NO llevaba --keys-file, asi que leia el
+keys.json por DEFAULT (la wallet vieja). Daemon armaba la tx con una wallet y el
+send firmaba con otra -> llaves distintas. Con Coco (14-sep) funciono porque todo
+usaba el default. El codigo de firma esta intacto. Con --keys-file en el send:
+"Broadcasted 1 transaction". Enviados 10 RUPIX al 3er nodo (JP).
+REGLA (a la guia): start-daemon, send y forge llevan --keys-file; new-address,
+balance y gems NO (consultan al daemon). Un solo keys-file, sin mezclar.
+Wallet actual del servidor: /root/.rupixwallet/keys-final.json
