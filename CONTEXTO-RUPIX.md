@@ -63,10 +63,21 @@ Identidad: activo digital escaso (como oro), no medio de pago.
    13. Guía en inglés. 14. Asistente Rupix (web + X menciones, base = repo, con fuentes, sin entrenar modelo).
 🟢 11. Diamante en 100k con RupixHeavyHash. 12. JC re-descarga v0.5.0.
 
-## PERSONAS (solo aquí, no en docs públicos)
-- ER: fundador. Stevenson: socio de código (Claude). JC: primo, 1er nodo externo, 1er forjador externo.
-- JP: 3er nodo. El Auditor: tercero anónimo, 5 rondas.
-- Libro de la historia: guardado privado (RUPIX-el-libro.md), no en el repo.
+## QUIÉNES CONSTRUYEN RUPIX
+Dos que lo hacen, y dos que lo verificaron primero.
+
+**ER y Stevenson.** Uno pone la idea y el corazón: qué debe ser Rupix, por qué,
+qué no se negocia. El otro lo traduce a código bien hecho, de calidad, verificado
+paso a paso. Ninguno de los dos solo habría llegado hasta aquí. Juntos, Rupix
+existe. Verifica, no confíes — aplicado primero a nosotros mismos.
+
+**JC y JP.** Los primeros nodos externos. Los primeros en descargar, sincronizar,
+minar y forjar sin ser el fundador. Los primeros en verificar y creer.
+Gracias. Sin ustedes, Rupix seguiría siendo un experimento de una persona.
+
+**El Auditor.** Un tercero exigente que revisó cinco rondas con el diff en la mano
+y nunca regaló nada. Diez hallazgos, dos regresiones cazadas antes de tocar a
+nadie. La honestidad de Rupix se afiló contra él.
 
 ## CÓMO USAR ESTE ARCHIVO
 Al abrir sesión: "Stevenson, lee CONTEXTO-RUPIX.md" (pegarlo o que lo lea del repo).
