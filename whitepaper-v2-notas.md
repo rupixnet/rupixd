@@ -325,3 +325,21 @@ usaba el default. El codigo de firma esta intacto. Con --keys-file en el send:
 REGLA (a la guia): start-daemon, send y forge llevan --keys-file; new-address,
 balance y gems NO (consultan al daemon). Un solo keys-file, sin mezclar.
 Wallet actual del servidor: /root/.rupixwallet/keys-final.json
+
+## PENDIENTES A MAINNET (17-sep-2026, lista oficial)
+🔴 BLOQUEANTES:
+1. Checkpoints temporales (defensa 51%, con caducidad publicada) - CERO lineas
+2. Un par de ojos con nombre (comunidad Kaspa/Bitcointalk que firme lo revisado)
+3. go test ./... verde (18 paquetes header 2 - usar calculateGemsHistory)
+4. Auditoria profesional con contrato (5k-100k USD)
+5. Hashrate externo sostenido
+🟡 MEDIANOS:
+6. Dominio keccak (agrupado con proximo relanzamiento)
+7. Test end-to-end del King
+8. Firma de codigo (~300-700 USD/ano)
+9. H-1 mempool
+10. Testnet estable semanas
+🟢 INMEDIATO:
+11. Testnet 100k -> primer Diamante con RupixHeavyHash (Edu + JP)
+12. JC re-descarga v0.5.0
+ETAPA: ~75%. Lo que queda es blindar + gente, no inventar.
