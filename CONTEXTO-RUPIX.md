@@ -120,7 +120,7 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 4. **Auditoría profesional** con contrato (5k–100k USD). Antes de mainnet.
 5. **Hashrate externo sostenido.** Sin mineros externos la red es del servidor y de nadie más.
 
-**🟡 Blindaje:** dominio keccak "HeavyHash"→"RupixHeavyHash" (probado, agrupado con el próximo relanzamiento) · test end-to-end del King · firma de código (~300–700 USD/año) · H-1 mempool · testnet estable semanas · guía en inglés · asistente de Rupix (web + menciones en X, base = repo, respuestas con fuente, sin entrenar modelo, después de los bloqueantes).
+**🟡 Blindaje:** dominio keccak "HeavyHash"→"RupixHeavyHash" (probado, agrupado con el próximo relanzamiento) · test end-to-end del King · firma de código (~300–700 USD/año) · H-1 mempool · testnet estable semanas · **todo bilingüe (es/en):** guías (repo y web), README, whitepaper — la web ya lo es · asistente de Rupix (web + menciones en X, base = repo, respuestas con fuente, sin entrenar modelo, después de los bloqueantes).
 
 **🟢 Inmediato:** testnet cruza 100k → primer Diamante con RupixHeavyHash en la red pública · JC re-descarga v0.5.0.
 
