@@ -6,7 +6,7 @@
 
 ---
 
-## Estado actual (Rupix v0.5.0)
+## Estado actual (Rupix v0.5.1)
 
 - ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa, del cual Rupix es un fork agradecido, bajo licencia ISC). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos) y en la testnet pública. El minero (rupixminer, incluido en cada release) usa la misma función interna que el nodo, por lo que mina con RupixHeavyHash: no hay dos algoritmos, minero y validador comparten una sola fuente. Motor de Kaspa, semilla de Rupix.
 
@@ -24,7 +24,7 @@ La **testnet pública está viva**: acepta nodos externos, mina sobre un génesi
 - ✅ **Diamante real sellado en la cadena** (14-sep-2026): con la testnet pasando los 100,000 bloques (halving 1, Diamante desbloqueado), se forjó un Diamante real. El commitment de la cadena refleja el conteo (sello `780e9027…`), sin discrepancia entre minero y validador. Código revisado en dos rondas de auditoría externa (huecos de verificación cerrados) y con test de regresión en el CI.
 - ✅ **Primer forjador externo — comunidad real** (14-sep-2026): un segundo usuario, desde su propia computadora y su propio nodo, forjó 3 Diamantes reales. Minó Gold, quemó para forjar, y la red selló el conteo en el commitment. La verificación total funciona entre varias personas, no solo el creador.
 - ✅ **Primer Platino de la red** (14-sep-2026): 10 Diamantes quemados para siempre, 1 Platino nacido. El segundo escalón de la escalera, probado en la cadena real.
-- ✅ **Tercer nodo externo** (16-sep-2026): un tercer participante sincronizó su nodo desde cero con la testnet de RupixHeavyHash (v0.5.0) y recibió RUPIX. La red pública corre en 3 nodos: el servidor semilla y dos externos.
+- ✅ **Tercer nodo externo** (16-sep-2026): un tercer participante sincronizó su nodo desde cero con la testnet de RupixHeavyHash (v0.5.1) y recibió RUPIX. La red pública corre en 3 nodos: el servidor semilla y dos externos.
 - ✅ **Binarios verificables con SHA256**: cada release publica la huella de cada binario, generada por el CI — descargas, comparas, y confirmas que nadie lo alteró
 - ✅ **0 vulnerabilidades** (govulncheck), compilado con Go 1.26.6
 - ✅ **Red de más de un nodo**: primer nodo externo conectado y sincronizado, primera transacción entre dos personas registrada en la cadena
@@ -106,7 +106,7 @@ Conectarte al testnet:
 
 ## Camino a mainnet
 
-- **Minado accesible para todos — HECHO (v0.5.0)** — Rupix migró del algoritmo heredado de Kaspa a RupixHeavyHash, su propio algoritmo. Los ASIC de Kaspa ya no pueden minar Rupix; se mina desde una computadora normal (GPU/CPU). Rupix es para todos.
+- **Minado accesible para todos — HECHO (v0.5.1)** — Rupix migró del algoritmo heredado de Kaspa a RupixHeavyHash, su propio algoritmo. Los ASIC de Kaspa ya no pueden minar Rupix; se mina desde una computadora normal (GPU/CPU). Rupix es para todos.
 - ✅ **Verificación total con commitment en header** — el conteo de gemas se sella en el hash de cada bloque (protegido por PoW), se valida al recibir, y persiste en disco. Un conteo falso se rechaza: el sello no cuadra. Esto CIERRA el verificable total — probado en vivo (primera transferencia entre nodos, testnet v0.4.2).
 - **Auditoría externa del código de consenso**
 - **Infraestructura redundante** (múltiples nodos semilla) y **hashrate comprometido**

@@ -85,7 +85,7 @@ Registro de relanzamientos: `TESTNET-RELANZAMIENTOS.md`. Se relanza solo por cam
 
 ## Estado ahora (17-sep-2026)
 
-- **v0.5.0** en todo: nodo, wallet, minero, ctl, release, guías, web.
+- **v0.5.1** en todo: nodo, wallet, minero, ctl, release, guías, web.
 - **Testnet #3:** ~90k bloques. Diamante en 100k. Servidor semilla `178.104.69.148:17211`.
 - **3 nodos:** servidor + 2 externos. 2 forjadores externos en la historia.
 - **Wallet del servidor:** `/root/.rupixwallet/keys-final.json`.
