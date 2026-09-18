@@ -5,7 +5,7 @@
 > entonces. Este archivo es el mapa; los commits son el diario. Los dos juntos son la
 > memoria completa. Al cerrar sesión, se actualiza la fecha y se agrega lo que cambió.
 >
-> Última actualización: 18 de septiembre de 2026.
+> Última actualización: 18 de septiembre de 2026 (cierre de sesión).
 
 ---
 
@@ -127,3 +127,13 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 ---
 
 *Somos todos Rupix. No confíes, verifica.*
+
+## Sesión 18-sep-2026 (agregado al cierre)
+- Primer Diamante con RupixHeavyHash en red pública (commitment 780e9027, testnet #3 ~180k).
+- CHECKPOINTS HECHOS: bloqueante #1 cerrado. Rama checkpoints → main. 5 tests + devnet (correcto acepta, falso rechaza en DAA 30). CHECKPOINTS.md. v0.5.1. Lista vacía = compatible, sin relanzar.
+- Aprendizaje: checkpoints validan bloques que LLEGAN, no re-validan la DB. Correcto.
+- Post publicado en Discord de Kaspa (#ecosystem-projects + pregunta en #development). Bloqueante #2 en marcha.
+- 4 estafadores en minutos (3 "kaspasuport" + 1 impostor de msutton con el guion de "cambia tus ajustes"). REGLA: nadie legítimo escribe por DM primero; lo real se responde en el canal público. Verificar rol de equipo + @usuario + historial antes de creer un nombre.
+- README.en.md completo + enlace cruzado. Correcciones al español: cmd/kaspa* → cmd/rupix*, sin "fork", checkpoints HECHO.
+- 30 RUPIX más a JP (tiene ~40 para forjar).
+- Devnet de pruebas: /tmp/rupixd-cp, /root/rupix-devnet-cp (puertos 17310/17611). Matar por PID, no por patrón.
