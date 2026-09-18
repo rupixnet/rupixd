@@ -5,7 +5,7 @@
 > entonces. Este archivo es el mapa; los commits son el diario. Los dos juntos son la
 > memoria completa. Al cerrar sesión, se actualiza la fecha y se agrega lo que cambió.
 >
-> Última actualización: 17 de septiembre de 2026.
+> Última actualización: 18 de septiembre de 2026.
 
 ---
 
@@ -114,7 +114,7 @@ Registro de relanzamientos: `TESTNET-RELANZAMIENTOS.md`. Se relanza solo por cam
 Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. Meses, no semanas.
 
 **🔴 Bloqueantes:**
-1. **Checkpoints temporales.** La única defensa real contra el 51% mientras el hashrate es bajo. "Diecinueve días en el roadmap, cero líneas" — el auditor. Con fecha de caducidad publicada. Lo primero que hay que codificar.
+1. ~~**Checkpoints temporales.**~~ **HECHO (18-sep).** Código + 5 tests + probado en devnet (correcto acepta, falso rechaza) + `CHECKPOINTS.md` con la política. Lista vacía hoy. **Pendiente:** publicar el primer checkpoint real de testnet (bloque con miles de profundidad, anunciado en la tabla).
 2. **Un par de ojos con nombre.** Toda la revisión es anónima por chat. Alguien de la comunidad de Kaspa o Bitcointalk que lea `level_ascension.go`, `gemshistory.go`, `rupixprng.go` y firme lo que vio. Sin eso el README no puede decir "auditado". El fundador debe ir con su nombre: "aquí están los diez hallazgos y cómo los cerré, rómpanlo".
 3. **`go test ./...` verde.** 18 paquetes rojos. Diagnóstico: `test_block_builder.go` → `buildHeaderWithParents` sella el gems fijo en cero; debe calcularlo con la lógica de **validación** (`calculateGemsHistory`), no la de template (`newBlockGemsCommitment` — probado, subió a 20). Mientras esté rojo, "en el CI" no significa nada.
 4. **Auditoría profesional** con contrato (5k–100k USD). Antes de mainnet.
