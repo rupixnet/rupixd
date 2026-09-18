@@ -8,6 +8,7 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/rupixnet/rupixd/util/difficulty"
 )
 
@@ -17,6 +18,8 @@ type blockValidator struct {
 	powMax                      *big.Int
 	skipPoW                     bool
 	genesisHash                 *externalapi.DomainHash
+checkpoints                 []dagconfig.Checkpoint
+checkpointsExpireDAAScore   uint64
 	enableNonNativeSubnetworks  bool
 	powMaxBits                  uint32
 	maxBlockMass                uint64
@@ -57,6 +60,8 @@ type blockValidator struct {
 func New(powMax *big.Int,
 	skipPoW bool,
 	genesisHash *externalapi.DomainHash,
+checkpoints []dagconfig.Checkpoint,
+checkpointsExpireDAAScore uint64,
 	enableNonNativeSubnetworks bool,
 	maxBlockMass uint64,
 	mergeSetSizeLimit uint64,
@@ -97,6 +102,8 @@ func New(powMax *big.Int,
 		powMax:                     powMax,
 		skipPoW:                    skipPoW,
 		genesisHash:                genesisHash,
+checkpoints:                 checkpoints,
+checkpointsExpireDAAScore:   checkpointsExpireDAAScore,
 		enableNonNativeSubnetworks: enableNonNativeSubnetworks,
 		powMaxBits:                 difficulty.BigToCompact(powMax),
 		maxBlockMass:               maxBlockMass,

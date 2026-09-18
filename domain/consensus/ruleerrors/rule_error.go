@@ -38,6 +38,11 @@ var (
 	// the expected value.
 	ErrUnexpectedDAAScore = newRuleError("ErrUnexpectedDAAScore")
 
+// ErrCheckpointMismatch (Rupix) indica que el bloque tiene el DAA score de un
+// checkpoint pero su hash no es el canonico. Defensa contra reorganizaciones
+// profundas mientras los checkpoints esten activos.
+ErrCheckpointMismatch = newRuleError("ErrCheckpointMismatch")
+
 	// ErrUnexpectedBlueWork indicates specified blue work does not align with
 	// the expected value.
 	ErrUnexpectedBlueWork = newRuleError("ErrUnexpectedBlueWork")

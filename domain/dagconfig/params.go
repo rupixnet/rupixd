@@ -50,6 +50,17 @@ type KType uint8
 // Params defines a Kaspa network by its parameters. These parameters may be
 // used by Kaspa applications to differentiate networks as well as addresses
 // and keys for one network from those intended for use on another network.
+// Checkpoint (Rupix) es un bloque canonico conocido: el bloque con este DAA
+// score DEBE tener este hash, o se rechaza. Es una defensa TEMPORAL contra
+// reorganizaciones profundas (ataque del 51%) mientras el hashrate de la red
+// es pequeno. Se publica con fecha de caducidad (CheckpointsExpireDAAScore) y
+// se retira cuando la red pueda sostenerse sola. Centralizacion declarada,
+// no oculta.
+type Checkpoint struct {
+DAAScore uint64
+Hash     *externalapi.DomainHash
+}
+
 type Params struct {
 	// K defines the K parameter for GHOSTDAG consensus algorithm.
 	// See ghostdag.go for further details.
@@ -80,6 +91,14 @@ type Params struct {
 
 	// GenesisHash is the starting block hash.
 	GenesisHash *externalapi.DomainHash
+
+// Checkpoints (Rupix): lista de bloques canonicos por DAA score. Vacia = sin
+// checkpoints. Ver el tipo Checkpoint.
+Checkpoints []Checkpoint
+
+// CheckpointsExpireDAAScore (Rupix): a partir de este DAA score los
+// checkpoints se ignoran (caducidad publicada). 0 = sin caducidad.
+CheckpointsExpireDAAScore uint64
 
 	// PowMax defines the highest allowed proof of work value for a block
 	// as a uint256.

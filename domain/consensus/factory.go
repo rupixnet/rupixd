@@ -353,6 +353,8 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		config.PowMax,
 		config.SkipProofOfWork,
 		genesisHash,
+config.Checkpoints,
+config.CheckpointsExpireDAAScore,
 		config.EnableNonNativeSubnetworks,
 		config.MaxBlockMass,
 		config.MergeSetSizeLimit,

@@ -85,6 +85,14 @@ func (v *blockValidator) ValidateHeaderInContext(stagingArea *model.StagingArea,
 		return err
 	}
 
+// Rupix: checkpoint temporal. Si este DAA score tiene un bloque canonico
+// conocido, el hash DEBE coincidir. Defensa contra reorganizaciones profundas
+// mientras el hashrate es bajo. Caduca en checkpointsExpireDAAScore.
+err = v.checkCheckpoint(blockHash, header)
+if err != nil {
+return err
+}
+
 	err = v.checkBlueWork(stagingArea, blockHash, header)
 	if err != nil {
 		return err
@@ -242,4 +250,30 @@ func (v *blockValidator) checkHeaderBlueScore(stagingArea *model.StagingArea, bl
 			"value of %d", header.BlueWork(), ghostdagData.BlueScore())
 	}
 	return nil
+}
+
+// checkCheckpoint (Rupix) rechaza un bloque cuyo DAA score coincide con un
+// checkpoint pero cuyo hash no es el canonico. Los checkpoints son una defensa
+// TEMPORAL contra el 51% mientras la red es pequena: se publican con caducidad
+// (checkpointsExpireDAAScore) y se retiran cuando la red se sostiene sola.
+// Un bloque en un DAA score sin checkpoint pasa sin mas.
+func (v *blockValidator) checkCheckpoint(blockHash *externalapi.DomainHash, header externalapi.BlockHeader) error {
+if len(v.checkpoints) == 0 {
+return nil
+}
+// Caducidad publicada: pasado este DAA score, los checkpoints no aplican.
+if v.checkpointsExpireDAAScore > 0 && header.DAAScore() > v.checkpointsExpireDAAScore {
+return nil
+}
+for _, cp := range v.checkpoints {
+if cp.DAAScore == header.DAAScore() {
+if !blockHash.Equal(cp.Hash) {
+return errors.Wrapf(ruleerrors.ErrCheckpointMismatch,
+"bloque %s en DAA score %d no coincide con el checkpoint canonico %s",
+blockHash, header.DAAScore(), cp.Hash)
+}
+return nil
+}
+}
+return nil
 }
