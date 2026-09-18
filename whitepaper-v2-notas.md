@@ -349,3 +349,15 @@ Testnet #3 cruzo 100k. Forjado 1 Diamante: commitment 2f71eee -> 780e9027,
 red fluida en 173k. Mismo sello que el 14-sep con el PoW viejo: el conteo es
 la verdad, el algoritmo solo la protege. Economia + verificacion + algoritmo
 propio, juntos en la red publica. Enviados 30 RUPIX mas a JP para que forje.
+
+## CHECKPOINTS PROBADOS EN DEVNET (18-sep)
+Rama checkpoints. Prueba A: checkpoint REAL en DAA 30 (bloque b52ccbc0...) ->
+el nodo acepta su cadena y mina encima (429 bloques, 0 rechazos).
+Prueba B (el ataque): checkpoint FALSO (deadbeef...) en DAA 30, DB limpia,
+minar desde cero -> al llegar al DAA 30 el nodo RECHAZA el bloque
+("no coincide con el checkpoint canonico: ErrCheckpointMismatch"), la cadena
+se traba en 31. Un atacante del 51% con cadena reescrita queda ahi.
+APRENDIZAJE: los checkpoints validan bloques que LLEGAN (P2P/minero), no
+re-validan lo ya guardado en DB. Correcto: un nodo honesto conserva su
+cadena; uno que sincroniza desde cero o recibe una alternativa la verifica.
+Lista vacia en todas las redes = sin efecto hasta publicar el primero.
