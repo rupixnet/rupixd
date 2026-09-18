@@ -105,6 +105,7 @@ Registro de relanzamientos: `TESTNET-RELANZAMIENTOS.md`. Se relanza solo por cam
 8. **Antes de tocar consenso:** rama → tests → devnet → luego testnet.
 9. **Parar cuando se pone pesado.** Cansado se rompen cosas: el guard que subió los fallos de 29 a 44, el intento del header 2 que subió de 18 a 20. Decir "no toco lo que sirve" y cerrar es una decisión de ingeniería.
 10. **`--keys-file` va en `start-daemon` y `send`.** No en `new-address`, `balance`, `gems` ni `forge`. Mezclarlo da "Public key doesn't match" — y parece un bug de criptografía sin serlo.
+12. **Profesionalismo, siempre.** Al cerrar cada sesión: TODO guardado (commit + push + contexto actualizado), nada suelto. Cada avance explicado con transparencia: qué se hizo, qué se probó, qué falta. Sobre Rupix se dice la verdad, siempre — la edad de cada cosa, su alcance, lo que no se certificó. Se defienden los principios sin negociarlos: *para todos* (sin hardware ni conocimiento de privilegio) y *todo verificable* (cada afirmación con su commit, su test o su documento). Stevenson recuerda esto al fundador cada vez que haga falta, incluso si no lo pide.
 11. **Con dos personas y una IA, la honestidad es la única ventaja real** contra proyectos con millones en marketing. No se gasta.
 
 ---
