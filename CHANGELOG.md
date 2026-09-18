@@ -6,6 +6,27 @@ Formato: [versión] - fecha - descripción técnica
 
 ---
 
+## [v0.5.1] - 2026-09-18 — Checkpoints temporales
+- Defensa contra el 51% mientras el hashrate es bajo: bloque en el DAA score de un checkpoint debe tener el hash canónico o `ErrCheckpointMismatch`. Caducidad dentro del consenso. Probado en devnet (correcto acepta, falso rechaza). Lista vacía: compatible con v0.5.0, sin relanzamiento. Política en CHECKPOINTS.md.
+- Primer Diamante con RupixHeavyHash en la red pública (commitment `780e9027…`). README bilingüe.
+
+## [v0.5.0] - 2026-09-16 — RupixHeavyHash (algoritmo propio)
+- Generador de la matriz de kHeavyHash reemplazado (xoshiro256++ → rupixPRNG con multiplicación y sello RUPIX). Los ASIC de Kaspa quedan fuera. Honesto: ventaja de meses, no independencia. Génesis re-minado (misma fecha y mensaje). Testnet relanzada (#3).
+- Versión del binario corregida (reportaba 0.4.0). Dependencias: grpc 1.83.2, 0 vulnerabilidades reales. Guard del bucle de generateMatrix.
+
+## [v0.4.5] - 2026-09-14 — Diamante real, primer forjador externo
+- Bug de la forja resuelto (el virtual no calculaba su gemsHistory). Primer Diamante real sellado (`780e9027…`). Segundo usuario forjó 3 Diamantes desde su nodo. Primer Platino. Auditoría externa: H-8, H-9, H-10 cerrados.
+- **v0.4.4 marcada como defectuosa — no usar** (regresión de verificación introducida por un fix).
+
+## [v0.4.2] - 2026-09-12 — Commitment en header (verificación total)
+- El conteo de gemas se sella en el hash de cada bloque, protegido por PoW, validado al recibir, persistido en disco. Halving de testnet a 100,000 bloques. Testnet relanzada (#2). Pruning verificable (gemsHistory viaja en el proof).
+
+## [v0.4.0] - 2026-09-03 — Testnet pública
+- Primera testnet pública con binarios verificables (SHA256, compilados por CI). Génesis sin premine (04/03/2026 — RUPIX IS ALIVE). Escalera completa en consenso (5 niveles, 10:1, techos históricos). Burn por transacción. Explorador público. Primer nodo externo.
+
+## [Reinicio] - 2026-06-13 — Desde Kaspa limpio
+- El código anterior (v0.2.x, con 1,700 líneas de una IA previa) se descartó por bugs estructurales en cascada. Rupix se reconstruyó desde kaspad limpio, con la economía como ley. Todo lo anterior a esta fecha es historia, no código vigente.
+
 ## [v0.2.2] - 2026-05-25 — Primera testnet sincronizable
 
 ### Milestone histórico
