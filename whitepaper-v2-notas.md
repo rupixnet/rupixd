@@ -343,3 +343,9 @@ Wallet actual del servidor: /root/.rupixwallet/keys-final.json
 11. Testnet 100k -> primer Diamante con RupixHeavyHash (Edu + JP)
 12. JC re-descarga v0.5.0
 ETAPA: ~75%. Lo que queda es blindar + gente, no inventar.
+
+## PRIMER DIAMANTE CON RUPIXHEAVYHASH EN LA RED PUBLICA (18-sep)
+Testnet #3 cruzo 100k. Forjado 1 Diamante: commitment 2f71eee -> 780e9027,
+red fluida en 173k. Mismo sello que el 14-sep con el PoW viejo: el conteo es
+la verdad, el algoritmo solo la protege. Economia + verificacion + algoritmo
+propio, juntos en la red publica. Enviados 30 RUPIX mas a JP para que forje.
