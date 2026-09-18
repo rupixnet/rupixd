@@ -1,5 +1,9 @@
 # Rupix
 
+🇬🇧 [English version](./README.en.md)
+
+🇬🇧 [English version](./README.en.md)
+
 **Rupix es un activo digital escaso para todos: sin dueño, sin premine (sin monedas preguardadas por su creador), sin permiso para entrar. Con un techo de 42 millones que nadie puede cambiar, y una cantidad que solo baja. Mientras el dinero normal se imprime, Rupix se hace más escaso. Y no tienes que confiar en nadie: verifícalo.**
 
 [rupix.network](https://rupix.network) | [@RupixNetwork](https://x.com/RupixNetwork) | [Changelog](./CHANGELOG.md)
@@ -8,7 +12,7 @@
 
 ## Estado actual (Rupix v0.5.1)
 
-- ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa, del cual Rupix es un fork agradecido, bajo licencia ISC). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos) y en la testnet pública. El minero (rupixminer, incluido en cada release) usa la misma función interna que el nodo, por lo que mina con RupixHeavyHash: no hay dos algoritmos, minero y validador comparten una sola fuente. Motor de Kaspa, semilla de Rupix.
+- ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa, sobre cuya tecnología está construido Rupix, bajo licencia ISC y con agradecimiento). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos) y en la testnet pública. El minero (rupixminer, incluido en cada release) usa la misma función interna que el nodo, por lo que mina con RupixHeavyHash: no hay dos algoritmos, minero y validador comparten una sola fuente. Motor de Kaspa, semilla de Rupix.
 
 **Alcance honesto:** el generador propio fue analizado de forma independiente — es lineal sobre GF(2), biyectivo (matriz de transición de rango 256, sin estados transitorios) y sin ciclos cortos en las pruebas. Se descartó el colapso catastrófico; **no** se certificó el período máximo teórico (2^256−1), lo cual exigiría verificar la primitividad del polinomio característico. Y sobre los ASIC: RupixHeavyHash impide el hardware fijo fabricado para Kaspa, lo que da una **ventaja de meses, no independencia permanente** — un FPGA puede reprogramarse en semanas. Es un arranque justo para que todos empiecen parejos, no una barrera eterna.
 
@@ -91,9 +95,9 @@ Requisitos: Go 1.21+, 4 GB RAM, 50 GB de disco.
 git clone https://github.com/rupixnet/rupixd.git
 cd rupixd
 go build -o rupixd .
-go build -o rupixminer ./cmd/kaspaminer
-go build -o rupixwallet ./cmd/kaspawallet
-go build -o rupixctl ./cmd/kaspactl
+go build -o rupixminer ./cmd/rupixminer
+go build -o rupixwallet ./cmd/rupixwallet
+go build -o rupixctl ./cmd/rupixctl
 ```
 
 Conectarte al testnet:
@@ -110,7 +114,7 @@ Conectarte al testnet:
 - ✅ **Verificación total con commitment en header** — el conteo de gemas se sella en el hash de cada bloque (protegido por PoW), se valida al recibir, y persiste en disco. Un conteo falso se rechaza: el sello no cuadra. Esto CIERRA el verificable total — probado en vivo (primera transferencia entre nodos, testnet v0.4.2).
 - **Auditoría externa del código de consenso**
 - **Infraestructura redundante** (múltiples nodos semilla) y **hashrate comprometido**
-- **Checkpoints temporales al arranque**, con fecha de caducidad publicada — protección honesta contra el 51% mientras la red crece su propio hashrate
+- ✅ **Checkpoints temporales — HECHO (v0.5.1)** — con caducidad dentro del consenso, probados en devnet, política pública en [CHECKPOINTS.md](./CHECKPOINTS.md). Falta publicar el primero real.
 
 **Fecha de mainnet: la anunciaremos cuando el código esté listo, no antes.** Preferimos lanzar tarde y bien que pronto y comprometidos.
 
