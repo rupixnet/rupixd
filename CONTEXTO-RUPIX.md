@@ -139,3 +139,10 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 - README.en.md completo + enlace cruzado. Correcciones al español: cmd/kaspa* → cmd/rupix*, sin "fork", checkpoints HECHO.
 - 30 RUPIX más a JP (tiene ~40 para forjar).
 - Devnet de pruebas: /tmp/rupixd-cp, /root/rupix-devnet-cp (puertos 17310/17611). Matar por PID, no por patrón.
+
+## Sesión 19-sep-2026 (cierre)
+- Corrección de Kaspa aceptada; "fork de kaspad, cadena independiente, no usa KAS" en todo. Post en #off-topic.
+- TESTS: de 18 a 4 (rama header2-tests, commiteada, NO mergeada aún). Sin tocar consenso.
+  Causa raíz que nadie vio en semanas: los tests heredados crean outputs con Version=MaxScriptPublicKeyVersion (=4 = Kings en Rupix) → la escalera los rechazaba como Kings falsos. La muralla funcionó hasta contra el framework de test.
+  Quedan 4, todos expectativas de Kaspa: bip32 y txscript (vectores con prefijos kaspa:/kpub), dagtraversal TestBlockWindow y pruning TestPruning (orden por hash: 503 vs 502, [F D C H] vs [F H D C]). Regenerar expectativas desde el código de Rupix.
+- MAÑANA: cerrar los 4 → go test verde → merge a main → v0.5.2. Luego CHECKPOINTS.md y GUIA en inglés. r/kaspa.
