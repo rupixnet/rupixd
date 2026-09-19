@@ -288,7 +288,7 @@ func TestCheckTransactionStandardInIsolation(t *testing.T) {
 				ScriptPublicKey: &externalapi.ScriptPublicKey{[]byte{txscript.OpReturn}, 0},
 			}}},
 			height:     300000,
-			isStandard: false,
+			isStandard: true, // Rupix: el OpReturn (nulldata) ES estandar - es el burn de cada tx y debe viajar por el mempool
 			code:       RejectNonstandard,
 		},
 	}

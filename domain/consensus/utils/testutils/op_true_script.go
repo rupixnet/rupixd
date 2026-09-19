@@ -2,7 +2,6 @@ package testutils
 
 import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/pkg/errors"
 )
@@ -16,6 +15,6 @@ func OpTrueScript() (*externalapi.ScriptPublicKey, []byte) {
 	if err != nil {
 		panic(errors.Wrapf(err, "Couldn't parse opTrueScript. This should never happen"))
 	}
-	scriptPublicKey := &externalapi.ScriptPublicKey{Script: scriptPublicKeyScript, Version: constants.MaxScriptPublicKeyVersion}
+	scriptPublicKey := &externalapi.ScriptPublicKey{Script: scriptPublicKeyScript, Version: 0} // Rupix: Gold. MaxScriptPublicKeyVersion es 4 (Kings): un output de test con "el maximo" seria un Kings falso y la escalera lo rechaza
 	return scriptPublicKey, redeemScript
 }

@@ -55,13 +55,13 @@ func TestUTXOIndex(t *testing.T) {
 		t.Fatalf("Error Retriving Coin supply: %s", err)
 	}
 
-	rewardsMinedSompi := uint64(blockAmountToMine * constants.RupiaPerRupix * 500)
+	rewardsMinedSompi := uint64(blockAmountToMine * constants.RupiaPerRupix / 2) // Rupix: 0.5 RUPIX por bloque (Kaspa eran 500)
 	getBlockCountResponse, err := kaspad.rpcClient.GetBlockCount()
 	if err != nil {
 		t.Fatalf("Error Retriving BlockCount: %s", err)
 	}
 	rewardsMinedViaBlockCountSompi := uint64(
-		(getBlockCountResponse.BlockCount - 2) * constants.RupiaPerRupix * 500, // -2 because of genesis and virtual.
+		(getBlockCountResponse.BlockCount - 2) * constants.RupiaPerRupix / 2, // -2 because of genesis and virtual. Rupix: 0.5 por bloque
 	)
 
 	if getCoinSupplyResponse.CirculatingRupia != rewardsMinedSompi {

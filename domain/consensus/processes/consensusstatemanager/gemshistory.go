@@ -6,6 +6,7 @@ import (
 
 "github.com/rupixnet/rupixd/domain/consensus/model"
 "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 "github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 "github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 )
@@ -106,4 +107,28 @@ if out <= in {
 return 0
 }
 return uint64(out - in)
+}
+
+// CalculateGemsCommitmentForBlock (Rupix) devuelve el sello de gemas que la
+// VALIDACION calcularia para un bloque: gemsHistory + kingsCount -> hash.
+// Es exactamente el mismo calculo de verify_and_build_utxo. Existe para que
+// quien construya un header por fuera del block_builder (el framework de test)
+// selle lo mismo que el validador espera, sin duplicar logica ni divergir.
+func (csm *consensusStateManager) CalculateGemsCommitmentForBlock(stagingArea *model.StagingArea,
+blockHash *externalapi.DomainHash, acceptanceData externalapi.AcceptanceData) (*externalapi.DomainHash, error) {
+
+blockGHOSTDAGData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, blockHash, false)
+if err != nil {
+return nil, err
+}
+gemsHistory, err := csm.calculateGemsHistory(stagingArea, blockHash, acceptanceData, blockGHOSTDAGData)
+if err != nil {
+return nil, err
+}
+kingsCount, err := csm.calculateKingsCount(stagingArea, blockHash, acceptanceData, blockGHOSTDAGData)
+if err != nil {
+return nil, err
+}
+gemsHistory.Kings = kingsCount
+return gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount), nil
 }

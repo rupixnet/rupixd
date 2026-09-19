@@ -128,6 +128,13 @@ func (bb *testBlockBuilder) buildHeaderWithParents(stagingArea *model.StagingAre
 		return nil, err
 	}
 	utxoCommitment := multiset.Hash()
+// Rupix: el sello de gemas del bloque temporal se calcula con la MISMA logica
+// que la validacion (gemsHistory + kingsCount del bloque con su acceptanceData),
+// no con un valor fijo. Asi el header del test cuadra con lo que el validador espera.
+gemsCommitment, err := bb.testConsensus.ConsensusStateManager().CalculateGemsCommitmentForBlock(stagingArea, tempBlockHash, acceptanceData)
+if err != nil {
+return nil, err
+}
 
 	return blockheader.NewImmutableBlockHeader(
 		header.Version(),
@@ -135,7 +142,7 @@ func (bb *testBlockBuilder) buildHeaderWithParents(stagingArea *model.StagingAre
 		hashMerkleRoot,
 		acceptedIDMerkleRoot,
 		utxoCommitment,
-gemscommitment.GenesisGemsCommitment(), // gemsCommitment: sello de 0 gemas (test)
+gemsCommitment, // gemsCommitment: calculado con la logica de VALIDACION (misma que verify_and_build_utxo)
 		header.TimeInMilliseconds(),
 		header.Bits(),
 		header.Nonce(),
@@ -155,7 +162,7 @@ func (bb *testBlockBuilder) buildBlockWithParents(stagingArea *model.StagingArea
 		if err != nil {
 			panic(errors.Wrapf(err, "Couldn't parse opTrueScript. This should never happen"))
 		}
-		scriptPublicKey := &externalapi.ScriptPublicKey{Script: scriptPublicKeyScript, Version: constants.MaxScriptPublicKeyVersion}
+		scriptPublicKey := &externalapi.ScriptPublicKey{Script: scriptPublicKeyScript, Version: 0} // Rupix: Gold (MaxScriptPublicKeyVersion=4 seria un Kings falso)
 		coinbaseData = &externalapi.DomainCoinbaseData{
 			ScriptPublicKey: scriptPublicKey,
 			ExtraData:       []byte{},

@@ -59,7 +59,7 @@ func TestCheckLockTimeVerifyConditionedByDAAScore(t *testing.T) {
 			t.Fatalf("Failed to create a pay-to-script-hash script : %v", err)
 		}
 		scriptPublicKeyCLTV := externalapi.ScriptPublicKey{
-			Version: constants.MaxScriptPublicKeyVersion,
+			Version: 0, // Rupix: Gold
 			Script:  p2shScriptCLTV,
 		}
 		transactionWithLockedOutput, err := createTransactionWithLockedOutput(blockD.Transactions[transactionhelper.CoinbaseTransactionIndex],
@@ -166,7 +166,7 @@ func TestCheckLockTimeVerifyConditionedByDAAScoreWithWrongLockTime(t *testing.T)
 			t.Fatalf("Failed to create a pay-to-script-hash script : %v", err)
 		}
 		scriptPublicKeyCLTV := externalapi.ScriptPublicKey{
-			Version: constants.MaxScriptPublicKeyVersion,
+			Version: 0, // Rupix: Gold
 			Script:  p2shScriptCLTV,
 		}
 		transactionWithLockedOutput, err := createTransactionWithLockedOutput(blockD.Transactions[transactionhelper.CoinbaseTransactionIndex],
@@ -268,7 +268,7 @@ func TestCheckLockTimeVerifyConditionedByAbsoluteTime(t *testing.T) {
 			t.Fatalf("Failed to create a pay-to-script-hash script : %v", err)
 		}
 		scriptPublicKeyCLTV := externalapi.ScriptPublicKey{
-			Version: constants.MaxScriptPublicKeyVersion,
+			Version: 0, // Rupix: Gold
 			Script:  p2shScriptCLTV,
 		}
 		transactionWithLockedOutput, err := createTransactionWithLockedOutput(blockD.Transactions[transactionhelper.CoinbaseTransactionIndex],
@@ -396,7 +396,7 @@ func TestCheckLockTimeVerifyConditionedByAbsoluteTimeWithWrongLockTime(t *testin
 			t.Fatalf("Failed to create a pay-to-script-hash script : %v", err)
 		}
 		scriptPublicKeyCLTV := externalapi.ScriptPublicKey{
-			Version: constants.MaxScriptPublicKeyVersion,
+			Version: 0, // Rupix: Gold
 			Script:  p2shScriptCLTV,
 		}
 		transactionWithLockedOutput, err := createTransactionWithLockedOutput(blockD.Transactions[transactionhelper.CoinbaseTransactionIndex],
