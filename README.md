@@ -12,7 +12,7 @@
 
 ## Estado actual (Rupix v0.5.1)
 
-- ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa, sobre cuya tecnología está construido Rupix, bajo licencia ISC y con agradecimiento). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos) y en la testnet pública. El minero (rupixminer, incluido en cada release) usa la misma función interna que el nodo, por lo que mina con RupixHeavyHash: no hay dos algoritmos, minero y validador comparten una sola fuente. Motor de Kaspa, semilla de Rupix.
+- ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa; Rupix es un fork de kaspad bajo licencia ISC, con agradecimiento). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos) y en la testnet pública. El minero (rupixminer, incluido en cada release) usa la misma función interna que el nodo, por lo que mina con RupixHeavyHash: no hay dos algoritmos, minero y validador comparten una sola fuente. Motor de Kaspa, semilla de Rupix.
 
 **Alcance honesto:** el generador propio fue analizado de forma independiente — es lineal sobre GF(2), biyectivo (matriz de transición de rango 256, sin estados transitorios) y sin ciclos cortos en las pruebas. Se descartó el colapso catastrófico; **no** se certificó el período máximo teórico (2^256−1), lo cual exigiría verificar la primitividad del polinomio característico. Y sobre los ASIC: RupixHeavyHash impide el hardware fijo fabricado para Kaspa, lo que da una **ventaja de meses, no independencia permanente** — un FPGA puede reprogramarse en semanas. Es un arranque justo para que todos empiecen parejos, no una barrera eterna.
 
@@ -35,7 +35,7 @@ La **testnet pública está viva**: acepta nodos externos, mina sobre un génesi
 
 ## Qué es Rupix
 
-Rupix es una blockchain Layer 1 con consenso Proof of Work sobre un BlockDAG (no una cadena lineal). Está construida sobre la arquitectura GHOSTDAG, el protocolo de consenso desarrollado por el equipo de investigación de DAGLabs y publicado en código abierto bajo licencia ISC. Reconocemos y agradecemos ese trabajo: sin esa base, Rupix no existiría.
+Rupix es una blockchain Layer 1 con consenso Proof of Work sobre un BlockDAG (no una cadena lineal). **Rupix es un fork de kaspad**: una cadena independiente, con su propia moneda, construida a partir del código abierto de Kaspa (GHOSTDAG, kHeavyHash) bajo licencia ISC. **Rupix no es parte de la red de Kaspa ni usa KAS.** Reconocemos y agradecemos ese trabajo: sin el código que el equipo de Kaspa publicó, Rupix no existiría.
 
 Lo que Rupix añade encima:
 

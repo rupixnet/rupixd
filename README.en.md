@@ -10,7 +10,7 @@
 
 ## Current state (Rupix v0.5.1)
 
-- ✅ **Own mining algorithm — RupixHeavyHash**: a variant of kHeavyHash (Kaspa's algorithm, on whose technology Rupix is built, under the ISC license and with gratitude). Rupix keeps Kaspa's proven engine (64x64 matrix, HeavyHash) and replaces the generator that fills the matrix (xoshiro256++) with its own, using a structurally different formula (a non-linear multiplication that xoshiro does not have) and a "RUPIX" seal in the seed. Effect: ASICs built for Kaspa cannot mine Rupix — their hardware produces the wrong matrix and the network rejects it. A fair start: minable with GPU/CPU, no inherited hardware advantage. Tested on devnet (22,000+ blocks, 0 rejections, commitment and economy intact) and on the public testnet. The miner (rupixminer, included in every release) uses the same internal function as the node, so it mines with RupixHeavyHash: there are no two algorithms — miner and validator share a single source. Kaspa's engine, Rupix's seed.
+- ✅ **Own mining algorithm — RupixHeavyHash**: a variant of kHeavyHash (Kaspa's algorithm; Rupix is a fork of kaspad under the ISC license, with gratitude). Rupix keeps Kaspa's proven engine (64x64 matrix, HeavyHash) and replaces the generator that fills the matrix (xoshiro256++) with its own, using a structurally different formula (a non-linear multiplication that xoshiro does not have) and a "RUPIX" seal in the seed. Effect: ASICs built for Kaspa cannot mine Rupix — their hardware produces the wrong matrix and the network rejects it. A fair start: minable with GPU/CPU, no inherited hardware advantage. Tested on devnet (22,000+ blocks, 0 rejections, commitment and economy intact) and on the public testnet. The miner (rupixminer, included in every release) uses the same internal function as the node, so it mines with RupixHeavyHash: there are no two algorithms — miner and validator share a single source. Kaspa's engine, Rupix's seed.
 
 **Honest scope:** the custom generator was analyzed independently — it is linear over GF(2), bijective (transition matrix of rank 256, no transient states) and showed no short cycles in testing. Catastrophic collapse was ruled out; the maximum theoretical period (2^256−1) was **not** certified, which would require verifying the primitivity of the characteristic polynomial. And on ASICs: RupixHeavyHash locks out the fixed hardware built for Kaspa, which gives **months of head start, not permanent independence** — an FPGA can be reprogrammed in weeks. It is a fair start so everyone begins on equal footing, not an eternal barrier.
 
@@ -34,7 +34,7 @@ The **public testnet is live**: it accepts external nodes, mines on its own gene
 
 ## What Rupix is
 
-Rupix is a Layer 1 blockchain with Proof of Work consensus over a BlockDAG (not a linear chain). It is built on the GHOSTDAG architecture, the consensus protocol developed by the DAGLabs research team and published as open source under the ISC license. We acknowledge and thank that work: without that foundation, Rupix would not exist.
+Rupix is a Layer 1 blockchain with Proof of Work consensus over a BlockDAG (not a linear chain). **Rupix is a fork of kaspad**: an independent chain, with its own coin, built from Kaspa's open-source code (GHOSTDAG, kHeavyHash) under the ISC license. **Rupix is not part of the Kaspa network and does not use KAS.** We acknowledge and thank that work: without the code the Kaspa team published, Rupix would not exist.
 
 What Rupix adds on top:
 

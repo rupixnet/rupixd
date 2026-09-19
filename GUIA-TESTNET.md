@@ -74,7 +74,7 @@ Compara tu `blockCount` con el del explorador oficial
 ## Paso 4 (opcional) — Mina Rupix
 
 > **Sobre el minado:** Rupix usa **RupixHeavyHash**, un algoritmo propio
-> construido sobre el motor de Kaspa (kHeavyHash) con nuestra propia semilla.
+> derivado del motor de Kaspa (kHeavyHash; Rupix es un fork de kaspad) con nuestra propia semilla.
 > Puedes minar desde tu CPU o GPU, y en testnet tu computadora puede ganar
 > bloques. Lo importante ahora es correr tu **nodo** (pasos 2-3); minar es un
 > extra que también suma a la red.
