@@ -139,7 +139,7 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 - Aprendizaje: checkpoints validan bloques que LLEGAN, no re-validan la DB. Correcto.
 - Post publicado en Discord de Kaspa (#ecosystem-projects + pregunta en #development). Bloqueante #2 en marcha.
 - 4 estafadores en minutos (3 "kaspasuport" + 1 impostor de msutton con el guion de "cambia tus ajustes"). REGLA: nadie legítimo escribe por DM primero; lo real se responde en el canal público. Verificar rol de equipo + @usuario + historial antes de creer un nombre.
-- README.en.md completo + enlace cruzado. Correcciones al español: cmd/kaspa* → cmd/rupix*, sin "fork", checkpoints HECHO.
+- README.md (inglés por defecto desde el 21-sep) completo + enlace cruzado. Correcciones al español: cmd/kaspa* → cmd/rupix*, sin "fork", checkpoints HECHO.
 - 30 RUPIX más a JP (tiene ~40 para forjar).
 - Devnet de pruebas: /tmp/rupixd-cp, /root/rupix-devnet-cp (puertos 17310/17611). Matar por PID, no por patrón.
 
