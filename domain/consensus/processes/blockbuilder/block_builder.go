@@ -353,62 +353,6 @@ kingsCount = 0
 	// sello del template coincida con el que recalcula la validacion
 	// (calculateGemsHistory). Sin esto, el header sella 0 gemas pero la
 	// validacion cuenta las forjas -> mismatch -> bloque rechazado.
-	for _, tx := range transactions {
-		inD, inP, inR := 0, 0, 0
-		for _, input := range tx.Inputs {
-			if input.UTXOEntry == nil {
-				continue
-			}
-			switch input.UTXOEntry.ScriptPublicKey().Version {
-			case constants.LevelDiamante:
-				inD++
-			case constants.LevelPlatino:
-				inP++
-			case constants.LevelRodio:
-				inR++
-			}
-		}
-		outD, outP, outR := 0, 0, 0
-		for _, output := range tx.Outputs {
-			switch output.ScriptPublicKey.Version {
-			case constants.LevelDiamante:
-				outD++
-			case constants.LevelPlatino:
-				outP++
-			case constants.LevelRodio:
-				outR++
-			}
-		}
-		if outD > inD {
-			gemsHistory.Diamante += uint64(outD - inD)
-		}
-		if outP > inP {
-			gemsHistory.Platino += uint64(outP - inP)
-		}
-		if outR > inR {
-			gemsHistory.Rodio += uint64(outR - inR)
-		}
-	}
-	// Rupix H-10: sumar los Kings que nacen en las tx de este bloque al conteo
-	// del padre (kingsCount), igual que calculateKingsCount (input King = quemado,
-	// output King = nace). El minero DEBE sellar el mismo conteo de Kings que el
-	// validador, o el bloque con un King nuevo se rechaza.
-	for _, tx := range transactions {
-		outK, inK := 0, 0
-		for _, input := range tx.Inputs {
-			if input.UTXOEntry != nil && input.UTXOEntry.ScriptPublicKey().Version == constants.LevelKings {
-				inK++
-			}
-		}
-		for _, output := range tx.Outputs {
-			if output.ScriptPublicKey.Version == constants.LevelKings {
-				outK++
-			}
-		}
-		if outK > inK {
-			kingsCount += uint64(outK - inK)
-		}
-	}
 	gemsHistory.Kings = kingsCount
 sello := gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount)
 	return sello, nil
