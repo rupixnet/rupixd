@@ -170,3 +170,9 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 - Reglas nuevas del test framework: ErrChainedTransactions (una tx no gasta outputs del mismo bloque); coinbase del bloque 1 tiene 0 outputs; devnet BlocksPerHalving ajustable en el test (20 → Kings en DAA 80).
 - CONSENSUS-BREAKING (minero). Va al RELANZAMIENTO #4 junto con keccak "RupixHeavyHash" y computeRank entero. Tres cambios, un relanzamiento.
 - Lección propia de Stevenson: verificar el verde ANTES del commit (me lo salté una vez hoy; corregido).
+
+## Del auditor tras el test e2e del King (21-sep) — LEY
+- LA COSTURA: los tres bugs (forja 11-sep, Kings 12-sep, doble conteo 13-sep) viven en el mismo lugar — entre lo que el minero sella y lo que el validador cuenta. Es el punto MÁS FRÁGIL de Rupix. TestKingsEndToEnd lo cuida. **ESE TEST NO SE BORRA NUNCA.**
+- "La lectura tiene un techo — el mío incluido." Corpus + test viejo + 3 revisiones no lo vieron. Solo un test que ejecuta producción de las dos puntas. Prioridad de aquí en adelante: tests e2e sobre código real, no aritmética aislada.
+- RELANZAMIENTO #4 (su método, literal): tres cambios de consenso (keccak, computeRank entero, fix doble conteo) → etiquetar INCOMPATIBLE (v0.6.0), testnet limpia, correr king-e2e DESPUÉS de integrar los tres (no antes), y el ÚLTIMO comando antes de publicar = suite completa verde sobre el binario integrado.
+- "El resto ya no es revisión — es construcción, y esa siempre fue tuya."
