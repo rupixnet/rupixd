@@ -147,16 +147,6 @@ func (s *server) checkTransactionFeeRate(psTx *serialization.PartiallySignedTran
 	// (que si conoce el burn). Neutralizado en la wallet de Rupix.
 	return nil
 
-	feeRate, err := s.transactionFeeRate(psTx)
-	if err != nil {
-		return err
-	}
-
-	if feeRate < 1 {
-		return errors.Errorf("setting --max-fee to %d results in a fee rate of %f, which is below the minimum allowed fee rate of 1 sompi/gram", maxFee, feeRate)
-	}
-
-	return nil
 }
 
 func (s *server) maybeSplitAndMergeTransaction(transaction *serialization.PartiallySignedTransaction, toAddress util.Address,

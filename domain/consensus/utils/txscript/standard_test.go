@@ -446,7 +446,7 @@ var scriptClassTests = []struct {
 		// Nulldata. It is standard in Bitcoin but not in Kaspa
 		name:   "nulldata",
 		script: "RETURN 0",
-		class:  NonStandardTy,
+		class:  BurnTy, // Rupix: un OpReturn es la quema (burn), tiene clase propia
 	},
 
 	// The next few are almost multisig (it is the more complex script type)

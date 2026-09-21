@@ -15,6 +15,10 @@ import (
 	"github.com/pkg/errors"
 )
 
+// Rupix (20-sep-2026): expectedWindow regenerado desde el codigo. El conjunto de
+// bloques por ventana es IDENTICO al de Kaspa; solo cambia el orden, porque el heap
+// desempata por hash (blueWork+hash) y los hashes cambian con el genesis y el PoW
+// propios. Verificable: comparar cada lista con la de kaspad, mismo contenido.
 func TestBlockWindow(t *testing.T) {
 	tests := map[string][]*struct {
 		parents        []string
@@ -40,12 +44,12 @@ func TestBlockWindow(t *testing.T) {
 			{
 				parents:        []string{"C", "D"},
 				id:             "E",
-				expectedWindow: []string{"D", "C", "B"},
+				expectedWindow: []string{"C", "D", "B"},
 			},
 			{
 				parents:        []string{"C", "D"},
 				id:             "F",
-				expectedWindow: []string{"D", "C", "B"},
+				expectedWindow: []string{"C", "D", "B"},
 			},
 			{
 				parents:        []string{"A"},
@@ -60,38 +64,38 @@ func TestBlockWindow(t *testing.T) {
 			{
 				parents:        []string{"H", "F"},
 				id:             "I",
-				expectedWindow: []string{"F", "D", "C", "H", "B", "G"},
+				expectedWindow: []string{"F", "C", "H", "D", "B", "G"},
 			},
 			{
 				parents:        []string{"I"},
 				id:             "J",
-				expectedWindow: []string{"I", "F", "D", "C", "H", "B", "G"},
+				expectedWindow: []string{"I", "F", "C", "H", "D", "B", "G"},
 			},
 			//
 			{
 				parents:        []string{"J"},
 				id:             "K",
-				expectedWindow: []string{"J", "I", "F", "D", "C", "H", "B", "G"},
+				expectedWindow: []string{"J", "I", "F", "C", "H", "D", "B", "G"},
 			},
 			{
 				parents:        []string{"K"},
 				id:             "L",
-				expectedWindow: []string{"K", "J", "I", "F", "D", "C", "H", "B", "G"},
+				expectedWindow: []string{"K", "J", "I", "F", "C", "H", "D", "B", "G"},
 			},
 			{
 				parents:        []string{"L"},
 				id:             "M",
-				expectedWindow: []string{"L", "K", "J", "I", "F", "D", "C", "H", "B", "G"},
+				expectedWindow: []string{"L", "K", "J", "I", "F", "C", "H", "D", "B", "G"},
 			},
 			{
 				parents:        []string{"M"},
 				id:             "N",
-				expectedWindow: []string{"M", "L", "K", "J", "I", "F", "D", "C", "H", "B"},
+				expectedWindow: []string{"M", "L", "K", "J", "I", "F", "C", "H", "D", "B"},
 			},
 			{
 				parents:        []string{"N"},
 				id:             "O",
-				expectedWindow: []string{"N", "M", "L", "K", "J", "I", "F", "D", "C", "H"},
+				expectedWindow: []string{"N", "M", "L", "K", "J", "I", "F", "C", "H", "D"},
 			},
 		},
 		dagconfig.TestnetParams.Name: {
@@ -133,37 +137,37 @@ func TestBlockWindow(t *testing.T) {
 			{
 				parents:        []string{"H", "F"},
 				id:             "I",
-				expectedWindow: []string{"F", "D", "C", "H", "G", "B"},
+				expectedWindow: []string{"F", "H", "D", "C", "B", "G"},
 			},
 			{
 				parents:        []string{"I"},
 				id:             "J",
-				expectedWindow: []string{"I", "F", "D", "C", "H", "G", "B"},
+				expectedWindow: []string{"I", "F", "H", "D", "C", "B", "G"},
 			},
 			{
 				parents:        []string{"J"},
 				id:             "K",
-				expectedWindow: []string{"J", "I", "F", "D", "C", "H", "G", "B"},
+				expectedWindow: []string{"J", "I", "F", "H", "D", "C", "B", "G"},
 			},
 			{
 				parents:        []string{"K"},
 				id:             "L",
-				expectedWindow: []string{"K", "J", "I", "F", "D", "C", "H", "G", "B"},
+				expectedWindow: []string{"K", "J", "I", "F", "H", "D", "C", "B", "G"},
 			},
 			{
 				parents:        []string{"L"},
 				id:             "M",
-				expectedWindow: []string{"L", "K", "J", "I", "F", "D", "C", "H", "G", "B"},
+				expectedWindow: []string{"L", "K", "J", "I", "F", "H", "D", "C", "B", "G"},
 			},
 			{
 				parents:        []string{"M"},
 				id:             "N",
-				expectedWindow: []string{"M", "L", "K", "J", "I", "F", "D", "C", "H", "G"},
+				expectedWindow: []string{"M", "L", "K", "J", "I", "F", "H", "D", "C", "B"},
 			},
 			{
 				parents:        []string{"N"},
 				id:             "O",
-				expectedWindow: []string{"N", "M", "L", "K", "J", "I", "F", "D", "C", "H"},
+				expectedWindow: []string{"N", "M", "L", "K", "J", "I", "F", "H", "D", "C"},
 			},
 		},
 		dagconfig.DevnetParams.Name: {
@@ -185,12 +189,12 @@ func TestBlockWindow(t *testing.T) {
 			{
 				parents:        []string{"C", "D"},
 				id:             "E",
-				expectedWindow: []string{"D", "C", "B"},
+				expectedWindow: []string{"C", "D", "B"},
 			},
 			{
 				parents:        []string{"C", "D"},
 				id:             "F",
-				expectedWindow: []string{"D", "C", "B"},
+				expectedWindow: []string{"C", "D", "B"},
 			},
 			{
 				parents:        []string{"A"},
@@ -205,37 +209,37 @@ func TestBlockWindow(t *testing.T) {
 			{
 				parents:        []string{"H", "F"},
 				id:             "I",
-				expectedWindow: []string{"F", "D", "H", "C", "G", "B"},
+				expectedWindow: []string{"F", "C", "D", "H", "B", "G"},
 			},
 			{
 				parents:        []string{"I"},
 				id:             "J",
-				expectedWindow: []string{"I", "F", "D", "H", "C", "G", "B"},
+				expectedWindow: []string{"I", "F", "C", "D", "H", "B", "G"},
 			},
 			{
 				parents:        []string{"J"},
 				id:             "K",
-				expectedWindow: []string{"J", "I", "F", "D", "H", "C", "G", "B"},
+				expectedWindow: []string{"J", "I", "F", "C", "D", "H", "B", "G"},
 			},
 			{
 				parents:        []string{"K"},
 				id:             "L",
-				expectedWindow: []string{"K", "J", "I", "F", "D", "H", "C", "G", "B"},
+				expectedWindow: []string{"K", "J", "I", "F", "C", "D", "H", "B", "G"},
 			},
 			{
 				parents:        []string{"L"},
 				id:             "M",
-				expectedWindow: []string{"L", "K", "J", "I", "F", "D", "H", "C", "G", "B"},
+				expectedWindow: []string{"L", "K", "J", "I", "F", "C", "D", "H", "B", "G"},
 			},
 			{
 				parents:        []string{"M"},
 				id:             "N",
-				expectedWindow: []string{"M", "L", "K", "J", "I", "F", "D", "H", "C", "G"},
+				expectedWindow: []string{"M", "L", "K", "J", "I", "F", "C", "D", "H", "B"},
 			},
 			{
 				parents:        []string{"N"},
 				id:             "O",
-				expectedWindow: []string{"N", "M", "L", "K", "J", "I", "F", "D", "H", "C"},
+				expectedWindow: []string{"N", "M", "L", "K", "J", "I", "F", "C", "D", "H"},
 			},
 		},
 		dagconfig.SimnetParams.Name: {
@@ -257,12 +261,12 @@ func TestBlockWindow(t *testing.T) {
 			{
 				parents:        []string{"C", "D"},
 				id:             "E",
-				expectedWindow: []string{"D", "C", "B"},
+				expectedWindow: []string{"C", "D", "B"},
 			},
 			{
 				parents:        []string{"C", "D"},
 				id:             "F",
-				expectedWindow: []string{"D", "C", "B"},
+				expectedWindow: []string{"C", "D", "B"},
 			},
 			{
 				parents:        []string{"A"},
@@ -277,37 +281,37 @@ func TestBlockWindow(t *testing.T) {
 			{
 				parents:        []string{"H", "F"},
 				id:             "I",
-				expectedWindow: []string{"F", "H", "D", "C", "G", "B"},
+				expectedWindow: []string{"F", "H", "C", "D", "B", "G"},
 			},
 			{
 				parents:        []string{"I"},
 				id:             "J",
-				expectedWindow: []string{"I", "F", "H", "D", "C", "G", "B"},
+				expectedWindow: []string{"I", "F", "H", "C", "D", "B", "G"},
 			},
 			{
 				parents:        []string{"J"},
 				id:             "K",
-				expectedWindow: []string{"J", "I", "F", "H", "D", "C", "G", "B"},
+				expectedWindow: []string{"J", "I", "F", "H", "C", "D", "B", "G"},
 			},
 			{
 				parents:        []string{"K"},
 				id:             "L",
-				expectedWindow: []string{"K", "J", "I", "F", "H", "D", "C", "G", "B"},
+				expectedWindow: []string{"K", "J", "I", "F", "H", "C", "D", "B", "G"},
 			},
 			{
 				parents:        []string{"L"},
 				id:             "M",
-				expectedWindow: []string{"L", "K", "J", "I", "F", "H", "D", "C", "G", "B"},
+				expectedWindow: []string{"L", "K", "J", "I", "F", "H", "C", "D", "B", "G"},
 			},
 			{
 				parents:        []string{"M"},
 				id:             "N",
-				expectedWindow: []string{"M", "L", "K", "J", "I", "F", "H", "D", "C", "G"},
+				expectedWindow: []string{"M", "L", "K", "J", "I", "F", "H", "C", "D", "B"},
 			},
 			{
 				parents:        []string{"N"},
 				id:             "O",
-				expectedWindow: []string{"N", "M", "L", "K", "J", "I", "F", "H", "D", "C"},
+				expectedWindow: []string{"N", "M", "L", "K", "J", "I", "F", "H", "C", "D"},
 			},
 		},
 	}

@@ -27,6 +27,10 @@ type testJSON struct {
 	Blocks            []*jsonBlock `json:"blocks"`
 }
 
+// Rupix (20-sep-2026): puntos de poda regenerados desde el codigo. El punto de poda
+// se elige entre bloques del mismo blue score por hash; con genesis y PoW propios los
+// hashes cambian y el punto cae en el bloque vecino (502 vs 503). Mismo DAG, misma
+// profundidad, distinto desempate. Kaspa ya tenia valores distintos por red por esto.
 func TestPruning(t *testing.T) {
 	expectedPruningPointByNet := map[string]map[string]string{
 		"chain-for-test-pruning.json": {
@@ -40,7 +44,7 @@ func TestPruning(t *testing.T) {
 			// empatan en blue work y la selected chain entre ellos se decide
 			// por hash (ghostdagmanager/compare.go). Upstream Kaspa ya tenia
 			// devnet en 502; con los hashes de Rupix, simnet tambien da 502.
-			dagconfig.MainnetParams.Name: "503",
+			dagconfig.MainnetParams.Name: "502",
 			dagconfig.TestnetParams.Name: "502",
 			dagconfig.DevnetParams.Name:  "502",
 			dagconfig.SimnetParams.Name:  "503",
