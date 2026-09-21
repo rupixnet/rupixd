@@ -5,7 +5,7 @@
 > entonces. Este archivo es el mapa; los commits son el diario. Los dos juntos son la
 > memoria completa. Al cerrar sesión, se actualiza la fecha y se agrega lo que cambió.
 >
-> Última actualización: 18 de septiembre de 2026 (cierre de sesión).
+> Última actualización: 20 de septiembre de 2026 (cierre de sesión).
 
 ---
 
@@ -149,3 +149,10 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
   Causa raíz que nadie vio en semanas: los tests heredados crean outputs con Version=MaxScriptPublicKeyVersion (=4 = Kings en Rupix) → la escalera los rechazaba como Kings falsos. La muralla funcionó hasta contra el framework de test.
   Quedan 4, todos expectativas de Kaspa: bip32 y txscript (vectores con prefijos kaspa:/kpub), dagtraversal TestBlockWindow y pruning TestPruning (orden por hash: 503 vs 502, [F D C H] vs [F H D C]). Regenerar expectativas desde el código de Rupix.
 - MAÑANA: cerrar los 4 → go test verde → merge a main → v0.5.2. Luego CHECKPOINTS.md y GUIA en inglés. r/kaspa.
+
+## Sesión 20-sep-2026 (cierre)
+- Respuesta a FreshAir08 (Discord Kaspa): aceptado commitment sobrevendido, zero premine no distinto, README default español, Go vs Rust. Prometido en público: README inglés por defecto + Go/Rust al roadmap → PENDIENTE MAÑANA.
+- §6 corregido con el auditor: Stevenson = IA. Su respuesta: el riesgo #1 es una persona; H-5 es patrón; computeRank float64 primero; quiere ver el test del King real.
+- go test ./... de 18 a 0. Merge main. v0.5.2. go vet limpio. Patrón H-5 revisado en producción (DisasmString era ==max).
+- THANKS.md bilingüe (Auditor, supertypo, FreshAir08, JC, JP). Reglas 14-16.
+- MAÑANA: (1) README.md inglés default / README.es.md, (2) Go vs Rust en roadmap y whitepaper, (3) computeRank determinista, (4) test del King e2e, (5) CHECKPOINTS + GUIA en inglés, (6) r/kaspa.
