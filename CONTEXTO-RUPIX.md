@@ -5,7 +5,7 @@
 > entonces. Este archivo es el mapa; los commits son el diario. Los dos juntos son la
 > memoria completa. Al cerrar sesión, se actualiza la fecha y se agrega lo que cambió.
 >
-> Última actualización: 20 de septiembre de 2026 (cierre de sesión).
+> Última actualización: 21 de septiembre de 2026 (cierre de sesión).
 
 ---
 
@@ -156,3 +156,9 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 - go test ./... de 18 a 0. Merge main. v0.5.2. go vet limpio. Patrón H-5 revisado en producción (DisasmString era ==max).
 - THANKS.md bilingüe (Auditor, supertypo, FreshAir08, JC, JP). Reglas 14-16.
 - MAÑANA: (1) README.md inglés default / README.es.md, (2) Go vs Rust en roadmap y whitepaper, (3) computeRank determinista, (4) test del King e2e, (5) CHECKPOINTS + GUIA en inglés, (6) r/kaspa.
+
+## Sesión 21-sep-2026 (1 hora)
+- Cumplido lo prometido a FreshAir08: README.md inglés por defecto (README.es.md español), Go vs Rust como riesgo declarado en roadmap (es/en).
+- computeRankInt (entero mod 2^61-1) implementado en rank_int_test.go; 5000 matrices reales: coincide con float64 en todas. PENDIENTE: reemplazar computeRank en el próximo cambio de consenso (agrupar con keccak → relanzamiento #4). Cierra el punto "más grave silencioso" del auditor.
+- PRÓXIMO RELANZAMIENTO agrupa: keccak "RupixHeavyHash" + computeRank entero + re-minar génesis. Un solo relanzamiento.
+- Siguiente: test del King e2e, H-1 mempool, doble fuente de Kings, docs en inglés, r/kaspa.
