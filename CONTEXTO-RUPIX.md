@@ -164,3 +164,9 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 - Siguiente: test del King e2e, H-1 mempool, doble fuente de Kings, docs en inglés, r/kaspa.
 - El auditor revisará el diff completo de v0.6.0 cuando esté: los tres cambios integrados, testnet reiniciada, king-e2e en verde sobre el binario final. Revisará: keccak nuevo, computeRank entero, y que la costura siga cuidada. Ese es el siguiente entregable para él.
 - X: bilingüe. Inglés primero + reply en español (hilo de 2). Una imagen, en inglés.
+
+## Sesión 21-sep (noche) — OPERACIÓN
+- El seed murió por OOM a las 04:31 (rupixd 2.7 GB + go test completo en el mismo host); 14 horas caído, explorador en blanco, JP/JC sin peer.
+- FIX: nodo, daemon y minero como servicios systemd con Restart=always (probado: kill -9 → revive en 12s). OPERACIONES.md. Binario a 0.5.2.
+- REGLA: no correr go test ./... completo en el host del seed. Tests pesados aparte o con -p 1.
+- Kings YA desbloqueado en testnet (DAA 436k > 400k). Con v0.5.2 un King real sería rechazado (doble conteo). v0.6.0 urge.
