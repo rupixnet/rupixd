@@ -162,3 +162,11 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 - computeRankInt (entero mod 2^61-1) implementado en rank_int_test.go; 5000 matrices reales: coincide con float64 en todas. PENDIENTE: reemplazar computeRank en el próximo cambio de consenso (agrupar con keccak → relanzamiento #4). Cierra el punto "más grave silencioso" del auditor.
 - PRÓXIMO RELANZAMIENTO agrupa: keccak "RupixHeavyHash" + computeRank entero + re-minar génesis. Un solo relanzamiento.
 - Siguiente: test del King e2e, H-1 mempool, doble fuente de Kings, docs en inglés, r/kaspa.
+
+## Sesión 21-sep-2026 (tarde) — TEST E2E DEL KING + BUG REAL
+- TestKingsEndToEnd (rama king-e2e, NO mergeada): 1000 D → 100 P → 10 R → 1 King con txs reales; Diamante y King MINADOS por block_builder.go (tc.BuildBlock) y validados por verify_and_build_utxo.go; conteo del gemsHistoryStore (getter nuevo). Falla si se revierte H-10. Probado al revés.
+- BUG REAL: newBlockGemsCommitment sumaba las forjas del bloque que construye (loop del 13-sep) pero el validador cuenta lo ACEPTADO (mergeset, sin el bloque mismo) → doble conteo → todo bloque con forja minado por producción se descalificaba. El primer King real en mainnet habría sido rechazado. Fix: quitar el loop; el minero sella solo gemsHistory(virtual). Suite 0.
+- ¿Por qué testnet "funcionó"? Pendiente de entender del todo (la wallet real + mempool + virtual). Revisar antes del relanzamiento: ¿los bloques con forja de testnet fueron válidos a la primera, o hubo rechazos silenciosos?
+- Reglas nuevas del test framework: ErrChainedTransactions (una tx no gasta outputs del mismo bloque); coinbase del bloque 1 tiene 0 outputs; devnet BlocksPerHalving ajustable en el test (20 → Kings en DAA 80).
+- CONSENSUS-BREAKING (minero). Va al RELANZAMIENTO #4 junto con keccak "RupixHeavyHash" y computeRank entero. Tres cambios, un relanzamiento.
+- Lección propia de Stevenson: verificar el verde ANTES del commit (me lo salté una vez hoy; corregido).
