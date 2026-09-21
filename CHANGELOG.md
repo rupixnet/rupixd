@@ -6,6 +6,10 @@ Formato: [versión] - fecha - descripción técnica
 
 ---
 
+## [v0.5.2] - 2026-09-20 — Suite de tests en verde
+- `go test ./...` de 18 paquetes rojos a 0, sin tocar consenso. Causa raíz (predicha por el auditor como H-5): tests heredados creaban outputs con `Version = MaxScriptPublicKeyVersion` (= 4 = Kings en Rupix) y la escalera los rechazaba. Corregido en el framework de test, vectores bip32/txscript/ventana/poda regenerados desde el código. `DisasmString` aceptaba solo la versión máxima; ahora 0..4. `go vet` limpio en producción.
+- README en inglés + aclaración: fork de kaspad, cadena independiente, no usa KAS.
+
 ## [v0.5.1] - 2026-09-18 — Checkpoints temporales
 - Defensa contra el 51% mientras el hashrate es bajo: bloque en el DAA score de un checkpoint debe tener el hash canónico o `ErrCheckpointMismatch`. Caducidad dentro del consenso. Probado en devnet (correcto acepta, falso rechaza). Lista vacía: compatible con v0.5.0, sin relanzamiento. Política en CHECKPOINTS.md.
 - Primer Diamante con RupixHeavyHash en la red pública (commitment `780e9027…`). README bilingüe.
