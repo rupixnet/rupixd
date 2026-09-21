@@ -4,7 +4,7 @@
 
 **Rupix is a scarce digital asset for everyone: no owner, no premine (no coins set aside for its creator), no permission needed to join. With a 42-million cap that no one can change, and a supply that only goes down. While ordinary money gets printed, Rupix gets scarcer. And you don't have to trust anyone: verify it.**
 
-[rupix.network](https://rupix.network) | [@RupixNetwork](https://x.com/RupixNetwork) | [Changelog](./CHANGELOG.md)
+[rupix.network](https://rupix.network) | [@RupixNetwork](https://x.com/RupixNetwork) | [Changelog](./CHANGELOG.md) | [Thanks](./THANKS.md)
 
 ---
 
