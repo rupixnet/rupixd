@@ -210,6 +210,7 @@ func TestKingsEndToEnd(t *testing.T) {
 	if err != nil {
 		t.Fatalf("BuildBlock (minero real) del King: %+v", err)
 	}
+	if err := tc.ValidateAndInsertBlock(kingBlk, true); err != nil {
 		t.Fatalf("el validador RECHAZO el bloque del King minado por el block_builder real: %+v", err)
 	}
 	kingHash := consensushashing.BlockHash(kingBlk)
