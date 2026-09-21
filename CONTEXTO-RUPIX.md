@@ -162,3 +162,5 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 - computeRankInt (entero mod 2^61-1) implementado en rank_int_test.go; 5000 matrices reales: coincide con float64 en todas. PENDIENTE: reemplazar computeRank en el próximo cambio de consenso (agrupar con keccak → relanzamiento #4). Cierra el punto "más grave silencioso" del auditor.
 - PRÓXIMO RELANZAMIENTO agrupa: keccak "RupixHeavyHash" + computeRank entero + re-minar génesis. Un solo relanzamiento.
 - Siguiente: test del King e2e, H-1 mempool, doble fuente de Kings, docs en inglés, r/kaspa.
+- El auditor revisará el diff completo de v0.6.0 cuando esté: los tres cambios integrados, testnet reiniciada, king-e2e en verde sobre el binario final. Revisará: keccak nuevo, computeRank entero, y que la costura siga cuidada. Ese es el siguiente entregable para él.
+- X: bilingüe. Inglés primero + reply en español (hilo de 2). Una imagen, en inglés.
