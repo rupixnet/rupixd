@@ -175,3 +175,8 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 - Pruning activo: punto en DAA 345,694; headers 592k, bloques con cuerpo 249k. Sin reorg (DAA sube). blockCount BAJA por poda: normal.
 - El Diamante (DAA ~173k, bloque ya podado) sigue contado (780e9027) y la wallet lo ve. El conteo sobrevive a la poda. Prueba real de H-6/H-9.
 - PRÓXIMO TEST DE FUEGO: primer nodo externo sincronizando desde cero DESDE EL PUNTO DE PODA (proof con gemsHistory). Debe llegar a 780e9027 sin ver el bloque del Diamante. Coordinar con JP o JC. Documentar.
+
+## EXPLICACIÓN OFICIAL DEL SELLO (para el asistente y para la gente)
+El sello (gemsCommitment) es el hash del conteo de gemas NACIDAS hasta ese bloque. Va en el header de cada bloque, protegido por PoW. Hoy es 780e9027 (= 1 Diamante). Si alguien forja otra gema, el sello cambia y TODOS los bloques siguientes llevan el nuevo, hasta la próxima forja. Es un marcador de agua que dice "hasta aquí nacieron tantas".
+Por qué hace a Rupix más seguro (en simple): 1) nadie puede inventar gemas — si un nodo dice 5 y el sello dice 1, el bloque se rechaza, ni el creador puede; 2) los nodos se vigilan sin hablar — cada uno cuenta y compara con el sello, una diferencia se nota en el acto (así se cazó el bug del 21-sep); 3) la verdad sobrevive al olvido — la poda borra cuerpos de bloques pero no headers, y un nodo nuevo recibe el conteo en el pruning proof y lo verifica contra el sello sin ver nunca la forja original (probado en la red real el 22-sep).
+Alcance honesto (FreshAir08 tenía razón): el conteo es derivable del UTXO set con la aritmética de la escalera; el sello añade verificación O(1) de lo HISTÓRICO y defensa en profundidad, no algo imposible de otra forma. "Trust-minimized", no "trustless".
