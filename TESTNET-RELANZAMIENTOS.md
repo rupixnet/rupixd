@@ -21,3 +21,15 @@ Release v0.4.1 / v0.4.2.
 ## Relanzamiento #1 — 3-4 de septiembre de 2026
 Motivo: Testnet pública inicial (v0.4.0) tras detectar una testnet privada vieja
 con código de la era 0.12.22.
+
+---
+
+## Hito: primera poda de la testnet #3 — 22 de septiembre de 2026
+
+🇲🇽 La testnet cruzó ~592,000 bloques (DAA) y el nodo semilla activó el pruning por primera vez: punto de poda en DAA 345,694 (bloque `ace0d8b8…`). `headerCount` 592,089 / `blockCount` 249,048 — los ~343,000 bloques anteriores ya no tienen cuerpo en el nodo.
+
+**Verificado:** el Diamante forjado en DAA ~173,000 (172,000 bloques antes del punto de poda, su bloque ya podado) sigue contado: commitment `780e9027…` intacto, la wallet ve la gema. El conteo histórico sobrevive a la poda del bloque que lo originó. Es la primera prueba en la red real de lo que H-6 y H-9 cerraron.
+
+**Pendiente de máxima importancia:** el próximo nodo externo que sincronice desde cero lo hará por primera vez **desde el punto de poda**, recibiendo el pruning proof con el gemsHistory dentro. Debe llegar a `780e9027…` sin haber visto el bloque del Diamante. Ese será el test de fuego del pruning verificable. Se documentará quién y cuándo.
+
+🇬🇧 The testnet crossed ~592,000 blocks (DAA) and the seed node pruned for the first time: pruning point at DAA 345,694. The Diamond forged at DAA ~173,000 — 172,000 blocks before the pruning point, its block already pruned — is still counted: commitment `780e9027…` intact. The historical count survives pruning of the block that created it. First real-network proof of what H-6/H-9 closed. **Next:** the first external node to sync from scratch will do so from the pruning point via the proof — it must reach `780e9027…` without ever seeing the Diamond's block. That is the real test of verifiable pruning.
