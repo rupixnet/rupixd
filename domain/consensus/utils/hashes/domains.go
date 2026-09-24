@@ -14,7 +14,7 @@ const (
 	transcationSigningECDSADomain = "TransactionSigningHashECDSA"
 	blockDomain                   = "BlockHash"
 	proofOfWorkDomain             = "ProofOfWorkHash"
-	heavyHashDomain               = "HeavyHash"
+	heavyHashDomain               = "RupixHeavyHash"
 	merkleBranchDomain            = "MerkleBranchHash"
 )
 
