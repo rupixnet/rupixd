@@ -326,6 +326,23 @@ func (bb *blockBuilder) calculateAcceptedIDMerkleRoot(acceptanceData externalapi
 	return merkle.CalculateIDMerkleRoot(acceptedTransactions), nil
 }
 
+// INVARIANTE DE LA COSTURA (no tocar sin leer esto):
+//
+//   El MINERO ve el bloque que esta construyendo. El VALIDADOR ve el MERGESET
+//   del bloque, que NO incluye al bloque mismo (sus txs las acepta el HIJO).
+//   Por eso este sello se calcula SOLO desde gemsHistory(virtual): el virtual ya
+//   incluye lo aceptado por los tips. NUNCA sumar aqui las gemas de las txs del
+//   bloque que se construye. Hacerlo produce un sello con una forja de mas, el
+//   validador lo rechaza y el bloque queda DisqualifiedFromChain.
+//
+//   Tres bugs vivieron en esta costura (11, 12 y 13 de septiembre de 2026), los
+//   tres sobre "que cuenta el minero vs que cuenta el validador". El del 13 sumo
+//   las txs propias y estuvo activo diez dias sin que nadie lo viera: GHOSTDAG
+//   rescataba la forja mergeando el bloque descalificado como azul (evidencia:
+//   bloque 5546... de la testnet #3, isChainBlock=false, sello 780e9027).
+//   TestKingsEndToEnd (domain/consensus) cuida esta costura: mina con este
+//   codigo y valida con el real. No se borra.
+//
 // newBlockGemsCommitment (Rupix) calcula el sello del conteo historico de gemas
 // (Diamante/Platino/Rodio/Kings) del estado virtual. Este sello va en el header y
 // entra en el hash del bloque: atarlo al PoW lo hace infalsificable (verificable total).
