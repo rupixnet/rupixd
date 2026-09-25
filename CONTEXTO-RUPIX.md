@@ -181,3 +181,14 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 ## v0.6.0 paso 6/8 (23-sep): FORJA REAL en devnet viva
 Binario integrado (keccak+rank+fix). Devnet limpia, minó Gold (69k RUPIX), forjó 1 Diamante real (tx 47805daf...), sello del header 780e9027, wallet ve Diamante:1. Forja de punta a punta en red viva, no en test. El sello 780e9027 es identico al de testnet: el conteo es independiente del keccak del PoW. Pasos 1-6 cerrados y verificados.
 Faltan: paso 7 (testnet #4, coordinar JC/JP), paso 8 (release v0.6.0 + merge main). Ademas: columna de bloques descalificados en el explorador (pedido del auditor), docs en ingles (CHECKPOINTS/GUIA/RELANZAMIENTOS).
+
+## CIERRE 23-sep-2026
+Sesión enorme. Logrado y guardado (rama v0.6.0, pusheada):
+- Cerrado el porqué testnet no se rompió: bloque 5546 descalificado, GHOSTDAG rescató la forja vía el hermano azul. Bug real y activo, enmascarado por el DAG. Evidencia on-chain.
+- Letrero-invariante en newBlockGemsCommitment (no sumar txs propias; 3 bugs en la costura; pedido del auditor).
+- v0.6.0 pasos 1-6 de 8: keccak RupixHeavyHash + computeRank entero + fix del minero, INTEGRADOS y probados juntos. king-e2e verde sobre el binario integrado, probado al revés (FAIL si se revierte). Suite ./... en 0. Forja real de Diamante en devnet viva (sello 780e9027). Génesis NO necesita re-minado.
+- LOGROS.md bilingüe en main. Mensaje a JC listo. Resumen para el auditor listo.
+FALTAN (requieren coordinar gente, no de un comando):
+- Paso 7: testnet #4 (parar actual, arrancar v0.6.0, JC/JP borran cadena y re-sincronizan desde cero = test de fuego del pruning).
+- Paso 8: release v0.6.0 + merge main + tag.
+- Columna de descalificados en el explorador (auditor). Docs en inglés (CHECKPOINTS/GUIA/RELANZAMIENTOS). Mandar mensaje al auditor y a JC.
