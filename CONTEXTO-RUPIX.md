@@ -177,3 +177,7 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 - RELANZAMIENTO #4 (su método, literal): tres cambios de consenso (keccak, computeRank entero, fix doble conteo) → etiquetar INCOMPATIBLE (v0.6.0), testnet limpia, correr king-e2e DESPUÉS de integrar los tres (no antes), y el ÚLTIMO comando antes de publicar = suite completa verde sobre el binario integrado.
 - "El resto ya no es revisión — es construcción, y esa siempre fue tuya."
 - 23-sep, del auditor: "la tolerancia de GHOSTDAG es también un escondite" — un minero con este bug mina bloques rojos y lo reporta como mala suerte. Dos pedidos: (1) COLUMNA de bloques descalificados (isChainBlock=false) en rojo en el explorador — alarma, no ruido; la quiere ver. (2) Letrero-invariante junto a newBlockGemsCommitment — HECHO. Revisará v0.6.0 completo + la columna.
+
+## v0.6.0 paso 6/8 (23-sep): FORJA REAL en devnet viva
+Binario integrado (keccak+rank+fix). Devnet limpia, minó Gold (69k RUPIX), forjó 1 Diamante real (tx 47805daf...), sello del header 780e9027, wallet ve Diamante:1. Forja de punta a punta en red viva, no en test. El sello 780e9027 es identico al de testnet: el conteo es independiente del keccak del PoW. Pasos 1-6 cerrados y verificados.
+Faltan: paso 7 (testnet #4, coordinar JC/JP), paso 8 (release v0.6.0 + merge main). Ademas: columna de bloques descalificados en el explorador (pedido del auditor), docs en ingles (CHECKPOINTS/GUIA/RELANZAMIENTOS).
