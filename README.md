@@ -109,6 +109,20 @@ Connect to the testnet:
 
 *(The public testnet is live 24/7 with an open seed: `--addpeer=178.104.69.148:17211`. Anyone can connect — see [GUIA-TESTNET.md](./GUIA-TESTNET.md).)*
 
+## How to mine Rupix
+
+Rupix is mined with an ordinary computer (GPU or CPU) — ASICs built for Kaspa don't work. The `rupixminer` miner ships in every [release](https://github.com/rupixnet/rupixd/releases/latest) for Linux, Windows and macOS.
+
+1. Create an address to receive your mined coins:
+   `./rupixwallet --testnet create`
+   `./rupixwallet --testnet start-daemon --keys-file=<your-keys.json>`
+   `./rupixwallet --testnet new-address`
+
+2. With your node running (see above), start the miner pointing at it:
+   `./rupixminer --testnet --rpcserver=127.0.0.1:17210 --miningaddr=<your-address>`
+
+Every block you find pays you Gold. With that Gold you can forge gems (see [GUIA-FORJA.md](./GUIA-FORJA.md)). Mining on testnet has no monetary value: it helps the network grow its hashrate on the way to mainnet. The more honest, distributed hashrate, the more secure the network — mining is the most direct way to contribute to Rupix.
+
 ## Road to mainnet
 
 - ✅ **Mining accessible to everyone — DONE (v0.6.0)** — Rupix migrated from Kaspa's inherited algorithm to RupixHeavyHash, its own algorithm. Kaspa ASICs can no longer mine Rupix; it is mined from an ordinary computer (GPU/CPU). Rupix is for everyone.
