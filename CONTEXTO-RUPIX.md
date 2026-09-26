@@ -231,3 +231,8 @@ LO QUE FALTA YA NO ES CONSENSO, ES RED (sus 5 puntos):
 3. FIRMA DE BINARIOS con llave FUERA del servidor (hoy solo SHA256 del mismo CI que podría estar comprometido).
 4. UN REVISOR CON NOMBRE que compile y corra la suite en SU máquina. "Mi lectura ya no aporta más; lo que sigue solo lo da la ejecución ajena."
 5. go.mod exige 1.26.6. Si es solo por parchar stdlib en los binarios, dejarlo en el CI y BAJAR el mínimo del módulo — hoy alguien con 1.24 no puede ni compilar para revisar. (Bloquea el punto 4.)
+
+## HISTORIA — EL REINICIO (para MEMORIA-RUPIX.md)
+- 11-jun-2026 (commit 7f66f2bf6): "ARCHIVE: cierre experimental v0.2.4 dia 13". Tras 13 dias de auditoria documentada y 26 parches acumulados sobre el codigo de la IA anterior (~1,700 lineas con bugs estructurales), ER decidio archivarlo y empezar limpio. El codigo viejo NO se borro: quedo en el tag v0.2.4-archive-experimental (verificable: git checkout v0.2.4-archive-experimental).
+- 18-jun-2026 (commit 74cbd70da): "INITIAL: Kaspad v0.12.22 upstream limpio - base para Rupix v0.3.0". El Rupix de hoy nace aqui.
+- Del reinicio (jun) al motor firmado por el auditor (26-sep): ~3 meses. La decision mas dificil y mas valiente del proyecto: tirar lo hecho para construir bien.
