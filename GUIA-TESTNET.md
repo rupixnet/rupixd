@@ -18,9 +18,9 @@ Ve a las descargas oficiales:
 **https://github.com/rupixnet/rupixd/releases**
 
 Descarga el archivo de tu sistema:
-- **Windows:** `rupix-v0.5.2-win64.zip`
-- **Mac:** `rupix-v0.5.2-osx.zip`
-- **Linux:** `rupix-v0.5.2-linux.zip`
+- **Windows:** `rupix-v0.6.0-win64.zip`
+- **Mac:** `rupix-v0.6.0-osx.zip`
+- **Linux:** `rupix-v0.6.0-linux.zip`
 
 Descomprime el archivo. Dentro encontrarás 4 programas:
 `rupixd` (el nodo), `rupixctl` (control), `rupixwallet` (billetera), `rupixminer` (minero).

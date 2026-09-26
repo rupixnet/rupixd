@@ -33,3 +33,11 @@ con código de la era 0.12.22.
 **Pendiente de máxima importancia:** el próximo nodo externo que sincronice desde cero lo hará por primera vez **desde el punto de poda**, recibiendo el pruning proof con el gemsHistory dentro. Debe llegar a `780e9027…` sin haber visto el bloque del Diamante. Ese será el test de fuego del pruning verificable. Se documentará quién y cuándo.
 
 🇬🇧 The testnet crossed ~592,000 blocks (DAA) and the seed node pruned for the first time: pruning point at DAA 345,694. The Diamond forged at DAA ~173,000 — 172,000 blocks before the pruning point, its block already pruned — is still counted: commitment `780e9027…` intact. The historical count survives pruning of the block that created it. First real-network proof of what H-6/H-9 closed. **Next:** the first external node to sync from scratch will do so from the pruning point via the proof — it must reach `780e9027…` without ever seeing the Diamond's block. That is the real test of verifiable pruning.
+
+---
+
+## Relanzamiento #4 — 26 de septiembre de 2026 (v0.6.0)
+
+🇲🇽 Tres cambios de consenso juntos: (1) dominio keccak propio RupixHeavyHash, (2) rango de matriz con aritmética entera mod 2^61-1 (determinista en toda CPU), (3) fix del doble conteo del minero (el bloque con forja ya no se descalifica). Versión INCOMPATIBLE con la testnet #3: génesis nuevo, cadena desde cero. La testnet #3 se detuvo en DAA ~853,000. Método del auditor seguido: los tres integrados, king-e2e verde sobre el binario final, suite completa en verde como último paso antes de publicar. Génesis no requirió re-minado (el nonce actual cumple el PoW nuevo). Los nodos externos (JC, JP) deben borrar su cadena y sincronizar desde cero.
+
+🇬🇧 Three consensus changes together: own keccak domain (RupixHeavyHash), integer matrix rank (deterministic across CPUs), and the miner double-count fix. INCOMPATIBLE with testnet #3: new genesis, chain from zero. Auditor's method followed: all three integrated, king-e2e green on the final binary, full suite green as the last step. External nodes must wipe and resync.
