@@ -34,3 +34,18 @@
 - 🇲🇽 Cinco rondas de revisión externa, todos los hallazgos publicados. Bugs documentados en público el día que se encuentran. Una versión marcada como defectuosa cuando lo fue. Ver THANKS.md, CHANGELOG.md, rupix_traspaso_auditoria.md. / 🇬🇧 Five rounds of external review, all findings published. Bugs documented publicly the day they are found. See THANKS.md.
 
 *No confíes, verifica. / Don't trust, verify.* — ER
+
+## 26 de septiembre de 2026 — Primer nodo externo v0.6.0 sincronizado (JC)
+
+JC ("Coroking") corrió `rupix-v0.6.0-win64` en Windows y sincronizó al 100%.
+Verificado por RPC: `serverVersion: 0.6.0`, `isSynced: true`, `blockCount: 48,645`,
+`pruningPointHash: d2561df4…` presente.
+
+**Qué prueba:** un segundo nodo independiente, en otro sistema operativo, validó
+toda la cadena v0.6.0 sin rechazar un bloque → determinismo de validación cross-OS
+confirmado (la razón exacta del cambio a rango entero mod 2^61-1). Su nodo carga
+pruning point → cruzó la poda durante la sincronización.
+
+**Pendiente de cierre (cuando JC vuelva):** reconciliación de tip en vivo
+(GetBlockDagInfo simultáneo seed↔JC), y como HITO aparte, que JC mine un bloque
+(determinismo de producción, no solo de validación).
