@@ -33,7 +33,7 @@ panic(fmt.Sprintf("generateMatrix: no se alcanzo rango 64 en %d intentos, hash %
 	}
 }
 
-func (mat *matrix) computeRank() int {
+func (mat *matrix) computeRankFloat() int {
 	var B [64][64]float64
 	for i := range B {
 		for j := range B[0] {

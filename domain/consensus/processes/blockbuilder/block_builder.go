@@ -326,6 +326,23 @@ func (bb *blockBuilder) calculateAcceptedIDMerkleRoot(acceptanceData externalapi
 	return merkle.CalculateIDMerkleRoot(acceptedTransactions), nil
 }
 
+// INVARIANTE DE LA COSTURA (no tocar sin leer esto):
+//
+//   El MINERO ve el bloque que esta construyendo. El VALIDADOR ve el MERGESET
+//   del bloque, que NO incluye al bloque mismo (sus txs las acepta el HIJO).
+//   Por eso este sello se calcula SOLO desde gemsHistory(virtual): el virtual ya
+//   incluye lo aceptado por los tips. NUNCA sumar aqui las gemas de las txs del
+//   bloque que se construye. Hacerlo produce un sello con una forja de mas, el
+//   validador lo rechaza y el bloque queda DisqualifiedFromChain.
+//
+//   Tres bugs vivieron en esta costura (11, 12 y 13 de septiembre de 2026), los
+//   tres sobre "que cuenta el minero vs que cuenta el validador". El del 13 sumo
+//   las txs propias y estuvo activo diez dias sin que nadie lo viera: GHOSTDAG
+//   rescataba la forja mergeando el bloque descalificado como azul (evidencia:
+//   bloque 5546... de la testnet #3, isChainBlock=false, sello 780e9027).
+//   TestKingsEndToEnd (domain/consensus) cuida esta costura: mina con este
+//   codigo y valida con el real. No se borra.
+//
 // newBlockGemsCommitment (Rupix) calcula el sello del conteo historico de gemas
 // (Diamante/Platino/Rodio/Kings) del estado virtual. Este sello va en el header y
 // entra en el hash del bloque: atarlo al PoW lo hace infalsificable (verificable total).
@@ -353,62 +370,6 @@ kingsCount = 0
 	// sello del template coincida con el que recalcula la validacion
 	// (calculateGemsHistory). Sin esto, el header sella 0 gemas pero la
 	// validacion cuenta las forjas -> mismatch -> bloque rechazado.
-	for _, tx := range transactions {
-		inD, inP, inR := 0, 0, 0
-		for _, input := range tx.Inputs {
-			if input.UTXOEntry == nil {
-				continue
-			}
-			switch input.UTXOEntry.ScriptPublicKey().Version {
-			case constants.LevelDiamante:
-				inD++
-			case constants.LevelPlatino:
-				inP++
-			case constants.LevelRodio:
-				inR++
-			}
-		}
-		outD, outP, outR := 0, 0, 0
-		for _, output := range tx.Outputs {
-			switch output.ScriptPublicKey.Version {
-			case constants.LevelDiamante:
-				outD++
-			case constants.LevelPlatino:
-				outP++
-			case constants.LevelRodio:
-				outR++
-			}
-		}
-		if outD > inD {
-			gemsHistory.Diamante += uint64(outD - inD)
-		}
-		if outP > inP {
-			gemsHistory.Platino += uint64(outP - inP)
-		}
-		if outR > inR {
-			gemsHistory.Rodio += uint64(outR - inR)
-		}
-	}
-	// Rupix H-10: sumar los Kings que nacen en las tx de este bloque al conteo
-	// del padre (kingsCount), igual que calculateKingsCount (input King = quemado,
-	// output King = nace). El minero DEBE sellar el mismo conteo de Kings que el
-	// validador, o el bloque con un King nuevo se rechaza.
-	for _, tx := range transactions {
-		outK, inK := 0, 0
-		for _, input := range tx.Inputs {
-			if input.UTXOEntry != nil && input.UTXOEntry.ScriptPublicKey().Version == constants.LevelKings {
-				inK++
-			}
-		}
-		for _, output := range tx.Outputs {
-			if output.ScriptPublicKey.Version == constants.LevelKings {
-				outK++
-			}
-		}
-		if outK > inK {
-			kingsCount += uint64(outK - inK)
-		}
-	}
 	gemsHistory.Kings = kingsCount
 sello := gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount)
 	return sello, nil

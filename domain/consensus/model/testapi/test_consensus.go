@@ -63,6 +63,7 @@ type TestConsensus interface {
 	BlockHeaderStore() model.BlockHeaderStore
 	BlockRelationStore() model.BlockRelationStore
 	BlockStatusStore() model.BlockStatusStore
+GemsHistoryStore() model.GemsHistoryStore
 	BlockStore() model.BlockStore
 	ConsensusStateStore() model.ConsensusStateStore
 	GHOSTDAGDataStore() model.GHOSTDAGDataStore

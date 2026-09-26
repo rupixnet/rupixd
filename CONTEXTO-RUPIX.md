@@ -185,3 +185,33 @@ Alcance honesto (FreshAir08 tenía razón): el conteo es derivable del UTXO set 
 
 ## 23-sep — POR QUÉ LA TESTNET NO SE ROMPIÓ (cerrado, con evidencia on-chain)
 Forja del 18-sep: bloque 5546… la contenía, el minero (loop del 13-sep) sumó → sello 780e9027; el validador calculó 0 → 5546 DESCALIFICADO como bloque de cadena (isChainBlock: False). Pero e52b… lo mergeó como azul y ACEPTÓ sus txs → contó la forja legítimamente. GHOSTDAG rescató la forja por la puerta lateral. "Funcionó por accidente": el bug era REAL y ACTIVO en producción; cada forja minada dejaba un bloque descalificado. El test e2e lo cazó porque no tiene hermano de rescate. Fix = quitar el loop → el bloque con la forja queda Valid y en cadena. CONSENSUS-BREAKING confirmado → relanzamiento #4 lo requiere (con keccak y computeRank).
+
+## Sesión 21-sep-2026 (tarde) — TEST E2E DEL KING + BUG REAL
+- TestKingsEndToEnd (rama king-e2e, NO mergeada): 1000 D → 100 P → 10 R → 1 King con txs reales; Diamante y King MINADOS por block_builder.go (tc.BuildBlock) y validados por verify_and_build_utxo.go; conteo del gemsHistoryStore (getter nuevo). Falla si se revierte H-10. Probado al revés.
+- BUG REAL: newBlockGemsCommitment sumaba las forjas del bloque que construye (loop del 13-sep) pero el validador cuenta lo ACEPTADO (mergeset, sin el bloque mismo) → doble conteo → todo bloque con forja minado por producción se descalificaba. El primer King real en mainnet habría sido rechazado. Fix: quitar el loop; el minero sella solo gemsHistory(virtual). Suite 0.
+- ¿Por qué testnet "funcionó"? Pendiente de entender del todo (la wallet real + mempool + virtual). Revisar antes del relanzamiento: ¿los bloques con forja de testnet fueron válidos a la primera, o hubo rechazos silenciosos?
+- Reglas nuevas del test framework: ErrChainedTransactions (una tx no gasta outputs del mismo bloque); coinbase del bloque 1 tiene 0 outputs; devnet BlocksPerHalving ajustable en el test (20 → Kings en DAA 80).
+- CONSENSUS-BREAKING (minero). Va al RELANZAMIENTO #4 junto con keccak "RupixHeavyHash" y computeRank entero. Tres cambios, un relanzamiento.
+- Lección propia de Stevenson: verificar el verde ANTES del commit (me lo salté una vez hoy; corregido).
+
+## Del auditor tras el test e2e del King (21-sep) — LEY
+- LA COSTURA: los tres bugs (forja 11-sep, Kings 12-sep, doble conteo 13-sep) viven en el mismo lugar — entre lo que el minero sella y lo que el validador cuenta. Es el punto MÁS FRÁGIL de Rupix. TestKingsEndToEnd lo cuida. **ESE TEST NO SE BORRA NUNCA.**
+- "La lectura tiene un techo — el mío incluido." Corpus + test viejo + 3 revisiones no lo vieron. Solo un test que ejecuta producción de las dos puntas. Prioridad de aquí en adelante: tests e2e sobre código real, no aritmética aislada.
+- RELANZAMIENTO #4 (su método, literal): tres cambios de consenso (keccak, computeRank entero, fix doble conteo) → etiquetar INCOMPATIBLE (v0.6.0), testnet limpia, correr king-e2e DESPUÉS de integrar los tres (no antes), y el ÚLTIMO comando antes de publicar = suite completa verde sobre el binario integrado.
+- "El resto ya no es revisión — es construcción, y esa siempre fue tuya."
+- 23-sep, del auditor: "la tolerancia de GHOSTDAG es también un escondite" — un minero con este bug mina bloques rojos y lo reporta como mala suerte. Dos pedidos: (1) COLUMNA de bloques descalificados (isChainBlock=false) en rojo en el explorador — alarma, no ruido; la quiere ver. (2) Letrero-invariante junto a newBlockGemsCommitment — HECHO. Revisará v0.6.0 completo + la columna.
+
+## v0.6.0 paso 6/8 (23-sep): FORJA REAL en devnet viva
+Binario integrado (keccak+rank+fix). Devnet limpia, minó Gold (69k RUPIX), forjó 1 Diamante real (tx 47805daf...), sello del header 780e9027, wallet ve Diamante:1. Forja de punta a punta en red viva, no en test. El sello 780e9027 es identico al de testnet: el conteo es independiente del keccak del PoW. Pasos 1-6 cerrados y verificados.
+Faltan: paso 7 (testnet #4, coordinar JC/JP), paso 8 (release v0.6.0 + merge main). Ademas: columna de bloques descalificados en el explorador (pedido del auditor), docs en ingles (CHECKPOINTS/GUIA/RELANZAMIENTOS).
+
+## CIERRE 23-sep-2026
+Sesión enorme. Logrado y guardado (rama v0.6.0, pusheada):
+- Cerrado el porqué testnet no se rompió: bloque 5546 descalificado, GHOSTDAG rescató la forja vía el hermano azul. Bug real y activo, enmascarado por el DAG. Evidencia on-chain.
+- Letrero-invariante en newBlockGemsCommitment (no sumar txs propias; 3 bugs en la costura; pedido del auditor).
+- v0.6.0 pasos 1-6 de 8: keccak RupixHeavyHash + computeRank entero + fix del minero, INTEGRADOS y probados juntos. king-e2e verde sobre el binario integrado, probado al revés (FAIL si se revierte). Suite ./... en 0. Forja real de Diamante en devnet viva (sello 780e9027). Génesis NO necesita re-minado.
+- LOGROS.md bilingüe en main. Mensaje a JC listo. Resumen para el auditor listo.
+FALTAN (requieren coordinar gente, no de un comando):
+- Paso 7: testnet #4 (parar actual, arrancar v0.6.0, JC/JP borran cadena y re-sincronizan desde cero = test de fuego del pruning).
+- Paso 8: release v0.6.0 + merge main + tag.
+- Columna de descalificados en el explorador (auditor). Docs en inglés (CHECKPOINTS/GUIA/RELANZAMIENTOS). Mandar mensaje al auditor y a JC.

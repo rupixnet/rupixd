@@ -50,6 +50,7 @@ type consensus struct {
 	ghostdagDataStores                  []model.GHOSTDAGDataStore
 	blockRelationStores                 []model.BlockRelationStore
 	blockStatusStore                    model.BlockStatusStore
+gemsHistoryStore                    model.GemsHistoryStore // Rupix: expuesto para tests e2e
 	consensusStateStore                 model.ConsensusStateStore
 	headersSelectedTipStore             model.HeaderSelectedTipStore
 	multisetStore                       model.MultisetStore

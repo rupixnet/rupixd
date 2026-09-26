@@ -150,3 +150,8 @@ func (tc *testConsensus) DAABlocksStore() model.DAABlocksStore {
 func (tc *testConsensus) Consensus() externalapi.Consensus {
 	return tc
 }
+
+// GemsHistoryStore (Rupix) expone el store del conteo de gemas para tests end-to-end.
+func (tc *testConsensus) GemsHistoryStore() model.GemsHistoryStore {
+return tc.gemsHistoryStore
+}
