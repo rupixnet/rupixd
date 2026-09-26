@@ -34,3 +34,9 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 - Si un proceso está `activating` en loop: `journalctl -u <servicio> -n 30` dice por qué.
 - Nunca `kill -9` a mano: `systemctl stop/restart`.
 - Tras un reinicio del servidor, los tres arrancan solos (`enabled`).
+
+## Alarma de bloques descalificados / Disqualified-block alarm (auditor, 23-sep)
+
+🇲🇽 `/root/rupix-monitor-descalificados.sh` revisa cada 10 min (cron) los últimos 200 bloques de la cadena y cuenta los descalificados (isChainBlock:false). Un bloque descalificado en una red donde el fundador tiene casi todo el hashrate NO es ruido: es un bug de la costura minero/validador hasta que se demuestre lo contrario (así estuvo escondido 10 días el bug del King). Revisar: `tail /root/rupix-descalificados.log`. Si dice ALARMA, investigar antes que nada.
+
+🇬🇧 `/root/rupix-monitor-descalificados.sh` runs every 10 min (cron), checks the last 200 chain blocks, counts disqualified ones (isChainBlock:false). A disqualified block on a network where the founder holds nearly all hashrate is NOT noise — it's a miner/validator seam bug until proven otherwise. Check: `tail /root/rupix-descalificados.log`.
