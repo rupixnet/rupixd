@@ -222,3 +222,12 @@ FALTAN (requieren coordinar gente, no de un comando):
 - ETAPA: fin del corazón técnico de consenso. No queda deuda de consenso conocida.
 - PENDIENTES no-código-consenso: (1) test de fuego pruning con JC/JP sobre testnet #4, (2) columna descalificados en explorador, (3) H-1 mempool + doble fuente Kings, (4) docs inglés, (5) MEMORIA-RUPIX.md (historia narrada, base del asistente — escribir con calma), (6) no-técnicos: hashrate, nodos, nombre que firme, sucesor.
 - SIGUIENTE: mensaje JC/JP (actualizar+sincronizar v0.6.0) → auditor (revisar diff) → tweet v0.6.0. Discord Kaspa cuando JC/JP prueben el pruning.
+
+## 26-sep: EL AUDITOR FIRMÓ v0.6.0 — "del motor no tengo nada más que pedir"
+Verificó mod 2^61-1 por su cuenta (200k pares mulmod, 150 matrices con rango deficiente): coincide. Keccak, computeRank entero y fix del minero: los tres correctos. La costura sigue cuidada.
+LO QUE FALTA YA NO ES CONSENSO, ES RED (sus 5 puntos):
+1. PUBLICAR LA LISTA DE CHECKPOINTS — el mecanismo está, la lista vacía. Sin lista no defiende nada. (Primer checkpoint real de la testnet #4 cuando tenga profundidad.)
+2. MINERO PÚBLICO — sigue sin referencia en el README. Sin él no hay hashrate externo; los checkpoints solo compran tiempo mientras llega.
+3. FIRMA DE BINARIOS con llave FUERA del servidor (hoy solo SHA256 del mismo CI que podría estar comprometido).
+4. UN REVISOR CON NOMBRE que compile y corra la suite en SU máquina. "Mi lectura ya no aporta más; lo que sigue solo lo da la ejecución ajena."
+5. go.mod exige 1.26.6. Si es solo por parchar stdlib en los binarios, dejarlo en el CI y BAJAR el mínimo del módulo — hoy alguien con 1.24 no puede ni compilar para revisar. (Bloquea el punto 4.)
