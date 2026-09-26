@@ -16,7 +16,7 @@ var (
 	log        = backendLog.Logger("RPWD")
 	spawn      = panics.GoroutineWrapperFunc(log)
 
-	defaultAppDir     = util.AppDir("kaspawallet", false)
+	defaultAppDir     = util.AppDir("rupixwallet", false)
 	defaultLogFile    = filepath.Join(defaultAppDir, "daemon.log")
 	defaultErrLogFile = filepath.Join(defaultAppDir, "daemon_err.log")
 )
