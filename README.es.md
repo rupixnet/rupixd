@@ -32,7 +32,7 @@ La **testnet pública está viva**: acepta nodos externos, mina sobre un génesi
 - ✅ **Binarios verificables con SHA256**: cada release publica la huella de cada binario, generada por el CI — descargas, comparas, y confirmas que nadie lo alteró
 - ⚠️ **Bug de consenso encontrado por el nuevo test end-to-end del King** (21-sep-2026): el minero contaba dos veces las forjas del bloque que construía (un parche del 13-sep), mientras el validador cuenta lo que el bloque *acepta*. Cualquier bloque con una forja minado por producción habría sido rechazado — incluido el primer King real en mainnet. Fix listo en la rama `king-e2e` (el test falla si se revierte H-10; suite completa en verde). Sale en el próximo relanzamiento de consenso (v0.6.0) junto con el dominio keccak y el rango entero. Encontrado en testnet, no en mainnet.
 - ✅ **`go test ./...` en verde y `go vet` limpio** (20-sep-2026): la suite completa pasa. Los últimos 18 paquetes rojos no eran bugs de consenso: eran tests heredados de Kaspa con expectativas de Kaspa (prefijos `kaspa:`, recompensa de 500, orden por hash) y outputs creados con `Version = MaxScriptPublicKeyVersion`, que en Rupix es 4 = Kings — la escalera los rechazaba como Kings falsos. Regenerados desde el código, verificables.
-- ✅ **0 vulnerabilidades** (govulncheck), compilado con Go 1.26.6
+- ✅ **0 vulnerabilidades** (govulncheck), compilado con Go 1.25+
 - ✅ **Red de más de un nodo**: primer nodo externo conectado y sincronizado, primera transacción entre dos personas registrada en la cadena
 
 ## Qué es Rupix
@@ -91,7 +91,7 @@ No confíes en nosotros. Compruébalo:
 
 ## Cómo correr un nodo
 
-Requisitos: Go 1.21+, 4 GB RAM, 50 GB de disco.
+Requisitos: Go 1.25+, 4 GB RAM, 50 GB de disco.
 
 ```
 git clone https://github.com/rupixnet/rupixd.git
