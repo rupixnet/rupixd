@@ -215,3 +215,10 @@ FALTAN (requieren coordinar gente, no de un comando):
 - Paso 7: testnet #4 (parar actual, arrancar v0.6.0, JC/JP borran cadena y re-sincronizan desde cero = test de fuego del pruning).
 - Paso 8: release v0.6.0 + merge main + tag.
 - Columna de descalificados en el explorador (auditor). Docs en inglés (CHECKPOINTS/GUIA/RELANZAMIENTOS). Mandar mensaje al auditor y a JC.
+
+## CIERRE 26-sep-2026 — v0.6.0 EN PRODUCCIÓN
+- v0.6.0 mergeado a main, release publicado, testnet #4 relanzada y minando (3 cambios de consenso: keccak, rank entero, fix del King). Los 8 pasos completos.
+- Swap 4GB activo (colchón anti-OOM). Pendiente de fondo: subir RAM Hetzner a 16GB.
+- ETAPA: fin del corazón técnico de consenso. No queda deuda de consenso conocida.
+- PENDIENTES no-código-consenso: (1) test de fuego pruning con JC/JP sobre testnet #4, (2) columna descalificados en explorador, (3) H-1 mempool + doble fuente Kings, (4) docs inglés, (5) MEMORIA-RUPIX.md (historia narrada, base del asistente — escribir con calma), (6) no-técnicos: hashrate, nodos, nombre que firme, sucesor.
+- SIGUIENTE: mensaje JC/JP (actualizar+sincronizar v0.6.0) → auditor (revisar diff) → tweet v0.6.0. Discord Kaspa cuando JC/JP prueben el pruning.
