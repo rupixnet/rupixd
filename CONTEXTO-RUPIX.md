@@ -236,3 +236,9 @@ LO QUE FALTA YA NO ES CONSENSO, ES RED (sus 5 puntos):
 - 11-jun-2026 (commit 7f66f2bf6): "ARCHIVE: cierre experimental v0.2.4 dia 13". Tras 13 dias de auditoria documentada y 26 parches acumulados sobre el codigo de la IA anterior (~1,700 lineas con bugs estructurales), ER decidio archivarlo y empezar limpio. El codigo viejo NO se borro: quedo en el tag v0.2.4-archive-experimental (verificable: git checkout v0.2.4-archive-experimental).
 - 18-jun-2026 (commit 74cbd70da): "INITIAL: Kaspad v0.12.22 upstream limpio - base para Rupix v0.3.0". El Rupix de hoy nace aqui.
 - Del reinicio (jun) al motor firmado por el auditor (26-sep): ~3 meses. La decision mas dificil y mas valiente del proyecto: tirar lo hecho para construir bien.
+
+## CHECKPOINTS — plan de comunicación (26-sep)
+- Poda (pruning) = automática del nodo, no se decide. Checkpoint = manual, decisión del fundador, defensa vs 51%. NO son lo mismo.
+- Prueba del mecanismo: en DEVNET (mañana) — bloque correcto pasa, falso se rechaza. Sin comprometer testnet.
+- Primer checkpoint REAL de testnet: en el halving (DAA 100k, ~1 día de minado desde DAA 15k), junto con el primer Diamante v0.6.0. Un anuncio, tres cosas: halving + Diamante + primera defensa activa.
+- COMUNICACIÓN: anunciar el CUÁNDO (el halving) y el PORQUÉ (defensa temporal declarada, no oculta, con caducidad). NO anunciar el bloque exacto por adelantado (un atacante podría intentar influir en qué cae ahí). El checkpoint se elige sobre historia YA existente y profunda, y se publica con hash fijo para que todos verifiquen. Centralización temporal declarada — todo para apoyar a la red mientras crece el hashrate.
