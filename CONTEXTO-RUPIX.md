@@ -68,6 +68,13 @@ Estos números no se negocian. Cuando fue difícil — la forja rota, el auditor
 
 ---
 
+## EXPLICACIÓN OFICIAL DEL SELLO (para el asistente y para la gente)
+El sello (gemsCommitment) es el hash del conteo de gemas NACIDAS hasta ese bloque. Va en el header de cada bloque, protegido por PoW. Hoy es 780e9027 (= 1 Diamante). Si alguien forja otra gema, el sello cambia y TODOS los bloques siguientes llevan el nuevo, hasta la próxima forja. Es un marcador de agua que dice "hasta aquí nacieron tantas".
+Por qué hace a Rupix más seguro (en simple): 1) nadie puede inventar gemas — si un nodo dice 5 y el sello dice 1, el bloque se rechaza, ni el creador puede; 2) los nodos se vigilan sin hablar — cada uno cuenta y compara con el sello, una diferencia se nota en el acto (así se cazó el bug del 21-sep); 3) la verdad sobrevive al olvido — la poda borra cuerpos de bloques pero no headers, y un nodo nuevo recibe el conteo en el pruning proof y lo verifica contra el sello sin ver nunca la forja original (probado en la red real el 22-sep).
+Alcance honesto (FreshAir08 tenía razón): el conteo es derivable del UTXO set con la aritmética de la escalera; el sello añade verificación O(1) de lo HISTÓRICO y defensa en profundidad, no algo imposible de otra forma. "Trust-minimized", no "trustless".
+- 22-sep cierre: rastreo del bloque de la forja del 18 corriendo en background → /root/forge_trace.txt. Objetivo: saber si el bloque que CONTIENE la forja ya sella 780e9027 (minero sumó y validador aceptó → mi test difiere de producción) o si lo sella su HIJO (el loop nunca actuó en producción). Decide cómo se explica que testnet no se rompiera. Ver mañana ANTES de v0.6.0.
+- Pendientes: auditor (mensaje listo), rama v0.6.0, docs en inglés, test de fuego del pruning con JP/JC.
+
 ## Lo que pasó, en orden
 
 - **Feb–may:** fork de kaspad con 1,700 líneas de una IA previa que nadie entendía. Bugs estructurales en cascada (bloque 67, 1100, 2000). Dieciséis fixes.
@@ -82,6 +89,11 @@ Estos números no se negocian. Cuando fue difícil — la forja rota, el auditor
 Registro de relanzamientos: `TESTNET-RELANZAMIENTOS.md`. Se relanza solo por cambio de consenso, nunca para borrar historia.
 
 ---
+
+## HISTORIA — EL REINICIO (para MEMORIA-RUPIX.md)
+- 11-jun-2026 (commit 7f66f2bf6): "ARCHIVE: cierre experimental v0.2.4 dia 13". Tras 13 dias de auditoria documentada y 26 parches acumulados sobre el codigo de la IA anterior (~1,700 lineas con bugs estructurales), ER decidio archivarlo y empezar limpio. El codigo viejo NO se borro: quedo en el tag v0.2.4-archive-experimental (verificable: git checkout v0.2.4-archive-experimental).
+- 18-jun-2026 (commit 74cbd70da): "INITIAL: Kaspad v0.12.22 upstream limpio - base para Rupix v0.3.0". El Rupix de hoy nace aqui.
+- Del reinicio (jun) al motor firmado por el auditor (26-sep): ~3 meses. La decision mas dificil y mas valiente del proyecto: tirar lo hecho para construir bien.
 
 ## Estado ahora (17-sep-2026)
 
@@ -165,27 +177,6 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 - El auditor revisará el diff completo de v0.6.0 cuando esté: los tres cambios integrados, testnet reiniciada, king-e2e en verde sobre el binario final. Revisará: keccak nuevo, computeRank entero, y que la costura siga cuidada. Ese es el siguiente entregable para él.
 - X: bilingüe. Inglés primero + reply en español (hilo de 2). Una imagen, en inglés.
 
-## Sesión 21-sep (noche) — OPERACIÓN
-- El seed murió por OOM a las 04:31 (rupixd 2.7 GB + go test completo en el mismo host); 14 horas caído, explorador en blanco, JP/JC sin peer.
-- FIX: nodo, daemon y minero como servicios systemd con Restart=always (probado: kill -9 → revive en 12s). OPERACIONES.md. Binario a 0.5.2.
-- REGLA: no correr go test ./... completo en el host del seed. Tests pesados aparte o con -p 1.
-- Kings YA desbloqueado en testnet (DAA 436k > 400k). Con v0.5.2 un King real sería rechazado (doble conteo). v0.6.0 urge.
-
-## 22-sep — PRIMERA PODA en la testnet real
-- Pruning activo: punto en DAA 345,694; headers 592k, bloques con cuerpo 249k. Sin reorg (DAA sube). blockCount BAJA por poda: normal.
-- El Diamante (DAA ~173k, bloque ya podado) sigue contado (780e9027) y la wallet lo ve. El conteo sobrevive a la poda. Prueba real de H-6/H-9.
-- PRÓXIMO TEST DE FUEGO: primer nodo externo sincronizando desde cero DESDE EL PUNTO DE PODA (proof con gemsHistory). Debe llegar a 780e9027 sin ver el bloque del Diamante. Coordinar con JP o JC. Documentar.
-
-## EXPLICACIÓN OFICIAL DEL SELLO (para el asistente y para la gente)
-El sello (gemsCommitment) es el hash del conteo de gemas NACIDAS hasta ese bloque. Va en el header de cada bloque, protegido por PoW. Hoy es 780e9027 (= 1 Diamante). Si alguien forja otra gema, el sello cambia y TODOS los bloques siguientes llevan el nuevo, hasta la próxima forja. Es un marcador de agua que dice "hasta aquí nacieron tantas".
-Por qué hace a Rupix más seguro (en simple): 1) nadie puede inventar gemas — si un nodo dice 5 y el sello dice 1, el bloque se rechaza, ni el creador puede; 2) los nodos se vigilan sin hablar — cada uno cuenta y compara con el sello, una diferencia se nota en el acto (así se cazó el bug del 21-sep); 3) la verdad sobrevive al olvido — la poda borra cuerpos de bloques pero no headers, y un nodo nuevo recibe el conteo en el pruning proof y lo verifica contra el sello sin ver nunca la forja original (probado en la red real el 22-sep).
-Alcance honesto (FreshAir08 tenía razón): el conteo es derivable del UTXO set con la aritmética de la escalera; el sello añade verificación O(1) de lo HISTÓRICO y defensa en profundidad, no algo imposible de otra forma. "Trust-minimized", no "trustless".
-- 22-sep cierre: rastreo del bloque de la forja del 18 corriendo en background → /root/forge_trace.txt. Objetivo: saber si el bloque que CONTIENE la forja ya sella 780e9027 (minero sumó y validador aceptó → mi test difiere de producción) o si lo sella su HIJO (el loop nunca actuó en producción). Decide cómo se explica que testnet no se rompiera. Ver mañana ANTES de v0.6.0.
-- Pendientes: auditor (mensaje listo), rama v0.6.0, docs en inglés, test de fuego del pruning con JP/JC.
-
-## 23-sep — POR QUÉ LA TESTNET NO SE ROMPIÓ (cerrado, con evidencia on-chain)
-Forja del 18-sep: bloque 5546… la contenía, el minero (loop del 13-sep) sumó → sello 780e9027; el validador calculó 0 → 5546 DESCALIFICADO como bloque de cadena (isChainBlock: False). Pero e52b… lo mergeó como azul y ACEPTÓ sus txs → contó la forja legítimamente. GHOSTDAG rescató la forja por la puerta lateral. "Funcionó por accidente": el bug era REAL y ACTIVO en producción; cada forja minada dejaba un bloque descalificado. El test e2e lo cazó porque no tiene hermano de rescate. Fix = quitar el loop → el bloque con la forja queda Valid y en cadena. CONSENSUS-BREAKING confirmado → relanzamiento #4 lo requiere (con keccak y computeRank).
-
 ## Sesión 21-sep-2026 (tarde) — TEST E2E DEL KING + BUG REAL
 - TestKingsEndToEnd (rama king-e2e, NO mergeada): 1000 D → 100 P → 10 R → 1 King con txs reales; Diamante y King MINADOS por block_builder.go (tc.BuildBlock) y validados por verify_and_build_utxo.go; conteo del gemsHistoryStore (getter nuevo). Falla si se revierte H-10. Probado al revés.
 - BUG REAL: newBlockGemsCommitment sumaba las forjas del bloque que construye (loop del 13-sep) pero el validador cuenta lo ACEPTADO (mergeset, sin el bloque mismo) → doble conteo → todo bloque con forja minado por producción se descalificaba. El primer King real en mainnet habría sido rechazado. Fix: quitar el loop; el minero sella solo gemsHistory(virtual). Suite 0.
@@ -200,6 +191,20 @@ Forja del 18-sep: bloque 5546… la contenía, el minero (loop del 13-sep) sumó
 - RELANZAMIENTO #4 (su método, literal): tres cambios de consenso (keccak, computeRank entero, fix doble conteo) → etiquetar INCOMPATIBLE (v0.6.0), testnet limpia, correr king-e2e DESPUÉS de integrar los tres (no antes), y el ÚLTIMO comando antes de publicar = suite completa verde sobre el binario integrado.
 - "El resto ya no es revisión — es construcción, y esa siempre fue tuya."
 - 23-sep, del auditor: "la tolerancia de GHOSTDAG es también un escondite" — un minero con este bug mina bloques rojos y lo reporta como mala suerte. Dos pedidos: (1) COLUMNA de bloques descalificados (isChainBlock=false) en rojo en el explorador — alarma, no ruido; la quiere ver. (2) Letrero-invariante junto a newBlockGemsCommitment — HECHO. Revisará v0.6.0 completo + la columna.
+
+## Sesión 21-sep (noche) — OPERACIÓN
+- El seed murió por OOM a las 04:31 (rupixd 2.7 GB + go test completo en el mismo host); 14 horas caído, explorador en blanco, JP/JC sin peer.
+- FIX: nodo, daemon y minero como servicios systemd con Restart=always (probado: kill -9 → revive en 12s). OPERACIONES.md. Binario a 0.5.2.
+- REGLA: no correr go test ./... completo en el host del seed. Tests pesados aparte o con -p 1.
+- Kings YA desbloqueado en testnet (DAA 436k > 400k). Con v0.5.2 un King real sería rechazado (doble conteo). v0.6.0 urge.
+
+## 22-sep — PRIMERA PODA en la testnet real
+- Pruning activo: punto en DAA 345,694; headers 592k, bloques con cuerpo 249k. Sin reorg (DAA sube). blockCount BAJA por poda: normal.
+- El Diamante (DAA ~173k, bloque ya podado) sigue contado (780e9027) y la wallet lo ve. El conteo sobrevive a la poda. Prueba real de H-6/H-9.
+- PRÓXIMO TEST DE FUEGO: primer nodo externo sincronizando desde cero DESDE EL PUNTO DE PODA (proof con gemsHistory). Debe llegar a 780e9027 sin ver el bloque del Diamante. Coordinar con JP o JC. Documentar.
+
+## 23-sep — POR QUÉ LA TESTNET NO SE ROMPIÓ (cerrado, con evidencia on-chain)
+Forja del 18-sep: bloque 5546… la contenía, el minero (loop del 13-sep) sumó → sello 780e9027; el validador calculó 0 → 5546 DESCALIFICADO como bloque de cadena (isChainBlock: False). Pero e52b… lo mergeó como azul y ACEPTÓ sus txs → contó la forja legítimamente. GHOSTDAG rescató la forja por la puerta lateral. "Funcionó por accidente": el bug era REAL y ACTIVO en producción; cada forja minada dejaba un bloque descalificado. El test e2e lo cazó porque no tiene hermano de rescate. Fix = quitar el loop → el bloque con la forja queda Valid y en cadena. CONSENSUS-BREAKING confirmado → relanzamiento #4 lo requiere (con keccak y computeRank).
 
 ## v0.6.0 paso 6/8 (23-sep): FORJA REAL en devnet viva
 Binario integrado (keccak+rank+fix). Devnet limpia, minó Gold (69k RUPIX), forjó 1 Diamante real (tx 47805daf...), sello del header 780e9027, wallet ve Diamante:1. Forja de punta a punta en red viva, no en test. El sello 780e9027 es identico al de testnet: el conteo es independiente del keccak del PoW. Pasos 1-6 cerrados y verificados.
@@ -231,11 +236,6 @@ LO QUE FALTA YA NO ES CONSENSO, ES RED (sus 5 puntos):
 3. FIRMA DE BINARIOS con llave FUERA del servidor (hoy solo SHA256 del mismo CI que podría estar comprometido).
 4. UN REVISOR CON NOMBRE que compile y corra la suite en SU máquina. "Mi lectura ya no aporta más; lo que sigue solo lo da la ejecución ajena."
 5. go.mod exige 1.26.6. Si es solo por parchar stdlib en los binarios, dejarlo en el CI y BAJAR el mínimo del módulo — hoy alguien con 1.24 no puede ni compilar para revisar. (Bloquea el punto 4.)
-
-## HISTORIA — EL REINICIO (para MEMORIA-RUPIX.md)
-- 11-jun-2026 (commit 7f66f2bf6): "ARCHIVE: cierre experimental v0.2.4 dia 13". Tras 13 dias de auditoria documentada y 26 parches acumulados sobre el codigo de la IA anterior (~1,700 lineas con bugs estructurales), ER decidio archivarlo y empezar limpio. El codigo viejo NO se borro: quedo en el tag v0.2.4-archive-experimental (verificable: git checkout v0.2.4-archive-experimental).
-- 18-jun-2026 (commit 74cbd70da): "INITIAL: Kaspad v0.12.22 upstream limpio - base para Rupix v0.3.0". El Rupix de hoy nace aqui.
-- Del reinicio (jun) al motor firmado por el auditor (26-sep): ~3 meses. La decision mas dificil y mas valiente del proyecto: tirar lo hecho para construir bien.
 
 ## CHECKPOINTS — plan de comunicación (26-sep)
 - Poda (pruning) = automática del nodo, no se decide. Checkpoint = manual, decisión del fundador, defensa vs 51%. NO son lo mismo.
