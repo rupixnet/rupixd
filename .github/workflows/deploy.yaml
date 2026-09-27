@@ -25,8 +25,8 @@ jobs:
       - name: Build on Linux
         if: runner.os == 'Linux'
         run: |
-          go build -v -ldflags="-s -w -extldflags=-static" -tags netgo,osusergo -o ./bin/ .
-          go build -v -ldflags="-s -w -extldflags=-static" -tags netgo,osusergo -o ./bin/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
+          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid= -extldflags=-static" -tags netgo,osusergo -o ./bin/ .
+          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid= -extldflags=-static" -tags netgo,osusergo -o ./bin/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
           archive="rupix-${{ github.event.release.tag_name }}-linux.zip"
           zip -r -j "${archive}" ./bin/*
           sha256sum "${archive}" > "${archive}.sha256"
@@ -35,8 +35,8 @@ jobs:
         if: runner.os == 'Windows'
         shell: bash
         run: |
-          go build -v -ldflags="-s -w" -o bin/ .
-          go build -v -ldflags="-s -w" -o bin/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
+          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -o bin/ .
+          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -o bin/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
           archive="rupix-${{ github.event.release.tag_name }}-win64.zip"
           powershell "Compress-Archive bin/* \"${archive}\""
           sha256sum "${archive}" > "${archive}.sha256"
@@ -44,8 +44,8 @@ jobs:
       - name: Build on MacOS
         if: runner.os == 'macOS'
         run: |
-          go build -v -ldflags="-s -w" -o ./bin/ .
-          go build -v -ldflags="-s -w" -o ./bin/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
+          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -o ./bin/ .
+          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -o ./bin/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
           archive="rupix-${{ github.event.release.tag_name }}-osx.zip"
           zip -r -j "${archive}" ./bin/*
           shasum -a 256 "${archive}" > "${archive}.sha256"

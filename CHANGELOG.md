@@ -7,6 +7,9 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- `SECURITY.md`: como reportar una vulnerabilidad en privado (pestana Security de GitHub), con tiempos de respuesta.
+- Builds de release con `-trimpath -buildvcs=false -buildid=`: primer paso hacia builds reproducibles. Falta comprobar que dos builds den el mismo hash.
+- `params.go`: el comentario del halving de mainnet decia "~decadas"; son ~16 meses (42M bloques a 1/seg). Hallazgo del auditor. Al revisarlo aparecio `constants.BlocksPerHalving = 150`, una constante sin uso cuyo comentario decia que definia la emision: eliminada. El consenso usa el valor de cada red.
 - Alarma v2.1: sigue la rotacion del log del nodo (guarda inode + posicion; si el archivo viejo no aparece, ERROR). Pedido del auditor al revisar la v2.
 - `go.mod`: minimo de Go de 1.26.6 a 1.25.0 (la minima real del arbol de dependencias). Un revisor con Go 1.25 ya puede compilar y correr la suite. Los binarios de release se siguen compilando con 1.26.6.
 - Residuos del fork: el daemon de rupixwallet escribe su log en `~/.rupixwallet` (antes `~/.kaspawallet`); el minero dice "Rupixd is not synced" (antes "Kaspad").

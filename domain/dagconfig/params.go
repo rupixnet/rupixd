@@ -300,7 +300,7 @@ var MainnetParams = Params{
 	CoinbasePayloadScriptPublicKeyMaxLength: defaultCoinbasePayloadScriptPublicKeyMaxLength,
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
-	BlocksPerHalving:                        42_000_000,                   // Rupix mainnet: ~decadas por halving
+	BlocksPerHalving:                        42_000_000,                   // Rupix mainnet: ~16 meses por halving (42M bloques a 1 bloque/seg = ~486 dias)
 	DisallowDirectBlocksOnTopOfGenesis:      true,
 
 	// This is technically 255, but we clamped it at 256 - block level of mainnet genesis
