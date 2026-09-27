@@ -71,6 +71,9 @@ Al revisar ese comentario apareció `constants.BlocksPerHalving = 150`, con un c
 ### La página del explorer que se quedó en 10,000
 El explorer sirve su página desde una carpeta del servidor, y el repo tenía otra copia. El 27-sep resultó que la del repo estaba vieja: decía que el halving de la testnet era cada 10,000 bloques. La viva decía 100,000, que es lo correcto. Si alguien hubiera desplegado la del repo, la escalera se habría mostrado mal. Se sincronizaron y quedó escrito cuál es la fuente.
 
+### El explorer que nadie cuidaba y el nodo v0.3.0 dormido
+El 27-sep, al versionar la operación del seed, apareció que el explorer llevaba desde el 9-sep lanzado a mano: su servicio estaba muerto y tras un reinicio no habría vuelto. Y el servicio del nodo v0.3.0 seguía habilitado, apuntando a la misma carpeta y puerto que el nodo actual: al reiniciar se habrían peleado. Nadie lo vio porque todo funcionaba. Se arregló antes del reinicio del kernel y el servicio viejo se guardó, no se borró.
+
 ---
 
 *No confíes, verifica.*

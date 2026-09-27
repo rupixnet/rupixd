@@ -299,3 +299,5 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 - Explorer: la copia del repo estaba vieja (halving de testnet en 10,000); sincronizada con la viva.
 - README en inglés: ya enlaza las guías en inglés. LOGROS: halving 1. MEMORIA: tres entradas nuevas.
 - La operación del seed (servicios, alarma, cron, nginx) quedó versionada en `ops/`.
+- Seed listo para el reinicio del kernel: el explorer corría a mano desde el 9-sep (ahora lo lleva systemd) y el servicio `rupixd.service` de la v0.3.0 seguía habilitado con la misma carpeta y puerto que el nodo (deshabilitado y guardado en `ops/retirados/`). Logs de salida rotados y comprimidos, sin borrar ninguno.
+- Regla de ER: no se borra nada viejo. Las testnets anteriores, devnets y datos viejos se quedan en el servidor como evidencia; si falta disco, se agranda el disco.
