@@ -1,5 +1,7 @@
 # Checkpoints temporales en Rupix
 
+🇬🇧 [English version](./CHECKPOINTS.en.md)
+
 ## Qué son
 
 Un checkpoint es un bloque canónico conocido: a cierta altura de la red (DAA score),
