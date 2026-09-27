@@ -100,7 +100,7 @@ Registro de relanzamientos: `TESTNET-RELANZAMIENTOS.md`. Se relanza solo por cam
 - **v0.6.0** en todo: nodo, wallet, minero, ctl, release, guías, web. Tres cambios de consenso: dominio keccak "RupixHeavyHash", rango entero mod 2^61-1, fix del bug del King.
 - **Motor:** el auditor firmó v0.6.0 ("del motor no tengo nada más que pedir"). Lo que falta es de red, no de código.
 - **Testnet #4:** relanzada con v0.6.0. DAA ~48.6k la mañana del 26-sep. Halving 1 (se abre Diamante) en DAA 100k. Semilla `178.104.69.148:17211`.
-- **Nodos:** servidor + externos. JC sincronizó v0.6.0 en Windows (26-sep): determinismo entre sistemas operativos probado en la calle. 2 forjadores externos en la historia.
+- **Nodos:** servidor + externos. JC sincronizó v0.6.0 en Windows (26-sep): determinismo entre sistemas operativos probado en la calle. 1 forjador externo en la historia: JC. JP en camino.
 - **Poda:** primera poda real verificada (22-sep); el conteo de gemas sobrevive al pruning point.
 - **Operación:** los 3 servicios con systemd `Restart=always`, swap de 4 GB, alarma de bloques descalificados cada 10 min.
 - **Tests:** `go test ./...` en 0 desde v0.5.2. `TestKingsEndToEnd` verde, y falla si se revierte el fix. Compila con Go 1.25+.
