@@ -1,5 +1,7 @@
 # 💎 Cómo forjar tu primera gema en Rupix
 
+🇬🇧 [English version](./FORGE-GUIDE.md)
+
 Guía para crear tu primer Diamante quemando Gold. Esto es la
 esencia de Rupix: destruir para crear algo más escaso.
 
