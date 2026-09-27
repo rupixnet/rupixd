@@ -1,0 +1,13 @@
+[Unit]
+Description=Rupix Node v0.3.0 (testnet)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/bin/rupixd --testnet --appdir=/root/rupix-testnet --nodnsseed --nolisten --utxoindex --allow-submit-block-when-not-synced --rpclisten=127.0.0.1:17210
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

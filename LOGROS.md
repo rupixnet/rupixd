@@ -63,3 +63,9 @@ Verificado desde el seed, no solo desde su wallet: `GetBalanceByAddress` da 7,11
 - Su nodo acepta conexiones entrantes: puede servir la cadena a otros.
 
 La red ya no es solo del servidor.
+
+## 27 de septiembre de 2026 (~00:18) — Halving 1 de la testnet #4: el Diamante se abre
+
+La testnet #4 cruzó el DAA 100,000. El explorer pasó el Diamante a "✅ desbloqueado" y la recompensa bajó de 0.5 a 0.25 RUPIX por bloque.
+
+**Se puede verificar a mano:** a DAA 100,209 el Gold emitido era **50,052.5 RUPIX** = 100,000 bloques × 0.5 + 210 bloques × 0.25. La emisión siguió exacto el calendario escrito desde el génesis. Nadie lo decidió esa noche.

@@ -1,0 +1,18 @@
+[Unit]
+Description=Rupix testnet seed node
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/bin/rupixd --testnet --appdir=/root/rupix-testnet --utxoindex --listen=0.0.0.0:17211 --externalip=178.104.69.148 --rpclisten=127.0.0.1:17210 --allow-submit-block-when-not-synced
+Restart=always
+RestartSec=5
+# si lo mata el OOM killer, se levanta solo en 5s
+StandardOutput=append:/root/rupix-testnet.log
+StandardError=append:/root/rupix-testnet.log
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

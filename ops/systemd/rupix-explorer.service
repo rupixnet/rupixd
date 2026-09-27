@@ -1,0 +1,13 @@
+[Unit]
+Description=Rupix Explorer (proxy + frontend)
+After=network.target rupixd.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/bin/rupixexplorer --rpcserver=127.0.0.1:17210 --listen=127.0.0.1:8090 --webdir=/root/rupix-explorer-web
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

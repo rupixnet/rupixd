@@ -1,0 +1,17 @@
+[Unit]
+Description=Rupix testnet miner
+After=rupixd-testnet.service
+Requires=rupixd-testnet.service
+
+[Service]
+Type=simple
+User=root
+ExecStartPre=/bin/sleep 15
+ExecStart=/usr/local/bin/rupixminer --testnet --rpcserver=127.0.0.1:17210 --miningaddr=rupixtest:qp4y8vnkeu6uf8xk2r40nnzwjvzfutp3vfex83pj9lj4zd9e7dl9u2hcpylzw --mine-when-not-synced
+Restart=always
+RestartSec=10
+StandardOutput=append:/root/rupix-testnet-miner.log
+StandardError=append:/root/rupix-testnet-miner.log
+
+[Install]
+WantedBy=multi-user.target

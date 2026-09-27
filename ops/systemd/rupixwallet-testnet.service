@@ -1,0 +1,17 @@
+[Unit]
+Description=Rupix testnet wallet daemon
+After=rupixd-testnet.service
+Requires=rupixd-testnet.service
+
+[Service]
+Type=simple
+User=root
+ExecStartPre=/bin/sleep 20
+ExecStart=/usr/local/bin/rupixwallet --testnet start-daemon --keys-file=/root/.rupixwallet/keys-final.json --rpcserver=127.0.0.1:17210 --listen=127.0.0.1:8082
+Restart=always
+RestartSec=10
+StandardOutput=append:/root/rupix-wallet.log
+StandardError=append:/root/rupix-wallet.log
+
+[Install]
+WantedBy=multi-user.target

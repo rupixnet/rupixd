@@ -62,6 +62,15 @@ La devnet de pruebas de v0.6.0 quedó prendida dos días en el seed, con 1.8 GB 
 ### La falsa alarma del explorer
 El 26-sep se creyó que el explorer mostraba nombres viejos de la escalera ("Zafiro", "Esmeralda"). Venía de una copia vieja en el espacio de trabajo del asistente: el explorer real ya decía Diamante, Platino, Rodio y Kings. La lección: verificar contra la fuente viva antes de corregir.
 
+### "Un halving cada décadas"
+El comentario del parámetro más visible de la economía, en `params.go`, decía que el halving de mainnet ocurría cada "~décadas". Son **~16 meses**: 42 millones de bloques a un bloque por segundo son unos 486 días. Lo encontró el auditor en su barrido del 27-sep. La emisión siempre estuvo bien (el test `TestTotalSupply` suma exactamente 42M); lo que mentía era el comentario.
+
+### La constante de 150 que "definía la emisión"
+Al revisar ese comentario apareció `constants.BlocksPerHalving = 150`, con un comentario que decía que definía la emisión y el calendario de niveles. Nadie la usaba: el consenso toma el valor de cada red (100,000 en testnet, 42 millones en mainnet). Un revisor la habría leído como si el halving fuera cada 150 bloques. Se eliminó el 27-sep.
+
+### La página del explorer que se quedó en 10,000
+El explorer sirve su página desde una carpeta del servidor, y el repo tenía otra copia. El 27-sep resultó que la del repo estaba vieja: decía que el halving de la testnet era cada 10,000 bloques. La viva decía 100,000, que es lo correcto. Si alguien hubiera desplegado la del repo, la escalera se habría mostrado mal. Se sincronizaron y quedó escrito cuál es la fuente.
+
 ---
 
 *No confíes, verifica.*

@@ -37,6 +37,8 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 
 ## Alarma de bloques descalificados / Disqualified-block alarm (auditor, 23-sep)
 
+> **Esta es la v1 y quedó reemplazada el 26-sep:** caminaba por la cadena seleccionada y no podía ver un bloque descalificado. Ver más abajo "Corrección de la alarma" y "Alarma v2.1". / *This is v1, replaced on 26-Sep: it could not see disqualified blocks. See the correction sections below.*
+
 🇲🇽 `/root/rupix-monitor-descalificados.sh` revisa cada 10 min (cron) los últimos 200 bloques de la cadena y cuenta los descalificados (isChainBlock:false). Un bloque descalificado en una red donde el fundador tiene casi todo el hashrate NO es ruido: es un bug de la costura minero/validador hasta que se demuestre lo contrario (así estuvo escondido 10 días el bug del King). Revisar: `tail /root/rupix-descalificados.log`. Si dice ALARMA, investigar antes que nada.
 
 🇬🇧 `/root/rupix-monitor-descalificados.sh` runs every 10 min (cron), checks the last 200 chain blocks, counts disqualified ones (isChainBlock:false). A disqualified block on a network where the founder holds nearly all hashrate is NOT noise — it's a miner/validator seam bug until proven otherwise. Check: `tail /root/rupix-descalificados.log`.
@@ -76,3 +78,7 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 - `rupixexplorer` sirve la carpeta `/root/rupix-explorer-web` (su opción `--webdir`, que por defecto es esa).
 - La fuente de la página es `cmd/rupixexplorer/web/index.html`, en el repo. Se cambia ahí, se commitea y luego se copia: `cp /root/rupixd/cmd/rupixexplorer/web/index.html /root/rupix-explorer-web/index.html`. No hace falta reiniciar nada.
 - El 27-sep la copia del repo estaba vieja (halving de testnet en 10,000; el real es 100,000) y la viva era la correcta. Se sincronizó. Antes de copiar, revisa con `diff` que las dos coincidan.
+
+## Todo lo del seed, versionado (27-sep-2026)
+
+- Los servicios de systemd, la alarma, el cron y la configuración de nginx del explorer están copiados en la carpeta `ops/` del repo (ver `ops/README.md`). Sin secretos. Si el seed se pierde, se reconstruye desde ahí.

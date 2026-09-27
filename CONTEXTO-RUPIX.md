@@ -141,9 +141,9 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 4. **Auditoría profesional** con contrato (5k–100k USD). Antes de mainnet.
 5. **Hashrate externo sostenido.** Empezó: JC minó cerca del 40% de los bloques del 26-sep (~50 KH/s). Falta que se sumen más y que dure semanas.
 
-**🟡 Blindaje:** ~~dominio keccak "RupixHeavyHash"~~ (hecho, v0.6.0) · ~~test end-to-end del King~~ (hecho; cazó un bug real) · ~~minero público en el README~~ (hecho) · alarma de descalificados (rehecha el 26-sep, v2.1 con rotación del log; falta probarla en devnet con el minero real y el fix de la costura revertido) · columna de descalificados en el explorer · firma de binarios fuera del servidor (~300–700 USD/año) · builds reproducibles (flags puestas el 27-sep; falta comprobar que dos builds den el mismo hash) · gofmt: 251 archivos sin formato, heredado del renombre (commit aparte, solo espacios, con build y tests) · H-1 mempool (Nivel A ya cubierto por el código, falta test; Nivel B —topes históricos— pendiente) · testnet #4 estable semanas · **bilingüe:** ~~README~~ y ~~web~~ hechos; ~~guías~~ hechas el 26-sep (conexión, forja, checkpoints); falta el whitepaper en inglés · asistente de Rupix, Stevenson Rux (base = repo + MEMORIA-RUPIX; respuestas con fuente; sin entrenar modelo; después de los bloqueantes).
+**🟡 Blindaje:** ~~dominio keccak "RupixHeavyHash"~~ (hecho, v0.6.0) · ~~test end-to-end del King~~ (hecho; cazó un bug real) · ~~minero público en el README~~ (hecho) · alarma de descalificados (rehecha el 26-sep, v2.1 con rotación del log; falta probarla en devnet con el minero real y el fix de la costura revertido) · tarjeta de "vigilancia de la costura" en el explorer, después de la prueba en devnet (no una columna por bloque: marcaría como sospechosos los bloques sanos de JC) · explorer: leer el halving del nodo en vez de tenerlo escrito a mano · actualizar los 3 módulos que marca govulncheck (no se llaman, pero conviene) · firma de binarios fuera del servidor (~300–700 USD/año) · builds reproducibles (flags puestas el 27-sep; falta comprobar que dos builds den el mismo hash) · gofmt: 251 archivos sin formato, heredado del renombre (commit aparte, solo espacios, con build y tests) · H-1 mempool (Nivel A ya cubierto por el código, falta test; Nivel B —topes históricos— pendiente) · testnet #4 estable semanas · **bilingüe:** ~~README~~ y ~~web~~ hechos; ~~guías~~ hechas el 26-sep (conexión, forja, checkpoints); falta el whitepaper en inglés · asistente de Rupix, Stevenson Rux (base = repo + MEMORIA-RUPIX; respuestas con fuente; sin entrenar modelo; después de los bloqueantes).
 
-**🟢 Inmediato:** testnet #4 cruza 100k → primer Diamante de v0.6.0 en la red pública y primer checkpoint real · ~~JC: comparar tip con el seed y minar un bloque~~ (hecho: 14 mil bloques) · JP a v0.6.0 · tweet de v0.6.0.
+**🟢 Inmediato:** ~~testnet #4 cruza 100k~~ (hecho: 27-sep ~00:18, emisión exacta) → primer Diamante de v0.6.0 en la red pública (JC) y primer checkpoint real · ~~JC: comparar tip con el seed y minar un bloque~~ (hecho: 14 mil bloques) · JP a v0.6.0 · tweet de v0.6.0.
 
 ---
 
@@ -290,3 +290,12 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
   1. Rotación del log: hecho en la v2.1 (inode + posición), probado con rotaciones simuladas.
   2. Prueba de punta a punta con el minero real: rama de devnet que revierta temporalmente el fix de la costura, minar una forja con el `block_builder` y ver que la alarma suene con el hash de ese bloque. Pendiente; hasta entonces no se da por buena.
 - Sobre JC: "es el dato más importante desde el relanzamiento. Por primera vez la red no es solo tuya."
+
+## 27-sep-2026 (madrugada) — Barrido del auditor y limpieza
+
+- Halving 1 de la testnet #4 cruzado (~00:18): Diamante abierto; emisión exacta (50,052.5 RUPIX a DAA 100,209).
+- Barrido del auditor: comentario del halving corregido (16 meses, no décadas), constante muerta de 150 eliminada, `SECURITY.md` (reporte privado por GitHub; falta activarlo en la configuración del repo), builds con `-trimpath -buildvcs=false -buildid=`.
+- `gofmt` en 251 archivos: solo imports reordenados. `govulncheck`: 0 vulnerabilidades que afecten al código; 3 en módulos requeridos que el código no llama.
+- Explorer: la copia del repo estaba vieja (halving de testnet en 10,000); sincronizada con la viva.
+- README en inglés: ya enlaza las guías en inglés. LOGROS: halving 1. MEMORIA: tres entradas nuevas.
+- La operación del seed (servicios, alarma, cron, nginx) quedó versionada en `ops/`.

@@ -7,6 +7,9 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- `gofmt` en todo el repo (251 archivos): solo formato. Los unicos cambios que no son espacios son imports reordenados (el renombre kaspa->rupix cambio su orden alfabetico). Compila igual.
+- Explorer: la copia de la pagina en el repo estaba vieja (halving de testnet en 10,000; el real es 100,000). Sincronizada con la viva, y el tiempo al proximo halving ahora se muestra en minutos, horas o dias.
+- `govulncheck` (27-sep): 0 vulnerabilidades que afecten al codigo; 3 en modulos requeridos que el codigo no llama.
 - `SECURITY.md`: como reportar una vulnerabilidad en privado (pestana Security de GitHub), con tiempos de respuesta.
 - Builds de release con `-trimpath -buildvcs=false -buildid=`: primer paso hacia builds reproducibles. Falta comprobar que dos builds den el mismo hash.
 - `params.go`: el comentario del halving de mainnet decia "~decadas"; son ~16 meses (42M bloques a 1/seg). Hallazgo del auditor. Al revisarlo aparecio `constants.BlocksPerHalving = 150`, una constante sin uso cuyo comentario decia que definia la emision: eliminada. El consenso usa el valor de cada red.
