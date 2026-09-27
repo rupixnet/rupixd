@@ -1,5 +1,7 @@
 # 🔷 Cómo unirte a la testnet de Rupix
 
+🇬🇧 [English version](./TESTNET-GUIDE.md)
+
 Guía sencilla para conectar tu nodo a la red de prueba de Rupix.
 No necesitas ser experto — sigue los pasos.
 
@@ -15,7 +17,7 @@ No necesitas ser experto — sigue los pasos.
 ## Paso 1 — Descarga Rupix
 
 Ve a las descargas oficiales:
-**https://github.com/rupixnet/rupixd/releases**
+**https://github.com/rupixnet/rupixd/releases/latest**
 
 Descarga el archivo de tu sistema:
 - **Windows:** `rupix-v0.6.0-win64.zip`
@@ -95,9 +97,12 @@ Compara tu `blockCount` con el del explorador oficial
 ```
 ./rupixwallet --testnet create
 ```
-(Te pedirá una contraseña. Guárdala. Luego crea una dirección con:)
+(Te pedirá una contraseña. Guárdala.) Arranca el daemon y déjalo corriendo en su propia ventana:
 ```
 ./rupixwallet --testnet start-daemon
+```
+En OTRA ventana, crea tu dirección:
+```
 ./rupixwallet --testnet new-address
 ```
 

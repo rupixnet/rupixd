@@ -6,7 +6,7 @@ Guide to create your first Diamond by burning Gold. This is the
 essence of Rupix: destroy to create something scarcer.
 
 > **Requirement:** you need **Gold** (RUPIX) in your wallet.
-> Get it by mining (see [How to mine Rupix](./README.md#how-to-mine-rupix)) or ask someone
+> Get it by mining (see the [testnet guide](./TESTNET-GUIDE.md)) or ask someone
 > to send you some. To forge 1 Diamond you need **at least 10 Gold**
 > (10 are burned) plus a little extra for the transaction fee.
 
