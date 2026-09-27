@@ -242,3 +242,9 @@ LO QUE FALTA YA NO ES CONSENSO, ES RED (sus 5 puntos):
 - Prueba del mecanismo: en DEVNET (mañana) — bloque correcto pasa, falso se rechaza. Sin comprometer testnet.
 - Primer checkpoint REAL de testnet: en el halving (DAA 100k, ~1 día de minado desde DAA 15k), junto con el primer Diamante v0.6.0. Un anuncio, tres cosas: halving + Diamante + primera defensa activa.
 - COMUNICACIÓN: anunciar el CUÁNDO (el halving) y el PORQUÉ (defensa temporal declarada, no oculta, con caducidad). NO anunciar el bloque exacto por adelantado (un atacante podría intentar influir en qué cae ahí). El checkpoint se elige sobre historia YA existente y profunda, y se publica con hash fijo para que todos verifiquen. Centralización temporal declarada — todo para apoyar a la red mientras crece el hashrate.
+
+## 26-sep-2026 — Primer nodo externo v0.6.0 (JC)
+
+JC sincronizó rupix-v0.6.0-win64 en Windows: isSynced true, 48,645 bloques,
+pruning point presente. Determinismo cross-OS de validación confirmado. Pruning
+cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
