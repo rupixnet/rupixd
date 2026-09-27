@@ -141,7 +141,7 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 4. **Auditoría profesional** con contrato (5k–100k USD). Antes de mainnet.
 5. **Hashrate externo sostenido.** Empezó: JC minó cerca del 40% de los bloques del 26-sep (~50 KH/s). Falta que se sumen más y que dure semanas.
 
-**🟡 Blindaje:** ~~dominio keccak "RupixHeavyHash"~~ (hecho, v0.6.0) · ~~test end-to-end del King~~ (hecho; cazó un bug real) · ~~minero público en el README~~ (hecho) · alarma de descalificados (rehecha el 26-sep: la v1 no podía verlos; falta probarla en devnet) · columna de descalificados en el explorer · firma de binarios fuera del servidor + builds reproducibles (~300–700 USD/año) · H-1 mempool (Nivel A ya cubierto por el código, falta test; Nivel B —topes históricos— pendiente) · testnet #4 estable semanas · **bilingüe:** ~~README~~ y ~~web~~ hechos; ~~guías~~ hechas el 26-sep (conexión, forja, checkpoints); falta el whitepaper en inglés · asistente de Rupix, Stevenson Rux (base = repo + MEMORIA-RUPIX; respuestas con fuente; sin entrenar modelo; después de los bloqueantes).
+**🟡 Blindaje:** ~~dominio keccak "RupixHeavyHash"~~ (hecho, v0.6.0) · ~~test end-to-end del King~~ (hecho; cazó un bug real) · ~~minero público en el README~~ (hecho) · alarma de descalificados (rehecha el 26-sep, v2.1 con rotación del log; falta probarla en devnet con el minero real y el fix de la costura revertido) · columna de descalificados en el explorer · firma de binarios fuera del servidor + builds reproducibles (~300–700 USD/año) · H-1 mempool (Nivel A ya cubierto por el código, falta test; Nivel B —topes históricos— pendiente) · testnet #4 estable semanas · **bilingüe:** ~~README~~ y ~~web~~ hechos; ~~guías~~ hechas el 26-sep (conexión, forja, checkpoints); falta el whitepaper en inglés · asistente de Rupix, Stevenson Rux (base = repo + MEMORIA-RUPIX; respuestas con fuente; sin entrenar modelo; después de los bloqueantes).
 
 **🟢 Inmediato:** testnet #4 cruza 100k → primer Diamante de v0.6.0 en la red pública y primer checkpoint real · ~~JC: comparar tip con el seed y minar un bloque~~ (hecho: 14 mil bloques) · JP a v0.6.0 · tweet de v0.6.0.
 
@@ -282,3 +282,11 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 - Arreglo: el nodo registra la descalificación en nivel Warn (antes Debug, invisible) y la alarma v2 lee el log del nodo; si no hay datos, dice ERROR. Es un cambio de log, no de consenso: sin relanzamiento. Seed reiniciado a las 04:14 UTC con el binario nuevo.
 - Probada con un log falso: suena. Pendiente: prueba de punta a punta en devnet.
 - Pendiente: avisarle al auditor. Él pidió la alarma y la dio por buena el 25-sep.
+
+## 27-sep-2026 (madrugada) — El auditor revisó el arreglo de la alarma
+
+- Aprueba `195940d`: el `Warnf` está en el único punto donde un bloque se descalifica por mérito propio; "si el log no crece, ERROR" es la decisión correcta. Dijo que la corrección pública del commit `0a76230` es lo que hace creíble el resto del CHANGELOG.
+- Pidió dos cosas antes de darla por buena:
+  1. Rotación del log: hecho en la v2.1 (inode + posición), probado con rotaciones simuladas.
+  2. Prueba de punta a punta con el minero real: rama de devnet que revierta temporalmente el fix de la costura, minar una forja con el `block_builder` y ver que la alarma suene con el hash de ese bloque. Pendiente; hasta entonces no se da por buena.
+- Sobre JC: "es el dato más importante desde el relanzamiento. Por primera vez la red no es solo tuya."

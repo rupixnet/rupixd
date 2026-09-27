@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Alarma v2.1: sigue la rotacion del log del nodo (guarda inode + posicion; si el archivo viejo no aparece, ERROR). Pedido del auditor al revisar la v2.
 - `go.mod`: minimo de Go de 1.26.6 a 1.25.0 (la minima real del arbol de dependencias). Un revisor con Go 1.25 ya puede compilar y correr la suite. Los binarios de release se siguen compilando con 1.26.6.
 - Residuos del fork: el daemon de rupixwallet escribe su log en `~/.rupixwallet` (antes `~/.kaspawallet`); el minero dice "Rupixd is not synced" (antes "Kaspad").
 - Alarma de bloques descalificados **corregida**. La v1 (25-sep, pedida por el auditor el 23-sep) caminaba hacia atras por la cadena seleccionada y, por construccion, nunca podia ver un bloque descalificado: dijo "OK" 134 veces sin poder sonar. La v2 lee la decision del propio nodo en su log (solo lo nuevo desde la revision anterior) y dice ERROR si el log no crece. Probada con un log falso: suena. Falta probarla provocando un bloque descalificado en devnet.

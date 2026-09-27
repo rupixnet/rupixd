@@ -63,3 +63,10 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 - **rupix.network** se sirve desde **GitHub Pages**, con el repo `rupixnet/rupix-website`. Se publica solo al hacer push y tarda 1–2 minutos. Un 404 justo después del push es normal.
 - **explorer.rupix.network** apunta al seed (178.104.69.148). nginx escucha en 80/443. La API la sirve `rupixexplorer` en `127.0.0.1:8090`, conectado al nodo por RPC (`127.0.0.1:17210`). La página del explorador está en `/root/rupix-explorer-web/` (falta documentar cómo la sirve nginx).
 - **Nodo:** `rupixd` en 17211 (P2P, abierto) y 17210 (RPC, solo local). Wallet daemon en `127.0.0.1:8082`.
+
+## Alarma v2.1: rotación del log (27-sep-2026)
+
+- El nodo rota su log cada 100 MB y guarda 8 archivos, sin comprimir (`infrastructure/logger/backend.go`). Al rotar, `rupixd.log` pasa a otro nombre y conserva su inode.
+- La alarma guarda **inode + posición** en `/root/.rupix-alarma-offset`. Si el inode cambió, busca el archivo viejo por su inode, termina de leerlo desde donde iba y luego lee el nuevo desde el principio. Si no encuentra el viejo, escribe ERROR.
+- Probada con rotaciones simuladas: detecta un descalificado que quedó en el archivo viejo justo antes de rotar; si falta el archivo viejo, dice ERROR; después se recupera sola.
+- Lo pidió el auditor al revisar `195940d`.
