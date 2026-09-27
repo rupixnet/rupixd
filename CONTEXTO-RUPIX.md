@@ -135,15 +135,15 @@ Registro de relanzamientos: `TESTNET-RELANZAMIENTOS.md`. Se relanza solo por cam
 Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. Meses, no semanas.
 
 **🔴 Bloqueantes:**
-1. ~~**Checkpoints temporales.**~~ **HECHO (18-sep).** Código + 5 tests + probado en devnet (correcto acepta, falso rechaza) + `CHECKPOINTS.md` con la política. Lista vacía hoy. **Pendiente:** publicar el primer checkpoint real de testnet (bloque con miles de profundidad, anunciado en la tabla).
-2. **Un par de ojos con nombre.** Toda la revisión es anónima por chat. Alguien de la comunidad de Kaspa o Bitcointalk que lea `level_ascension.go`, `gemshistory.go`, `rupixprng.go` y firme lo que vio. Sin eso el README no puede decir "auditado". El fundador debe ir con su nombre: "aquí están los diez hallazgos y cómo los cerré, rómpanlo".
-3. **`go test ./...` verde.** 18 paquetes rojos. Diagnóstico: `test_block_builder.go` → `buildHeaderWithParents` sella el gems fijo en cero; debe calcularlo con la lógica de **validación** (`calculateGemsHistory`), no la de template (`newBlockGemsCommitment` — probado, subió a 20). Mientras esté rojo, "en el CI" no significa nada.
+1. ~~**Checkpoints temporales.**~~ **HECHO (18-sep).** Código + 5 tests + probado en devnet + `CHECKPOINTS.md`. **Pendiente:** publicar el primer checkpoint real. Plan (26-sep): el primero en el halving, con el primer Diamante de v0.6.0; se anuncia cuándo y por qué, no el bloque exacto por adelantado.
+2. **Un par de ojos con nombre.** El auditor firmó el motor, pero es anónimo. Falta alguien con nombre que compile, corra la suite y firme lo que vio. Ya no hay excusa técnica: el `go.mod` pide Go 1.25. Sin eso el README no puede decir "auditado".
+3. ~~**`go test ./...` verde.**~~ **HECHO (v0.5.2, 20-sep).** De 18 paquetes rojos a 0. Causa raíz: tests heredados con `Version = MaxScriptPublicKeyVersion` (= Kings).
 4. **Auditoría profesional** con contrato (5k–100k USD). Antes de mainnet.
-5. **Hashrate externo sostenido.** Sin mineros externos la red es del servidor y de nadie más.
+5. **Hashrate externo sostenido.** JC ya corre v0.6.0; falta que mine y que se sumen más.
 
-**🟡 Blindaje:** dominio keccak "HeavyHash"→"RupixHeavyHash" (probado, agrupado con el próximo relanzamiento) · test end-to-end del King · firma de código (~300–700 USD/año) · H-1 mempool · testnet estable semanas · **todo bilingüe (es/en):** guías (repo y web), README, whitepaper — la web ya lo es · asistente de Rupix (web + menciones en X, base = repo, respuestas con fuente, sin entrenar modelo, después de los bloqueantes).
+**🟡 Blindaje:** ~~dominio keccak "RupixHeavyHash"~~ (hecho, v0.6.0) · ~~test end-to-end del King~~ (hecho; cazó un bug real) · ~~minero público en el README~~ (hecho) · ~~alarma de descalificados~~ (hecho) · columna de descalificados en el explorer · firma de binarios fuera del servidor + builds reproducibles (~300–700 USD/año) · H-1 mempool · revisar vulnerabilidades de dependencias · testnet #4 estable semanas · **bilingüe:** ~~README~~ y ~~web~~ hechos; faltan guías y whitepaper en inglés · asistente de Rupix, Stevenson Rux (base = repo + MEMORIA-RUPIX; respuestas con fuente; sin entrenar modelo; después de los bloqueantes).
 
-**🟢 Inmediato:** testnet cruza 100k → primer Diamante con RupixHeavyHash en la red pública · JC re-descarga v0.5.0.
+**🟢 Inmediato:** testnet #4 cruza 100k → primer Diamante de v0.6.0 en la red pública y primer checkpoint real · JC: comparar tip con el seed y minar un bloque · JP a v0.6.0 · tweet de v0.6.0.
 
 ---
 
