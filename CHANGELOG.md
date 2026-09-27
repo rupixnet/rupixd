@@ -9,7 +9,8 @@ Formato: [versión] - fecha - descripción técnica
 ## [Sin publicar]
 - `go.mod`: minimo de Go de 1.26.6 a 1.25.0 (la minima real del arbol de dependencias). Un revisor con Go 1.25 ya puede compilar y correr la suite. Los binarios de release se siguen compilando con 1.26.6.
 - Residuos del fork: el daemon de rupixwallet escribe su log en `~/.rupixwallet` (antes `~/.kaspawallet`); el minero dice "Rupixd is not synced" (antes "Kaspad").
-- Alarma de bloques descalificados: revisa los ultimos 200 bloques cada 10 minutos; `isChainBlock: false` se trata como bug de la costura hasta probar lo contrario. Documentada en OPERACIONES.md.
+- Alarma de bloques descalificados **corregida**. La v1 (23-sep) caminaba hacia atras por la cadena seleccionada y, por construccion, nunca podia ver un bloque descalificado: dijo "OK" 134 veces sin poder sonar. La v2 lee la decision del propio nodo en su log (solo lo nuevo desde la revision anterior) y dice ERROR si el log no crece. Probada con un log falso: suena. Falta probarla provocando un bloque descalificado en devnet.
+- Nodo: `resolve_block_status.go` registra cada bloque descalificado en nivel Warn (`BLOQUE DESCALIFICADO <hash>: <motivo>`); antes era Debug y no se veia. Cambio de log, no de consenso: no requiere relanzamiento.
 - README (es/en): seccion "Como minar Rupix".
 - `changelog.txt` renombrado a `CHANGELOG-kaspad-upstream.txt` para no confundirlo con este archivo.
 

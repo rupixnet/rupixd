@@ -49,3 +49,11 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 - Para usar una devnet: compilar el binario fuera de `/tmp` (se borra al reiniciar) y arrancar con P2P y RPC solo locales:
   `rupixd --devnet --appdir=<carpeta> --listen=127.0.0.1:17651 --rpclisten=127.0.0.1:17350`
 - Al terminar: `kill <pid>` y comprobar con `ss -tlnp | grep rupixd` que solo quede la testnet (17211 y 17210).
+
+## Corrección de la alarma de descalificados (26-sep-2026)
+
+- **La v1 no servía.** Caminaba hacia atrás por la cadena seleccionada desde la punta. Todo bloque en ese camino está en la cadena por definición, y un bloque descalificado es justo el que queda fuera. Nunca podía encontrarlo: dijo "OK" 134 veces sin poder sonar. También era falso que "habría cazado el bug del King".
+- **La v2:** el nodo registra cada descalificación en su log (`resolve_block_status.go`, nivel Warn: `BLOQUE DESCALIFICADO <hash>: <motivo>`). La alarma lee solo lo que el log agregó desde la revisión anterior (posición guardada en `/root/.rupix-alarma-offset`) y escribe en `/root/rupix-descalificados.log`. Si el log no creció, escribe ERROR: nunca un OK sin datos.
+- El nodo escribe en `/root/rupix-testnet/<red>/logs/rupixd.log`, no en el journal.
+- **Probada** con un log falso: suena. **Pendiente:** provocar un bloque descalificado en devnet y verla sonar de punta a punta.
+- La v1 queda en `/root/rupix-monitor-descalificados.v1-ciego.sh`, como registro.
