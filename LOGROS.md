@@ -49,3 +49,17 @@ pruning point → cruzó la poda durante la sincronización.
 **Pendiente de cierre (cuando JC vuelva):** reconciliación de tip en vivo
 (GetBlockDagInfo simultáneo seed↔JC), y como HITO aparte, que JC mine un bloque
 (determinismo de producción, no solo de validación).
+
+## 26 de septiembre de 2026 (noche) — Primer minero externo en v0.6.0: JC
+
+JC creó su wallet a las 10:21 y minó todo el día desde su PC con Windows (~50 KH/s).
+A las 19:45, **14,187 bloques suyos habían recibido recompensa**: 7,093.5 RUPIX.
+Verificado desde el seed, no solo desde su wallet: `GetBalanceByAddress` da 7,111 RUPIX en su dirección (siguió minando).
+
+**Qué prueba:**
+- Su minero produce bloques que el consenso acepta. El determinismo va en las dos direcciones: validar y producir.
+- Cerca del 40% de los bloques desde la mañana fueron suyos. La dificultad pasó de 37,724 a 67,204: ese salto fue su hashrate.
+- Reconciliación en vivo cerrada: su tip (`ed6d61e2…`) está en el seed como chain block, y los dos nodos tienen el mismo pruning point (`d2561df4…`).
+- Su nodo acepta conexiones entrantes: puede servir la cadena a otros.
+
+La red ya no es solo del servidor.

@@ -139,11 +139,11 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 2. **Un par de ojos con nombre.** El auditor firmó el motor, pero es anónimo. Falta alguien con nombre que compile, corra la suite y firme lo que vio. Ya no hay excusa técnica: el `go.mod` pide Go 1.25. Sin eso el README no puede decir "auditado".
 3. ~~**`go test ./...` verde.**~~ **HECHO (v0.5.2, 20-sep).** De 18 paquetes rojos a 0. Causa raíz: tests heredados con `Version = MaxScriptPublicKeyVersion` (= Kings).
 4. **Auditoría profesional** con contrato (5k–100k USD). Antes de mainnet.
-5. **Hashrate externo sostenido.** JC ya corre v0.6.0; falta que mine y que se sumen más.
+5. **Hashrate externo sostenido.** Empezó: JC minó cerca del 40% de los bloques del 26-sep (~50 KH/s). Falta que se sumen más y que dure semanas.
 
 **🟡 Blindaje:** ~~dominio keccak "RupixHeavyHash"~~ (hecho, v0.6.0) · ~~test end-to-end del King~~ (hecho; cazó un bug real) · ~~minero público en el README~~ (hecho) · ~~alarma de descalificados~~ (hecho) · columna de descalificados en el explorer · firma de binarios fuera del servidor + builds reproducibles (~300–700 USD/año) · H-1 mempool · revisar vulnerabilidades de dependencias · testnet #4 estable semanas · **bilingüe:** ~~README~~ y ~~web~~ hechos; faltan guías y whitepaper en inglés · asistente de Rupix, Stevenson Rux (base = repo + MEMORIA-RUPIX; respuestas con fuente; sin entrenar modelo; después de los bloqueantes).
 
-**🟢 Inmediato:** testnet #4 cruza 100k → primer Diamante de v0.6.0 en la red pública y primer checkpoint real · JC: comparar tip con el seed y minar un bloque · JP a v0.6.0 · tweet de v0.6.0.
+**🟢 Inmediato:** testnet #4 cruza 100k → primer Diamante de v0.6.0 en la red pública y primer checkpoint real · ~~JC: comparar tip con el seed y minar un bloque~~ (hecho: 14 mil bloques) · JP a v0.6.0 · tweet de v0.6.0.
 
 ---
 
@@ -261,3 +261,11 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 - Push: token rupix-server-v3 regenerado a 90 días (política del fundador). Recordatorio programado para el 20-dic.
 - El algoritmo es RupixHeavyHash, en producción. Los planes viejos de RandomX/Autolykos no están en el mapa.
 - El explorer vivo ya tenía la escalera correcta (Diamante, Platino, Rodio, Kings); la alarma fue por una copia vieja.
+
+## 26-sep-2026 (noche) — JC, primer minero externo en v0.6.0
+
+- Reconciliación en vivo cerrada: tip de JC en el seed como chain block, mismo pruning point.
+- JC mina desde las 10:21 en Windows (~50 KH/s): 14,187 bloques pagados a las 19:45 (7,093.5 RUPIX). El seed confirma 7,111 en su dirección.
+- Cerca del 40% de los bloques del día fueron suyos; explica el salto de dificultad 37.7k → 67.2k.
+- Su nodo acepta conexiones entrantes (el seed se le conecta por IPv6).
+- Halving 1 (DAA 100k) hoy ~00:15. JC tiene Gold de sobra para forjar el primer Diamante de v0.6.0.
