@@ -95,13 +95,17 @@ Registro de relanzamientos: `TESTNET-RELANZAMIENTOS.md`. Se relanza solo por cam
 - 18-jun-2026 (commit 74cbd70da): "INITIAL: Kaspad v0.12.22 upstream limpio - base para Rupix v0.3.0". El Rupix de hoy nace aqui.
 - Del reinicio (jun) al motor firmado por el auditor (26-sep): ~3 meses. La decision mas dificil y mas valiente del proyecto: tirar lo hecho para construir bien.
 
-## Estado ahora (17-sep-2026)
+## Estado ahora (26-sep-2026)
 
-- **v0.5.1** en todo: nodo, wallet, minero, ctl, release, guías, web.
-- **Testnet #3:** ~90k bloques. Diamante en 100k. Servidor semilla `178.104.69.148:17211`.
-- **3 nodos:** servidor + 2 externos. 2 forjadores externos en la historia.
+- **v0.6.0** en todo: nodo, wallet, minero, ctl, release, guías, web. Tres cambios de consenso: dominio keccak "RupixHeavyHash", rango entero mod 2^61-1, fix del bug del King.
+- **Motor:** el auditor firmó v0.6.0 ("del motor no tengo nada más que pedir"). Lo que falta es de red, no de código.
+- **Testnet #4:** relanzada con v0.6.0. DAA ~48.6k la mañana del 26-sep. Halving 1 (se abre Diamante) en DAA 100k. Semilla `178.104.69.148:17211`.
+- **Nodos:** servidor + externos. JC sincronizó v0.6.0 en Windows (26-sep): determinismo entre sistemas operativos probado en la calle. 2 forjadores externos en la historia.
+- **Poda:** primera poda real verificada (22-sep); el conteo de gemas sobrevive al pruning point.
+- **Operación:** los 3 servicios con systemd `Restart=always`, swap de 4 GB, alarma de bloques descalificados cada 10 min.
+- **Tests:** `go test ./...` en 0 desde v0.5.2. `TestKingsEndToEnd` verde, y falla si se revierte el fix. Compila con Go 1.25+.
 - **Wallet del servidor:** `/root/.rupixwallet/keys-final.json`.
-- **Tests:** 18 paquetes rojos (framework de test). Producción compila. Los del corazón (corpus, King, blockbuilder, pow, dagconfig) verdes.
+- **Push:** token rupix-server-v3 a 90 días; se renueva el 20-dic.
 
 ---
 
