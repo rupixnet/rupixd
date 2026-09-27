@@ -1,3 +1,5 @@
+> **Corrección (26-sep-2026):** el Nivel A ya está cubierto por el código. El mempool, al insertar una tx, llama a `ValidateTransactionAndPopulateWithConsensusData` (`fill_inputs_and_get_missing_parents.go:19`), que llega a `ValidateTransactionInContextAndPopulateFee` y de ahí a `checkLevelRules` (`transaction_in_context.go:93`) con el DAA del virtual: ratio 10:1, ascensos y nivel desbloqueado se validan antes de entrar al mempool. Lo de abajo ("el mempool solo valida anti-spam y estándar") era incorrecto. **Falta:** un test del mempool que lo demuestre, y el **Nivel B** (topes históricos), que hoy solo se validan al procesar el bloque.
+
 # H-1: TOPES EN MEMPOOL — mapa completo (para atacar fresco)
 
 ## EL PROBLEMA

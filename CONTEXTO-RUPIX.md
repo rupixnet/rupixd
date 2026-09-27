@@ -141,7 +141,7 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 4. **Auditoría profesional** con contrato (5k–100k USD). Antes de mainnet.
 5. **Hashrate externo sostenido.** Empezó: JC minó cerca del 40% de los bloques del 26-sep (~50 KH/s). Falta que se sumen más y que dure semanas.
 
-**🟡 Blindaje:** ~~dominio keccak "RupixHeavyHash"~~ (hecho, v0.6.0) · ~~test end-to-end del King~~ (hecho; cazó un bug real) · ~~minero público en el README~~ (hecho) · alarma de descalificados (rehecha el 26-sep: la v1 no podía verlos; falta probarla en devnet) · columna de descalificados en el explorer · firma de binarios fuera del servidor + builds reproducibles (~300–700 USD/año) · H-1 mempool · testnet #4 estable semanas · **bilingüe:** ~~README~~ y ~~web~~ hechos; faltan guías y whitepaper en inglés · asistente de Rupix, Stevenson Rux (base = repo + MEMORIA-RUPIX; respuestas con fuente; sin entrenar modelo; después de los bloqueantes).
+**🟡 Blindaje:** ~~dominio keccak "RupixHeavyHash"~~ (hecho, v0.6.0) · ~~test end-to-end del King~~ (hecho; cazó un bug real) · ~~minero público en el README~~ (hecho) · alarma de descalificados (rehecha el 26-sep: la v1 no podía verlos; falta probarla en devnet) · columna de descalificados en el explorer · firma de binarios fuera del servidor + builds reproducibles (~300–700 USD/año) · H-1 mempool (Nivel A ya cubierto por el código, falta test; Nivel B —topes históricos— pendiente) · testnet #4 estable semanas · **bilingüe:** ~~README~~ y ~~web~~ hechos; faltan guías y whitepaper en inglés · asistente de Rupix, Stevenson Rux (base = repo + MEMORIA-RUPIX; respuestas con fuente; sin entrenar modelo; después de los bloqueantes).
 
 **🟢 Inmediato:** testnet #4 cruza 100k → primer Diamante de v0.6.0 en la red pública y primer checkpoint real · ~~JC: comparar tip con el seed y minar un bloque~~ (hecho: 14 mil bloques) · JP a v0.6.0 · tweet de v0.6.0.
 
@@ -278,7 +278,7 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 
 ## 26-sep-2026 (noche) — La alarma de descalificados no servía
 
-- La v1 (23-sep) caminaba por la cadena seleccionada y, por construcción, nunca podía ver un bloque descalificado: 134 "OK" sin poder sonar. Era falso lo que escribimos, que "habría cazado el bug del King".
+- La v1 (25-sep, pedida por el auditor el 23-sep) caminaba por la cadena seleccionada y, por construcción, nunca podía ver un bloque descalificado: 134 "OK" sin poder sonar. Era falso lo que escribimos, que "habría cazado el bug del King".
 - Arreglo: el nodo registra la descalificación en nivel Warn (antes Debug, invisible) y la alarma v2 lee el log del nodo; si no hay datos, dice ERROR. Es un cambio de log, no de consenso: sin relanzamiento. Seed reiniciado a las 04:14 UTC con el binario nuevo.
 - Probada con un log falso: suena. Pendiente: prueba de punta a punta en devnet.
 - Pendiente: avisarle al auditor. Él pidió la alarma y la dio por buena el 25-sep.
