@@ -1,3 +1,5 @@
+> **Nota (26-sep-2026):** este documento es de otra etapa y menciona RandomX/Autolykos como planes de ese momento. El algoritmo de Rupix es RupixHeavyHash, en producción desde v0.6.0; esos planes ya no están en el mapa.
+
 # CIRUGÍA DEL PRUNING VERIFICABLE — mapa (rama pruning-verificable)
 
 ## EL PROBLEMA

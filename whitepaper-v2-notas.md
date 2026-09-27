@@ -1,3 +1,5 @@
+> **Nota (26-sep-2026):** este documento es de otra etapa y menciona RandomX/Autolykos como planes de ese momento. El algoritmo de Rupix es RupixHeavyHash, en producción desde v0.6.0; esos planes ya no están en el mapa.
+
 
 ## DEFINICIÓN HONESTA DE "PARA TODOS" (reflexión del fundador)
 "Para todos" NO = gratis/sin esfuerzo. SÍ = sin barreras de privilegio.
