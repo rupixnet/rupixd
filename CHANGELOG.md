@@ -6,6 +6,20 @@ Formato: [versión] - fecha - descripción técnica
 
 ---
 
+## [Sin publicar]
+- `go.mod`: minimo de Go de 1.26.6 a 1.25.0 (la minima real del arbol de dependencias). Un revisor con Go 1.25 ya puede compilar y correr la suite. Los binarios de release se siguen compilando con 1.26.6.
+- Residuos del fork: el daemon de rupixwallet escribe su log en `~/.rupixwallet` (antes `~/.kaspawallet`); el minero dice "Rupixd is not synced" (antes "Kaspad").
+- Alarma de bloques descalificados: revisa los ultimos 200 bloques cada 10 minutos; `isChainBlock: false` se trata como bug de la costura hasta probar lo contrario. Documentada en OPERACIONES.md.
+- README (es/en): seccion "Como minar Rupix".
+- `changelog.txt` renombrado a `CHANGELOG-kaspad-upstream.txt` para no confundirlo con este archivo.
+
+## [v0.6.0] - 2026-09-26 — Tres cambios de consenso + testnet #4
+- Dominio keccak propio: `heavyHashDomain` pasa de "HeavyHash" a "RupixHeavyHash". El hash de Rupix es distinto al de Kaspa desde el primer bit.
+- `computeRank` con aritmetica entera (mod 2^61-1) en lugar de float64 con tolerancia: el resultado es identico en cualquier CPU y sistema operativo. Era el riesgo silencioso mas grave segun el auditor; el lo verifico por su cuenta.
+- Fix del bug del King: `newBlockGemsCommitment` sumaba las forjas del propio bloque ademas de las del mergeset, asi que el minero sellaba un conteo distinto al que calcula el validador. El primer King real habria sido rechazado. Lo cazo `TestKingsEndToEnd`, que falla si se revierte el fix.
+- Coinbase con `Version: 0` en lugar de `MaxScriptPublicKeyVersion`.
+- Testnet relanzada (#4) con los tres cambios. Vectores de `pruning_test` regenerados.
+
 ## [v0.5.2] - 2026-09-20 — Suite de tests en verde
 - `go test ./...` de 18 paquetes rojos a 0, sin tocar consenso. Causa raíz (predicha por el auditor como H-5): tests heredados creaban outputs con `Version = MaxScriptPublicKeyVersion` (= 4 = Kings en Rupix) y la escalera los rechazaba. Corregido en el framework de test, vectores bip32/txscript/ventana/poda regenerados desde el código. `DisasmString` aceptaba solo la versión máxima; ahora 0..4. `go vet` limpio en producción.
 - README en inglés + aclaración: fork de kaspad, cadena independiente, no usa KAS.

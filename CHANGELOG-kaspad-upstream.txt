@@ -1,3 +1,8 @@
+NOTA (Rupix): historial heredado de kaspad, del que Rupix es fork.
+Cubre kaspad v0.8.10 (2021-02-25) a v0.12.17 (2024-02-19). Upstream dejo de
+actualizar este archivo despues de v0.12.17. Rupix partio de kaspad v0.12.22.
+El historial propio de Rupix esta en CHANGELOG.md.
+
 Kaspad v0.12.17 - 2024-02-19
 ===========================
 
