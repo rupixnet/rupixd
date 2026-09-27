@@ -40,3 +40,12 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 🇲🇽 `/root/rupix-monitor-descalificados.sh` revisa cada 10 min (cron) los últimos 200 bloques de la cadena y cuenta los descalificados (isChainBlock:false). Un bloque descalificado en una red donde el fundador tiene casi todo el hashrate NO es ruido: es un bug de la costura minero/validador hasta que se demuestre lo contrario (así estuvo escondido 10 días el bug del King). Revisar: `tail /root/rupix-descalificados.log`. Si dice ALARMA, investigar antes que nada.
 
 🇬🇧 `/root/rupix-monitor-descalificados.sh` runs every 10 min (cron), checks the last 200 chain blocks, counts disqualified ones (isChainBlock:false). A disqualified block on a network where the founder holds nearly all hashrate is NOT noise — it's a miner/validator seam bug until proven otherwise. Check: `tail /root/rupix-descalificados.log`.
+
+## Devnets de prueba (regla desde 26-sep-2026)
+
+- En el seed solo corre la testnet. Las devnets se prenden cuando se van a usar y se apagan al terminar.
+- Por qué: el 26-sep se encontró la devnet de las pruebas de v0.6.0 prendida desde hacía 2 días. Usaba 1.8 GB de RAM (el seed ya tuvo un OOM) y tenía su P2P (17651) abierto a internet. Al apagarla, la RAM disponible subió de 3.2 a 5.0 GB.
+- Datos de esa devnet: `/root/devnet-algo-miner.log`, `/root/devnet-algo.log`, `/root/devnet-cp-miner.log`, `/root/devnet-cp.log`, `/root/devnet-v06.log`, `/root/devnet_regla.py`, `/root/rupix-devnet-algo`, `/root/rupix-devnet-cp`, `/root/rupix-devnet-v06`, `/root/wallet-devnet-algo`, `/root/wallet-devnet-algo.log`. Apagarla no los borra.
+- Para usar una devnet: compilar el binario fuera de `/tmp` (se borra al reiniciar) y arrancar con P2P y RPC solo locales:
+  `rupixd --devnet --appdir=<carpeta> --listen=127.0.0.1:17651 --rpclisten=127.0.0.1:17350`
+- Al terminar: `kill <pid>` y comprobar con `ss -tlnp | grep rupixd` que solo quede la testnet (17211 y 17210).

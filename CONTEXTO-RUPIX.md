@@ -269,3 +269,9 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 - Cerca del 40% de los bloques del día fueron suyos; explica el salto de dificultad 37.7k → 67.2k.
 - Su nodo acepta conexiones entrantes (el seed se le conecta por IPv6).
 - Halving 1 (DAA 100k) hoy ~00:15. JC tiene Gold de sobra para forjar el primer Diamante de v0.6.0.
+
+## 26-sep-2026 (noche) — Limpieza del seed
+
+- Puerto confirmado: testnet en 17211 (P2P, abierto a internet) y 17210 (RPC, solo local).
+- Se apagó la devnet de pruebas de v0.6.0: llevaba 2 días prendida y usaba 1.8 GB. RAM disponible: de 3.2 a 5.0 GB.
+- Regla nueva en OPERACIONES.md: las devnets solo corren mientras se usan.
