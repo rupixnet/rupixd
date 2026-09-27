@@ -57,6 +57,15 @@ Copia la dirección que empieza con `rupixtest:...`
 
 ## Paso 4 — ¡Forja tu Diamante!
 
+> **Antes de forjar:** cada nivel se abre en su halving. En la testnet: Diamante en el DAA 100,000,
+> Platino en 200,000, Rodio en 300,000 y Kings en 400,000. Antes de ese punto la red rechaza la forja.
+> Revisa en qué DAA va la red con `./rupixctl --testnet GetBlockDagInfo` (campo `virtualDaaScore`)
+> y deja unos bloques de margen.
+>
+> `--level`: 1 = Diamante, 2 = Platino, 3 = Rodio, 4 = Kings. El Gold no se forja: se mina.
+>
+> En Windows, lo que escribes en `--password=` queda guardado en el historial de PowerShell.
+
 ```
 ./rupixwallet --testnet forge --level=1 --gem-address=TU_DIRECCION --password=TU_CLAVE
 ```
