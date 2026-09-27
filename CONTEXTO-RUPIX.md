@@ -13,7 +13,7 @@
 
 Rupix nació de una obsesión: **que nadie pueda mentir sobre cuánto existe.** Ni un banco, ni un gobierno, ni el propio creador. Una escasez que no dependa de la palabra de nadie, sino de matemática pública que cualquiera pueda verificar.
 
-No es dinero para pagar el café. Es un **activo digital escaso** — como el oro, valioso porque es finito y verificable, no porque circule rápido. Esa distinción la hizo el fundador en septiembre y cambió cómo se comunica todo.
+Es **moneda digital**: sin dueño, sin premine, con un techo de 42 millones que nadie puede cambiar y una cantidad que solo baja con cada uso. No decimos para qué se usa ni cuánto vale: eso lo decide la gente. Decimos lo que es, y eso cualquiera lo puede verificar. (26-sep-2026: el fundador dejó de describirlo como 'activo digital escaso, como el oro', porque no lo somos.)
 
 El lema no es marketing: **"No confíes, verifica."** Y se aplica primero hacia adentro. Rupix marcó su propia versión como defectuosa cuando lo estuvo. Documenta sus bugs. Dice la edad de cada cosa. Eso no es una estrategia — es la única forma en que un proyecto de una persona puede pedir confianza sin pedirla.
 
@@ -248,3 +248,12 @@ LO QUE FALTA YA NO ES CONSENSO, ES RED (sus 5 puntos):
 JC sincronizó rupix-v0.6.0-win64 en Windows: isSynced true, 48,645 bloques,
 pruning point presente. Determinismo cross-OS de validación confirmado. Pruning
 cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
+
+## 26-sep-2026 (tarde) — Descripción oficial y docs al día
+
+- Descripción oficial: **moneda digital, sin dueño, sin premine, 42M que nadie puede cambiar y una cantidad que solo baja con cada uso.** Fuera "activo digital" y "valor para guardar" en README (es/en), web y CONTEXTO. Regla: no decimos para qué se usa ni cuánto vale; el rumbo lo pone la gente.
+- CHANGELOG: faltaba la entrada v0.6.0 (6 días sin ella). Agregada con la sección [Sin publicar]. El changelog.txt de kaspad ahora es CHANGELOG-kaspad-upstream.txt, con nota: cubre v0.8.10 a v0.12.17; Rupix partió de v0.12.22.
+- CONTEXTO ordenado por fechas: referencia arriba, bitácora cronológica abajo.
+- Push: token rupix-server-v3 regenerado a 90 días (política del fundador). Recordatorio programado para el 20-dic.
+- El algoritmo es RupixHeavyHash, en producción. Los planes viejos de RandomX/Autolykos no están en el mapa.
+- El explorer vivo ya tenía la escalera correcta (Diamante, Platino, Rodio, Kings); la alarma fue por una copia vieja.
