@@ -82,3 +82,9 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 ## Todo lo del seed, versionado (27-sep-2026)
 
 - Los servicios de systemd, la alarma, el cron y la configuración de nginx del explorer están copiados en la carpeta `ops/` del repo (ver `ops/README.md`). Sin secretos. Si el seed se pierde, se reconstruye desde ahí.
+
+- 27-sep: el servicio `rupixd.service` (v0.3.0, misma carpeta y puerto que el nodo actual) seguía habilitado; al reiniciar habría chocado con el nodo. Deshabilitado, no borrado: está en `/root/rupixd.service.v030-retirado` y en `ops/retirados/`.
+
+- 27-sep: el explorer corría lanzado a mano desde el 9-sep, fuera de systemd, y no habría vuelto tras un reinicio. Ahora lo lleva `rupix-explorer.service` (Restart=always, después de `rupixd-testnet`).
+
+- 27-sep: los logs de salida no se rotaban (256 MB el del minero). Ahora se rotan comprimidos y se guardan todos (`/etc/logrotate.d/rupix`, copia en `ops/logrotate/`).

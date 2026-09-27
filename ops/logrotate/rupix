@@ -1,0 +1,10 @@
+/root/rupix-testnet.log /root/rupix-testnet-miner.log /root/rupix-wallet.log {
+    daily
+    maxsize 100M
+    rotate 3650
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+}
