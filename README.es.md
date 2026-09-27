@@ -2,9 +2,7 @@
 
 🇬🇧 [English version](./README.md)
 
-🇬🇧 [English version](./README.md)
-
-**Rupix es un activo digital escaso para todos: sin dueño, sin premine (sin monedas preguardadas por su creador), sin permiso para entrar. Con un techo de 42 millones que nadie puede cambiar, y una cantidad que solo baja. Mientras el dinero normal se imprime, Rupix se hace más escaso. Y no tienes que confiar en nadie: verifícalo.**
+**Rupix es moneda digital que no controla nadie, para todos: sin dueño, sin premine (sin monedas preguardadas por su creador), sin permiso para entrar. Con un techo de 42 millones que nadie puede cambiar, y una cantidad que solo baja. Mientras el dinero normal se imprime, Rupix se hace más escasa. Y no tienes que confiar en nadie: verifícalo.**
 
 [rupix.network](https://rupix.network) | [@RupixNetwork](https://x.com/RupixNetwork) | [Changelog](./CHANGELOG.md) | [Gracias](./THANKS.md)
 
