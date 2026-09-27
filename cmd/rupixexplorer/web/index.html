@@ -99,7 +99,7 @@ footer a{color:var(--violet);text-decoration:none}
 <script>
 const API="";
 const fmt=n=>Number(n).toLocaleString("en-US");
-const HALVINGS={"rupix-mainnet":42000000,"rupix-testnet":10000,"rupix-simnet":42000000,"rupix-devnet":150};
+const HALVINGS={"rupix-mainnet":42000000,"rupix-testnet":100000,"rupix-simnet":42000000,"rupix-devnet":150};
 let HALVING=42000000;
 
 async function j(u){const r=await fetch(API+u);return r.json()}
@@ -114,7 +114,7 @@ async function refresh(){
     const notaEl=document.getElementById("halv-nota");
     if(notaEl){
       if(dag.NetworkName==="rupix-testnet"){
-        notaEl.textContent="⚠️ Testnet: los halvings son cada 10,000 bloques (acelerados para probar la escalera en horas). Por eso el Gold emitido es poco aunque hayan pasado muchos halvings. En mainnet: cada 42,000,000 de bloques (~1.3 años al primero).";
+        notaEl.textContent="⚠️ Testnet: los halvings son cada 100,000 bloques (~1 día cada uno). Por eso el Gold emitido es poco aunque hayan pasado muchos halvings. En mainnet: cada 42,000,000 de bloques (~1.3 años al primero).";
       }else{
         notaEl.textContent="";
       }
@@ -152,8 +152,8 @@ async function refresh(){
     const progresoEnEste=daa-(halvingActual*HALVING);
     document.getElementById("halv-count").textContent=fmt(restante)+" bloques restantes";
     document.getElementById("halv-bar").style.width=Math.max(progresoEnEste/HALVING*100,0.5).toFixed(2)+"%";
-    const dias=Math.round(restante/86400);
-    document.getElementById("halv-sub").textContent="≈ "+fmt(dias)+" días al ritmo de 1 bloque/seg · en cada halving la emisión se reduce a la mitad";
+    const falta=(s)=>{if(s<3600){const m=Math.max(1,Math.round(s/60));return m+(m===1?" minuto":" minutos")}if(s<172800){const h=Math.round(s/3600);return h+(h===1?" hora":" horas")}return fmt(Math.round(s/86400))+" días"};
+    document.getElementById("halv-sub").textContent="≈ "+falta(restante)+" al ritmo de 1 bloque/seg · en cada halving la emisión se reduce a la mitad";
 
     const sup=await j("/api/supply");
     const circR=Number(sup.CirculatingRupia)/1e8;

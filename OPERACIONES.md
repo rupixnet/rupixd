@@ -70,3 +70,9 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 - La alarma guarda **inode + posición** en `/root/.rupix-alarma-offset`. Si el inode cambió, busca el archivo viejo por su inode, termina de leerlo desde donde iba y luego lee el nuevo desde el principio. Si no encuentra el viejo, escribe ERROR.
 - Probada con rotaciones simuladas: detecta un descalificado que quedó en el archivo viejo justo antes de rotar; si falta el archivo viejo, dice ERROR; después se recupera sola.
 - Lo pidió el auditor al revisar `195940d`.
+
+## La página del explorer (27-sep-2026)
+
+- `rupixexplorer` sirve la carpeta `/root/rupix-explorer-web` (su opción `--webdir`, que por defecto es esa).
+- La fuente de la página es `cmd/rupixexplorer/web/index.html`, en el repo. Se cambia ahí, se commitea y luego se copia: `cp /root/rupixd/cmd/rupixexplorer/web/index.html /root/rupix-explorer-web/index.html`. No hace falta reiniciar nada.
+- El 27-sep la copia del repo estaba vieja (halving de testnet en 10,000; el real es 100,000) y la viva era la correcta. Se sincronizó. Antes de copiar, revisa con `diff` que las dos coincidan.
