@@ -57,3 +57,9 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 - El nodo escribe en `/root/rupix-testnet/<red>/logs/rupixd.log`, no en el journal.
 - **Probada** con un log falso: suena. **Pendiente:** provocar un bloque descalificado en devnet y verla sonar de punta a punta.
 - La v1 queda en `/root/rupix-monitor-descalificados.v1-ciego.sh`, como registro.
+
+## Dónde vive cada cosa (26-sep-2026)
+
+- **rupix.network** se sirve desde **GitHub Pages**, con el repo `rupixnet/rupix-website`. Se publica solo al hacer push y tarda 1–2 minutos. Un 404 justo después del push es normal.
+- **explorer.rupix.network** apunta al seed (178.104.69.148). nginx escucha en 80/443. La API la sirve `rupixexplorer` en `127.0.0.1:8090`, conectado al nodo por RPC (`127.0.0.1:17210`). La página del explorador está en `/root/rupix-explorer-web/` (falta documentar cómo la sirve nginx).
+- **Nodo:** `rupixd` en 17211 (P2P, abierto) y 17210 (RPC, solo local). Wallet daemon en `127.0.0.1:8082`.
