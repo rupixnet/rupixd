@@ -4,9 +4,9 @@ import (
 	"math"
 	"math/rand"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/pow"
-	"github.com/pkg/errors"
 )
 
 // SolveBlock increments the given block's nonce until it matches the difficulty requirements in its bits field

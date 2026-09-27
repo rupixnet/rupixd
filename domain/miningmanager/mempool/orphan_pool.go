@@ -11,9 +11,9 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/miningmanager/mempool/model"
-	"github.com/pkg/errors"
 )
 
 type idToOrphanMap map[externalapi.DomainTransactionID]*model.OrphanTransaction

@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	"github.com/rupixnet/rupixd/infrastructure/config"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/infrastructure/config"
 
 	"github.com/jessevdk/go-flags"
 )
@@ -21,8 +21,8 @@ const (
 	showAddressesSubCmd             = "show-addresses"
 	newAddressSubCmd                = "new-address"
 	forgeSubCmd                     = "forge"
-	gemsSubCmd                     = "gems"
-	transferGemSubCmd                     = "transfer-gem"
+	gemsSubCmd                      = "gems"
+	transferGemSubCmd               = "transfer-gem"
 	dumpUnencryptedDataSubCmd       = "dump-unencrypted-data"
 	startDaemonSubCmd               = "start-daemon"
 	versionSubCmd                   = "version"

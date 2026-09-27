@@ -7,6 +7,7 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/protocol/flows/handshake"
 	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
@@ -15,7 +16,6 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/network/connmanager"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
 	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
-	"github.com/pkg/errors"
 )
 
 func (m *Manager) routerInitializer(router *routerpkg.Router, netConnection *netadapter.NetConnection) {

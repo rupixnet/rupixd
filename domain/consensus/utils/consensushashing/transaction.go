@@ -5,11 +5,11 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/utils/serialization"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashes"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
 	"github.com/rupixnet/rupixd/util/binaryserializer"
-	"github.com/pkg/errors"
 )
 
 // txEncoding is a bitmask defining which transaction fields we

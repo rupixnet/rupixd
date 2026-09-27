@@ -12,10 +12,10 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/config"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
 	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
-	"github.com/pkg/errors"
 )
 
 // HandleHandshakeContext is the interface for the context needed for the HandleHandshake flow.

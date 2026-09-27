@@ -7,8 +7,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 // AddressPriority type is used to describe the hierarchy of local address

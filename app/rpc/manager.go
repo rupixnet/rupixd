@@ -1,6 +1,7 @@
 package rpc
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/protocol"
 	"github.com/rupixnet/rupixd/app/rpc/rpccontext"
@@ -12,7 +13,6 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/network/addressmanager"
 	"github.com/rupixnet/rupixd/infrastructure/network/connmanager"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
-	"github.com/pkg/errors"
 )
 
 // Manager is an RPC manager

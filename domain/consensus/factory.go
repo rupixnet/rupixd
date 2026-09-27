@@ -27,11 +27,11 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/consensusstatestore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/daablocksstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/finalitystore"
+	"github.com/rupixnet/rupixd/domain/consensus/datastructures/gemshistorystore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/ghostdagdatastore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/headersselectedchainstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/headersselectedtipstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/kingscountstore"
-	"github.com/rupixnet/rupixd/domain/consensus/datastructures/gemshistorystore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/multisetstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/pruningstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/reachabilitydatastore"
@@ -353,8 +353,8 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		config.PowMax,
 		config.SkipProofOfWork,
 		genesisHash,
-config.Checkpoints,
-config.CheckpointsExpireDAAScore,
+		config.Checkpoints,
+		config.CheckpointsExpireDAAScore,
 		config.EnableNonNativeSubnetworks,
 		config.MaxBlockMass,
 		config.MergeSetSizeLimit,
@@ -423,8 +423,8 @@ config.CheckpointsExpireDAAScore,
 		acceptanceDataStore,
 		blockRelationStore,
 		multisetStore,
-gemsHistoryStore,
-kingsCountStore,
+		gemsHistoryStore,
+		kingsCountStore,
 		ghostdagDataStore,
 		daaBlocksStore,
 	)
@@ -479,8 +479,8 @@ kingsCountStore,
 		consensusStateStore,
 		blockRelationStore,
 		reachabilityDataStore,
-gemsHistoryStore,
-kingsCountStore,
+		gemsHistoryStore,
+		kingsCountStore,
 
 		genesisHash,
 		config.K,
@@ -523,7 +523,7 @@ kingsCountStore,
 		pruningStore:                        pruningStore,
 		ghostdagDataStores:                  ghostdagDataStores,
 		blockStatusStore:                    blockStatusStore,
-gemsHistoryStore:                    gemsHistoryStore,
+		gemsHistoryStore:                    gemsHistoryStore,
 		blockRelationStores:                 blockRelationStores,
 		consensusStateStore:                 consensusStateStore,
 		headersSelectedTipStore:             headersSelectedTipStore,

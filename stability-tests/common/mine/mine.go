@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -13,7 +14,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/mining"
 	"github.com/rupixnet/rupixd/stability-tests/common/rpc"
-	"github.com/pkg/errors"
 )
 
 // FromFile mines all blocks as described by `jsonFile`

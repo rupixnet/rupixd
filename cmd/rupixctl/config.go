@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/jessevdk/go-flags"
-	"github.com/rupixnet/rupixd/infrastructure/config"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/infrastructure/config"
 )
 
 var (

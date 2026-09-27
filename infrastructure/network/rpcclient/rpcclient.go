@@ -4,13 +4,13 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient/grpcclient"
 	"github.com/rupixnet/rupixd/util/panics"
 	"github.com/rupixnet/rupixd/version"
-	"github.com/pkg/errors"
 )
 
 const defaultTimeout = 30 * time.Second

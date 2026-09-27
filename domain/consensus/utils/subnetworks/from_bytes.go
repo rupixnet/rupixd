@@ -1,8 +1,8 @@
 package subnetworks
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 // FromBytes creates a DomainSubnetworkID from the given byte slice

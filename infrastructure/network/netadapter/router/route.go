@@ -6,8 +6,8 @@ import (
 
 	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
 
-	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 const (

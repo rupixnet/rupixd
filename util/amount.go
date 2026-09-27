@@ -5,8 +5,8 @@
 package util
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"math"
 	"strconv"
 )
@@ -25,7 +25,7 @@ const (
 	AmountRupix      AmountUnit = 0
 	AmountMilliRupix AmountUnit = -3
 	AmountMicroRupix AmountUnit = -6
-	AmountRupia    AmountUnit = -8
+	AmountRupia      AmountUnit = -8
 )
 
 // String returns the unit as a string. For recognized units, the SI

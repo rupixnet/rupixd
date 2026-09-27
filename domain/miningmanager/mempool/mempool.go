@@ -3,10 +3,10 @@ package mempool
 import (
 	"sync"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
-	"github.com/pkg/errors"
 
 	"github.com/rupixnet/rupixd/domain/consensusreference"
 

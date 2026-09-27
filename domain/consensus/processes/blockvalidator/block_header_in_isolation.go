@@ -1,6 +1,7 @@
 package blockvalidator
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
@@ -8,7 +9,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/util/mstime"
-	"github.com/pkg/errors"
 )
 
 // ValidateHeaderInIsolation validates block headers in isolation from the current

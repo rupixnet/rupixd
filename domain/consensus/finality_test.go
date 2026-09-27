@@ -2,6 +2,7 @@ package consensus_test
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -9,7 +10,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
-	"github.com/pkg/errors"
 	"math"
 	"math/rand"
 	"testing"

@@ -3,10 +3,10 @@ package main
 import (
 	"sync/atomic"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/stability-tests/common"
 	"github.com/rupixnet/rupixd/util/panics"
 	"github.com/rupixnet/rupixd/util/profiling"
-	"github.com/pkg/errors"
 )
 
 func main() {

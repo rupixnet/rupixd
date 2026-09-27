@@ -5,8 +5,8 @@ import (
 	"math"
 	"math/big"
 
-	difficultyPackage "github.com/rupixnet/rupixd/util/difficulty"
 	"github.com/pkg/errors"
+	difficultyPackage "github.com/rupixnet/rupixd/util/difficulty"
 
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashes"
 

@@ -2,6 +2,7 @@ package blockbuilder
 
 import (
 	"encoding/binary"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
@@ -11,7 +12,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
-	"github.com/pkg/errors"
 	"math/big"
 	"sort"
 )
@@ -102,7 +102,7 @@ func (bb *testBlockBuilder) buildUTXOInvalidHeader(stagingArea *model.StagingAre
 		hashMerkleRoot,
 		&externalapi.DomainHash{},
 		&externalapi.DomainHash{},
-gemscommitment.GenesisGemsCommitment(), // gemsCommitment: sello de 0 gemas (test)
+		gemscommitment.GenesisGemsCommitment(), // gemsCommitment: sello de 0 gemas (test)
 		timeInMilliseconds,
 		bits,
 		bb.nonceCounter,
@@ -128,13 +128,13 @@ func (bb *testBlockBuilder) buildHeaderWithParents(stagingArea *model.StagingAre
 		return nil, err
 	}
 	utxoCommitment := multiset.Hash()
-// Rupix: el sello de gemas del bloque temporal se calcula con la MISMA logica
-// que la validacion (gemsHistory + kingsCount del bloque con su acceptanceData),
-// no con un valor fijo. Asi el header del test cuadra con lo que el validador espera.
-gemsCommitment, err := bb.testConsensus.ConsensusStateManager().CalculateGemsCommitmentForBlock(stagingArea, tempBlockHash, acceptanceData)
-if err != nil {
-return nil, err
-}
+	// Rupix: el sello de gemas del bloque temporal se calcula con la MISMA logica
+	// que la validacion (gemsHistory + kingsCount del bloque con su acceptanceData),
+	// no con un valor fijo. Asi el header del test cuadra con lo que el validador espera.
+	gemsCommitment, err := bb.testConsensus.ConsensusStateManager().CalculateGemsCommitmentForBlock(stagingArea, tempBlockHash, acceptanceData)
+	if err != nil {
+		return nil, err
+	}
 
 	return blockheader.NewImmutableBlockHeader(
 		header.Version(),
@@ -142,7 +142,7 @@ return nil, err
 		hashMerkleRoot,
 		acceptedIDMerkleRoot,
 		utxoCommitment,
-gemsCommitment, // gemsCommitment: calculado con la logica de VALIDACION (misma que verify_and_build_utxo)
+		gemsCommitment, // gemsCommitment: calculado con la logica de VALIDACION (misma que verify_and_build_utxo)
 		header.TimeInMilliseconds(),
 		header.Bits(),
 		header.Nonce(),

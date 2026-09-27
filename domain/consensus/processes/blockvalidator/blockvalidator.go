@@ -18,8 +18,8 @@ type blockValidator struct {
 	powMax                      *big.Int
 	skipPoW                     bool
 	genesisHash                 *externalapi.DomainHash
-checkpoints                 []dagconfig.Checkpoint
-checkpointsExpireDAAScore   uint64
+	checkpoints                 []dagconfig.Checkpoint
+	checkpointsExpireDAAScore   uint64
 	enableNonNativeSubnetworks  bool
 	powMaxBits                  uint32
 	maxBlockMass                uint64
@@ -60,8 +60,8 @@ checkpointsExpireDAAScore   uint64
 func New(powMax *big.Int,
 	skipPoW bool,
 	genesisHash *externalapi.DomainHash,
-checkpoints []dagconfig.Checkpoint,
-checkpointsExpireDAAScore uint64,
+	checkpoints []dagconfig.Checkpoint,
+	checkpointsExpireDAAScore uint64,
 	enableNonNativeSubnetworks bool,
 	maxBlockMass uint64,
 	mergeSetSizeLimit uint64,
@@ -102,8 +102,8 @@ checkpointsExpireDAAScore uint64,
 		powMax:                     powMax,
 		skipPoW:                    skipPoW,
 		genesisHash:                genesisHash,
-checkpoints:                 checkpoints,
-checkpointsExpireDAAScore:   checkpointsExpireDAAScore,
+		checkpoints:                checkpoints,
+		checkpointsExpireDAAScore:  checkpointsExpireDAAScore,
 		enableNonNativeSubnetworks: enableNonNativeSubnetworks,
 		powMaxBits:                 difficulty.BigToCompact(powMax),
 		maxBlockMass:               maxBlockMass,

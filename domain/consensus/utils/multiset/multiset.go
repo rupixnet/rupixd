@@ -2,9 +2,9 @@ package multiset
 
 import (
 	"github.com/kaspanet/go-muhash"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/pkg/errors"
 )
 
 type multiset struct {

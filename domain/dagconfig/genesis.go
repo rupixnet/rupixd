@@ -7,8 +7,8 @@ package dagconfig
 import (
 	"github.com/kaspanet/go-muhash"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
 	"math/big"
@@ -74,7 +74,7 @@ var genesisBlock = externalapi.DomainBlock{
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
 		gemscommitment.GenesisGemsCommitment(), // gemsCommitment: genesis con cero gemas (sello real, verificable)
-		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
+		1772582400000,                          // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x1e7fffff,
 		0x15cc7,
 		0,
@@ -128,7 +128,7 @@ var devnetGenesisBlock = externalapi.DomainBlock{
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
 		gemscommitment.GenesisGemsCommitment(), // gemsCommitment: genesis con cero gemas (sello real, verificable)
-		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
+		1772582400000,                          // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x1f4ee5fb,
 		0x76,
 		0,
@@ -181,7 +181,7 @@ var simnetGenesisBlock = externalapi.DomainBlock{
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
 		gemscommitment.GenesisGemsCommitment(), // gemsCommitment: genesis con cero gemas (sello real, verificable)
-		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
+		1772582400000,                          // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x207fffff,
 		0x2,
 		0,
@@ -235,7 +235,7 @@ var testnetGenesisBlock = externalapi.DomainBlock{
 		&externalapi.DomainHash{},
 		externalapi.NewDomainHashFromByteArray(muhash.EmptyMuHashHash.AsArray()),
 		gemscommitment.GenesisGemsCommitment(), // gemsCommitment: genesis con cero gemas (sello real, verificable)
-		1772582400000, // 04/03/2026 00:00:00 UTC — la fecha del mensaje
+		1772582400000,                          // 04/03/2026 00:00:00 UTC — la fecha del mensaje
 		0x1e7fffff,
 		0x179b8,
 		0,

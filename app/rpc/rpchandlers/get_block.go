@@ -1,11 +1,11 @@
 package rpchandlers
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/rpc/rpccontext"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
-	"github.com/pkg/errors"
 )
 
 // HandleGetBlock handles the respectively named RPC command

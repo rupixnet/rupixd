@@ -1,9 +1,9 @@
 package testutils
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
-	"github.com/pkg/errors"
 )
 
 // OpTrueScript returns a P2SH script paying to an anyone-can-spend address,

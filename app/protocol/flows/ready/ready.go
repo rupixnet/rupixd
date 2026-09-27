@@ -5,10 +5,10 @@ import (
 	"github.com/rupixnet/rupixd/app/protocol/common"
 	"sync/atomic"
 
+	"github.com/pkg/errors"
 	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
 	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
 	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
-	"github.com/pkg/errors"
 )
 
 // HandleReady notify the other peer that peer is ready for messages, and wait for the other peer

@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 )
 
 // FormatRupix takes the amount of sompis as uint64, and returns amount of KAS with 8  decimal places

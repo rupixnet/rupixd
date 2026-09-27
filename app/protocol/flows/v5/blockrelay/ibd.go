@@ -2,6 +2,7 @@ package blockrelay
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/protocol/common"
 	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
@@ -13,7 +14,6 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/config"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
-	"github.com/pkg/errors"
 	"time"
 )
 

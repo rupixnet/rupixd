@@ -1,10 +1,10 @@
 package syncmanager
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
-	"github.com/pkg/errors"
 )
 
 type syncManager struct {

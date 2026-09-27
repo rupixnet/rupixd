@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/kaspanet/go-secp256k1"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/client"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
@@ -21,7 +22,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/miningmanager/mempool"
 	"github.com/rupixnet/rupixd/util"
 	"github.com/rupixnet/rupixd/util/txmass"
-	"github.com/pkg/errors"
 )
 
 const feePerInput = 10000

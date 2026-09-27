@@ -2,13 +2,13 @@ package reachabilitydatastore
 
 import (
 	"github.com/golang/protobuf/proto"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/lrucache"
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/util/staging"
-	"github.com/pkg/errors"
 )
 
 var reachabilityDataBucketName = []byte("reachability-data")

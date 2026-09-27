@@ -8,8 +8,8 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
 )
 
 func parseCommand(args []string, commandDescs []*commandDescription) (*protowire.KaspadMessage, error) {

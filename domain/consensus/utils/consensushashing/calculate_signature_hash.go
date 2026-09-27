@@ -1,11 +1,11 @@
 package consensushashing
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashes"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
-	"github.com/pkg/errors"
 )
 
 // SigHashType represents hash type bits at the end of a signature.

@@ -1,6 +1,7 @@
 package pruningproofmanager
 
 import (
+	"github.com/pkg/errors"
 	consensusDB "github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/blockheaderstore"
 	"github.com/rupixnet/rupixd/domain/consensus/datastructures/blockrelationstore"
@@ -19,7 +20,6 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/util/staging"
-	"github.com/pkg/errors"
 	"math/big"
 )
 
@@ -41,8 +41,8 @@ type pruningProofManager struct {
 	consensusStateStore   model.ConsensusStateStore
 	blockRelationStore    model.BlockRelationStore
 	reachabilityDataStore model.ReachabilityDataStore
-gemsHistoryStore      model.GemsHistoryStore
-kingsCountStore       model.KingsCountStore
+	gemsHistoryStore      model.GemsHistoryStore
+	kingsCountStore       model.KingsCountStore
 
 	genesisHash   *externalapi.DomainHash
 	k             externalapi.KType
@@ -72,8 +72,8 @@ func New(
 	consensusStateStore model.ConsensusStateStore,
 	blockRelationStore model.BlockRelationStore,
 	reachabilityDataStore model.ReachabilityDataStore,
-gemsHistoryStore model.GemsHistoryStore,
-kingsCountStore model.KingsCountStore,
+	gemsHistoryStore model.GemsHistoryStore,
+	kingsCountStore model.KingsCountStore,
 
 	genesisHash *externalapi.DomainHash,
 	k externalapi.KType,
@@ -98,8 +98,8 @@ kingsCountStore model.KingsCountStore,
 		consensusStateStore:   consensusStateStore,
 		blockRelationStore:    blockRelationStore,
 		reachabilityDataStore: reachabilityDataStore,
-gemsHistoryStore:      gemsHistoryStore,
-kingsCountStore:       kingsCountStore,
+		gemsHistoryStore:      gemsHistoryStore,
+		kingsCountStore:       kingsCountStore,
 
 		genesisHash:   genesisHash,
 		k:             k,
@@ -357,19 +357,19 @@ func (ppm *pruningProofManager) ValidatePruningPointProof(pruningPointProof *ext
 	if err := validateGemsHistorySanity(pruningPointProof.GemsHistory); err != nil {
 		return err
 	}
-// Rupix: VERIFICABLE TOTAL en el pruning proof. El GemsHistory recibido debe
-// cuadrar con el gemsCommitment del header del pruning point (protegido por PoW).
-// El nil NO es excepcion: se trata como cero gemas y se compara igual. Asi un
-// peer no puede saltar la verificacion enviando GemsHistory=nil (H-9). El
-// genesis (sello de ceros) coincide; cualquier pruning con gemas reales falla.
-proofGemsHistory := pruningPointProof.GemsHistory
-if proofGemsHistory == nil {
-proofGemsHistory = &externalapi.GemsHistory{}
-}
-calculatedCommitment := gemscommitment.CalculateGemsCommitment(proofGemsHistory, proofGemsHistory.Kings)
-if !pruningPointHeader.GemsCommitment().Equal(calculatedCommitment) {
-return errors.Errorf("pruning proof gems history does not match the header gems commitment: header %s, calculated %s", pruningPointHeader.GemsCommitment(), calculatedCommitment)
-}
+	// Rupix: VERIFICABLE TOTAL en el pruning proof. El GemsHistory recibido debe
+	// cuadrar con el gemsCommitment del header del pruning point (protegido por PoW).
+	// El nil NO es excepcion: se trata como cero gemas y se compara igual. Asi un
+	// peer no puede saltar la verificacion enviando GemsHistory=nil (H-9). El
+	// genesis (sello de ceros) coincide; cualquier pruning con gemas reales falla.
+	proofGemsHistory := pruningPointProof.GemsHistory
+	if proofGemsHistory == nil {
+		proofGemsHistory = &externalapi.GemsHistory{}
+	}
+	calculatedCommitment := gemscommitment.CalculateGemsCommitment(proofGemsHistory, proofGemsHistory.Kings)
+	if !pruningPointHeader.GemsCommitment().Equal(calculatedCommitment) {
+		return errors.Errorf("pruning proof gems history does not match the header gems commitment: header %s, calculated %s", pruningPointHeader.GemsCommitment(), calculatedCommitment)
+	}
 	pruningPointBlockLevel := pruningPointHeader.BlockLevel(ppm.maxBlockLevel)
 	maxLevel := len(ppm.parentsManager.Parents(pruningPointHeader)) - 1
 	if maxLevel >= len(pruningPointProof.Headers) {

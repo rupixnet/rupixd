@@ -1,9 +1,9 @@
 package ping
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/protocol/common"
 	"github.com/rupixnet/rupixd/app/protocol/flowcontext"
-	"github.com/pkg/errors"
 	"time"
 
 	"github.com/rupixnet/rupixd/app/appmessage"

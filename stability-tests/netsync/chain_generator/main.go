@@ -5,9 +5,9 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/stability-tests/common"
 	"github.com/rupixnet/rupixd/stability-tests/common/mine"
-	"github.com/pkg/errors"
 )
 
 func main() {

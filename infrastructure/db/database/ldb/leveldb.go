@@ -1,8 +1,8 @@
 package ldb
 
 import (
-	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/syndtr/goleveldb/leveldb"
 	ldbErrors "github.com/syndtr/goleveldb/leveldb/errors"
 	"github.com/syndtr/goleveldb/leveldb/opt"

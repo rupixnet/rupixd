@@ -1,9 +1,9 @@
 package grpcclient
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
-	"github.com/pkg/errors"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 

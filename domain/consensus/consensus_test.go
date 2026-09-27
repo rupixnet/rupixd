@@ -3,12 +3,12 @@ package consensus_test
 import (
 	"testing"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
-	"github.com/pkg/errors"
 )
 
 func TestConsensus_GetBlockInfo(t *testing.T) {

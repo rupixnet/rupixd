@@ -4,13 +4,13 @@ import (
 	"encoding/binary"
 	"github.com/rupixnet/rupixd/util/staging"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/database/binaryserialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/lrucache"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/lrucacheuint64tohash"
-	"github.com/pkg/errors"
 )
 
 var bucketChainBlockHashByIndexName = []byte("chain-block-hash-by-index")

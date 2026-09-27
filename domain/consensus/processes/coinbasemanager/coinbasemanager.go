@@ -1,6 +1,7 @@
 package coinbasemanager
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
@@ -8,7 +9,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
-	"github.com/pkg/errors"
 )
 
 type coinbaseManager struct {
@@ -192,7 +192,6 @@ func (c *coinbaseManager) CalcBlockSubsidy(stagingArea *model.StagingArea, block
 	blockSubsidy := c.calcDeflationaryPeriodBlockSubsidy(blockDaaScore)
 	return blockSubsidy, nil
 }
-
 
 // Rupix: 42,000,000 bloques (~15.97 meses a 1 bloque/segundo).
 //

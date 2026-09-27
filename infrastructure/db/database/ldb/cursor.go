@@ -3,8 +3,8 @@ package ldb
 import (
 	"bytes"
 
-	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/syndtr/goleveldb/leveldb/iterator"
 	"github.com/syndtr/goleveldb/leveldb/util"
 )

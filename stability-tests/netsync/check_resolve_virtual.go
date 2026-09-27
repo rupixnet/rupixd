@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/stability-tests/common/rpc"
-	"github.com/pkg/errors"
 	"time"
 )
 

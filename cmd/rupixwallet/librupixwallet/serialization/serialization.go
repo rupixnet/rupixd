@@ -3,10 +3,10 @@ package serialization
 import (
 	"math"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/serialization/protoserialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
-	"github.com/pkg/errors"
 	"google.golang.org/protobuf/proto"
 )
 

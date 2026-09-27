@@ -153,5 +153,5 @@ func (tc *testConsensus) Consensus() externalapi.Consensus {
 
 // GemsHistoryStore (Rupix) expone el store del conteo de gemas para tests end-to-end.
 func (tc *testConsensus) GemsHistoryStore() model.GemsHistoryStore {
-return tc.gemsHistoryStore
+	return tc.gemsHistoryStore
 }

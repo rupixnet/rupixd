@@ -1,6 +1,7 @@
 package librupixwallet
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/bip32"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -8,7 +9,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
-	"github.com/pkg/errors"
 )
 
 func rawTxInSignature(extendedKey *bip32.ExtendedKey, tx *externalapi.DomainTransaction, idx int, hashType consensushashing.SigHashType,

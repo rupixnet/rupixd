@@ -5,9 +5,9 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/utils/sorters"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/pkg/errors"
 )
 
 // pastMedianTimeManager provides a method to resolve the

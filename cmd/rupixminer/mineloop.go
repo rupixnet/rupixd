@@ -7,6 +7,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/cmd/rupixminer/templatemanager"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -14,7 +15,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/pow"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/rupixnet/rupixd/util"
-	"github.com/pkg/errors"
 )
 
 var hashesTried uint64

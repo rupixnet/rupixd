@@ -3,9 +3,9 @@ package main
 import (
 	"encoding/json"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/stability-tests/common"
-	"github.com/pkg/errors"
 )
 
 var blockBuffer []byte

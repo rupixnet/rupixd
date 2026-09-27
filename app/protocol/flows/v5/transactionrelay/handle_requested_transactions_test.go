@@ -5,6 +5,7 @@ import (
 	"github.com/rupixnet/rupixd/app/protocol/flows/v5/transactionrelay"
 	"testing"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/domain"
 	"github.com/rupixnet/rupixd/domain/consensus"
@@ -16,7 +17,6 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/rupixnet/rupixd/util/panics"
-	"github.com/pkg/errors"
 )
 
 // TestHandleRequestedTransactionsNotFound tests the flow of  HandleRequestedTransactions

@@ -4,6 +4,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -13,7 +14,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/merkle"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
-	"github.com/pkg/errors"
 )
 
 func TestBlockStatus(t *testing.T) {
@@ -69,7 +69,7 @@ func TestBlockStatus(t *testing.T) {
 			disqualifiedBlock.Header.Parents(),
 			disqualifiedBlock.Header.HashMerkleRoot(),
 			externalapi.NewDomainHashFromByteArray(&[externalapi.DomainHashSize]byte{}), // This should disqualify the block
-			disqualifiedBlock.Header.UTXOCommitment(), // This should disqualify the block
+			disqualifiedBlock.Header.UTXOCommitment(),                                   // This should disqualify the block
 			disqualifiedBlock.Header.GemsCommitment(),
 			disqualifiedBlock.Header.TimeInMilliseconds(),
 			disqualifiedBlock.Header.Bits(),
@@ -98,7 +98,7 @@ func TestBlockStatus(t *testing.T) {
 			merkle.CalculateHashMerkleRoot(invalidBlock.Transactions),
 			disqualifiedBlock.Header.AcceptedIDMerkleRoot(),
 			disqualifiedBlock.Header.UTXOCommitment(),
-disqualifiedBlock.Header.GemsCommitment(),
+			disqualifiedBlock.Header.GemsCommitment(),
 			disqualifiedBlock.Header.TimeInMilliseconds(),
 			disqualifiedBlock.Header.Bits(),
 			disqualifiedBlock.Header.Nonce(),

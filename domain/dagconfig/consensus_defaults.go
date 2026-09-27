@@ -45,11 +45,11 @@ const (
 	// Should be at least an order of magnitude smaller than defaultFinalityDuration/defaultTargetTimePerBlock.
 	// (Higher values make pruning attacks easier by a constant, lower values make merging after a split or a spike
 	// in block take longer)
-	defaultMergeSetSizeLimit                       = defaultGHOSTDAGK * 10
+	defaultMergeSetSizeLimit = defaultGHOSTDAGK * 10
 	// Rupix: sin premine. El bloque genesis no emite nada.
-	defaultSubsidyGenesisReward                    = 0 // CERO PREMINE: el genesis no emite nada
+	defaultSubsidyGenesisReward = 0 // CERO PREMINE: el genesis no emite nada
 	// Rupix: no hay fase pre-deflacionaria privilegiada.
-	defaultPreDeflationaryPhaseBaseSubsidy         = 50_000_000
+	defaultPreDeflationaryPhaseBaseSubsidy = 50_000_000
 	// Rupix: 0.5 RUPIX por bloque desde el bloque 1.
 	defaultDeflationaryPhaseBaseSubsidy            = 50_000_000
 	defaultCoinbasePayloadScriptPublicKeyMaxLength = 150

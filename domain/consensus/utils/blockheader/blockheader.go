@@ -12,7 +12,7 @@ type blockHeader struct {
 	hashMerkleRoot       *externalapi.DomainHash
 	acceptedIDMerkleRoot *externalapi.DomainHash
 	utxoCommitment       *externalapi.DomainHash
-gemsCommitment       *externalapi.DomainHash
+	gemsCommitment       *externalapi.DomainHash
 	timeInMilliseconds   int64
 	bits                 uint32
 	nonce                uint64
@@ -137,9 +137,9 @@ func (bh *blockHeader) Equal(other externalapi.BaseBlockHeader) bool {
 	}
 
 	if bh.gemsCommitment != nil && !bh.gemsCommitment.Equal(other.GemsCommitment()) {
-return false
-}
-if !bh.utxoCommitment.Equal(other.UTXOCommitment()) {
+		return false
+	}
+	if !bh.utxoCommitment.Equal(other.UTXOCommitment()) {
 		return false
 	}
 
@@ -181,7 +181,7 @@ func (bh *blockHeader) clone() *blockHeader {
 		hashMerkleRoot:       bh.hashMerkleRoot,
 		acceptedIDMerkleRoot: bh.acceptedIDMerkleRoot,
 		utxoCommitment:       bh.utxoCommitment,
-gemsCommitment:       bh.gemsCommitment,
+		gemsCommitment:       bh.gemsCommitment,
 		timeInMilliseconds:   bh.timeInMilliseconds,
 		bits:                 bh.bits,
 		nonce:                bh.nonce,
@@ -212,7 +212,7 @@ func NewImmutableBlockHeader(
 	hashMerkleRoot *externalapi.DomainHash,
 	acceptedIDMerkleRoot *externalapi.DomainHash,
 	utxoCommitment *externalapi.DomainHash,
-gemsCommitment *externalapi.DomainHash,
+	gemsCommitment *externalapi.DomainHash,
 	timeInMilliseconds int64,
 	bits uint32,
 	nonce uint64,
@@ -227,7 +227,7 @@ gemsCommitment *externalapi.DomainHash,
 		hashMerkleRoot:       hashMerkleRoot,
 		acceptedIDMerkleRoot: acceptedIDMerkleRoot,
 		utxoCommitment:       utxoCommitment,
-gemsCommitment:       gemsCommitment,
+		gemsCommitment:       gemsCommitment,
 		timeInMilliseconds:   timeInMilliseconds,
 		bits:                 bits,
 		nonce:                nonce,

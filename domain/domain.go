@@ -7,6 +7,7 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensusreference"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/miningmanager"
@@ -14,7 +15,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/prefixmanager"
 	"github.com/rupixnet/rupixd/domain/prefixmanager/prefix"
 	infrastructuredatabase "github.com/rupixnet/rupixd/infrastructure/db/database"
-	"github.com/pkg/errors"
 )
 
 // Domain provides a reference to the domain's external aps

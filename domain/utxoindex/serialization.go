@@ -2,9 +2,9 @@ package utxoindex
 
 import (
 	"encoding/binary"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/database/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/pkg/errors"
 	"google.golang.org/protobuf/proto"
 	"io"
 )

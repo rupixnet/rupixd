@@ -14,9 +14,9 @@ import (
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/utils"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/rupixnet/rupixd/util"
-	"github.com/pkg/errors"
 	"golang.org/x/crypto/argon2"
 	"golang.org/x/crypto/chacha20poly1305"
 )

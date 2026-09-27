@@ -1,8 +1,8 @@
 package utxo
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 )
 
 type readOnlyUTXOIteratorWithDiff struct {

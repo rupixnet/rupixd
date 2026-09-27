@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/utils"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
-	"github.com/pkg/errors"
 	"github.com/tyler-smith/go-bip39"
 )
 

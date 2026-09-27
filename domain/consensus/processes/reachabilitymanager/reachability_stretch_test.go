@@ -10,11 +10,11 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
-	"github.com/pkg/errors"
 )
 
 // Test configuration

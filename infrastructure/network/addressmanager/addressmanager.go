@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/app/appmessage"
 )
 
 const (

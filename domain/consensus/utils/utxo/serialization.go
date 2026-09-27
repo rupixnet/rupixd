@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"io"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/serialization"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionid"
-	"github.com/pkg/errors"
 )
 
 // SerializeUTXO returns the byte-slice representation for given UTXOEntry-outpoint pair

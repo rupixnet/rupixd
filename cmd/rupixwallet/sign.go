@@ -6,10 +6,10 @@ import (
 	"os"
 	"strings"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/server"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
-	"github.com/pkg/errors"
 )
 
 func sign(conf *signConfig) error {

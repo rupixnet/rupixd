@@ -1,9 +1,9 @@
 package rpcclient
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
-	"github.com/pkg/errors"
 )
 
 // RegisterForVirtualDaaScoreChangedNotifications sends an RPC request respective to the function's

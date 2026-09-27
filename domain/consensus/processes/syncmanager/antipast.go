@@ -1,9 +1,9 @@
 package syncmanager
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/pkg/errors"
 )
 
 // antiPastHashesBetween returns the hashes of the blocks between the

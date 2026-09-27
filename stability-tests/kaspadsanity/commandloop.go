@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/stability-tests/common"
-	"github.com/pkg/errors"
 )
 
 type commandFailure struct {

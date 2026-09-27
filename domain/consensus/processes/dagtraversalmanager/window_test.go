@@ -7,12 +7,12 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
-	"github.com/pkg/errors"
 )
 
 // Rupix (20-sep-2026): expectedWindow regenerado desde el codigo. El conjunto de

@@ -3,9 +3,9 @@ package serialization
 import (
 	"io"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/util/binaryserializer"
-	"github.com/pkg/errors"
 )
 
 // errNoEncodingForType signifies that there's no encoding for the given type.

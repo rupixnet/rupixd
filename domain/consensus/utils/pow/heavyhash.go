@@ -1,9 +1,9 @@
 package pow
 
 import (
+	"fmt"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashes"
-	"fmt"
 	"math"
 )
 
@@ -14,11 +14,11 @@ type matrix [64][64]uint16
 func generateMatrix(hash *externalapi.DomainHash) *matrix {
 	var mat matrix
 	generator := newRupixPRNG(hash)
-const maxIntentos = 64
-for intentos := 0; ; intentos++ {
-if intentos >= maxIntentos {
-panic(fmt.Sprintf("generateMatrix: no se alcanzo rango 64 en %d intentos, hash %s", maxIntentos, hash))
-}
+	const maxIntentos = 64
+	for intentos := 0; ; intentos++ {
+		if intentos >= maxIntentos {
+			panic(fmt.Sprintf("generateMatrix: no se alcanzo rango 64 en %d intentos, hash %s", maxIntentos, hash))
+		}
 		for i := range mat {
 			for j := 0; j < 64; j += 16 {
 				val := generator.Uint64()

@@ -13,8 +13,8 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 
 	"github.com/kaspanet/go-secp256k1"
-	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 
 	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/rupixnet/rupixd/util"

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/bip32"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/utils"
-	"github.com/pkg/errors"
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
 )

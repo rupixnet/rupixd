@@ -2,10 +2,10 @@ package addressmanager
 
 import (
 	"encoding/binary"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/util/mstime"
-	"github.com/pkg/errors"
 	"net"
 )
 

@@ -1,8 +1,8 @@
 package protocolerrors
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 )
 
 // ProtocolError is an error that signifies a violation

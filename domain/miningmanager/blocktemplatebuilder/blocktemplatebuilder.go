@@ -11,11 +11,11 @@ import (
 
 	"github.com/rupixnet/rupixd/util/difficulty"
 
+	"github.com/pkg/errors"
 	consensusexternalapi "github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	miningmanagerapi "github.com/rupixnet/rupixd/domain/miningmanager/model"
-	"github.com/pkg/errors"
 )
 
 type candidateTx struct {

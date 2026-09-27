@@ -1,6 +1,7 @@
 package transactionrelay
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/protocol/common"
 	"github.com/rupixnet/rupixd/app/protocol/flowcontext"
@@ -11,7 +12,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/miningmanager/mempool"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
-	"github.com/pkg/errors"
 )
 
 // TransactionsRelayContext is the interface for the context needed for the

@@ -7,8 +7,8 @@ import (
 	"github.com/rupixnet/rupixd/stability-tests/common"
 	"github.com/rupixnet/rupixd/util/profiling"
 
-	"github.com/rupixnet/rupixd/util/panics"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/util/panics"
 )
 
 func main() {

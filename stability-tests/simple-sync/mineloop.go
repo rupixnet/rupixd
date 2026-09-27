@@ -4,11 +4,11 @@ import (
 	"time"
 
 	"github.com/kaspanet/go-secp256k1"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/stability-tests/common"
 	"github.com/rupixnet/rupixd/stability-tests/common/rpc"
 	"github.com/rupixnet/rupixd/util"
-	"github.com/pkg/errors"
 )
 
 func mineLoop(syncerRPCClient, syncedRPCClient *rpc.Client) error {

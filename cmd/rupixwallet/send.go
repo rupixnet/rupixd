@@ -6,12 +6,12 @@ import (
 	"os"
 	"strings"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/client"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/utils"
-	"github.com/pkg/errors"
 )
 
 func send(conf *sendConfig) error {

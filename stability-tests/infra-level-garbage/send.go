@@ -5,8 +5,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/rupixnet/rupixd/app/protocol/common"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/app/protocol/common"
 )
 
 func sendMessages(address string, messagesChan <-chan []byte) error {

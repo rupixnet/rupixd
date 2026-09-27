@@ -4,6 +4,7 @@ import (
 	// we need to embed the utxoset of mainnet genesis here
 	_ "embed"
 	"fmt"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
@@ -14,7 +15,6 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/util/difficulty"
 	"github.com/rupixnet/rupixd/util/staging"
-	"github.com/pkg/errors"
 )
 
 func (bp *blockProcessor) setBlockStatusAfterBlockValidation(

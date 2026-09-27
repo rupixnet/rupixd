@@ -9,8 +9,8 @@ import (
 
 	"github.com/rupixnet/rupixd/infrastructure/config"
 
-	"github.com/rupixnet/rupixd/util"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/util"
 
 	"github.com/jessevdk/go-flags"
 	"github.com/rupixnet/rupixd/version"

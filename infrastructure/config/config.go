@@ -18,13 +18,13 @@ import (
 
 	"github.com/btcsuite/go-socks/socks"
 	"github.com/jessevdk/go-flags"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/util"
 	"github.com/rupixnet/rupixd/util/network"
 	"github.com/rupixnet/rupixd/version"
-	"github.com/pkg/errors"
 )
 
 const (

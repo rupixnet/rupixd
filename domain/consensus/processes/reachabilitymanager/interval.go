@@ -1,8 +1,8 @@
 package reachabilitymanager
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"math"
 )
 

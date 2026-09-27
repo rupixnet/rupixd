@@ -38,10 +38,10 @@ var (
 	// the expected value.
 	ErrUnexpectedDAAScore = newRuleError("ErrUnexpectedDAAScore")
 
-// ErrCheckpointMismatch (Rupix) indica que el bloque tiene el DAA score de un
-// checkpoint pero su hash no es el canonico. Defensa contra reorganizaciones
-// profundas mientras los checkpoints esten activos.
-ErrCheckpointMismatch = newRuleError("ErrCheckpointMismatch")
+	// ErrCheckpointMismatch (Rupix) indica que el bloque tiene el DAA score de un
+	// checkpoint pero su hash no es el canonico. Defensa contra reorganizaciones
+	// profundas mientras los checkpoints esten activos.
+	ErrCheckpointMismatch = newRuleError("ErrCheckpointMismatch")
 
 	// ErrUnexpectedBlueWork indicates specified blue work does not align with
 	// the expected value.
@@ -100,10 +100,10 @@ ErrCheckpointMismatch = newRuleError("ErrCheckpointMismatch")
 	// count of Kings (level 4) above constants.MaxKings. The 2,101st King
 	// cannot exist in any valid chain.
 	ErrKingsCapExceeded = newRuleError("ErrKingsCapExceeded")
-// ErrGemsCapExceeded (Rupix) indicates a block would push the historical
-// count of Diamante/Platino/Rodio above their max. Once a level's historical
-// cap is reached, no more gems of that level can ever be born.
-ErrGemsCapExceeded = newRuleError("ErrGemsCapExceeded")
+	// ErrGemsCapExceeded (Rupix) indicates a block would push the historical
+	// count of Diamante/Platino/Rodio above their max. Once a level's historical
+	// cap is reached, no more gems of that level can ever be born.
+	ErrGemsCapExceeded = newRuleError("ErrGemsCapExceeded")
 
 	// ErrInsufficientBurn (Rupix) indicates a transaction does not burn the
 	// minimum required by the per-transaction burn rule (base + per byte).

@@ -4,8 +4,8 @@ package appmessage
 type MsgPruningPointProof struct {
 	baseMessage
 
-	Headers [][]*MsgBlockHeader
-GemsHistory *MsgGemsHistory
+	Headers     [][]*MsgBlockHeader
+	GemsHistory *MsgGemsHistory
 }
 
 // MsgGemsHistory (Rupix): conteo de gemas para el pruning proof.
@@ -13,7 +13,7 @@ type MsgGemsHistory struct {
 	Diamante uint64
 	Platino  uint64
 	Rodio    uint64
-Kings    uint64
+	Kings    uint64
 }
 
 // Command returns the protocol command string for the message

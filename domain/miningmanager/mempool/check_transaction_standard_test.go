@@ -17,10 +17,10 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/utils/constants"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/rupixnet/rupixd/util"
-	"github.com/pkg/errors"
 )
 
 func TestCalcMinRequiredTxRelayFee(t *testing.T) {

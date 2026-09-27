@@ -4,13 +4,13 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/infrastructure/config"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/id"
 	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver"
-	"github.com/pkg/errors"
 )
 
 // RouterInitializer is a function that initializes a new

@@ -1,12 +1,12 @@
 package flowcontext
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/protocol/common"
 	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
 	"github.com/rupixnet/rupixd/infrastructure/network/connmanager"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter"
-	"github.com/pkg/errors"
 )
 
 // NetAdapter returns the net adapter that is associated to the flow context.

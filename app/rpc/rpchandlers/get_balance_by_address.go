@@ -1,12 +1,12 @@
 package rpchandlers
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/rpc/rpccontext"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/rupixnet/rupixd/util"
-	"github.com/pkg/errors"
 )
 
 // HandleGetBalanceByAddress handles the respectively named RPC command

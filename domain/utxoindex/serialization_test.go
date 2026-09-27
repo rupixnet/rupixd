@@ -2,8 +2,8 @@ package utxoindex
 
 import (
 	"encoding/binary"
-	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"io"
 	"math/rand"
 	"testing"

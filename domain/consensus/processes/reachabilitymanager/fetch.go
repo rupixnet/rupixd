@@ -1,11 +1,11 @@
 package reachabilitymanager
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/reachabilitydata"
-	"github.com/pkg/errors"
 )
 
 func (rt *reachabilityManager) reachabilityDataForInsertion(stagingArea *model.StagingArea,

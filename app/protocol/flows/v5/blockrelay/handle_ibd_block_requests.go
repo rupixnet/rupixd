@@ -1,11 +1,11 @@
 package blockrelay
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
 	"github.com/rupixnet/rupixd/domain"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
-	"github.com/pkg/errors"
 )
 
 // HandleIBDBlockRequestsContext is the interface for the context needed for the HandleIBDBlockRequests flow.

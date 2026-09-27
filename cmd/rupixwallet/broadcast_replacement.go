@@ -6,10 +6,10 @@ import (
 	"io/ioutil"
 	"strings"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/client"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/server"
-	"github.com/pkg/errors"
 )
 
 func broadcastReplacement(conf *broadcastConfig) error {

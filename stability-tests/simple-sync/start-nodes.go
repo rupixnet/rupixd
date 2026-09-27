@@ -7,9 +7,9 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/stability-tests/common"
 	"github.com/rupixnet/rupixd/util/panics"
-	"github.com/pkg/errors"
 )
 
 const (

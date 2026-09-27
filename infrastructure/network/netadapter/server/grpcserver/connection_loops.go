@@ -10,8 +10,8 @@ import (
 	"sync"
 	"time"
 
-	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/pkg/errors"
+	routerpkg "github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
 )

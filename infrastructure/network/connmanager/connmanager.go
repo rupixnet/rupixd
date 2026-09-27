@@ -6,9 +6,9 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/infrastructure/network/dnsseed"
-	"github.com/pkg/errors"
 
 	"github.com/rupixnet/rupixd/infrastructure/network/addressmanager"
 

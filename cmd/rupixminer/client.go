@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
-	"github.com/pkg/errors"
 	"time"
 )
 

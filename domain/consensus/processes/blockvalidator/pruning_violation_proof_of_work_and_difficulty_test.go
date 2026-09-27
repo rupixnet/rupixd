@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -19,14 +20,13 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/pow"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
 	"github.com/rupixnet/rupixd/util/difficulty"
-	"github.com/pkg/errors"
 )
 
 // TestPOW tests the validation of the block's POW.
 func TestPOW(t *testing.T) {
-t.Skip("PENDIENTE-RUPIX: mina bloques con PoW real; en el CPX32 de desarrollo " +
-"agota 3h de timeout sin terminar (el resto del paquete pasa en verde). " +
-"Correr en hardware fuerte o CI antes de mainnet.")
+	t.Skip("PENDIENTE-RUPIX: mina bloques con PoW real; en el CPX32 de desarrollo " +
+		"agota 3h de timeout sin terminar (el resto del paquete pasa en verde). " +
+		"Correr en hardware fuerte o CI antes de mainnet.")
 	// We set the flag "skip pow" to be false (second argument in the function) for not skipping the check of POW and validate its correctness.
 	testutils.ForAllNets(t, false, func(t *testing.T, consensusConfig *consensus.Config) {
 		factory := consensus.NewFactory()

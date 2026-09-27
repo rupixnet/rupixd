@@ -8,6 +8,7 @@ import (
 	"runtime"
 	"testing"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -20,7 +21,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/subnetworks"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/testutils"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
-	"github.com/pkg/errors"
 )
 
 func TestBlockValidator_ValidateBodyInIsolation(t *testing.T) {

@@ -9,13 +9,13 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/stability-tests/common"
 	"github.com/rupixnet/rupixd/stability-tests/common/mine"
 	"github.com/rupixnet/rupixd/stability-tests/common/rpc"
 	"github.com/rupixnet/rupixd/util"
 	"github.com/rupixnet/rupixd/util/panics"
-	"github.com/pkg/errors"
 )
 
 const (

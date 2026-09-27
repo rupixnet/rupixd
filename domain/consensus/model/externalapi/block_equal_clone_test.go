@@ -293,7 +293,7 @@ func initTestBlockStructsForEqual() *[]TestBlockStruct {
 							[]externalapi.BlockLevelParents{[]*externalapi.DomainHash{externalapi.NewDomainHashFromByteArray(&[externalapi.DomainHashSize]byte{1})}},
 							externalapi.NewDomainHashFromByteArray(&[externalapi.DomainHashSize]byte{2}),
 							externalapi.NewDomainHashFromByteArray(&[externalapi.DomainHashSize]byte{100}), // Changed
-							externalapi.NewDomainHashFromByteArray(&[externalapi.DomainHashSize]byte{4}), // Changed
+							externalapi.NewDomainHashFromByteArray(&[externalapi.DomainHashSize]byte{4}),   // Changed
 							externalapi.NewDomainHashFromByteArray(&[externalapi.DomainHashSize]byte{4}),
 							5,
 							6,

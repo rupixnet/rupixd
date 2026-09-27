@@ -1,11 +1,11 @@
 package blockparentbuilder
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashset"
-	"github.com/pkg/errors"
 )
 
 type blockParentBuilder struct {

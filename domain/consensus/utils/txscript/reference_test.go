@@ -17,9 +17,9 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
-	"github.com/pkg/errors"
 )
 
 // scriptTestName returns a descriptive test name for the given reference script

@@ -1,12 +1,12 @@
 package blockwindowheapslicestore
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/lrucachehashandwindowsizetoblockghostdagdatahashpairs"
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/util/staging"
-	"github.com/pkg/errors"
 )
 
 type blockWindowHeapSliceStore struct {

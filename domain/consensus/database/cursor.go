@@ -1,9 +1,9 @@
 package database
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
-	"github.com/pkg/errors"
 )
 
 type dbCursor struct {

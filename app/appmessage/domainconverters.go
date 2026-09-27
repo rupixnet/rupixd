@@ -405,15 +405,15 @@ func RPCBlockToDomainBlock(block *RPCBlock) (*externalapi.DomainBlock, error) {
 	if err != nil {
 		return nil, err
 	}
-var gemsCommitment *externalapi.DomainHash
-if block.Header.GemsCommitment != "" {
-gemsCommitment, err = externalapi.NewDomainHashFromString(block.Header.GemsCommitment)
-if err != nil {
-return nil, err
-}
-} else {
-gemsCommitment = &externalapi.DomainHash{}
-}
+	var gemsCommitment *externalapi.DomainHash
+	if block.Header.GemsCommitment != "" {
+		gemsCommitment, err = externalapi.NewDomainHashFromString(block.Header.GemsCommitment)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		gemsCommitment = &externalapi.DomainHash{}
+	}
 	blueWork, success := new(big.Int).SetString(block.Header.BlueWork, 16)
 	if !success {
 		return nil, errors.Errorf("failed to parse blue work: %s", block.Header.BlueWork)
@@ -603,12 +603,12 @@ func MsgPruningPointProofToDomainPruningPointProof(pruningPointProofMessage *Msg
 			Diamante: pruningPointProofMessage.GemsHistory.Diamante,
 			Platino:  pruningPointProofMessage.GemsHistory.Platino,
 			Rodio:    pruningPointProofMessage.GemsHistory.Rodio,
-Kings:    pruningPointProofMessage.GemsHistory.Kings,
+			Kings:    pruningPointProofMessage.GemsHistory.Kings,
 		}
 	}
 	return &externalapi.PruningPointProof{
-		Headers: headers,
-GemsHistory: gemsHistory,
+		Headers:     headers,
+		GemsHistory: gemsHistory,
 	}
 }
 
@@ -627,11 +627,11 @@ func DomainPruningPointProofToMsgPruningPointProof(pruningPointProof *externalap
 			Diamante: pruningPointProof.GemsHistory.Diamante,
 			Platino:  pruningPointProof.GemsHistory.Platino,
 			Rodio:    pruningPointProof.GemsHistory.Rodio,
-Kings:    pruningPointProof.GemsHistory.Kings,
+			Kings:    pruningPointProof.GemsHistory.Kings,
 		}
 	}
 	return &MsgPruningPointProof{
-		Headers: headers,
-GemsHistory: gemsHistory,
+		Headers:     headers,
+		GemsHistory: gemsHistory,
 	}
 }

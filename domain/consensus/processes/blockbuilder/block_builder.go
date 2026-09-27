@@ -1,15 +1,14 @@
 package blockbuilder
 
 import (
-
 	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/gemscommitment"
 	"math/big"
 	"sort"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
-	"github.com/pkg/errors"
 
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
@@ -37,8 +36,8 @@ type blockBuilder struct {
 	acceptanceDataStore model.AcceptanceDataStore
 	blockRelationStore  model.BlockRelationStore
 	multisetStore       model.MultisetStore
-gemsHistoryStore    model.GemsHistoryStore
-kingsCountStore     model.KingsCountStore
+	gemsHistoryStore    model.GemsHistoryStore
+	kingsCountStore     model.KingsCountStore
 	ghostdagDataStore   model.GHOSTDAGDataStore
 	daaBlocksStore      model.DAABlocksStore
 }
@@ -61,8 +60,8 @@ func New(
 	acceptanceDataStore model.AcceptanceDataStore,
 	blockRelationStore model.BlockRelationStore,
 	multisetStore model.MultisetStore,
-gemsHistoryStore model.GemsHistoryStore,
-kingsCountStore model.KingsCountStore,
+	gemsHistoryStore model.GemsHistoryStore,
+	kingsCountStore model.KingsCountStore,
 	ghostdagDataStore model.GHOSTDAGDataStore,
 	daaBlocksStore model.DAABlocksStore,
 ) model.BlockBuilder {
@@ -84,8 +83,8 @@ kingsCountStore model.KingsCountStore,
 		acceptanceDataStore: acceptanceDataStore,
 		blockRelationStore:  blockRelationStore,
 		multisetStore:       multisetStore,
-gemsHistoryStore:    gemsHistoryStore,
-kingsCountStore:     kingsCountStore,
+		gemsHistoryStore:    gemsHistoryStore,
+		kingsCountStore:     kingsCountStore,
 		ghostdagDataStore:   ghostdagDataStore,
 		daaBlocksStore:      daaBlocksStore,
 	}
@@ -225,10 +224,10 @@ func (bb *blockBuilder) buildHeader(stagingArea *model.StagingArea, transactions
 	if err != nil {
 		return nil, err
 	}
-gemsCommitment, err := bb.newBlockGemsCommitment(stagingArea, transactions)
-if err != nil {
-return nil, err
-}
+	gemsCommitment, err := bb.newBlockGemsCommitment(stagingArea, transactions)
+	if err != nil {
+		return nil, err
+	}
 	blueWork, err := bb.newBlockBlueWork(stagingArea)
 	if err != nil {
 		return nil, err
@@ -328,50 +327,50 @@ func (bb *blockBuilder) calculateAcceptedIDMerkleRoot(acceptanceData externalapi
 
 // INVARIANTE DE LA COSTURA (no tocar sin leer esto):
 //
-//   El MINERO ve el bloque que esta construyendo. El VALIDADOR ve el MERGESET
-//   del bloque, que NO incluye al bloque mismo (sus txs las acepta el HIJO).
-//   Por eso este sello se calcula SOLO desde gemsHistory(virtual): el virtual ya
-//   incluye lo aceptado por los tips. NUNCA sumar aqui las gemas de las txs del
-//   bloque que se construye. Hacerlo produce un sello con una forja de mas, el
-//   validador lo rechaza y el bloque queda DisqualifiedFromChain.
+//	El MINERO ve el bloque que esta construyendo. El VALIDADOR ve el MERGESET
+//	del bloque, que NO incluye al bloque mismo (sus txs las acepta el HIJO).
+//	Por eso este sello se calcula SOLO desde gemsHistory(virtual): el virtual ya
+//	incluye lo aceptado por los tips. NUNCA sumar aqui las gemas de las txs del
+//	bloque que se construye. Hacerlo produce un sello con una forja de mas, el
+//	validador lo rechaza y el bloque queda DisqualifiedFromChain.
 //
-//   Tres bugs vivieron en esta costura (11, 12 y 13 de septiembre de 2026), los
-//   tres sobre "que cuenta el minero vs que cuenta el validador". El del 13 sumo
-//   las txs propias y estuvo activo diez dias sin que nadie lo viera: GHOSTDAG
-//   rescataba la forja mergeando el bloque descalificado como azul (evidencia:
-//   bloque 5546... de la testnet #3, isChainBlock=false, sello 780e9027).
-//   TestKingsEndToEnd (domain/consensus) cuida esta costura: mina con este
-//   codigo y valida con el real. No se borra.
+//	Tres bugs vivieron en esta costura (11, 12 y 13 de septiembre de 2026), los
+//	tres sobre "que cuenta el minero vs que cuenta el validador". El del 13 sumo
+//	las txs propias y estuvo activo diez dias sin que nadie lo viera: GHOSTDAG
+//	rescataba la forja mergeando el bloque descalificado como azul (evidencia:
+//	bloque 5546... de la testnet #3, isChainBlock=false, sello 780e9027).
+//	TestKingsEndToEnd (domain/consensus) cuida esta costura: mina con este
+//	codigo y valida con el real. No se borra.
 //
 // newBlockGemsCommitment (Rupix) calcula el sello del conteo historico de gemas
 // (Diamante/Platino/Rodio/Kings) del estado virtual. Este sello va en el header y
 // entra en el hash del bloque: atarlo al PoW lo hace infalsificable (verificable total).
 func (bb *blockBuilder) newBlockGemsCommitment(stagingArea *model.StagingArea, transactions []*externalapi.DomainTransaction) (*externalapi.DomainHash, error) {
-// Al inicio de la cadena (virtual = genesis) aun no hay historial guardado:
-// not-found significa legitimamente "cero gemas". Consistente con la
-// validacion, que devuelve cero gemas para el genesis.
-gemsHistory, err := bb.gemsHistoryStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash)
-if err != nil {
-if !database.IsNotFoundError(err) {
-return nil, err
-}
-gemsHistory = &externalapi.GemsHistory{}
-}
-// Clonar antes de modificar: el objeto viene del store, no debemos mutarlo.
-gemsHistory = gemsHistory.Clone()
-kingsCount, err := bb.kingsCountStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash)
-if err != nil {
-if !database.IsNotFoundError(err) {
-return nil, err
-}
-kingsCount = 0
-}
+	// Al inicio de la cadena (virtual = genesis) aun no hay historial guardado:
+	// not-found significa legitimamente "cero gemas". Consistente con la
+	// validacion, que devuelve cero gemas para el genesis.
+	gemsHistory, err := bb.gemsHistoryStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash)
+	if err != nil {
+		if !database.IsNotFoundError(err) {
+			return nil, err
+		}
+		gemsHistory = &externalapi.GemsHistory{}
+	}
+	// Clonar antes de modificar: el objeto viene del store, no debemos mutarlo.
+	gemsHistory = gemsHistory.Clone()
+	kingsCount, err := bb.kingsCountStore.Get(bb.databaseContext, stagingArea, model.VirtualBlockHash)
+	if err != nil {
+		if !database.IsNotFoundError(err) {
+			return nil, err
+		}
+		kingsCount = 0
+	}
 	// Rupix: sumar las gemas que NACEN en las tx de ESTE bloque, para que el
 	// sello del template coincida con el que recalcula la validacion
 	// (calculateGemsHistory). Sin esto, el header sella 0 gemas pero la
 	// validacion cuenta las forjas -> mismatch -> bloque rechazado.
 	gemsHistory.Kings = kingsCount
-sello := gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount)
+	sello := gemscommitment.CalculateGemsCommitment(gemsHistory, kingsCount)
 	return sello, nil
 }
 

@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/jessevdk/go-flags"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/rupixnet/rupixd/util/difficulty"
-	"github.com/pkg/errors"
 )
 
 // NetworkFlags holds the network configuration, that is which network is selected.

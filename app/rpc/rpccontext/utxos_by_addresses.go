@@ -2,9 +2,9 @@ package rpccontext
 
 import (
 	"encoding/hex"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/rupixnet/rupixd/util"
-	"github.com/pkg/errors"
 
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/domain/utxoindex"

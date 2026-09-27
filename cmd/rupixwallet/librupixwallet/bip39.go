@@ -3,9 +3,9 @@ package librupixwallet
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet/bip32"
 	"github.com/rupixnet/rupixd/domain/dagconfig"
-	"github.com/pkg/errors"
 	"github.com/tyler-smith/go-bip39"
 )
 

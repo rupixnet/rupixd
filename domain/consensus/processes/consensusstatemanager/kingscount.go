@@ -1,8 +1,8 @@
 package consensusstatemanager
 
 import (
-	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"

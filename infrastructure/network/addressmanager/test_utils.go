@@ -4,9 +4,9 @@ import (
 	"net"
 	"strconv"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/pkg/errors"
 )
 
 // AddAddressByIP adds an address where we are given an ip:port and not a

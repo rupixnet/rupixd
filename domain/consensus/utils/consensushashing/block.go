@@ -5,9 +5,9 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/consensus/utils/serialization"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/hashes"
-	"github.com/pkg/errors"
 )
 
 // BlockHash returns the given block's hash

@@ -1,9 +1,9 @@
 package consensusstatestore
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
-	"github.com/pkg/errors"
 )
 
 func (css *consensusStateStore) StartImportingPruningPointUTXOSet(dbContext model.DBWriter) error {

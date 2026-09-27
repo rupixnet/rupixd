@@ -57,8 +57,8 @@ type KType uint8
 // se retira cuando la red pueda sostenerse sola. Centralizacion declarada,
 // no oculta.
 type Checkpoint struct {
-DAAScore uint64
-Hash     *externalapi.DomainHash
+	DAAScore uint64
+	Hash     *externalapi.DomainHash
 }
 
 type Params struct {
@@ -92,13 +92,13 @@ type Params struct {
 	// GenesisHash is the starting block hash.
 	GenesisHash *externalapi.DomainHash
 
-// Checkpoints (Rupix): lista de bloques canonicos por DAA score. Vacia = sin
-// checkpoints. Ver el tipo Checkpoint.
-Checkpoints []Checkpoint
+	// Checkpoints (Rupix): lista de bloques canonicos por DAA score. Vacia = sin
+	// checkpoints. Ver el tipo Checkpoint.
+	Checkpoints []Checkpoint
 
-// CheckpointsExpireDAAScore (Rupix): a partir de este DAA score los
-// checkpoints se ignoran (caducidad publicada). 0 = sin caducidad.
-CheckpointsExpireDAAScore uint64
+	// CheckpointsExpireDAAScore (Rupix): a partir de este DAA score los
+	// checkpoints se ignoran (caducidad publicada). 0 = sin caducidad.
+	CheckpointsExpireDAAScore uint64
 
 	// PowMax defines the highest allowed proof of work value for a block
 	// as a uint256.
@@ -300,7 +300,7 @@ var MainnetParams = Params{
 	CoinbasePayloadScriptPublicKeyMaxLength: defaultCoinbasePayloadScriptPublicKeyMaxLength,
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
-	BlocksPerHalving:                        42_000_000,                   // Rupix mainnet: ~16 meses por halving (42M bloques a 1 bloque/seg = ~486 dias)
+	BlocksPerHalving:                        42_000_000, // Rupix mainnet: ~16 meses por halving (42M bloques a 1 bloque/seg = ~486 dias)
 	DisallowDirectBlocksOnTopOfGenesis:      true,
 
 	// This is technically 255, but we clamped it at 256 - block level of mainnet genesis
@@ -371,7 +371,7 @@ var TestnetParams = Params{
 	CoinbasePayloadScriptPublicKeyMaxLength: defaultCoinbasePayloadScriptPublicKeyMaxLength,
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
-	BlocksPerHalving:                        100_000,                      // Rupix testnet: emision util ~1 dia por halving, escalera en ~5 dias
+	BlocksPerHalving:                        100_000, // Rupix testnet: emision util ~1 dia por halving, escalera en ~5 dias
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,
@@ -440,7 +440,7 @@ var SimnetParams = Params{
 	CoinbasePayloadScriptPublicKeyMaxLength: defaultCoinbasePayloadScriptPublicKeyMaxLength,
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
-	BlocksPerHalving:                        42_000_000,                   // Rupix simnet: valor real
+	BlocksPerHalving:                        42_000_000, // Rupix simnet: valor real
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,
@@ -505,7 +505,7 @@ var DevnetParams = Params{
 	CoinbasePayloadScriptPublicKeyMaxLength: defaultCoinbasePayloadScriptPublicKeyMaxLength,
 	PruningProofM:                           defaultPruningProofM,
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
-	BlocksPerHalving:                        150,                          // Rupix devnet: laboratorio veloz
+	BlocksPerHalving:                        150, // Rupix devnet: laboratorio veloz
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,

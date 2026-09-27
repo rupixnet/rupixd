@@ -2,13 +2,13 @@ package blockrelay
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/protocol/common"
 	"github.com/rupixnet/rupixd/app/protocol/protocolerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
-	"github.com/pkg/errors"
 	"time"
 )
 

@@ -12,6 +12,7 @@ import (
 
 	"github.com/rupixnet/rupixd/domain/miningmanager/mempool"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/model/testapi"
@@ -23,7 +24,6 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/txscript"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 	"github.com/rupixnet/rupixd/domain/miningmanager"
-	"github.com/pkg/errors"
 )
 
 // TestValidateAndInsertTransaction verifies that valid transactions were successfully inserted into the mempool.

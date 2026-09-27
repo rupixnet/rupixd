@@ -1,13 +1,13 @@
 package handshake
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/app/protocol/common"
 	peerpkg "github.com/rupixnet/rupixd/app/protocol/peer"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/router"
 	"github.com/rupixnet/rupixd/version"
-	"github.com/pkg/errors"
 )
 
 var (

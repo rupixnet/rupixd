@@ -3,9 +3,9 @@ package coinbasemanager
 import (
 	"encoding/binary"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
-	"github.com/pkg/errors"
 )
 
 const uint64Len = 8

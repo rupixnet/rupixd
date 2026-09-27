@@ -2,10 +2,10 @@ package grpcserver
 
 import (
 	"context"
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server"
 	"github.com/rupixnet/rupixd/infrastructure/network/netadapter/server/grpcserver/protowire"
 	"github.com/rupixnet/rupixd/util/panics"
-	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/encoding/gzip"
 	"google.golang.org/grpc/peer"

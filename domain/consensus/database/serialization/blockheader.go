@@ -1,9 +1,9 @@
 package serialization
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/blockheader"
-	"github.com/pkg/errors"
 	"math"
 	"math/big"
 )
@@ -45,10 +45,10 @@ func DbBlockHeaderToDomainBlockHeader(dbBlockHeader *DbBlockHeader) (externalapi
 	if err != nil {
 		return nil, err
 	}
-gemsCommitment, err := DbHashToDomainHash(dbBlockHeader.GemsCommitment)
-if err != nil {
-return nil, err
-}
+	gemsCommitment, err := DbHashToDomainHash(dbBlockHeader.GemsCommitment)
+	if err != nil {
+		return nil, err
+	}
 	if dbBlockHeader.Version > math.MaxUint16 {
 		return nil, errors.Errorf("Invalid header version - bigger then uint16")
 	}
@@ -79,8 +79,8 @@ return nil, err
 // nil, para no petar al serializar headers sin gems (creados a mano en tests, o
 // cualquier camino que lo deje nil). Un nil = "cero gemas", nunca panic.
 func gemsCommitmentOrZero(h *externalapi.DomainHash) *externalapi.DomainHash {
-if h == nil {
-return &externalapi.DomainHash{}
-}
-return h
+	if h == nil {
+		return &externalapi.DomainHash{}
+	}
+	return h
 }

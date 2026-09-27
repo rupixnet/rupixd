@@ -6,13 +6,13 @@ import (
 
 	"github.com/rupixnet/rupixd/util/mstime"
 
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/util/staging"
-	"github.com/pkg/errors"
 )
 
 type consensus struct {
@@ -50,7 +50,7 @@ type consensus struct {
 	ghostdagDataStores                  []model.GHOSTDAGDataStore
 	blockRelationStores                 []model.BlockRelationStore
 	blockStatusStore                    model.BlockStatusStore
-gemsHistoryStore                    model.GemsHistoryStore // Rupix: expuesto para tests e2e
+	gemsHistoryStore                    model.GemsHistoryStore // Rupix: expuesto para tests e2e
 	consensusStateStore                 model.ConsensusStateStore
 	headersSelectedTipStore             model.HeaderSelectedTipStore
 	multisetStore                       model.MultisetStore

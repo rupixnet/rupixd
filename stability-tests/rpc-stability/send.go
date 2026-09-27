@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient/grpcclient"
 	"github.com/pkg/errors"
+	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient/grpcclient"
 )
 
 func sendCommands(rpcClient *grpcclient.GRPCClient, commandsChan <-chan string) error {

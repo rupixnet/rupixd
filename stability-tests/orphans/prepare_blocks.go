@@ -1,13 +1,13 @@
 package main
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/domain/consensus"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
 	"github.com/rupixnet/rupixd/infrastructure/db/database/ldb"
 	"github.com/rupixnet/rupixd/stability-tests/common"
 	"github.com/rupixnet/rupixd/stability-tests/common/mine"
-	"github.com/pkg/errors"
 )
 
 const leveldbCacheSizeMiB = 256
