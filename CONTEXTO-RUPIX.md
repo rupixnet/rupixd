@@ -143,7 +143,7 @@ Lo difícil de *inventar* ya está. Lo que queda es *blindar* y *sumar gente*. M
 
 **🟡 Blindaje:** ~~dominio keccak "RupixHeavyHash"~~ (hecho, v0.6.0) · ~~test end-to-end del King~~ (hecho; cazó un bug real) · ~~minero público en el README~~ (hecho) · alarma de descalificados (rehecha el 26-sep, v2.1 con rotación del log; falta probarla en devnet con el minero real y el fix de la costura revertido) · tarjeta de "vigilancia de la costura" en el explorer, después de la prueba en devnet (no una columna por bloque: marcaría como sospechosos los bloques sanos de JC) · explorer: leer el halving del nodo en vez de tenerlo escrito a mano · actualizar los 3 módulos que marca govulncheck (no se llaman, pero conviene) · firma de binarios fuera del servidor (~300–700 USD/año) · builds reproducibles (flags puestas el 27-sep; falta comprobar que dos builds den el mismo hash) · gofmt: 251 archivos sin formato, heredado del renombre (commit aparte, solo espacios, con build y tests) · H-1 mempool (Nivel A ya cubierto por el código, falta test; Nivel B —topes históricos— pendiente) · testnet #4 estable semanas · **bilingüe:** ~~README~~ y ~~web~~ hechos; ~~guías~~ hechas el 26-sep (conexión, forja, checkpoints); falta el whitepaper en inglés · asistente de Rupix, Stevenson Rux (base = repo + MEMORIA-RUPIX; respuestas con fuente; sin entrenar modelo; después de los bloqueantes).
 
-**🟢 Inmediato:** ~~testnet #4 cruza 100k~~ (hecho: 27-sep ~00:18, emisión exacta) → primer Diamante de v0.6.0 en la red pública (JC) y primer checkpoint real · ~~JC: comparar tip con el seed y minar un bloque~~ (hecho: 14 mil bloques) · JP a v0.6.0 · tweet de v0.6.0.
+**🟢 Inmediato:** ~~testnet #4 cruza 100k~~ (hecho: 27-sep ~00:18, emisión exacta) → ~~primer Diamante de v0.6.0 en la red pública~~ (hecho: JC, 27-sep, DAA 180,710) → primer checkpoint real (antes: verificar un solo bloque en ese DAA; va en v0.6.1) · ~~JC: comparar tip con el seed y minar un bloque~~ (hecho: 14 mil bloques) · JP a v0.6.0 · tweet de v0.6.0.
 
 ---
 
@@ -301,3 +301,10 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 - La operación del seed (servicios, alarma, cron, nginx) quedó versionada en `ops/`.
 - Seed listo para el reinicio del kernel: el explorer corría a mano desde el 9-sep (ahora lo lleva systemd) y el servicio `rupixd.service` de la v0.3.0 seguía habilitado con la misma carpeta y puerto que el nodo (deshabilitado y guardado en `ops/retirados/`). Logs de salida rotados y comprimidos, sin borrar ninguno.
 - Regla de ER: no se borra nada viejo. Las testnets anteriores, devnets y datos viejos se quedan en el servidor como evidencia; si falta disco, se agranda el disco.
+
+## 27-sep-2026 (noche) — Reinicio del seed y primer Diamante de v0.6.0 (JC)
+
+- Reinicio del kernel hecho (6.8.0-142) con 49 actualizaciones. Todo volvió solo: nodo, wallet, minero y explorer; el servicio viejo ya no existe. La red siguió con JC mientras tanto.
+- JC forjó el primer Diamante de v0.6.0 en la red pública: tx `8653650fc729d4cef85c3fe11ee4c67b0dfcc7e038e973c7d93d62944f8b3a4b`, DAA 180,710. Verificado desde el seed con `GetUtxosByAddresses` (salida con versión de script 1).
+- Hallazgo antes de publicar el checkpoint: `checkCheckpoint` rechaza cualquier bloque con ese DAA y otro hash, y en un DAG puede haber hermanos con el mismo DAA. Regla desde hoy: checkpoint solo donde hay un bloque en ese DAA. Arreglo de consenso (solo bloques de la cadena) + test en v0.6.1. Hay que contárselo al auditor.
+- Pendientes nuevos: `forge` debe pedir la clave con prompt como `send` (hoy la clave queda en el historial) · `send` de mucho Gold desde una wallet de minero se agota por tiempo (miles de salidas pequeñas).

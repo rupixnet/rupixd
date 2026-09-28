@@ -74,6 +74,9 @@ El explorer sirve su página desde una carpeta del servidor, y el repo tenía ot
 ### El explorer que nadie cuidaba y el nodo v0.3.0 dormido
 El 27-sep, al versionar la operación del seed, apareció que el explorer llevaba desde el 9-sep lanzado a mano: su servicio estaba muerto y tras un reinicio no habría vuelto. Y el servicio del nodo v0.3.0 seguía habilitado, apuntando a la misma carpeta y puerto que el nodo actual: al reiniciar se habrían peleado. Nadie lo vio porque todo funcionaba. Se arregló antes del reinicio del kernel y el servicio viejo se guardó, no se borró.
 
+### El checkpoint que habría partido la red
+El 18-sep los checkpoints pasaron su prueba en devnet. El 27-sep, al preparar el primero real sobre el Diamante de JC, se releyó el código: rechaza cualquier bloque con el DAA del checkpoint y otro hash. En la devnet había un solo minero y nunca hubo dos bloques con el mismo DAA; en la red real, con dos mineros, sí puede haberlos. Un checkpoint en el lugar equivocado habría dejado a los nodos nuevos sin poder sincronizar. Se encontró antes de publicar nada.
+
 ---
 
 *No confíes, verifica.*

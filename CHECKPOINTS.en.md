@@ -44,6 +44,8 @@ thousand blocks on top) and that external nodes already have. Never on recent bl
 Each published checkpoint is announced with: network, DAA score, hash, date, and the
 node version that includes it.
 
+**Rule (27-Sep-2026): only one block at that DAA.** Rupix is a DAG: two sibling blocks can share a DAA score. The code rejects *any* block at the checkpoint's DAA with a different hash, so a checkpoint placed where there are two blocks would invalidate the sibling and everything that includes it, and a new node could not sync. So before publishing we check with the node that there is exactly one block at that DAA. The real fix (require the hash only from chain blocks) ships in the next version, with a test.
+
 ## When they are removed
 
 Checkpoints are removed when the network can stand on its own: sustained external

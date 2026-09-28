@@ -44,6 +44,8 @@ Un checkpoint se publica solo sobre un bloque que ya tiene profundidad suficient
 bloques recientes. Cada checkpoint publicado se anuncia con: red, DAA score, hash,
 fecha, y la versión del nodo que lo incluye.
 
+**Regla (27-sep-2026): un solo bloque en ese DAA.** Rupix es un DAG: dos bloques hermanos pueden tener el mismo DAA score. El código rechaza *cualquier* bloque con el DAA del checkpoint y otro hash, así que un checkpoint puesto donde hay dos bloques invalidaría al hermano y a todo lo que lo incluye, y un nodo nuevo no podría sincronizar. Por eso, antes de publicar, se verifica con el nodo que en ese DAA hay exactamente un bloque. El arreglo de fondo (exigir el hash solo a bloques de la cadena) va en la próxima versión, con test.
+
 ## Cuándo se retiran
 
 Los checkpoints se retiran cuando la red pueda sostenerse sola: hashrate externo

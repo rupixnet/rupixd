@@ -69,3 +69,9 @@ La red ya no es solo del servidor.
 La testnet #4 cruzó el DAA 100,000. El explorer pasó el Diamante a "✅ desbloqueado" y la recompensa bajó de 0.5 a 0.25 RUPIX por bloque.
 
 **Se puede verificar a mano:** a DAA 100,209 el Gold emitido era **50,052.5 RUPIX** = 100,000 bloques × 0.5 + 210 bloques × 0.25. La emisión siguió exacto el calendario escrito desde el génesis. Nadie lo decidió esa noche.
+
+## 27 de septiembre de 2026 (~22:58, hora de México) — Primer Diamante de v0.6.0 en la red pública, forjado por JC
+
+JC, desde su PC con Windows, quemó 10 Gold y forjó el primer Diamante de la testnet #4. No lo forjó el fundador: lo forjó un minero de la comunidad, con Gold que él mismo minó.
+
+**Se puede verificar a mano:** la gema es la salida de la tx `8653650fc729d4cef85c3fe11ee4c67b0dfcc7e038e973c7d93d62944f8b3a4b`, que entró en el bloque con DAA **180,710**. Desde el seed (no desde la wallet de JC) se pidieron al nodo todas las salidas de su dirección: 33,201 de Gold y 1 de nivel 1, el Diamante.
