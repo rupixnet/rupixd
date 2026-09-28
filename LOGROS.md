@@ -75,3 +75,12 @@ La testnet #4 cruzó el DAA 100,000. El explorer pasó el Diamante a "✅ desblo
 JC, desde su PC con Windows, quemó 10 Gold y forjó el primer Diamante de la testnet #4. No lo forjó el fundador: lo forjó un minero de la comunidad, con Gold que él mismo minó.
 
 **Se puede verificar a mano:** la gema es la salida de la tx `8653650fc729d4cef85c3fe11ee4c67b0dfcc7e038e973c7d93d62944f8b3a4b`, que entró en el bloque con DAA **180,710**. Desde el seed (no desde la wallet de JC) se pidieron al nodo todas las salidas de su dirección: 33,201 de Gold y 1 de nivel 1, el Diamante.
+
+## 28 de septiembre de 2026 (madrugada) — Pruebas en vivo con un nodo de la comunidad
+
+Con JC conectado desde su PC, se probó la red de punta a punta. Todo verificado desde el seed, no desde las wallets:
+
+- **Misma historia en dos nodos independientes:** el punto de poda (`pruningPointHash`) del nodo de JC y el del seed son idénticos (`d2561df4…3cf9`).
+- **Una gema viajó entre dos wallets distintas y volvió:** JC mandó un Diamante al seed y el seed se lo devolvió (tx `e721d29b…`). En la cadena, el Diamante que salió de JC ya no existe y el que regresó sí.
+- **La red rechazó un Platino antes de tiempo:** JC intentó forjar un Platino en el DAA 185,738, antes de que se abra en el 200,000. Su propio nodo lo rechazó al recibirlo: `nivel 2 bloqueado: se desbloquea en DAA score 200000 (actual: 185738)` (tx `a51bdc64…`). La wallet no revisa esa regla; la aplica el consenso. Ni el que tiene los Diamantes puede adelantarse.
+- **JC tiene 11 Diamantes en la cadena**, todos forjados con Gold que minó él.

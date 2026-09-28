@@ -77,6 +77,9 @@ El 27-sep, al versionar la operación del seed, apareció que el explorer llevab
 ### El checkpoint que habría partido la red
 El 18-sep los checkpoints pasaron su prueba en devnet. El 27-sep, al preparar el primero real sobre el Diamante de JC, se releyó el código: rechaza cualquier bloque con el DAA del checkpoint y otro hash. En la devnet había un solo minero y nunca hubo dos bloques con el mismo DAA; en la red real, con dos mineros, sí puede haberlos. Un checkpoint en el lugar equivocado habría dejado a los nodos nuevos sin poder sincronizar. Se encontró antes de publicar nada.
 
+### Los 1,000 que no salían
+Mandar 100 RUPIX desde el seed tardó 9 segundos; mandar 1,000 se cortaba a los 2 minutos exactos. En lugar de subir el tiempo de espera y seguir, se midió: armar el envío tardó 2.2, 6.9, 16.0, 28.6, 44.2 y 64.1 segundos para 100 a 600 RUPIX. Duplicar el monto cuadruplicaba el tiempo. La causa estaba en la wallet heredada: recalcula la comisión rearmando toda la transacción por cada pedazo que agrega, y el minero tenía 78,329 pedazos de 0.25 y 0.5. No era la red. Se explicó con números antes de arreglarlo.
+
 ---
 
 *No confíes, verifica.*

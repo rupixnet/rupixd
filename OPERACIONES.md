@@ -88,3 +88,8 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 - 27-sep: el explorer corría lanzado a mano desde el 9-sep, fuera de systemd, y no habría vuelto tras un reinicio. Ahora lo lleva `rupix-explorer.service` (Restart=always, después de `rupixd-testnet`).
 
 - 27-sep: los logs de salida no se rotaban (256 MB el del minero). Ahora se rotan comprimidos y se guardan todos (`/etc/logrotate.d/rupix`, copia en `ops/logrotate/`).
+
+## Dirección de minado del seed (28-sep-2026)
+
+- El minero cobró en `rupixtest:qq740lal…jd27l` del DAA 2 al 92,569 y en `rupixtest:qp4y8vnk…cpylzw` desde el 92,581 (testnet #4). Las dos son de la misma wallet del seed. Verificable con `GetUtxosByAddresses` (primer y último `blockDaaScore` de cada dirección).
+- Envíos de más de ~820 RUPIX desde la wallet del minero se cortan a los 2 minutos (ver CONTEXTO, 28-sep). Mandar en partes hasta el arreglo.
