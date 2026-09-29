@@ -7,6 +7,10 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Arreglo del envio grande (rama `wallet-envios-grandes`, para v0.6.1): la seleccion de pedazos estima la comision en tiempo lineal y la exacta se calcula una sola vez al final. Medido en el seed, misma wallet de 78k pedazos: 100 RUPIX 1.6s -> 0.10s; 300: 16s -> 0.24s; 600: 65s -> 0.47s; 1,000: cortado a 120s -> 0.82s.
+- Checkpoints para DAG (rama `checkpoint-dag`, para v0.6.1): la regla pasa a "todo bloque con blue score >= X + MergeDepth debe tener al bloque canonico H en su pasado". Un hermano tardio de H ya no rompe nada; una historia alterna sin H se rechaza. `TestCheckpointDAG` lo prueba, y se verifico que la prueba FALLA si la regla se apaga.
+- Mempool (rama `mempool-niveles`, para v0.6.1): prueba automatica de que una forja de un nivel cerrado se rechaza al entrar al mempool y la misma transaccion entra pasado su halving (H-1 nivel A).
+- `.gitignore`: los binarios quedan anclados a la raiz; la linea `rupixwallet` tapaba la carpeta `cmd/rupixwallet` y hacia fallar `git add` ahi.
 - `tools/verificar-emision.py`: compara el Gold que existe en tu nodo con la regla de emision (enteros exactos) y alerta si alguna vez hay mas del permitido.
 - Wallet (encontrado el 28-sep, se arregla en v0.6.1): enviar mucho Gold desde una wallet de minero se corta a los 2 minutos porque la seleccion de pedazos recalcula la comision rearmando toda la transaccion (costo al cuadrado; medido en el seed). `parse` imprime "KAS".
 - Web: pagina `matematica.html` (emision, escalera, costo de mover, calculadora) en espanol e ingles.
