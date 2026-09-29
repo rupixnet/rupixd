@@ -20,6 +20,7 @@ type blockValidator struct {
 	genesisHash                 *externalapi.DomainHash
 	checkpoints                 []dagconfig.Checkpoint
 	checkpointsExpireDAAScore   uint64
+	mergeDepth                  uint64
 	enableNonNativeSubnetworks  bool
 	powMaxBits                  uint32
 	maxBlockMass                uint64
@@ -62,6 +63,7 @@ func New(powMax *big.Int,
 	genesisHash *externalapi.DomainHash,
 	checkpoints []dagconfig.Checkpoint,
 	checkpointsExpireDAAScore uint64,
+	mergeDepth uint64,
 	enableNonNativeSubnetworks bool,
 	maxBlockMass uint64,
 	mergeSetSizeLimit uint64,
@@ -104,6 +106,7 @@ func New(powMax *big.Int,
 		genesisHash:                genesisHash,
 		checkpoints:                checkpoints,
 		checkpointsExpireDAAScore:  checkpointsExpireDAAScore,
+		mergeDepth:                 mergeDepth,
 		enableNonNativeSubnetworks: enableNonNativeSubnetworks,
 		powMaxBits:                 difficulty.BigToCompact(powMax),
 		maxBlockMass:               maxBlockMass,

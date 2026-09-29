@@ -7,6 +7,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 )
 
@@ -85,10 +86,10 @@ func (v *blockValidator) ValidateHeaderInContext(stagingArea *model.StagingArea,
 		return err
 	}
 
-	// Rupix: checkpoint temporal. Si este DAA score tiene un bloque canonico
-	// conocido, el hash DEBE coincidir. Defensa contra reorganizaciones profundas
-	// mientras el hashrate es bajo. Caduca en checkpointsExpireDAAScore.
-	err = v.checkCheckpoint(blockHash, header)
+	// Rupix: checkpoint temporal. Todo bloque con blue score >= X + MergeDepth debe
+	// tener al bloque canonico H en su pasado. Defensa contra reorganizaciones
+	// profundas mientras el hashrate es bajo. Caduca en checkpointsExpireDAAScore.
+	err = v.checkCheckpoint(stagingArea, blockHash, header)
 	if err != nil {
 		return err
 	}
@@ -252,28 +253,83 @@ func (v *blockValidator) checkHeaderBlueScore(stagingArea *model.StagingArea, bl
 	return nil
 }
 
-// checkCheckpoint (Rupix) rechaza un bloque cuyo DAA score coincide con un
-// checkpoint pero cuyo hash no es el canonico. Los checkpoints son una defensa
-// TEMPORAL contra el 51% mientras la red es pequena: se publican con caducidad
-// (checkpointsExpireDAAScore) y se retiran cuando la red se sostiene sola.
-// Un bloque en un DAA score sin checkpoint pasa sin mas.
-func (v *blockValidator) checkCheckpoint(blockHash *externalapi.DomainHash, header externalapi.BlockHeader) error {
+// checkpointApplies (Rupix) dice si la regla del checkpoint cp aplica a un bloque
+// con este blue score y DAA score: solo desde X + MergeDepth y antes de la caducidad.
+func (v *blockValidator) checkpointApplies(cp dagconfig.Checkpoint, blueScore, daaScore uint64) bool {
+	if v.checkpointsExpireDAAScore > 0 && daaScore > v.checkpointsExpireDAAScore {
+		return false
+	}
+	return blueScore >= cp.BlueScore+v.mergeDepth
+}
+
+// checkCheckpoint (Rupix) exige que todo bloque con blue score >= X + MergeDepth
+// tenga al bloque canonico H en su pasado (o sea H). Se revisa contra los padres,
+// igual que checkPruningPointViolation: H debe ser ancestro de al menos uno.
+// IsAncestorOf es inclusivo (H == padre cuenta).
+// Si el nodo no tiene a H porque sincronizo desde un pruning point posterior a H,
+// la regla no se puede evaluar aqui: esa defensa vive en la validacion de los
+// pruning points recibidos (pendiente, ver CHECKPOINTS.md).
+func (v *blockValidator) checkCheckpoint(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash, header externalapi.BlockHeader) error {
 	if len(v.checkpoints) == 0 {
 		return nil
 	}
-	// Caducidad publicada: pasado este DAA score, los checkpoints no aplican.
-	if v.checkpointsExpireDAAScore > 0 && header.DAAScore() > v.checkpointsExpireDAAScore {
-		return nil
-	}
+	// Se usa el blue score del header: checkHeaderBlueScore (mas abajo, siempre)
+	// rechaza un header cuyo blue score no coincide con el calculado.
+	blueScore := header.BlueScore()
 	for _, cp := range v.checkpoints {
-		if cp.DAAScore == header.DAAScore() {
-			if !blockHash.Equal(cp.Hash) {
-				return errors.Wrapf(ruleerrors.ErrCheckpointMismatch,
-					"bloque %s en DAA score %d no coincide con el checkpoint canonico %s",
-					blockHash, header.DAAScore(), cp.Hash)
+		if !v.checkpointApplies(cp, blueScore, header.DAAScore()) {
+			continue
+		}
+		if blockHash.Equal(cp.Hash) {
+			continue
+		}
+		hasH, err := v.reachabilityStore.HasReachabilityData(v.databaseContext, stagingArea, cp.Hash)
+		if err != nil {
+			return err
+		}
+		if !hasH {
+			prunedBelow, err := v.checkpointBelowPruningPoint(stagingArea, cp)
+			if err != nil {
+				return err
 			}
-			return nil
+			if prunedBelow {
+				continue
+			}
+			return errors.Wrapf(ruleerrors.ErrCheckpointMismatch,
+				"bloque %s (blue score %d) no tiene en su pasado al checkpoint %s (blue score %d): el nodo no conoce ese bloque",
+				blockHash, blueScore, cp.Hash, cp.BlueScore)
+		}
+		parents, err := v.dagTopologyManagers[0].Parents(stagingArea, blockHash)
+		if err != nil {
+			return err
+		}
+		isInPast, err := v.dagTopologyManagers[0].IsAncestorOfAny(stagingArea, cp.Hash, parents)
+		if err != nil {
+			return err
+		}
+		if !isInPast {
+			return errors.Wrapf(ruleerrors.ErrCheckpointMismatch,
+				"bloque %s (blue score %d) no tiene en su pasado al checkpoint %s (blue score %d)",
+				blockHash, blueScore, cp.Hash, cp.BlueScore)
 		}
 	}
 	return nil
+}
+
+// checkpointBelowPruningPoint (Rupix) dice si el pruning point actual del nodo ya
+// esta por encima del checkpoint (el nodo sincronizo desde ahi y no guarda a H).
+func (v *blockValidator) checkpointBelowPruningPoint(stagingArea *model.StagingArea, cp dagconfig.Checkpoint) (bool, error) {
+	hasPruningPoint, err := v.pruningStore.HasPruningPoint(v.databaseContext, stagingArea)
+	if err != nil || !hasPruningPoint {
+		return false, err
+	}
+	pruningPoint, err := v.pruningStore.PruningPoint(v.databaseContext, stagingArea)
+	if err != nil {
+		return false, err
+	}
+	ppHeader, err := v.blockHeaderStore.BlockHeader(v.databaseContext, stagingArea, pruningPoint)
+	if err != nil {
+		return false, err
+	}
+	return ppHeader.BlueScore() > cp.BlueScore, nil
 }

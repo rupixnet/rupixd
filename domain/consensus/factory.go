@@ -355,6 +355,7 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		genesisHash,
 		config.Checkpoints,
 		config.CheckpointsExpireDAAScore,
+		config.MergeDepth,
 		config.EnableNonNativeSubnetworks,
 		config.MaxBlockMass,
 		config.MergeSetSizeLimit,
