@@ -90,7 +90,7 @@ func parse(conf *parseConfig) error {
 		fmt.Println()
 
 		fee := allInputSompi - allOutputSompi
-		fmt.Printf("Fee:\t%d Sompi (%f KAS)\n", fee, float64(fee)/float64(constants.RupiaPerRupix))
+		fmt.Printf("Fee:\t%d rupias (%f RUPIX)\n", fee, float64(fee)/float64(constants.RupiaPerRupix))
 		mass, err := server.EstimateMassAfterSignatures(partiallySignedTransaction, keysFile.ECDSA, keysFile.MinimumSignatures, txMassCalculator)
 		if err != nil {
 			return err

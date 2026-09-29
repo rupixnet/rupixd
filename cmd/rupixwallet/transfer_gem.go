@@ -6,6 +6,7 @@ import (
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/client"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
 )
 
 func transferGem(conf *transferGemConfig) error {
@@ -14,6 +15,12 @@ func transferGem(conf *transferGemConfig) error {
 		return err
 	}
 	defer tearDown()
+
+	// Rupix: la clave se pide con prompt, como en `send`. En la linea de
+	// comandos quedaba en el historial y en cualquier captura de pantalla.
+	if len(conf.Password) == 0 {
+		conf.Password = keys.GetPassword("Password:")
+	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), daemonTimeout)
 	defer cancel()

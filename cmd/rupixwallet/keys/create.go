@@ -16,16 +16,29 @@ import (
 
 // CreateMnemonics generates `numKeys` number of mnemonics.
 func CreateMnemonics(params *dagconfig.Params, numKeys uint32, cmdLinePassword string, isMultisig bool) (encryptedPrivateKeys []*EncryptedMnemonic, extendedPublicKeys []string, err error) {
-	mnemonics := make([]string, numKeys)
+	encryptedPrivateKeys, extendedPublicKeys, _, err = CreateMnemonicsRevealing(params, numKeys, cmdLinePassword, isMultisig)
+	return encryptedPrivateKeys, extendedPublicKeys, err
+}
+
+// CreateMnemonicsRevealing (Rupix) es CreateMnemonics devolviendo ademas las
+// frases semilla en claro, para mostrarlas UNA vez al crear la wallet. Antes
+// `create` no las mostraba nunca y habia que saber correr dump-unencrypted-data;
+// asi se creo la wallet del seed sin que nadie viera su frase.
+func CreateMnemonicsRevealing(params *dagconfig.Params, numKeys uint32, cmdLinePassword string, isMultisig bool) (encryptedPrivateKeys []*EncryptedMnemonic, extendedPublicKeys []string, mnemonics []string, err error) {
+	mnemonics = make([]string, numKeys)
 	for i := uint32(0); i < numKeys; i++ {
 		var err error
 		mnemonics[i], err = librupixwallet.CreateMnemonic()
 		if err != nil {
-			return nil, nil, err
+			return nil, nil, nil, err
 		}
 	}
 
-	return encryptedMnemonicExtendedPublicKeyPairs(params, mnemonics, cmdLinePassword, isMultisig)
+	encryptedPrivateKeys, extendedPublicKeys, err = encryptedMnemonicExtendedPublicKeyPairs(params, mnemonics, cmdLinePassword, isMultisig)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	return encryptedPrivateKeys, extendedPublicKeys, mnemonics, nil
 }
 
 // ImportMnemonics imports a `numKeys` of mnemonics.
