@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- `tools/verificar-emision.py`: compara el Gold que existe en tu nodo con la regla de emision (enteros exactos) y alerta si alguna vez hay mas del permitido.
 - Wallet (encontrado el 28-sep, se arregla en v0.6.1): enviar mucho Gold desde una wallet de minero se corta a los 2 minutos porque la seleccion de pedazos recalcula la comision rearmando toda la transaccion (costo al cuadrado; medido en el seed). `parse` imprime "KAS".
 - Web: pagina `matematica.html` (emision, escalera, costo de mover, calculadora) en espanol e ingles.
 - `gofmt` en todo el repo (251 archivos): solo formato. Los unicos cambios que no son espacios son imports reordenados (el renombre kaspa->rupix cambio su orden alfabetico). Compila igual.

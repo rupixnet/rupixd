@@ -84,3 +84,11 @@ Con JC conectado desde su PC, se probó la red de punta a punta. Todo verificado
 - **Una gema viajó entre dos wallets distintas y volvió:** JC mandó un Diamante al seed y el seed se lo devolvió (tx `e721d29b…`). En la cadena, el Diamante que salió de JC ya no existe y el que regresó sí.
 - **La red rechazó un Platino antes de tiempo:** JC intentó forjar un Platino en el DAA 185,738, antes de que se abra en el 200,000. Su propio nodo lo rechazó al recibirlo: `nivel 2 bloqueado: se desbloquea en DAA score 200000 (actual: 185738)` (tx `a51bdc64…`). La wallet no revisa esa regla; la aplica el consenso. Ni el que tiene los Diamantes puede adelantarse.
 - **JC tiene 11 Diamantes en la cadena**, todos forjados con Gold que minó él.
+
+## 28 de septiembre de 2026 (noche) — Halving 2 verificado y primer Platino de v0.6.0
+
+La testnet #4 cruzó el DAA 200,000 en la madrugada: la recompensa bajó de 0.25 a 0.125 RUPIX por bloque y se abrió el Platino.
+
+**La emisión, verificada con enteros exactos** a DAA 256,208: la regla da 99,999 × 0.5 + 100,000 × 0.25 + 56,208 × 0.125 = **82,025.5 RUPIX**. En el nodo existían 81,915.87. La diferencia (109.63) es lo quemado: los 110 Gold de los 11 Diamantes de JC más la quema de cada transacción. Nunca hay Gold de más. La herramienta que lo calcula (`tools/verificar-emision.py`) queda en el repo para que cualquiera la corra contra su propio nodo.
+
+**El primer Platino de v0.6.0** se forjó desde el seed: 10 Diamantes quemados, 1 Platino nacido (tx `c382e0a751e10003cc9692bfa2678723c12e965110b0793da6df24e3c942a81e`, DAA 256,577). Verificado en el nodo: la dirección quedó con una salida de nivel 2 y ninguna de nivel 1, y lo quemado subió exactamente 100 Gold. La noche anterior la red había rechazado un Platino en el DAA 185,738; pasado el halving, lo aceptó. La regla funciona en los dos sentidos.

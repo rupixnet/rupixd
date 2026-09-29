@@ -316,3 +316,9 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 - **Dos direcciones de minado en el seed:** `qq740lal…` cobró del DAA 2 al 92,569 (74,450 pedazos); `qp4y8vnk…` desde el 92,581. Cambio limpio, misma wallet. Sumando sus direcciones, la wallet del seed cuadra con la emisión.
 - **Web:** `matematica.html` (emisión, escalera, costo de mover, calculadora; ES/EN), enlaces a las guías y a la matemática bajo el botón del explorador, gemas cerradas con su color real, escalera sin desbordar en celular.
 - **Pendientes nuevos (wallet, v0.6.1):** selección de pedazos en tiempo lineal y tiempo de espera mayor · `parse` imprime "KAS" · el rechazo por nivel cerrado sale como `ErrBadTxOutValue` (mejor `ErrLevelLocked`).
+
+## 28-sep-2026 (noche) — Halving 2 verificado y primer Platino
+
+- Halving 2 (DAA 200,000) en la madrugada: recompensa 0.125, Platino abierto. `verificar-emision.py` a DAA 256,208: regla 82,025.5, nodo 81,915.87, diferencia 109.63 = lo quemado. Queda en `tools/`.
+- Primer Platino de v0.6.0 desde el seed: tx `c382e0a751e10003cc9692bfa2678723c12e965110b0793da6df24e3c942a81e`, DAA 256,577. En la cadena: `{2: 1}` en la dirección, lo quemado subió 100.00 exactos. JC puede forjar el suyo cuando se conecte (tiene 11 Diamantes).
+- Checkpoint para DAG (v0.6.1): la regla de bloques (blue score + MergeDepth, H en el pasado de algún padre) y `TestCheckpointDAG` están escritos en `cp.patch`; falta correrlos en el seed. La parte de nodos nuevos (lista de pruning points) espera la respuesta del auditor.
