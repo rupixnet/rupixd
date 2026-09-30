@@ -24,11 +24,16 @@ import (
 
 // TestPOW tests the validation of the block's POW.
 func TestPOW(t *testing.T) {
-	t.Skip("PENDIENTE-RUPIX: mina bloques con PoW real; en el CPX32 de desarrollo " +
-		"agota 3h de timeout sin terminar (el resto del paquete pasa en verde). " +
-		"Correr en hardware fuerte o CI antes de mainnet.")
+	// Rupix (30-sep-2026): este test estuvo en t.Skip desde antes de v0.6.0 porque minaba
+	// con PoW real en TODAS las redes (mainnet y testnet arrancan con dificultad alta y
+	// agotaban horas). Ahora corre en simnet y devnet, cuya dificultad de genesis se
+	// resuelve en segundos; la regla (ErrInvalidPoW, ErrTargetTooHigh, ErrNegativeTarget)
+	// es la misma en todas las redes. Es el hueco #0 de ESPECIFICACION.md.
 	// We set the flag "skip pow" to be false (second argument in the function) for not skipping the check of POW and validate its correctness.
 	testutils.ForAllNets(t, false, func(t *testing.T, consensusConfig *consensus.Config) {
+		if consensusConfig.Name == "rupix-mainnet" || consensusConfig.Name == "rupix-testnet" {
+			t.Skipf("%s: la dificultad de genesis hace inviable minar en un test; la regla se prueba en simnet y devnet", consensusConfig.Name)
+		}
 		factory := consensus.NewFactory()
 		tc, teardown, err := factory.NewTestConsensus(consensusConfig, "TestPOW")
 		if err != nil {

@@ -13,7 +13,7 @@ Convenciones: "rupia" = 1/100,000,000 RUPIX. "DAA" = DAA score (el número de bl
 | Cada bloque cobra según **su propio** DAA, no el del bloque que lo mergea. Por eso hay un exceso pequeño y acotado en cada frontera de halving (medido: 0.5 RUPIX en el halving 2 de la testnet). | (No es un ataque: es la letra chica, publicada.) | — (hueco: falta un test que construya bloques a ambos lados de una frontera y afirme el exceso exacto). |
 | `MaxRupia` (42,000,000 RUPIX) es un tope **por transacción**, no de emisión. | Salidas absurdas que desbordan aritmética. | Heredado de Kaspa (`transactionvalidator`, `checkTransactionAmountRanges`). |
 | PoW no se puede apagar en ninguna red pública (`SkipProofOfWork = false`). | Un nodo que acepte bloques sin trabajo. | `TestSkipProofOfWork` (`params_test.go`). |
-| Un bloque cuyo PoW no cumple la dificultad se rechaza (`ErrInvalidPoW`). | Bloques sin trabajo real; un minero que se salta la dificultad. | — **(hueco #0: `TestPOW`, heredado, está en `t.Skip` desde antes de v0.6.0 porque minaba con PoW real en todas las redes y agotaba 3 h; hoy NO corre en ninguna parte. Se cierra con un test solo en devnet, medido para el CI).** |
+| Un bloque cuyo PoW no cumple la dificultad se rechaza (`ErrInvalidPoW`); un target por encima de `PowMax` (`ErrTargetTooHigh`) o negativo (`ErrNegativeTarget`) también. Un bloque bien minado entra. | Bloques sin trabajo real; un minero que se salta la dificultad. | `TestPOW` (`blockvalidator`), en simnet y devnet desde el 30-sep-2026. Estuvo en `t.Skip` desde antes de v0.6.0 porque minaba en todas las redes y agotaba horas; mainnet y testnet se saltan explícitamente (misma regla, dificultad de génesis inviable en un test). |
 | El algoritmo es RupixHeavyHash: matriz de rango 64 generada por un PRNG propio, distinto del de Kaspa; entero, no flotante. | Que un ASIC de Kaspa mine Rupix; que dos implementaciones discrepen por redondeo. | `TestRupixPRNGDistintoDeXoshiro`, `TestRupixPRNGDeterminista`, `TestRupixMatrizRango64`, `TestRupixHeavyHashCambia`, `TestRankIntCoincideConFloat` (`utils/pow`). Prueban que el algoritmo es determinista y distinto; **no** que el validador rechace PoW inválido (ver fila siguiente). |
 
 ## 2. Quema por transacción
@@ -61,7 +61,7 @@ GHOSTDAG, ventana DAA, dificultad, poda y pruning proof, merge depth, madurez de
 
 ## Los huecos, en orden de importancia (el trabajo de la semana)
 
-0. **PoW inválido rechazado, en la suite.** `TestPOW` heredado está en `t.Skip`. Hace falta un test en devnet que construya un bloque con PoW mal resuelto y afirme `ErrInvalidPoW`, y uno bien resuelto que entre; que quepa en el CI.
+0. ~~PoW inválido rechazado, en la suite.~~ Cerrado el 30-sep-2026: `TestPOW` corre en simnet y devnet (ver sección 1).
 1. ~~Sello falso rechazado, automatizado.~~ Cerrado el 30-sep-2026 con `TestSelloFalsoRechazado` (ver sección 4).
 2. **Nodo nuevo contra peer hostil** (v0.6.2): validar `MsgPruningPoints` después de `ArePruningPointsInValidChain`; test en devnet con un peer que sirve otro punto de poda.
 3. **Topes de Diamante/Platino/Rodio en un bloque de consenso**, no solo en la aritmética.

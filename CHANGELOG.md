@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- `TestPOW` vuelve a correr (simnet y devnet): PoW invalido, target sobre PowMax y target negativo se rechazan; un bloque bien minado entra. Estaba en `t.Skip` desde antes de v0.6.0. Cierra el hueco #0 de ESPECIFICACION.md.
 - `TestSelloFalsoRechazado`: un bloque con el sello de gemas falso queda descalificado de la cadena y el builder honesto no construye sobre el; el mismo bloque con el sello correcto es UTXOValid. Cierra el hueco #1 de ESPECIFICACION.md.
 - `tools/verificar-binarios.sh`: recompila un tag con los flags del CI y compara SHA256 con la release. v0.6.1: 4 de 4 identicos (compilacion reproducible verificada).
 - CI: `race.yaml` heredado (corria sobre `master` y ramas `v*-dev` inexistentes) retirado; el nuevo corre `go test -race ./...` sobre `main` cada noche. Badge del CI en los README.
