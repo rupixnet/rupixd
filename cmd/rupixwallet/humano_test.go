@@ -36,3 +36,14 @@ func TestTraducirErrorNodo(t *testing.T) {
 		t.Fatalf("un error desconocido debe pasar sin tocar")
 	}
 }
+
+func TestTraducirErrorDaemon(t *testing.T) {
+	err := traducirErrorDaemon(errors.New("rpc error: code = Unavailable desc = connection error: connection refused"), "localhost:8082", "--testnet")
+	if !strings.Contains(err.Error(), "start-daemon") || !strings.Contains(err.Error(), "--testnet") {
+		t.Fatalf("debe decir como arrancar el daemon con la misma red: %v", err)
+	}
+	otro := errors.New("otra cosa")
+	if traducirErrorDaemon(otro, "x", "") != otro {
+		t.Fatalf("un error distinto pasa sin tocar")
+	}
+}

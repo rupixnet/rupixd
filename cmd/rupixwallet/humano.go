@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
 
@@ -73,3 +74,39 @@ func traducirErrorNodo(err error) error {
 
 // rupixTxt imprime un monto en RUPIX sin el relleno de columnas del formateador heredado.
 func rupixTxt(n uint64) string { return strings.TrimSpace(utils.FormatRupix(n)) }
+
+// verificarFrase (Rupix) pide dos palabras de la frase semilla, elegidas al azar, y
+// devuelve true si las dos coinciden. Es lo que hacen las wallets serias: convierte
+// "luego la anoto" en "ya la anote".
+func verificarFrase(mnemonics []string) bool {
+	lector := bufio.NewReader(os.Stdin)
+	for i, m := range mnemonics {
+		palabras := strings.Fields(m)
+		if len(palabras) < 2 {
+			continue
+		}
+		a := rand.Intn(len(palabras))
+		b := rand.Intn(len(palabras) - 1)
+		if b >= a {
+			b++
+		}
+		for _, pos := range []int{a, b} {
+			fmt.Printf(T("crear.verifica"), pos+1, i+1)
+			linea, err := utils.ReadLine(lector)
+			if err != nil || strings.ToLower(strings.TrimSpace(linea)) != palabras[pos] {
+				fmt.Printf(T("crear.mal")+"\n", pos+1, i+1)
+				return false
+			}
+		}
+	}
+	return true
+}
+
+// traducirErrorDaemon (Rupix) reconoce "no me pude conectar al daemon" y dice que hacer.
+func traducirErrorDaemon(err error, daemonAddress string, netFlag string) error {
+	msg := err.Error()
+	if strings.Contains(msg, "daemon is not running") || strings.Contains(msg, "connection refused") || strings.Contains(msg, "Unavailable") || strings.Contains(msg, "connection error") {
+		return errors.Errorf(T("daemon.apagado"), daemonAddress, netFlag)
+	}
+	return err
+}

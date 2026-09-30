@@ -104,7 +104,17 @@ func create(conf *createConfig) error {
 		for i, mnemonic := range mnemonics {
 			fmt.Printf(T("crear.frase.n")+"\n%s\n\n", i+1, mnemonic)
 		}
-		fmt.Println(T("crear.limpia"))
+		if conf.Yes {
+			fmt.Println(T("crear.limpia"))
+			return nil
+		}
+		// Rupix: dos palabras al azar, para que "luego la anoto" no exista. La wallet ya
+		// esta guardada; si falla, solo se le pide mirar el papel otra vez.
+		if verificarFrase(mnemonics) {
+			fmt.Println(T("crear.bien"))
+		} else {
+			fmt.Println(T("crear.limpia"))
+		}
 	}
 	return nil
 }

@@ -74,6 +74,10 @@ var textos = map[string][2]string{
 	"crear.frase.4":  {"en el chat. Se muestra UNA sola vez.", "in a chat. It is shown ONCE."},
 	"crear.frase.n":  {"Frase #%d:", "Phrase #%d:"},
 	"crear.limpia":   {"Cuando la tengas en papel, limpia la pantalla (clear / cls).", "Once it is on paper, clear the screen (clear / cls)."},
+	"crear.verifica": {"Para asegurarnos de que la anotaste bien, escribe la palabra numero %d de la frase #%d: ", "To make sure you wrote it down, type word number %d of phrase #%d: "},
+	"crear.mal":      {"No coincide. Revisa tu papel: la palabra %d de la frase #%d es otra. La wallet ya esta creada; vuelve a mirar la frase arriba.", "It doesn't match. Check your paper: word %d of phrase #%d is different. The wallet is already created; look at the phrase above again."},
+	"crear.bien":     {"Bien: la frase esta en tu papel. Ahora limpia la pantalla (clear / cls).", "Good: the phrase is on your paper. Now clear the screen (clear / cls)."},
+	"daemon.apagado": {"El daemon de la wallet no esta corriendo (o no en %s). Abrelo en OTRA ventana y dejalo ahi:\n  rupixwallet %s start-daemon\nLuego repite este comando aqui.", "The wallet daemon isn't running (or not at %s). Start it in ANOTHER window and leave it there:\n  rupixwallet %s start-daemon\nThen run this command again here."},
 
 	"tiempo.seg":  {"%d segundos", "%d seconds"},
 	"tiempo.min":  {"%d minutos", "%d minutes"},

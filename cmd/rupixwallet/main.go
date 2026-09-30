@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/pkg/errors"
 )
 
@@ -56,6 +58,18 @@ func main() {
 	}
 
 	if err != nil {
-		printErrorAndExit(err)
+		// Rupix: el error mas comun de un principiante es que el daemon no esta corriendo.
+		printErrorAndExit(traducirErrorDaemon(err, defaultListen, banderaRed()))
 	}
+}
+
+// banderaRed devuelve --testnet/--devnet/--simnet si venia en la linea de comandos, para
+// repetirla en los mensajes de ayuda (asi el comando sugerido se puede copiar tal cual).
+func banderaRed() string {
+	for _, a := range os.Args[1:] {
+		if a == "--testnet" || a == "--devnet" || a == "--simnet" {
+			return a
+		}
+	}
+	return ""
 }
