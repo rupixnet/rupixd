@@ -13,7 +13,8 @@ Convenciones: "rupia" = 1/100,000,000 RUPIX. "DAA" = DAA score (el número de bl
 | Cada bloque cobra según **su propio** DAA, no el del bloque que lo mergea. Por eso hay un exceso pequeño y acotado en cada frontera de halving (medido: 0.5 RUPIX en el halving 2 de la testnet). | (No es un ataque: es la letra chica, publicada.) | — (hueco: falta un test que construya bloques a ambos lados de una frontera y afirme el exceso exacto). |
 | `MaxRupia` (42,000,000 RUPIX) es un tope **por transacción**, no de emisión. | Salidas absurdas que desbordan aritmética. | Heredado de Kaspa (`transactionvalidator`, `checkTransactionAmountRanges`). |
 | PoW no se puede apagar en ninguna red pública (`SkipProofOfWork = false`). | Un nodo que acepte bloques sin trabajo. | `TestSkipProofOfWork` (`params_test.go`). |
-| El algoritmo es RupixHeavyHash: matriz de rango 64 generada por un PRNG propio, distinto del de Kaspa; entero, no flotante. | Que un ASIC de Kaspa mine Rupix; que dos implementaciones discrepen por redondeo. | `TestRupixPRNGDistintoDeXoshiro`, `TestRupixPRNGDeterminista`, `TestRupixMatrizRango64`, `TestRupixHeavyHashCambia`, `TestRankIntCoincideConFloat` (`utils/pow`), `TestPOW` (`blockvalidator`). |
+| Un bloque cuyo PoW no cumple la dificultad se rechaza (`ErrInvalidPoW`). | Bloques sin trabajo real; un minero que se salta la dificultad. | — **(hueco #0: `TestPOW`, heredado, está en `t.Skip` desde antes de v0.6.0 porque minaba con PoW real en todas las redes y agotaba 3 h; hoy NO corre en ninguna parte. Se cierra con un test solo en devnet, medido para el CI).** |
+| El algoritmo es RupixHeavyHash: matriz de rango 64 generada por un PRNG propio, distinto del de Kaspa; entero, no flotante. | Que un ASIC de Kaspa mine Rupix; que dos implementaciones discrepen por redondeo. | `TestRupixPRNGDistintoDeXoshiro`, `TestRupixPRNGDeterminista`, `TestRupixMatrizRango64`, `TestRupixHeavyHashCambia`, `TestRankIntCoincideConFloat` (`utils/pow`). Prueban que el algoritmo es determinista y distinto; **no** que el validador rechace PoW inválido (ver fila siguiente). |
 
 ## 2. Quema por transacción
 
@@ -41,7 +42,7 @@ Convenciones: "rupia" = 1/100,000,000 RUPIX. "DAA" = DAA score (el número de bl
 | Regla | Qué ataque detiene | Test que la viola y confirma el rechazo |
 |---|---|---|
 | Cada bloque lleva en su encabezado `GemsCommitment` = hash de los conteos históricos (Diamante, Platino, Rodio, Kings) después de aplicar el bloque. Está bajo el PoW. | Mentir sobre cuántas gemas existen; un nodo que "olvida" gemas. | Minero y validador calculan lo mismo: `TestKingsCommitmentMineroIgualValidador`; una transferencia no infla: `TestKingsTransferenciaNoInfla`; de punta a punta con el minero de producción: `TestKingsEndToEnd`. |
-| Un bloque cuyo sello no coincide con lo calculado se rechaza (`ErrBadUTXOCommitment` en `verify_and_build_utxo.go`). | Un bloque con conteo falso. | — **(hueco: no hay test automático que fabrique un bloque con sello falso y confirme el rechazo; se probó en vivo en la testnet v0.4.2 pero no está en la suite).** |
+| Un bloque cuyo sello no coincide con lo calculado queda **descalificado de la cadena** (`ErrBadUTXOCommitment` en `verify_and_build_utxo.go` → `StatusDisqualifiedFromChain`): entra como encabezado pero el virtual nunca lo sigue, y sus descendientes heredan la descalificación. | Un bloque con conteo falso; enterrar la mentira bajo bloques nuevos. | `TestSelloFalsoRechazado` (`domain/consensus/sello_falso_test.go`, 30-sep-2026): el mismo bloque con sello falso queda descalificado y con el sello correcto queda `UTXOValid`; el builder honesto se niega a construir sobre el falso. (Refinamiento pendiente: un hijo fabricado a mano, válido en todo salvo su padre, hereda la descalificación por `resolve_block_status.go`; falta el test.) |
 | El conteo se persiste por bloque (`GemsHistoryStore`) y se valida contra la pruning proof. | Que un nodo nuevo herede un conteo inventado. | `gemshistory_sanity_test.go` (`pruningproofmanager`). |
 
 ## 5. Checkpoints temporales
@@ -60,7 +61,8 @@ GHOSTDAG, ventana DAA, dificultad, poda y pruning proof, merge depth, madurez de
 
 ## Los huecos, en orden de importancia (el trabajo de la semana)
 
-1. **Sello falso rechazado, automatizado.** Fabricar un bloque válido en todo salvo el `GemsCommitment` y afirmar `ErrBadUTXOCommitment`. Es la afirmación más fuerte del README y no tiene test en la suite.
+0. **PoW inválido rechazado, en la suite.** `TestPOW` heredado está en `t.Skip`. Hace falta un test en devnet que construya un bloque con PoW mal resuelto y afirme `ErrInvalidPoW`, y uno bien resuelto que entre; que quepa en el CI.
+1. ~~Sello falso rechazado, automatizado.~~ Cerrado el 30-sep-2026 con `TestSelloFalsoRechazado` (ver sección 4).
 2. **Nodo nuevo contra peer hostil** (v0.6.2): validar `MsgPruningPoints` después de `ArePruningPointsInValidChain`; test en devnet con un peer que sirve otro punto de poda.
 3. **Topes de Diamante/Platino/Rodio en un bloque de consenso**, no solo en la aritmética.
 4. **Exceso por frontera de halving**: bloques a ambos lados de un halving, afirmar el exceso exacto y que no puede crecer más que la cota.
