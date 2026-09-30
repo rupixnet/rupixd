@@ -90,6 +90,7 @@ Rupix se construye sobre la premisa de que un BlockDAG con Proof of Work permite
 
 ## Verifícalo tú mismo
 
+- **Regla por regla**: [ESPECIFICACION.md](./ESPECIFICACION.md) pone cada regla de consenso junto al ataque que detiene y al test que la viola y confirma el rechazo. Donde la tercera columna está vacía, ahí está el trabajo pendiente (listado al final).
 - **Que los binarios publicados son exactamente lo que produce el código**: `sh tools/verificar-binarios.sh v0.6.1` compila el tag con los flags del CI y compara SHA256 binario por binario. Hecho el 30-sep-2026 para v0.6.1: 4 de 4 idénticos (`rupixd` `ea973ce0d720678a…`). Compilación reproducible: no tienes que confiar en GitHub, ni en nosotros.
 - **Que el CI está en verde de verdad**: el badge de arriba corre gofmt, go vet, staticcheck, build y `go test ./...` en Linux y macOS en cada push. Verde desde el 30-sep-2026; antes, el workflow heredado llevaba semanas rojo por piezas que no eran nuestras (ver MEMORIA).
 
