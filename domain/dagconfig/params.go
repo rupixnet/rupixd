@@ -50,15 +50,19 @@ type KType uint8
 // Params defines a Kaspa network by its parameters. These parameters may be
 // used by Kaspa applications to differentiate networks as well as addresses
 // and keys for one network from those intended for use on another network.
-// Checkpoint (Rupix) es un bloque canonico conocido: el bloque con este DAA
-// score DEBE tener este hash, o se rechaza. Es una defensa TEMPORAL contra
-// reorganizaciones profundas (ataque del 51%) mientras el hashrate de la red
-// es pequeno. Se publica con fecha de caducidad (CheckpointsExpireDAAScore) y
-// se retira cuando la red pueda sostenerse sola. Centralizacion declarada,
-// no oculta.
+// Checkpoint (Rupix) es un bloque canonico conocido H, con su blue score X.
+// Regla (v0.6.1, formulacion para DAG): todo bloque con blue score >= X + MergeDepth
+// debe tener a H en su pasado. Un hermano de H con el mismo score no se ve afectado
+// (su blue score es menor que el umbral); un bloque honesto posterior siempre tiene
+// a H en su pasado porque H fue mergeado; una historia alterna que no pasa por H se
+// rechaza. El margen es MergeDepth: un bloque honesto que no mergeo H antes de eso
+// ya viola la regla de merge depth, asi que no se rechaza a nadie honesto.
+// Es una defensa TEMPORAL contra reorganizaciones profundas (ataque del 51%) mientras
+// el hashrate es pequeno. Caduca en CheckpointsExpireDAAScore. Centralizacion
+// declarada, no oculta.
 type Checkpoint struct {
-	DAAScore uint64
-	Hash     *externalapi.DomainHash
+	BlueScore uint64
+	Hash      *externalapi.DomainHash
 }
 
 type Params struct {
