@@ -201,7 +201,9 @@ func TestKingsEndToEnd(t *testing.T) {
 			t.Fatalf("Diamante minado por el block_builder real no es UTXOValid: %s", st)
 		}
 		tip = dh
-		src, srcIdx, disp = dtx, 2, dtx.Outputs[2].Value
+		src, srcIdx = dtx, 2
+		disp = dtx.Outputs[2].Value
+		_ = disp // el saldo restante ya no se usa despues del ultimo Diamante; se deja por claridad
 	}
 	t.Log("EL KING (minado con el block_builder de produccion)...")
 	king := forgeUp(constants.LevelKings, rodios)

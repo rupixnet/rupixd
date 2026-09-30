@@ -7,6 +7,9 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- CI: el workflow `Tests` heredado (rojo en cada push por piezas de Kaspa) se retira a `.github/workflows-retirados/` y se reemplaza por gofmt + go vet + staticcheck + build + `go test ./...` en Linux y macOS.
+- Wallet: el output de quema entra al mock de `estimateFee` antes de armarlo (antes se agregaba despues y no contaba; lo tapaba el colchon de 100 rupias). Encontrado por staticcheck SA4006.
+- Test del King: `disp` sin uso (staticcheck SA4006).
 - Pendiente (v0.6.2): validar la lista `MsgPruningPoints` contra los checkpoints despues de `ArePruningPointsInValidChain` (proteccion para nodos que sincronizan desde cero). Hasta entonces el checkpoint protege a nodos ya sincronizados.
 - Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
 

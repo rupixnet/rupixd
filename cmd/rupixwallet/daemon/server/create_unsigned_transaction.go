@@ -384,18 +384,21 @@ func (s *server) estimateFee(selectedUTXOs []*librupixwallet.UTXO, feeRate float
 		}
 	}
 
+	// Rupix: la tx real llevara un output de quema (OpReturn) — el mock debe
+	// incluirlo para que la masa medida (y la fee) cubran la tx verdadera.
+	// (30-sep-2026: staticcheck SA4006 delato que este append iba DESPUES de
+	// armar el mock, asi que nunca contaba; el colchon de +100 rupias lo tapaba.)
+	mockPayments = append(mockPayments, &librupixwallet.Payment{
+		ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{0x6a}, Version: 0},
+		Amount:          1,
+	})
+
 	mockTx, err := librupixwallet.CreateUnsignedTransaction(s.keysFile.ExtendedPublicKeys,
 		s.keysFile.MinimumSignatures,
 		mockPayments, selectedUTXOs)
 	if err != nil {
 		return 0, err
 	}
-	// Rupix: la tx real llevara un output de quema (OpReturn) — el mock debe
-	// incluirlo para que la masa medida (y la fee) cubran la tx verdadera.
-	mockPayments = append(mockPayments, &librupixwallet.Payment{
-		ScriptPublicKey: &externalapi.ScriptPublicKey{Script: []byte{0x6a}, Version: 0},
-		Amount:          1,
-	})
 
 	mass, err := s.estimateMassAfterSignatures(mockTx)
 	if err != nil {
