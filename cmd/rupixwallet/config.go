@@ -73,6 +73,7 @@ type sendConfig struct {
 	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in Sompi/gram to use for the transaction. This option will override any fee estimate from the connected node."`
 	MaxFee                   uint64   `long:"max-fee" short:"x" description:"Maximum fee in Sompi (not Sompi/gram) to use for the transaction. The wallet will take the minimum between the fee estimate from the connected node and this value. If no other fee policy is specified, it will set the max fee to 1 RUPIX"`
 	Verbose                  bool     `long:"show-serialized" short:"s" description:"Show a list of hex encoded sent transactions"`
+	Yes                      bool     `long:"yes" short:"y" description:"No pedir confirmacion antes de enviar"`
 	config.NetworkFlags
 }
 
@@ -131,8 +132,10 @@ type newAddressConfig struct {
 type forgeConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	Level         uint32 `long:"level" short:"l" description:"Nivel: 1=Diamante 2=Platino 3=Rodio 4=Kings"`
-	GemAddress    string `long:"gem-address" description:"Direccion donde nace la gema"`
-	Password      string `long:"password" short:"p" description:"Wallet password"`
+	GemAddress    string `long:"gem-address" description:"Direccion donde nace la gema (si no se da, la primera de tu wallet)"`
+	Password      string `long:"password" short:"p" description:"Wallet password (mejor no: se pide en pantalla)"`
+	RPCServer     string `long:"rpcserver" short:"s" description:"Nodo rupixd para preguntar en que bloque va la red (default: 127.0.0.1 con el puerto de la red)"`
+	Yes           bool   `long:"yes" short:"y" description:"No pedir confirmacion"`
 	config.NetworkFlags
 }
 
@@ -145,7 +148,8 @@ type transferGemConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	Level         uint32 `long:"level" short:"l" description:"Nivel de la gema a transferir: 1-4"`
 	ToAddress     string `long:"to-address" description:"Direccion destino de la gema"`
-	Password      string `long:"password" short:"p" description:"Wallet password"`
+	Password      string `long:"password" short:"p" description:"Wallet password (mejor no: se pide en pantalla)"`
+	Yes           bool   `long:"yes" short:"y" description:"No pedir confirmacion"`
 	config.NetworkFlags
 }
 

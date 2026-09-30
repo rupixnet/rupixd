@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Wallet para principiantes (rama `wallet-principiantes`, para v0.6.2): `forge` revisa antes de mandar (gemas y Gold contra lo que pide la escalera, y si el nivel esta abierto preguntando al nodo), resume lo que va a pasar y pide confirmacion; `send` y `transfer-gem` confirman antes de pedir la clave; `--gem-address` opcional (primera direccion); rechazos conocidos del nodo explicados en palabras sin esconder el original; `--yes` para scripts. Probado en vivo contra el daemon del seed sin mover nada.
 - `tools/verificar-binarios.sh`: recompila un tag con los flags del CI y compara SHA256 con la release. v0.6.1: 4 de 4 identicos (compilacion reproducible verificada).
 - CI: `race.yaml` heredado (corria sobre `master` y ramas `v*-dev` inexistentes) retirado; el nuevo corre `go test -race ./...` sobre `main` cada noche. Badge del CI en los README.
 - CI: el workflow `Tests` heredado (rojo en cada push por piezas de Kaspa) se retira a `.github/workflows-retirados/` y se reemplaza por gofmt + go vet + staticcheck + build + `go test ./...` en Linux y macOS.

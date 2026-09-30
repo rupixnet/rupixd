@@ -359,3 +359,5 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 - Estado: seed v0.6.1, 4 servicios activos, **0 peers** (JC y JP apagados; el aviso de v0.6.1 sale cuando vuelvan). CI `tests.yaml` verde en `31ad76f7`; el `race.yaml` nuevo corre por primera vez esta noche (03:17 UTC).
 - Web: hitos del CI/reproducible y del halving 4 publicados hoy.
 - Siguiente: aviso JC/JP + respuesta al auditor; wallet para principiantes (rama `wallet-principiantes`, devnet); Reddit; v0.6.2 (lista de pruning points, `rpc-gemas`).
+
+- 14:05 (30-sep): rama `wallet-principiantes` commit 1: forge revisa antes/confirma, send y transfer-gem confirman, --gem-address opcional, errores del nodo explicados, `humano_test.go`. Probado en vivo con `/root/rupixwallet-prueba2` (Rodio sin Platinos → se frena; Diamante/send/transfer con "no" → cancela; saldo y gemas intactos). Sigue: commit 2, idioma es/en.
