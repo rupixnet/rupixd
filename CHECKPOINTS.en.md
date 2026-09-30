@@ -61,6 +61,10 @@ node version that includes it.
 
 Verified on 30-Sep-2026: the testnet pruning point moved from H (blue score 86,400) to blue score 172,800, and the seed kept H as a chain block and kept applying the rule. Past pruning points are retained by the node even as pruning advances; that is why checkpoints are published only on pruning points: they never vanish from the node that validates them.
 
+## Renewal: there is never a gap between checkpoints
+
+Every checkpoint has an expiry (`CheckpointsExpireDAAScore`). The rule since 30-Sep-2026: **the next checkpoint is published before the previous one expires**, always on a more recent pruning point and with a new expiry, in a node version announced ahead of time. A gap between checkpoints would be an attack window announced in advance; that is why it is not allowed. If for some reason no new checkpoint is ready before expiry, a version that only extends the current one's expiry is published. The network is left without the lock only when it is removed on purpose (next section), never by neglect. For #1 (expires at DAA 2,000,000): #2 is published no later than DAA 1,700,000 (~3.5 testnet days before).
+
 ## When they are removed
 
 Checkpoints are removed when the network can stand on its own: sustained external

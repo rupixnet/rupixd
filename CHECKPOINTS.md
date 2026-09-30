@@ -61,6 +61,10 @@ fecha, y la versión del nodo que lo incluye.
 
 Verificado el 30-sep-2026: el punto de poda de la testnet pasó de H (blue score 86,400) a blue score 172,800, y el seed siguió teniendo a H como bloque de cadena y aplicando la regla. Los puntos de poda pasados se conservan en el nodo aunque la poda avance; por eso los checkpoints se publican solo sobre puntos de poda: nunca desaparecen del nodo que los valida.
 
+## Renovación: nunca hay un hueco entre checkpoints
+
+Cada checkpoint tiene caducidad (`CheckpointsExpireDAAScore`). La regla desde el 30-sep-2026: **el siguiente checkpoint se publica antes de que caduque el anterior**, siempre sobre un punto de poda más reciente y con una caducidad nueva, en una versión del nodo anunciada con tiempo. Un hueco entre checkpoints sería una ventana de ataque anunciada de antemano; por eso no se permite. Si por alguna razón no hay checkpoint nuevo listo antes de la caducidad, se publica una versión que solo extiende la caducidad del vigente. La red solo se queda sin candado cuando se retire a propósito (sección siguiente), nunca por descuido. Para el #1 (caduca en DAA 2,000,000): el #2 se publica a más tardar en el DAA 1,700,000 (~3.5 días de testnet antes).
+
 ## Cuándo se retiran
 
 Los checkpoints se retiran cuando la red pueda sostenerse sola: hashrate externo
