@@ -1,8 +1,8 @@
 # Binarios compilados
-rupixd
-rupixctl
-rupixminer
-rupixwallet
+/rupixd
+/rupixctl
+/rupixminer
+/rupixwallet
 *.exe
 
 # Archivos temporales

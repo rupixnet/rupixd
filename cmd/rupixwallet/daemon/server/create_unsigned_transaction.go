@@ -191,6 +191,15 @@ func (s *server) selectUTXOsWithPreselected(preSelectedUTXOs []*walletUTXO, allo
 		return nil, 0, 0, err
 	}
 
+	// Rupix: costos para la estimacion lineal de la fee (ver dentro del bucle).
+	linearFeePerInput, err := s.estimateFeePerInput(feeRate)
+	if err != nil {
+		return nil, 0, 0, err
+	}
+	// Margen fijo generoso para lo que no son inputs (outputs de destino,
+	// cambio y quema, y encabezado). Solo guia la SELECCION; la fee final es exacta.
+	linearBaseFee := uint64(math.Ceil(3000*feeRate)) + 100
+
 	var fee uint64
 	iteration := func(utxo *walletUTXO, avoidPreselected bool) (bool, error) {
 		if (fromAddresses != nil && !walletAddressesContain(fromAddresses, utxo.address)) ||
@@ -221,14 +230,18 @@ func (s *server) selectUTXOsWithPreselected(preSelectedUTXOs []*walletUTXO, allo
 		})
 
 		totalValue += utxo.UTXOEntry.Amount()
-		estimatedRecipientValue := spendAmount
-		if isSendAll {
-			estimatedRecipientValue = totalValue
-		}
 
-		fee, err = s.estimateFee(selectedUTXOs, feeRate, maxFee, estimatedRecipientValue)
-		if err != nil {
-			return false, err
+		// Rupix: durante la seleccion la fee se estima en tiempo LINEAL:
+		// base + n*costoPorPedazo. Antes se rearmaba la transaccion entera con
+		// todos los pedazos por cada pedazo agregado (costo al cuadrado): con
+		// la wallet de un minero (~78k pedazos de 0.25) un envio de 1,000 RUPIX
+		// tardaba >2 min y se cortaba. Medido el 28-sep-2026: 2.2s/6.9s/16s/
+		// 28.6s/44.2s/64.1s para 100..600 RUPIX. La fee EXACTA se calcula una
+		// sola vez al final, con los pedazos ya elegidos: el resultado es el
+		// mismo, el tiempo deja de crecer al cuadrado.
+		fee = linearBaseFee + uint64(len(selectedUTXOs))*linearFeePerInput
+		if fee > maxFee {
+			fee = maxFee
 		}
 
 		totalSpend := spendAmount + fee
@@ -265,6 +278,58 @@ func (s *server) selectUTXOsWithPreselected(preSelectedUTXOs []*walletUTXO, allo
 
 			if !shouldContinue {
 				break
+			}
+		}
+	}
+
+	// Rupix: la fee EXACTA, una sola vez, con los pedazos ya elegidos (el mismo
+	// calculo que antes corria por cada pedazo). Si la exacta resulta mayor que
+	// la estimacion lineal y el valor ya no alcanza, se agregan pedazos de uno
+	// en uno (raro: la lineal va con margen).
+	if len(selectedUTXOs) > 0 {
+		estimatedRecipientValue := spendAmount
+		if isSendAll {
+			estimatedRecipientValue = totalValue
+		}
+		fee, err = s.estimateFee(selectedUTXOs, feeRate, maxFee, estimatedRecipientValue)
+		if err != nil {
+			return nil, 0, 0, err
+		}
+		if !isSendAll {
+			enUso := make(map[externalapi.DomainOutpoint]struct{}, len(selectedUTXOs))
+			for _, u := range selectedUTXOs {
+				enUso[*u.Outpoint] = struct{}{}
+			}
+			for _, utxo := range s.utxosSortedByAmount {
+				if totalValue >= spendAmount+fee {
+					break
+				}
+				if _, ok := enUso[*utxo.Outpoint]; ok {
+					continue
+				}
+				if (fromAddresses != nil && !walletAddressesContain(fromAddresses, utxo.address)) ||
+					!s.isUTXOSpendable(utxo, dagInfo.VirtualDAAScore) {
+					continue
+				}
+				if broadcastTime, ok := s.usedOutpoints[*utxo.Outpoint]; ok {
+					if _, allowed := allowUsed[*utxo.Outpoint]; !allowed {
+						if s.usedOutpointHasExpired(broadcastTime) {
+							delete(s.usedOutpoints, *utxo.Outpoint)
+						} else {
+							continue
+						}
+					}
+				}
+				selectedUTXOs = append(selectedUTXOs, &librupixwallet.UTXO{
+					Outpoint:       utxo.Outpoint,
+					UTXOEntry:      utxo.UTXOEntry,
+					DerivationPath: s.walletAddressPath(utxo.address),
+				})
+				totalValue += utxo.UTXOEntry.Amount()
+				fee, err = s.estimateFee(selectedUTXOs, feeRate, maxFee, spendAmount)
+				if err != nil {
+					return nil, 0, 0, err
+				}
 			}
 		}
 	}
