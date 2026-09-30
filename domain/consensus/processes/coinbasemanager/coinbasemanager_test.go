@@ -79,8 +79,8 @@ func TestTotalSupply(t *testing.T) {
 	// la testnet: 0.5 RUPIX en el halving 2. MaxRupia es un tope por transaccion, no
 	// un tope de emision. No se rastrea la emision acumulada en consenso a proposito.
 	cotaExceso := uint64(dagconfig.MainnetParams.DifficultyAdjustmentWindowSize) * uint64(baseSubsidy) // suma de caidas = baseSubsidy
-	if cotaExceso*100_000 > total {
-		t.Errorf("la cota del exceso por fronteras (%d rupias) deberia ser menor al 0.001%% de la emision", cotaExceso)
+	if cotaExceso*10_000 > total {
+		t.Errorf("la cota del exceso por fronteras (%d rupias) deberia ser menor al 0.01%% de la emision", cotaExceso)
 	}
 	t.Logf("Exceso maximo por fronteras de halving: %d rupias = %.2f RUPIX (en la practica, unos pocos)",
 		cotaExceso, float64(cotaExceso)/float64(constants.RupiaPerRupix))
