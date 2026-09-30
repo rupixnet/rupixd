@@ -16,10 +16,11 @@ import (
 func create(conf *createConfig) error {
 	var encryptedMnemonics []*keys.EncryptedMnemonic
 	var signerExtendedPublicKeys []string
+	var mnemonics []string
 	var err error
 	isMultisig := conf.NumPublicKeys > 1
 	if !conf.Import {
-		encryptedMnemonics, signerExtendedPublicKeys, err = keys.CreateMnemonics(conf.NetParams(), conf.NumPrivateKeys, conf.Password, isMultisig)
+		encryptedMnemonics, signerExtendedPublicKeys, mnemonics, err = keys.CreateMnemonicsRevealing(conf.NetParams(), conf.NumPrivateKeys, conf.Password, isMultisig)
 	} else {
 		encryptedMnemonics, signerExtendedPublicKeys, err = keys.ImportMnemonics(conf.NetParams(), conf.NumPrivateKeys, conf.Password, isMultisig)
 	}
@@ -32,7 +33,7 @@ func create(conf *createConfig) error {
 	}
 
 	fmt.Printf("Notice the above is neither a secret key to your wallet " +
-		"(use \"rupixwallet dump-unencrypted-data\" to see a secret seed phrase) " +
+		"(your secret seed phrase is shown below, once the keys file is saved) " +
 		"nor a wallet public address (use \"rupixwallet new-address\" to create and see one)\n\n")
 
 	extendedPublicKeys := make([]string, conf.NumPrivateKeys, conf.NumPublicKeys)
@@ -89,5 +90,21 @@ func create(conf *createConfig) error {
 	}
 
 	fmt.Printf("Wrote the keys into %s\n", file.Path())
+
+	// Rupix: la frase semilla se muestra UNA vez, ya con el archivo guardado.
+	// Es la unica forma de recuperar la wallet si se pierde el archivo o la
+	// contrasena. Antes no se mostraba nunca al crear.
+	if len(mnemonics) > 0 {
+		fmt.Printf("\n========================================================\n")
+		fmt.Printf("FRASE SEMILLA / SEED PHRASE — copiala en PAPEL, ahora.\n")
+		fmt.Printf("Es la unica forma de recuperar esta wallet si pierdes el\n")
+		fmt.Printf("archivo o la contrasena. No la guardes en el telefono ni\n")
+		fmt.Printf("en el chat. Se muestra UNA sola vez.\n")
+		fmt.Printf("========================================================\n")
+		for i, mnemonic := range mnemonics {
+			fmt.Printf("Frase #%d:\n%s\n\n", i+1, mnemonic)
+		}
+		fmt.Printf("Cuando la tengas en papel, limpia la pantalla (clear / cls).\n")
+	}
 	return nil
 }
