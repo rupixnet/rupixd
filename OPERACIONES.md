@@ -105,3 +105,7 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 3. `systemctl restart rupixd-testnet rupixminer-testnet rupixwallet-testnet rupix-explorer`; esperar 30 s.
 4. Verificar: `rupixd --version`, `rupixctl --testnet GetInfo` (versión del servidor), `GetBlockDagInfo` (DAA avanza, `isSynced`), `journalctl -u rupixd-testnet -n 20`.
 5. La release en GitHub (tag + CI) es lo que actualiza a la comunidad; el seed puede ir un paso adelante, nunca atrás.
+
+## Verificar una release (30-sep-2026)
+
+Después de publicar una release, en el seed: `sh /root/rupixd/tools/verificar-binarios.sh vX.Y.Z`. Debe decir `OK` con cuatro `IGUAL`. Si difiere, no se anuncia la release hasta entender por qué (versión de Go distinta a la del CI, flags cambiados, o algo peor). El CI compila con Go 1.26.6 y CGO activo con enlace estático; el seed debe tener la misma versión de Go.

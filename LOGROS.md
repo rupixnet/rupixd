@@ -120,3 +120,18 @@ Mismas tres gemas, mismos IDs, mismos bloques de nacimiento, mismo punto de poda
 El auditor externo revisó las cuatro ramas contra `1e38bace` y dio el visto bueno para mergearlas: checkpoints para DAG, prueba automática de los niveles en el mempool, selección lineal de pedazos en la wallet y claves de la wallet (contraseña en pantalla, frase semilla en papel). Confirmó además, con el código en la mano, la explicación del medio RUPIX del halving 2 (ver MEMORIA) y recomendó no tocar el consenso por eso.
 
 Merge sin conflictos, suite en verde, y **v0.6.1** publicada. Con ella, el **primer checkpoint de Rupix**: testnet #4, blue score 86,400 (DAA 86,399), hash `7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad`, caduca en DAA 2,000,000. Es el punto de poda que el seed y el nodo de JC ya tenían en común antes de que nadie lo declarara: el checkpoint no impone una historia, confirma la que los nodos ya compartían. `TestCheckpointsPublicados` obliga a que el código y `CHECKPOINTS.md` digan lo mismo.
+
+## 30 de septiembre de 2026 (madrugada) — Primer CI en verde y compilación reproducible
+
+**El CI dice la verdad por primera vez.** El workflow `Tests` heredado de Kaspa llevaba semanas en rojo en cada push, por piezas que no eran nuestras, y debajo escondía dos avisos reales de `staticcheck` (uno, un bug chico en la estimación de comisión de la wallet). Se retiró a `.github/workflows-retirados/` y se reemplazó por lo que sí es de Rupix: gofmt, go vet, staticcheck, build y `go test ./...` en Linux y macOS. Primer verde: commit `bb1db440`, los dos sistemas. Desde hoy, rojo significa que algo nuestro se rompió y verde significa que no.
+
+**Los binarios publicados son exactamente el código.** Se bajó `rupix-v0.6.1-linux.zip` de la release (SHA256 `b534d843f2295b0f396bf81d151430749f6e890abd8996a3db74bbbf44217f67`), se compiló el tag `v0.6.1` (`a12c2a05`) en el seed con los mismos flags que el CI y Go 1.26.6, y se comparó binario por binario:
+
+| Binario | SHA256 (idéntico en CI y en el seed) |
+|---|---|
+| rupixd | `ea973ce0d720678a431093e1794fe3401c6186647f747153b49b0f41259fd82a` |
+| rupixctl | `033f60a457d5e0bd827a5202a2f557d91acb369adac1614c1111c36a16383c3d` |
+| rupixwallet | `8f1f013816911f80e7de5d5febdb41c457325c852c3a9e1c611dbdb3e47e7b34` |
+| rupixminer | `d3a40158d20e0511e572774ff052a2fdddb00bf3d6518fb310965038bad11ad8` |
+
+Cuatro de cuatro. Cualquiera con Go 1.26.6 puede repetirlo con `tools/verificar-binarios.sh v0.6.1`. Eso cierra un pendiente viejo: ya no hay que confiar en GitHub ni en nosotros para saber que lo que se descarga es lo que dice el código.

@@ -1,5 +1,7 @@
 # Rupix
 
+[![Tests](https://github.com/rupixnet/rupixd/actions/workflows/tests.yaml/badge.svg)](https://github.com/rupixnet/rupixd/actions/workflows/tests.yaml)
+
 🇬🇧 [English version](./README.md)
 
 **Rupix es moneda digital que no controla nadie, para todos: sin dueño, sin premine (sin monedas preguardadas por su creador), sin permiso para entrar. Con un techo de 42 millones que nadie puede cambiar, y una cantidad que solo baja. Mientras el dinero normal se imprime, Rupix se hace más escasa. Y no tienes que confiar en nadie: verifícalo.**
@@ -34,6 +36,7 @@ La **testnet pública está viva**: acepta nodos externos, mina sobre un génesi
 - ✅ **Halving 2 y primer Platino de v0.6.0** (28-sep-2026): a DAA 256,208 el Gold emitido cuadró con la regla por calendario salvo 0.5 RUPIX (82,025.5 menos lo quemado; el 0.5 de más se explicó el 29-sep: bloques minados antes del halving y cobrados después conservan la recompensa vieja); Platino forjado después de su apertura (tx `c382e0a7…`, DAA 256,577) y aceptado, la noche después de que uno adelantado fue rechazado. Cualquiera puede comprobar la emisión contra su propio nodo con `tools/verificar-emision.py`.
 - ✅ **Halving 3, 10,000 RUPIX en 46 s y el primer Platino de la comunidad** (29-sep-2026): la recompensa bajó a 0.0625 en el DAA 300,000 con el mismo punto de poda en los dos nodos. La wallet arreglada mandó 1,000 RUPIX (24 txs, 8.6 s) y 10,000 RUPIX (232 txs, 46.1 s) desde una wallet de minero de ~78k pedazos — antes 1,000 se cortaba. Un minero de la comunidad forjó un Platino desde su PC con Windows (tx `bc1bb97590ef7d81…`, DAA 348,162); el seed y su nodo, consultados por separado, devolvieron las mismas tres gemas con los mismos IDs y bloques de nacimiento.
 - ✅ **v0.6.1 y el primer checkpoint publicado** (29-sep-2026): el auditor externo aprobó las cuatro ramas (checkpoints para DAG, test de niveles en el mempool, selección lineal de pedazos, claves de la wallet); mergeadas y publicadas. Checkpoint #1 de la testnet sobre el punto de poda que los dos nodos ya compartían: blue score 86,400, `7e2ece393c7d991c…`. El 0.5 RUPIX sobre el calendario en el halving 2 quedó explicado y documentado (ver MEMORIA).
+- ✅ **Primer CI en verde y compilación reproducible verificada** (30-sep-2026): el workflow heredado llevaba semanas rojo; se reemplazó por lo nuestro (gofmt, vet, staticcheck, build, suite completa) — verde en Linux y macOS. Los binarios de la release v0.6.1 se recompilaron desde el tag en el seed con los flags del CI: 4 de 4 SHA256 idénticos. `tools/verificar-binarios.sh` deja que cualquiera lo repita.
 - ✅ **Binarios verificables con SHA256**: cada release publica la huella de cada binario, generada por el CI — descargas, comparas, y confirmas que nadie lo alteró
 - ✅ **Bug de consenso encontrado por el nuevo test end-to-end del King — corregido** (21-sep-2026): el minero contaba dos veces las forjas del bloque que construía (un parche del 13-sep), mientras el validador cuenta lo que el bloque *acepta*. Cualquier bloque con una forja minado por producción habría sido rechazado — incluido el primer King real en mainnet. Corregido en **v0.6.0** (en producción desde el 26-sep), junto con el dominio keccak y el rango entero; `TestKingsEndToEnd` falla si se revierte el fix. Encontrado en testnet, no en mainnet.
 - ✅ **`go test ./...` en verde y `go vet` limpio** (20-sep-2026): la suite completa pasa. Los últimos 18 paquetes rojos no eran bugs de consenso: eran tests heredados de Kaspa con expectativas de Kaspa (prefijos `kaspa:`, recompensa de 500, orden por hash) y outputs creados con `Version = MaxScriptPublicKeyVersion`, que en Rupix es 4 = Kings — la escalera los rechazaba como Kings falsos. Regenerados desde el código, verificables.
@@ -85,6 +88,9 @@ Rupix se construye sobre la premisa de que un BlockDAG con Proof of Work permite
 - **Escalabilidad**: BlockDAG permite múltiples bloques paralelos sin perder consistencia
 
 ## Verifícalo tú mismo
+
+- **Que los binarios publicados son exactamente lo que produce el código**: `sh tools/verificar-binarios.sh v0.6.1` compila el tag con los flags del CI y compara SHA256 binario por binario. Hecho el 30-sep-2026 para v0.6.1: 4 de 4 idénticos (`rupixd` `ea973ce0d720678a…`). Compilación reproducible: no tienes que confiar en GitHub, ni en nosotros.
+- **Que el CI está en verde de verdad**: el badge de arriba corre gofmt, go vet, staticcheck, build y `go test ./...` en Linux y macOS en cada push. Verde desde el 30-sep-2026; antes, el workflow heredado llevaba semanas rojo por piezas que no eran nuestras (ver MEMORIA).
 
 No confíes en nosotros. Compruébalo:
 
