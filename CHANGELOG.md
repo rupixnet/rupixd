@@ -7,6 +7,8 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- `TestQuemaNoSeGasta`: una salida de quema (OpReturn) no existe en el UTXO set; el mempool y el consenso rechazan gastarla (el cambio de la misma tx si se gasta). Cierra el hueco #5.
+- `TestExcesoEnFronteraDeHalving`: dos hermanos en el ultimo DAA de una era cobran la recompensa vieja aunque los mergee un bloque de la era siguiente; el exceso es exactamente la caida de recompensa. Cierra el hueco #4 y deja medido lo que se documento del halving 2.
 - `TestPOW` vuelve a correr (simnet y devnet): PoW invalido, target sobre PowMax y target negativo se rechazan; un bloque bien minado entra. Estaba en `t.Skip` desde antes de v0.6.0. Cierra el hueco #0 de ESPECIFICACION.md.
 - `TestSelloFalsoRechazado`: un bloque con el sello de gemas falso queda descalificado de la cadena y el builder honesto no construye sobre el; el mismo bloque con el sello correcto es UTXOValid. Cierra el hueco #1 de ESPECIFICACION.md.
 - `tools/verificar-binarios.sh`: recompila un tag con los flags del CI y compara SHA256 con la release. v0.6.1: 4 de 4 identicos (compilacion reproducible verificada).

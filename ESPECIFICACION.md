@@ -10,7 +10,7 @@ Convenciones: "rupia" = 1/100,000,000 RUPIX. "DAA" = DAA score (el número de bl
 |---|---|---|
 | El génesis no emite nada (`SubsidyGenesisReward = 0`) en todas las redes. | Premine escondido en el bloque 0. | `TestNoPremine` (`coinbasemanager_test.go`): falla si alguna red pone subsidio en el génesis. |
 | La recompensa por bloque es `50,000,000 >> (DAA / BlocksPerHalving)` rupias: 0.5 RUPIX, mitad en cada halving, cero a partir de la era 26. | Cambiar el calendario de emisión; inflación por decreto. | `TestTotalSupply`: suma el calendario y exige exactamente 41,999,994.96 RUPIX; documenta la cota del exceso por fronteras (0.0031 %). |
-| Cada bloque cobra según **su propio** DAA, no el del bloque que lo mergea. Por eso hay un exceso pequeño y acotado en cada frontera de halving (medido: 0.5 RUPIX en el halving 2 de la testnet). | (No es un ataque: es la letra chica, publicada.) | — (hueco: falta un test que construya bloques a ambos lados de una frontera y afirme el exceso exacto). |
+| Cada bloque cobra según **su propio** DAA, no el del bloque que lo mergea. Por eso hay un exceso pequeño y acotado en cada frontera de halving (medido: 0.5 RUPIX en el halving 2 de la testnet). | (No es un ataque: es la letra chica, publicada.) | `TestExcesoEnFronteraDeHalving` (`domain/consensus`, 30-sep-2026): dos hermanos en el último DAA de una era, mergeados por un bloque ya en la era siguiente, cobran los dos la recompensa vieja; el exceso es exactamente la caída de recompensa, y el bloque siguiente ya cobra la nueva. |
 | `MaxRupia` (42,000,000 RUPIX) es un tope **por transacción**, no de emisión. | Salidas absurdas que desbordan aritmética. | Heredado de Kaspa (`transactionvalidator`, `checkTransactionAmountRanges`). |
 | PoW no se puede apagar en ninguna red pública (`SkipProofOfWork = false`). | Un nodo que acepte bloques sin trabajo. | `TestSkipProofOfWork` (`params_test.go`). |
 | Un bloque cuyo PoW no cumple la dificultad se rechaza (`ErrInvalidPoW`); un target por encima de `PowMax` (`ErrTargetTooHigh`) o negativo (`ErrNegativeTarget`) también. Un bloque bien minado entra. | Bloques sin trabajo real; un minero que se salta la dificultad. | `TestPOW` (`blockvalidator`), en simnet y devnet desde el 30-sep-2026. Estuvo en `t.Skip` desde antes de v0.6.0 porque minaba en todas las redes y agotaba horas; mainnet y testnet se saltan explícitamente (misma regla, dificultad de génesis inviable en un test). |
@@ -22,7 +22,7 @@ Convenciones: "rupia" = 1/100,000,000 RUPIX. "DAA" = DAA score (el número de bl
 |---|---|---|
 | Toda transacción que no sea coinbase quema al menos `BurnBase + BurnPerByte × bytes` (1,000 rupias + 10 por byte) en una salida `OpReturn` de Gold. | Mover Gold gratis; que la escasez no crezca con el uso. | `TestLevelRules` → "ataque: tx sin quema muere", "ataque: quema por debajo del minimo". |
 | La coinbase está exenta. | (Regla, no ataque.) | `TestLevelRules` → "coinbase exenta del burn". |
-| Las salidas de quema **no entran** al UTXO set. | Contar como circulante lo que se quemó; "resucitar" una quema. | Código: `mutable_utxo_diff.go` (`isBurnScript`). — (hueco: falta un test que intente gastar una salida OpReturn y confirme que no existe en el UTXO set). |
+| Las salidas de quema **no entran** al UTXO set. | Contar como circulante lo que se quemó; "resucitar" una quema. | `TestQuemaNoSeGasta` (`domain/miningmanager`, 30-sep-2026): la quema no aparece en el UTXO set del virtual (el cambio de la misma tx sí); el mempool rechaza gastarla y acepta gastar el cambio; un bloque que la gasta no queda `UTXOValid`. Código: `mutable_utxo_diff.go` (`isBurnScript`). |
 
 ## 3. La escalera (gemas)
 
@@ -64,9 +64,9 @@ GHOSTDAG, ventana DAA, dificultad, poda y pruning proof, merge depth, madurez de
 0. ~~PoW inválido rechazado, en la suite.~~ Cerrado el 30-sep-2026: `TestPOW` corre en simnet y devnet (ver sección 1).
 1. ~~Sello falso rechazado, automatizado.~~ Cerrado el 30-sep-2026 con `TestSelloFalsoRechazado` (ver sección 4).
 2. **Nodo nuevo contra peer hostil** (v0.6.2): validar `MsgPruningPoints` después de `ArePruningPointsInValidChain`; test en devnet con un peer que sirve otro punto de poda.
-3. **Topes de Diamante/Platino/Rodio en un bloque de consenso**, no solo en la aritmética.
-4. **Exceso por frontera de halving**: bloques a ambos lados de un halving, afirmar el exceso exacto y que no puede crecer más que la cota.
-5. **Gastar una quema**: intentar gastar una salida OpReturn y confirmar que no existe.
+3. **Topes de Diamante/Platino/Rodio en un bloque de consenso**, no solo en la aritmética. Nota (30-sep): los topes son constantes (`MaxDiamante = 2,100,000`), no parámetros de red; probarlos en un bloque real exige forjar millones de gemas o volverlos parámetros (cambio de consenso). Se discute con el auditor antes de tocarlo.
+4. ~~Exceso por frontera de halving.~~ Cerrado el 30-sep-2026 con `TestExcesoEnFronteraDeHalving` (ver sección 1).
+5. ~~Gastar una quema.~~ Cerrado el 30-sep-2026 con `TestQuemaNoSeGasta` (ver sección 2).
 6. **Fuzzing** de `checkLevelRules` y de la validación de transacciones con entradas aleatorias (Go tiene `go test -fuzz`).
 
 Cuando un hueco se cierra, se mueve de esta lista a su fila de la tabla, con el nombre del test.
