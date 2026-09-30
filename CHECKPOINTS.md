@@ -57,6 +57,10 @@ fecha, y la versión del nodo que lo incluye.
 
 **Historia (27-sep-2026), ya resuelta en v0.6.1:** la regla heredada era por DAA exacto; en un DAG habría partido la red (ver MEMORIA, "El checkpoint que habría partido la red"). Lo que decía entonces: un solo bloque en ese DAA. Rupix es un DAG: dos bloques hermanos pueden tener el mismo DAA score. El código rechaza *cualquier* bloque con el DAA del checkpoint y otro hash, así que un checkpoint puesto donde hay dos bloques invalidaría al hermano y a todo lo que lo incluye, y un nodo nuevo no podría sincronizar. Por eso, antes de publicar, se verifica con el nodo que en ese DAA hay exactamente un bloque. El arreglo de fondo (exigir el hash solo a bloques de la cadena) va en la próxima versión, con test.
 
+## Qué pasa cuando la poda avanza más allá del checkpoint
+
+Verificado el 30-sep-2026: el punto de poda de la testnet pasó de H (blue score 86,400) a blue score 172,800, y el seed siguió teniendo a H como bloque de cadena y aplicando la regla. Los puntos de poda pasados se conservan en el nodo aunque la poda avance; por eso los checkpoints se publican solo sobre puntos de poda: nunca desaparecen del nodo que los valida.
+
 ## Cuándo se retiran
 
 Los checkpoints se retiran cuando la red pueda sostenerse sola: hashrate externo

@@ -135,3 +135,11 @@ Merge sin conflictos, suite en verde, y **v0.6.1** publicada. Con ella, el **pri
 | rupixminer | `d3a40158d20e0511e572774ff052a2fdddb00bf3d6518fb310965038bad11ad8` |
 
 Cuatro de cuatro. Cualquiera con Go 1.26.6 puede repetirlo con `tools/verificar-binarios.sh v0.6.1`. Eso cierra un pendiente viejo: ya no hay que confiar en GitHub ni en nosotros para saber que lo que se descarga es lo que dice el código.
+
+## 30 de septiembre de 2026 — Halving 4: la escalera completa abierta, y el checkpoint sobrevive a la poda
+
+**La testnet #4 recorrió toda la escalera en cuatro días**, como se diseñó (26-sep → 30-sep): el DAA 400,000 se cruzó a mediodía; recompensa 0.03125 RUPIX por bloque, era 5, y los cinco niveles abiertos: Gold, Diamante, Platino, Rodio y **Kings**. Un King cuesta 10 Rodios = 100 Platinos = 1,000 Diamantes = 10,000 Gold quemados; desde hoy cualquiera que los tenga puede intentarlo.
+
+**Emisión verificada a DAA 407,293** (`tools/verificar-emision.py`): regla por calendario 93,977.40625; en el nodo 93,757.42; diferencia 219.99 = los 220 Gold quemados en 22 Diamantes (12 de JC, 10 del seed) más la quema por transacción, menos el exceso acotado de las fronteras 3 y 4 (centavos, como se documentó ayer). El nodo nunca tiene más de lo que permite la regla.
+
+**El checkpoint sobrevivió al avance de la poda.** El punto de poda pasó de H (`7e2ece39…`, blue score 86,400, el checkpoint #1) a `b80cafc8…` (blue score 172,800). El seed **sigue teniendo a H** como bloque de cadena y sigue aplicando la regla: los puntos de poda pasados se conservan aunque la poda avance. Es la razón de fondo para publicar checkpoints solo sobre puntos de poda: nunca desaparecen del nodo. Verificado en vivo, sin ningún rechazo en el journal.

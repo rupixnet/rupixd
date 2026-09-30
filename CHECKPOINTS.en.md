@@ -57,6 +57,10 @@ node version that includes it.
 
 **History (27-Sep-2026), resolved in v0.6.1:** the inherited rule was by exact DAA; on a DAG it would have split the network (see MEMORIA, "El checkpoint que habría partido la red"). What it said then: only one block at that DAA. Rupix is a DAG: two sibling blocks can share a DAA score. The code rejects *any* block at the checkpoint's DAA with a different hash, so a checkpoint placed where there are two blocks would invalidate the sibling and everything that includes it, and a new node could not sync. So before publishing we check with the node that there is exactly one block at that DAA. The real fix (require the hash only from chain blocks) ships in the next version, with a test.
 
+## What happens when the pruning point moves past the checkpoint
+
+Verified on 30-Sep-2026: the testnet pruning point moved from H (blue score 86,400) to blue score 172,800, and the seed kept H as a chain block and kept applying the rule. Past pruning points are retained by the node even as pruning advances; that is why checkpoints are published only on pruning points: they never vanish from the node that validates them.
+
 ## When they are removed
 
 Checkpoints are removed when the network can stand on its own: sustained external
