@@ -93,3 +93,7 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 
 - El minero cobró en `rupixtest:qq740lal…jd27l` del DAA 2 al 92,569 y en `rupixtest:qp4y8vnk…cpylzw` desde el 92,581 (testnet #4). Las dos son de la misma wallet del seed. Verificable con `GetUtxosByAddresses` (primer y último `blockDaaScore` de cada dirección).
 - Envíos de más de ~820 RUPIX desde la wallet del minero se cortan a los 2 minutos (ver CONTEXTO, 28-sep). Mandar en partes hasta el arreglo.
+
+## Consultar gemas de una dirección desde el nodo (29-sep-2026)
+
+`rupixctl --testnet GetUtxosByAddresses <direccion>` (la dirección va como parámetro suelto; varias, separadas por coma). Cada entrada trae `outpoint.transactionId`, `utxoEntry.scriptPublicKey.version` (0 Gold, 1 Diamante, 2 Platino, 3 Rodio, 4 Kings) y `utxoEntry.blockDaaScore` (bloque donde nació). Sirve para verificar una forja de cualquiera sin tocar su wallet, y para comparar dos nodos entre sí (misma lista = mismo estado).

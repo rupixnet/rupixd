@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Envio grande probado en la red publica (29-sep, wallet de la rama `wallet-envios-grandes`, daemon de prueba): 1,000 RUPIX en 24 transacciones / 8.6 s; 10,000 RUPIX en 232 transacciones / 46.1 s, desde una wallet de minero de ~78k pedazos. Antes 1,000 se cortaba a los 120 s.
 - Arreglo del envio grande (rama `wallet-envios-grandes`, para v0.6.1): la seleccion de pedazos estima la comision en tiempo lineal y la exacta se calcula una sola vez al final. Medido en el seed, misma wallet de 78k pedazos: 100 RUPIX 1.6s -> 0.10s; 300: 16s -> 0.24s; 600: 65s -> 0.47s; 1,000: cortado a 120s -> 0.82s.
 - Checkpoints para DAG (rama `checkpoint-dag`, para v0.6.1): la regla pasa a "todo bloque con blue score >= X + MergeDepth debe tener al bloque canonico H en su pasado". Un hermano tardio de H ya no rompe nada; una historia alterna sin H se rechaza. `TestCheckpointDAG` lo prueba, y se verifico que la prueba FALLA si la regla se apaga.
 - Mempool (rama `mempool-niveles`, para v0.6.1): prueba automatica de que una forja de un nivel cerrado se rechaza al entrar al mempool y la misma transaccion entra pasado su halving (H-1 nivel A).

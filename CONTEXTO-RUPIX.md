@@ -330,3 +330,12 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 - **`wallet-envios-grandes`** (`e4025d7e`): selección de pedazos con comisión estimada en tiempo lineal; la exacta se calcula una sola vez al final (mismo resultado). Medido con un daemon de prueba en el 8084 sobre la misma wallet de 78,329 pedazos: 100 RUPIX 1.6s→0.10s · 300: 16s→0.24s · 600: 65s→0.47s · 1,000: cortado a 120s→**0.82s**.
 - `.gitignore` corregido: `rupixwallet` sin anclar tapaba `cmd/rupixwallet` y hacía fallar `git add` en la carpeta de la wallet (así se descubrió: un commit que nunca ocurrió y una medición que compiló el código viejo).
 - Las tres ramas quedan para revisión del auditor antes de mergear a main y publicar v0.6.1.
+
+## 29-sep-2026 — Halving 3, envíos reales de 1,000 y 10,000, primer Platino de la comunidad
+
+- **Halving 3** (DAA 300,000, ~09:00): recompensa 0.0625, Rodio abierto. Al principio se leyó como posible bifurcación (DAA distintos entre seed y JC); era solo el halving. `pruningPointHash` idéntico (`7e2ece39…`) en los dos nodos, seed `isSynced`, 1 peer.
+- **Envíos reales con la wallet de `wallet-envios-grandes`** (`e4025d7e`): daemon de prueba en 8084 con copia de llaves (`keys-prueba-envios.json`), nunca la de producción. A JC: 1,000 RUPIX = 24 txs / 8.6 s; 10,000 RUPIX = 232 txs (231 consolidación + 1 pago) / 46.1 s. Verificado desde el seed con `GetUtxosByAddresses`: JC pasó a 13,305.75 RUPIX en su dirección. Daemon de prueba y copia de llaves borrados al terminar; balance del seed 65,853.9.
+- **Primer Platino de la comunidad:** JC, `forge --level=2 --gem-address=…` desde Windows; tx `bc1bb97590ef7d81fb7c7b3c79cdce62f219b7e11ef7d4376ba3d41b650f563a`, DAA 348,162. Quedan 2 Diamantes (181,403 y 185,382); 10 quemados.
+- **Comparación entre nodos:** misma consulta en el seed (python) y en la PC de JC (PowerShell) → mismas tres gemas, mismos IDs, mismos DAA; poda `7e2ece393c7d991c` en JC. Registrado en LOGROS.
+- Detalles de operación aprendidos: `rupixctl GetUtxosByAddresses <dir>` toma la dirección como parámetro suelto (separadas por coma), no `--addresses`; al pegar PowerShell por chat se pierde el `_` de `$_`, usar `foreach ($u in $e)`.
+- **Pendientes:** respuesta del auditor a las cuatro ramas → merge → v0.6.1 (binarios, guías sin `--password`, frase semilla al crear) → primer checkpoint real. Defensa de nodos nuevos (lista de pruning points). Web: hito del día.

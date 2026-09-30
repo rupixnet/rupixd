@@ -92,3 +92,25 @@ La testnet #4 cruzó el DAA 200,000 en la madrugada: la recompensa bajó de 0.25
 **La emisión, verificada con enteros exactos** a DAA 256,208: la regla da 99,999 × 0.5 + 100,000 × 0.25 + 56,208 × 0.125 = **82,025.5 RUPIX**. En el nodo existían 81,915.87. La diferencia (109.63) es lo quemado: los 110 Gold de los 11 Diamantes de JC más la quema de cada transacción. Nunca hay Gold de más. La herramienta que lo calcula (`tools/verificar-emision.py`) queda en el repo para que cualquiera la corra contra su propio nodo.
 
 **El primer Platino de v0.6.0** se forjó desde el seed: 10 Diamantes quemados, 1 Platino nacido (tx `c382e0a751e10003cc9692bfa2678723c12e965110b0793da6df24e3c942a81e`, DAA 256,577). Verificado en el nodo: la dirección quedó con una salida de nivel 2 y ninguna de nivel 1, y lo quemado subió exactamente 100 Gold. La noche anterior la red había rechazado un Platino en el DAA 185,738; pasado el halving, lo aceptó. La regla funciona en los dos sentidos.
+
+## 29 de septiembre de 2026 — Halving 3, envíos de 1,000 y 10,000 RUPIX, y el primer Platino de la comunidad
+
+**Halving 3.** La testnet #4 cruzó el DAA 300,000 en la mañana: la recompensa bajó de 0.125 a 0.0625 RUPIX por bloque y se abrió el Rodio. Los dos nodos (seed y JC) reportaron el mismo `pruningPointHash` (`7e2ece39…`) antes y después: no hubo bifurcación.
+
+**Los envíos grandes, probados de verdad.** Con la wallet de la rama `wallet-envios-grandes` (daemon de prueba, copia de llaves) se le mandaron a JC desde la wallet del minero del seed, la de ~78,000 pedazos de 0.25 y 0.5:
+- **1,000 RUPIX:** 24 transacciones, 8.6 segundos.
+- **10,000 RUPIX:** 232 transacciones (231 de consolidación + 1 de pago), 46.1 segundos.
+Antes del arreglo, 1,000 se cortaba a los 2 minutos sin salir; 10,000 no era posible. Verificado desde el seed: la dirección de JC pasó a 13,305.75 RUPIX.
+
+**El primer Platino de la comunidad.** JC, desde su PC con Windows y su propio nodo, forjó un Platino quemando 10 Diamantes que él mismo había forjado con Gold que él minó: tx `bc1bb97590ef7d81fb7c7b3c79cdce62f219b7e11ef7d4376ba3d41b650f563a`, nacido en el bloque DAA **348,162**. Es la misma operación que la red le rechazó el 28-sep en el DAA 185,738 (`nivel 2 bloqueado`); pasado el halving 2, la aceptó.
+
+**Dos nodos independientes, la misma respuesta.** Cada uno consultó su propio nodo con `rupixctl GetUtxosByAddresses` sobre la dirección de JC, sin copiarse:
+
+```
+seed                                            JC (Windows)
+42ccd70e52bf716f idx 0 nivel 1 DAA 181403       42ccd70e52bf716f idx 0 nivel 1 DAA 181403
+926bf4a0711f639d idx 0 nivel 1 DAA 185382       926bf4a0711f639d idx 0 nivel 1 DAA 185382
+bc1bb97590ef7d81 idx 0 nivel 2 DAA 348162       bc1bb97590ef7d81 idx 0 nivel 2 DAA 348162
+```
+
+Mismas tres gemas, mismos IDs, mismos bloques de nacimiento, mismo punto de poda. Los 10 Diamantes quemados no aparecen en ningún nodo. Nadie tuvo que confiar en nadie.
