@@ -63,15 +63,17 @@ Copy the address that starts with `rupixtest:...`
 >
 > `--level`: 1 = Diamond, 2 = Platinum, 3 = Rhodium, 4 = Kings. Gold isn't forged: it's mined.
 >
-> On Windows, whatever you type in `--password=` is saved in PowerShell's history.
+> Since v0.6.1 the wallet prompts for the password on screen: don't type it on the
+> command line (it would end up in your history). Still on v0.6.0? Update before forging.
 
 ```
-./rupixwallet --testnet forge --level=1 --gem-address=YOUR_ADDRESS --password=YOUR_PASSWORD
+./rupixwallet --testnet forge --level=1 --gem-address=YOUR_ADDRESS
+Password: (type it here, it is not shown)
 ```
 
 - `--level=1` → Diamond (the first gem level)
 - `--gem-address=` → the address where the gem is born (from step 3)
-- `--password=` → your wallet password
+- The password is asked at that moment; it never goes in the command
 
 This **burns 10 Gold forever** and creates **1 Diamond**. The burn is
 recorded on the blockchain, visible to everyone, irreversible.

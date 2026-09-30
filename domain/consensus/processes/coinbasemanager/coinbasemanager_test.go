@@ -66,10 +66,24 @@ func TestTotalSupply(t *testing.T) {
 		t.Errorf("la emision total (%d rupias) supera MaxRupia (%d)", total, constants.MaxRupia)
 	}
 
-	const esperado = 4_199_999_496_000_000 // 41,999,994.96 RUPIX
+	const esperado = 4_199_999_496_000_000 // 41,999,994.96 RUPIX por calendario
 	if total != esperado {
-		t.Errorf("emision total: esperado %d rupias, obtenido %d", esperado, total)
+		t.Errorf("emision por calendario: esperado %d rupias, obtenido %d", esperado, total)
 	}
+
+	// Rupix (29-sep-2026, revisado con el auditor): esto es la emision POR CALENDARIO.
+	// En un DAG, un bloque cobra segun SU PROPIO DAA score, aunque lo mergee un bloque
+	// que ya cruzo el halving. Los bloques minados justo antes de cada halving y
+	// cobrados despues conservan la recompensa vieja: un exceso real, acotado por el
+	// ancho de la ventana DAA por la caida de recompensa en cada frontera. Medido en
+	// la testnet: 0.5 RUPIX en el halving 2. MaxRupia es un tope por transaccion, no
+	// un tope de emision. No se rastrea la emision acumulada en consenso a proposito.
+	cotaExceso := uint64(dagconfig.MainnetParams.DifficultyAdjustmentWindowSize) * uint64(baseSubsidy) // suma de caidas = baseSubsidy
+	if cotaExceso*100_000 > total {
+		t.Errorf("la cota del exceso por fronteras (%d rupias) deberia ser menor al 0.001%% de la emision", cotaExceso)
+	}
+	t.Logf("Exceso maximo por fronteras de halving: %d rupias = %.2f RUPIX (en la practica, unos pocos)",
+		cotaExceso, float64(cotaExceso)/float64(constants.RupiaPerRupix))
 
 	t.Logf("Emision total Rupix: %d rupias = %.2f RUPIX",
 		total, float64(total)/float64(constants.RupiaPerRupix))

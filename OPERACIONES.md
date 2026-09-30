@@ -97,3 +97,11 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 ## Consultar gemas de una dirección desde el nodo (29-sep-2026)
 
 `rupixctl --testnet GetUtxosByAddresses <direccion>` (la dirección va como parámetro suelto; varias, separadas por coma). Cada entrada trae `outpoint.transactionId`, `utxoEntry.scriptPublicKey.version` (0 Gold, 1 Diamante, 2 Platino, 3 Rodio, 4 Kings) y `utxoEntry.blockDaaScore` (bloque donde nació). Sirve para verificar una forja de cualquiera sin tocar su wallet, y para comparar dos nodos entre sí (misma lista = mismo estado).
+
+## Actualizar el seed a una versión nueva (hecho por primera vez con v0.6.1, 29-sep-2026)
+
+1. En `/root/rupixd`, `main` al día y compilado: `go build -o /root/bin-vXYZ/ . ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer`.
+2. Copiar los binarios viejos a `/root/bin-anterior/` (nada se borra) y los nuevos a `/usr/local/bin/`.
+3. `systemctl restart rupixd-testnet rupixminer-testnet rupixwallet-testnet rupix-explorer`; esperar 30 s.
+4. Verificar: `rupixd --version`, `rupixctl --testnet GetInfo` (versión del servidor), `GetBlockDagInfo` (DAA avanza, `isSynced`), `journalctl -u rupixd-testnet -n 20`.
+5. La release en GitHub (tag + CI) es lo que actualiza a la comunidad; el seed puede ir un paso adelante, nunca atrás.

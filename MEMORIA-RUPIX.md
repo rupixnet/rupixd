@@ -83,6 +83,9 @@ Mandar 100 RUPIX desde el seed tardó 9 segundos; mandar 1,000 se cortaba a los 
 ### El gitignore que escondía la wallet
 El `.gitignore` tenía la línea `rupixwallet` para ignorar el binario compilado. Sin la barra inicial, esa línea también tapaba la carpeta `cmd/rupixwallet`: `git add` ahí fallaba en silencio. Se descubrió el 28-sep porque un commit del arreglo de la wallet nunca ocurrió y la medición siguiente compiló el código viejo, dando los mismos tiempos de siempre. La moraleja quedó en el método: después de cada commit se verifica en GitHub que de verdad exista, y la medición imprime de qué commit salió el binario.
 
+### El medio RUPIX del halving 2
+El 28-sep escribimos "el Gold emitido cuadró con la regla al entero exacto" y "nunca hay Gold de más". Al día siguiente, revisando los mismos números para la web: la regla daba 82,025.5, el nodo tenía 81,915.87, y con 110 quemados más una recompensa sin cobrar el nodo debía tener como máximo 81,915.38. Había 0.5 RUPIX de más. El auditor lo explicó con el código: cada bloque cobra según su propio DAA score, no según el del bloque que lo mergea; cuatro bloques minados en 199,99x y cobrados pasado el 200,000 conservan los 0.25. La emisión por era no es exactamente bloques × recompensa; es eso más un exceso acotado en cada frontera. Unos pocos RUPIX en toda la vida de la cadena, como Bitcoin tampoco emite exactamente 21M. La lección no es el medio RUPIX: es que "al entero exacto" se escribió sin haber restado todo lo que había que restar. Se corrigió en README, LOGROS y la web, y `TestTotalSupply` ahora dice "por calendario" y documenta la cota.
+
 ---
 
 *No confíes, verifica.*

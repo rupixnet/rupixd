@@ -8,7 +8,7 @@
 
 ---
 
-## Estado actual (Rupix v0.6.0)
+## Estado actual (Rupix v0.6.1)
 
 - ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa; Rupix es un fork de kaspad bajo licencia ISC, con agradecimiento). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos) y en la testnet pública. El minero (rupixminer, incluido en cada release) usa la misma función interna que el nodo, por lo que mina con RupixHeavyHash: no hay dos algoritmos, minero y validador comparten una sola fuente. Motor de Kaspa, semilla de Rupix.
 
@@ -31,8 +31,9 @@ La **testnet pública está viva**: acepta nodos externos, mina sobre un génesi
 - ✅ **Primer minero de la comunidad en v0.6.0** (26-sep-2026): desde una PC con Windows (~50 KH/s), un miembro de la comunidad minó cerca del 40% de los bloques del día: más de 14,000 aceptados por la red. Verificado desde el seed, no solo desde su wallet.
 - 💎 **Primer Diamante de v0.6.0 en la red pública** (27-sep-2026): lo forjó ese mismo minero de la comunidad, quemando 10 Gold que minó él. Tx `8653650f…3a4b`, DAA 180,710. Verificado desde el seed.
 - ✅ **Pruebas en vivo con un nodo de la comunidad** (28-sep-2026): mismo punto de poda en los dos nodos; un Diamante viajó entre dos wallets distintas y volvió; un Platino forjado antes de su apertura fue rechazado por el propio nodo del miembro de la comunidad (`nivel 2 bloqueado`). Verificado desde el seed.
-- ✅ **Halving 2 y primer Platino de v0.6.0** (28-sep-2026): a DAA 256,208 el Gold emitido cuadró con la regla al entero exacto (82,025.5 menos lo quemado); Platino forjado después de su apertura (tx `c382e0a7…`, DAA 256,577) y aceptado, la noche después de que uno adelantado fue rechazado. Cualquiera puede comprobar la emisión contra su propio nodo con `tools/verificar-emision.py`.
+- ✅ **Halving 2 y primer Platino de v0.6.0** (28-sep-2026): a DAA 256,208 el Gold emitido cuadró con la regla por calendario salvo 0.5 RUPIX (82,025.5 menos lo quemado; el 0.5 de más se explicó el 29-sep: bloques minados antes del halving y cobrados después conservan la recompensa vieja); Platino forjado después de su apertura (tx `c382e0a7…`, DAA 256,577) y aceptado, la noche después de que uno adelantado fue rechazado. Cualquiera puede comprobar la emisión contra su propio nodo con `tools/verificar-emision.py`.
 - ✅ **Halving 3, 10,000 RUPIX en 46 s y el primer Platino de la comunidad** (29-sep-2026): la recompensa bajó a 0.0625 en el DAA 300,000 con el mismo punto de poda en los dos nodos. La wallet arreglada mandó 1,000 RUPIX (24 txs, 8.6 s) y 10,000 RUPIX (232 txs, 46.1 s) desde una wallet de minero de ~78k pedazos — antes 1,000 se cortaba. Un minero de la comunidad forjó un Platino desde su PC con Windows (tx `bc1bb97590ef7d81…`, DAA 348,162); el seed y su nodo, consultados por separado, devolvieron las mismas tres gemas con los mismos IDs y bloques de nacimiento.
+- ✅ **v0.6.1 y el primer checkpoint publicado** (29-sep-2026): el auditor externo aprobó las cuatro ramas (checkpoints para DAG, test de niveles en el mempool, selección lineal de pedazos, claves de la wallet); mergeadas y publicadas. Checkpoint #1 de la testnet sobre el punto de poda que los dos nodos ya compartían: blue score 86,400, `7e2ece393c7d991c…`. El 0.5 RUPIX sobre el calendario en el halving 2 quedó explicado y documentado (ver MEMORIA).
 - ✅ **Binarios verificables con SHA256**: cada release publica la huella de cada binario, generada por el CI — descargas, comparas, y confirmas que nadie lo alteró
 - ✅ **Bug de consenso encontrado por el nuevo test end-to-end del King — corregido** (21-sep-2026): el minero contaba dos veces las forjas del bloque que construía (un parche del 13-sep), mientras el validador cuenta lo que el bloque *acepta*. Cualquier bloque con una forja minado por producción habría sido rechazado — incluido el primer King real en mainnet. Corregido en **v0.6.0** (en producción desde el 26-sep), junto con el dominio keccak y el rango entero; `TestKingsEndToEnd` falla si se revierte el fix. Encontrado en testnet, no en mainnet.
 - ✅ **`go test ./...` en verde y `go vet` limpio** (20-sep-2026): la suite completa pasa. Los últimos 18 paquetes rojos no eran bugs de consenso: eran tests heredados de Kaspa con expectativas de Kaspa (prefijos `kaspa:`, recompensa de 500, orden por hash) y outputs creados con `Version = MaxScriptPublicKeyVersion`, que en Rupix es 4 = Kings — la escalera los rechazaba como Kings falsos. Regenerados desde el código, verificables.
@@ -46,7 +47,7 @@ Rupix es una blockchain Layer 1 con consenso Proof of Work sobre un BlockDAG (no
 Lo que Rupix añade encima:
 
 - **Modelo económico propio de 5 niveles** con quema permanente para forjar cada nivel superior
-- **Supply absoluto de 42,000,000 RUPIX**, sellado en el protocolo
+- **Supply de 42,000,000 RUPIX por calendario**, sellado en el protocolo: 41,999,994.96 por calendario (truncamiento entero), más un exceso acotado en cada frontera de halving (los bloques minados justo antes de un halving y cobrados después conservan la recompensa vieja — medido: 0.5 RUPIX en el halving 2 de la testnet). Unos pocos RUPIX en toda la vida de la cadena; `MaxRupia` es tope por transacción, no de emisión. Lo decimos aquí antes de que lo calcules.
 - **Burn por transacción**: cada transferencia destruye rupias para siempre
 - **Génesis sin premine**: el primer RUPIX se minó después del bloque 0, como Bitcoin
 - **Desbloqueo por halvings**: cada nivel de la escalera se abre con un halving — la escasez tiene calendario
@@ -91,7 +92,7 @@ No confíes en nosotros. Compruébalo:
 - **Que el techo es 42M**: revisa `domain/consensus/utils/constants/constants.go` (MaxRupia)
 - **Que la economía tiene tests**: `go test ./domain/...` — la escalera, el burn y los Kings con sus escenarios de ataque
 - **Que PoW no se puede desactivar**: `go test ./domain/dagconfig/...`
-- **El supply en vivo** (con un nodo corriendo): `rupixctl GetCoinSupply` → `maxRupias: 4200000000000000` — exactamente 42,000,000 RUPIX
+- **El supply en vivo** (con un nodo corriendo): `rupixctl GetCoinSupply` → `maxRupias: 4200000000000000` — el tope de 42,000,000 RUPIX por transacción; `circulatingRupias` es lo que existe hoy
 
 ## Cómo correr un nodo
 

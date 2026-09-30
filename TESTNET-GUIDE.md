@@ -97,7 +97,7 @@ Want to help mine the testnet? First create your wallet (only once):
 ```
 ./rupixwallet --testnet create
 ```
-(It will ask for a password. Keep it safe.) Start the daemon and leave it running in its own window:
+(It will ask for a password. Keep it safe.) **When it finishes it shows your seed phrase once:** write it on paper, in order, and clear the screen (`clear` / `cls`). That phrase recovers the wallet if you lose the file or the password; without it, there is no way. Don't keep it on your phone or send it over chat. Start the daemon and leave it running in its own window:
 ```
 ./rupixwallet --testnet start-daemon
 ```

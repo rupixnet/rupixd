@@ -97,7 +97,7 @@ Compara tu `blockCount` con el del explorador oficial
 ```
 ./rupixwallet --testnet create
 ```
-(Te pedirá una contraseña. Guárdala.) Arranca el daemon y déjalo corriendo en su propia ventana:
+(Te pedirá una contraseña. Guárdala.) **Al terminar te muestra tu frase semilla una sola vez:** anótala en papel, en orden, y limpia la pantalla (`clear` / `cls`). Con esa frase recuperas la wallet si pierdes el archivo o la contraseña; sin ella, no hay forma. No la guardes en el teléfono ni la mandes por chat. Arranca el daemon y déjalo corriendo en su propia ventana:
 ```
 ./rupixwallet --testnet start-daemon
 ```

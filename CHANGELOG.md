@@ -7,6 +7,14 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Pendiente (v0.6.2): validar la lista `MsgPruningPoints` contra los checkpoints despues de `ArePruningPointsInValidChain` (proteccion para nodos que sincronizan desde cero). Hasta entonces el checkpoint protege a nodos ya sincronizados.
+- Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
+
+## [v0.6.1] - 2026-09-29 — Checkpoints para DAG, wallet usable, primer checkpoint publicado
+Cuatro ramas revisadas y aprobadas por el auditor externo el 29-sep, mergeadas sin conflictos sobre `1e38bace`. Sin cambios de consenso salvo la regla de checkpoints (que hasta hoy no tenia efecto: la lista estaba vacia) y el primer checkpoint de la testnet.
+- **Primer checkpoint publicado (testnet #4):** blue score 86,400, hash `7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad` (DAA 86,399), caduca en DAA 2,000,000. Es el punto de poda que el seed y el nodo de JC ya compartian. `TestCheckpointsPublicados` obliga a que el codigo y CHECKPOINTS.md digan lo mismo.
+- Emision: `TestTotalSupply` afirma la emision por calendario (41,999,994.96) y documenta el exceso acotado en cada frontera de halving (medido: 0.5 RUPIX en el halving 2). `MaxRupia` es tope por transaccion, no de emision. Ver MEMORIA.
+- Guias ES/EN: la forja ya no lleva `--password` en la linea; la frase semilla se anota en papel al crear la wallet.
 - Envio grande probado en la red publica (29-sep, wallet de la rama `wallet-envios-grandes`, daemon de prueba): 1,000 RUPIX en 24 transacciones / 8.6 s; 10,000 RUPIX en 232 transacciones / 46.1 s, desde una wallet de minero de ~78k pedazos. Antes 1,000 se cortaba a los 120 s.
 - Arreglo del envio grande (rama `wallet-envios-grandes`, para v0.6.1): la seleccion de pedazos estima la comision en tiempo lineal y la exacta se calcula una sola vez al final. Medido en el seed, misma wallet de 78k pedazos: 100 RUPIX 1.6s -> 0.10s; 300: 16s -> 0.24s; 600: 65s -> 0.47s; 1,000: cortado a 120s -> 0.82s.
 - Checkpoints para DAG (rama `checkpoint-dag`, para v0.6.1): la regla pasa a "todo bloque con blue score >= X + MergeDepth debe tener al bloque canonico H en su pasado". Un hermano tardio de H ya no rompe nada; una historia alterna sin H se rechaza. `TestCheckpointDAG` lo prueba, y se verifico que la prueba FALLA si la regla se apaga.

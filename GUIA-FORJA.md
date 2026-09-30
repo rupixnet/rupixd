@@ -66,15 +66,17 @@ Copia la dirección que empieza con `rupixtest:...`
 >
 > `--level`: 1 = Diamante, 2 = Platino, 3 = Rodio, 4 = Kings. El Gold no se forja: se mina.
 >
-> En Windows, lo que escribes en `--password=` queda guardado en el historial de PowerShell.
+> Desde v0.6.1 la wallet te pide la contraseña en pantalla: no la escribas en la línea de
+> comandos (quedaría en el historial). Si usas v0.6.0 todavía, actualiza antes de forjar.
 
 ```
-./rupixwallet --testnet forge --level=1 --gem-address=TU_DIRECCION --password=TU_CLAVE
+./rupixwallet --testnet forge --level=1 --gem-address=TU_DIRECCION
+Password: (la escribes aquí, no se ve)
 ```
 
 - `--level=1` → Diamante (el primer nivel de gema)
 - `--gem-address=` → la dirección donde nace la gema (la del paso 3)
-- `--password=` → la contraseña de tu wallet
+- La contraseña se pide al momento; nunca va en el comando
 
 Esto **quema 10 Gold para siempre** y crea **1 Diamante**. La quema
 queda grabada en la blockchain, visible para todos, irreversible.

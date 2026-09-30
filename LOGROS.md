@@ -89,7 +89,7 @@ Con JC conectado desde su PC, se probó la red de punta a punta. Todo verificado
 
 La testnet #4 cruzó el DAA 200,000 en la madrugada: la recompensa bajó de 0.25 a 0.125 RUPIX por bloque y se abrió el Platino.
 
-**La emisión, verificada con enteros exactos** a DAA 256,208: la regla da 99,999 × 0.5 + 100,000 × 0.25 + 56,208 × 0.125 = **82,025.5 RUPIX**. En el nodo existían 81,915.87. La diferencia (109.63) es lo quemado: los 110 Gold de los 11 Diamantes de JC más la quema de cada transacción. Nunca hay Gold de más. La herramienta que lo calcula (`tools/verificar-emision.py`) queda en el repo para que cualquiera la corra contra su propio nodo.
+**La emisión, verificada con enteros exactos** a DAA 256,208: la regla da 99,999 × 0.5 + 100,000 × 0.25 + 56,208 × 0.125 = **82,025.5 RUPIX**. En el nodo existían 81,915.87. La diferencia (109.63) es lo quemado: los 110 Gold de los 11 Diamantes de JC más la quema de cada transacción. *(Corrección del 29-sep: había 0.5 RUPIX más que la regla por calendario, no menos; se explica en MEMORIA, "El medio RUPIX del halving 2". La frase "nunca hay Gold de más" era demasiado fuerte: hay un exceso acotado en cada frontera de halving.)* La herramienta que lo calcula (`tools/verificar-emision.py`) queda en el repo para que cualquiera la corra contra su propio nodo.
 
 **El primer Platino de v0.6.0** se forjó desde el seed: 10 Diamantes quemados, 1 Platino nacido (tx `c382e0a751e10003cc9692bfa2678723c12e965110b0793da6df24e3c942a81e`, DAA 256,577). Verificado en el nodo: la dirección quedó con una salida de nivel 2 y ninguna de nivel 1, y lo quemado subió exactamente 100 Gold. La noche anterior la red había rechazado un Platino en el DAA 185,738; pasado el halving, lo aceptó. La regla funciona en los dos sentidos.
 
@@ -114,3 +114,9 @@ bc1bb97590ef7d81 idx 0 nivel 2 DAA 348162       bc1bb97590ef7d81 idx 0 nivel 2 D
 ```
 
 Mismas tres gemas, mismos IDs, mismos bloques de nacimiento, mismo punto de poda. Los 10 Diamantes quemados no aparecen en ningún nodo. Nadie tuvo que confiar en nadie.
+
+## 29 de septiembre de 2026 (noche) — Visto bueno del auditor, v0.6.1 y el primer checkpoint
+
+El auditor externo revisó las cuatro ramas contra `1e38bace` y dio el visto bueno para mergearlas: checkpoints para DAG, prueba automática de los niveles en el mempool, selección lineal de pedazos en la wallet y claves de la wallet (contraseña en pantalla, frase semilla en papel). Confirmó además, con el código en la mano, la explicación del medio RUPIX del halving 2 (ver MEMORIA) y recomendó no tocar el consenso por eso.
+
+Merge sin conflictos, suite en verde, y **v0.6.1** publicada. Con ella, el **primer checkpoint de Rupix**: testnet #4, blue score 86,400 (DAA 86,399), hash `7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad`, caduca en DAA 2,000,000. Es el punto de poda que el seed y el nodo de JC ya tenían en común antes de que nadie lo declarara: el checkpoint no impone una historia, confirma la que los nodos ya compartían. `TestCheckpointsPublicados` obliga a que el código y `CHECKPOINTS.md` digan lo mismo.
