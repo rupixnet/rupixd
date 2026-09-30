@@ -89,6 +89,15 @@ El 28-sep escribimos "el Gold emitido cuadró con la regla al entero exacto" y "
 ### El CI que decía rojo por cosas de otro
 El 30-sep, verificando la release v0.6.1, el workflow `Tests` de GitHub salió en rojo. Al mirar el historial: llevaba rojo en cada push desde hacía semanas y nadie lo había leído, mientras `go test ./...` pasaba en el seed. Reproducido paso por paso: `gofmt` limpio, `go vet` limpio, la suite completa limpia; lo que fallaba eran piezas heredadas de Kaspa (sus "stability tests", un `go get -d` viejo) y, escondidos entre ellas, dos avisos reales de `staticcheck` que sí eran nuestros. Uno de ellos era un bug pequeño en la wallet: el output de quema se agregaba al mock de la transacción *después* de armarlo, así que nunca contaba en la comisión estimada; un colchón de 100 rupias lo tapaba desde hacía semanas. Un CI que siempre está rojo no avisa de nada, y lo que avisaba de verdad quedó enterrado. El workflow heredado quedó guardado en `.github/workflows-retirados/`; el nuevo corre solo lo que es de Rupix, para que el verde signifique algo.
 
+### La verificación que no podía fallar
+Al publicar la especificación, un bucle corría cada test citado y mostraba `ok`. Los diecinueve dieron `ok`. Pero cada línea decía `[no tests to run]`: el `head -1` tomaba la primera línea que devuelve `go test ./domain/...`, la del paquete raíz, donde ningún test se llama así. Una verificación que no puede fallar no verifica nada. Se repitió con `-v` buscando `--- PASS: <nombre>` y entonces sí apareció lo que había que ver: `TestPOW` no existía como test que corre, estaba en `t.Skip`. La lección es doble: la comprobación tiene que poder decir que no, y un `Skip` sale verde igual que un `PASS`.
+
+### El test que no era idempotente
+Un bloque de comandos se pegó dos veces y el script de parche insertó `DefaultAppDir` y `languageSubCmd` por segunda vez: el código dejó de compilar. La comprobación "¿ya está el texto viejo?" no sirve cuando el texto nuevo contiene al viejo. Desde entonces cada inserción comprueba la marca nueva antes de tocar nada, y una doble corrida no rompe.
+
+### La forja se acepta en el bloque siguiente
+El primer intento del test de topes decía que el Diamante 2,100,000 "no se contó": el bloque entró, pero el conteo guardado no subió. No era un bug: en un DAG las transacciones de un bloque las acepta el bloque que lo mergea, no él mismo. Ya estaba escrito en el test del mempool ("el siguiente bloque acepta las forjas") y se había olvidado. Lo que salió de reescribirlo valió más que el test: el builder honesto simula el virtual y se niega a incluir una forja que rompa el tope, y un bloque fabricado a mano con ella se rechaza entero al insertarlo.
+
 ---
 
 *No confíes, verifica.*
