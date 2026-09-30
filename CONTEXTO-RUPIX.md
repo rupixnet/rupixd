@@ -364,3 +364,5 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 
 - 14:15 (30-sep): rama `wallet-principiantes` commit 2: idioma es/en (`idioma.go`, `language`, `--lang`, `RUPIX_LANG`), textos de los comandos de principiante por `T()`, `balance` claro, guías de forja con "Qué cambió y por qué". Probado en vivo en los dos idiomas sin mover nada. Lección: el script de parche no era idempotente (una doble corrida duplicó `DefaultAppDir` y `languageSubCmd`); los siguientes comprueban la marca nueva antes de insertar.
 - 14:30 (30-sep): rama `wallet-principiantes` commit 3: verificar la frase semilla al crear (dos palabras al azar), daemon apagado explicado con el comando exacto, línea de copyright de Rupix en LICENSE. `historial` de transacciones queda pendiente: necesita soporte en el daemon (v0.6.3). Con esto la rama va al auditor.
+
+- 14:30 (30-sep): auditor sobre la wallet: `--yes` no debe existir en nada que muestre la frase semilla → la verificación de la frase ya no se puede saltar; confirmaciones con dirección y monto completos (ya era así). Rama `wallet-principiantes` completa: 4 commits.
