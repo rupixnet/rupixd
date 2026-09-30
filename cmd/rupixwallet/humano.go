@@ -42,13 +42,13 @@ func miles(n uint64) string {
 func tiempoBloques(n uint64) string {
 	switch {
 	case n < 120:
-		return fmt.Sprintf("%d segundos", n)
+		return fmt.Sprintf(T("tiempo.seg"), n)
 	case n < 7200:
-		return fmt.Sprintf("%d minutos", n/60)
+		return fmt.Sprintf(T("tiempo.min"), n/60)
 	case n < 172800:
-		return fmt.Sprintf("%.1f horas", float64(n)/3600)
+		return fmt.Sprintf(T("tiempo.hora"), float64(n)/3600)
 	}
-	return fmt.Sprintf("%.1f dias", float64(n)/86400)
+	return fmt.Sprintf(T("tiempo.dia"), float64(n)/86400)
 }
 
 // traducirErrorNodo (Rupix) explica en palabras los rechazos conocidos del nodo, sin
@@ -58,17 +58,17 @@ func traducirErrorNodo(err error) error {
 	var explicacion string
 	switch {
 	case strings.Contains(msg, "bloqueado"):
-		explicacion = "La red rechazo la forja porque ese nivel todavia no se abre (cada nivel se abre en su halving). Espera a que la red llegue al bloque que indica el mensaje."
+		explicacion = T("err.nivel_cerrado")
 	case strings.Contains(msg, "no sincronizado"):
-		explicacion = "Tu wallet todavia no esta al dia con la red. Espera unos minutos con el daemon corriendo y vuelve a intentar."
+		explicacion = T("err.no_sync")
 	case strings.Contains(msg, "Gold") && strings.Contains(msg, "insuficiente"):
-		explicacion = "No alcanza el Gold: la forja quema Gold y ademas paga una comision pequena."
+		explicacion = T("err.gold")
 	case strings.Contains(msg, "message authentication failed"):
-		explicacion = "La contrasena no es la de esta wallet (o el daemon corre con otro archivo de llaves)."
+		explicacion = T("err.clave")
 	default:
 		return err
 	}
-	return errors.Errorf("%s\n  (el nodo dijo: %s)", explicacion, msg)
+	return errors.Errorf(T("err.nodo_dijo"), explicacion, msg)
 }
 
 // rupixTxt imprime un monto en RUPIX sin el relleno de columnas del formateador heredado.

@@ -6,8 +6,11 @@ import (
 
 func main() {
 	subCmd, config := parseCommandLine()
+	elegirIdioma(langFlag)
 	var err error
 	switch subCmd {
+	case languageSubCmd:
+		err = language(config.(*languageConfig))
 	case createSubCmd:
 		err = create(config.(*createConfig))
 	case balanceSubCmd:

@@ -361,3 +361,5 @@ cruzado. Pendiente: reconciliación de tip en vivo + que JC mine (producción).
 - Siguiente: aviso JC/JP + respuesta al auditor; wallet para principiantes (rama `wallet-principiantes`, devnet); Reddit; v0.6.2 (lista de pruning points, `rpc-gemas`).
 
 - 14:05 (30-sep): rama `wallet-principiantes` commit 1: forge revisa antes/confirma, send y transfer-gem confirman, --gem-address opcional, errores del nodo explicados, `humano_test.go`. Probado en vivo con `/root/rupixwallet-prueba2` (Rodio sin Platinos → se frena; Diamante/send/transfer con "no" → cancela; saldo y gemas intactos). Sigue: commit 2, idioma es/en.
+
+- 14:15 (30-sep): rama `wallet-principiantes` commit 2: idioma es/en (`idioma.go`, `language`, `--lang`, `RUPIX_LANG`), textos de los comandos de principiante por `T()`, `balance` claro, guías de forja con "Qué cambió y por qué". Probado en vivo en los dos idiomas sin mover nada. Lección: el script de parche no era idempotente (una doble corrida duplicó `DefaultAppDir` y `languageSubCmd`); los siguientes comprueban la marca nueva antes de insertar.

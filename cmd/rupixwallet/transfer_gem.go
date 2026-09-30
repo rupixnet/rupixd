@@ -18,18 +18,18 @@ func transferGem(conf *transferGemConfig) error {
 	defer tearDown()
 
 	if conf.Level < 1 || conf.Level > 4 {
-		return errors.Errorf("--level debe ser 1 (Diamante), 2 (Platino), 3 (Rodio) o 4 (Kings)")
+		return errors.New(T("forjar.nivel_invalido"))
 	}
 	// Rupix: resumen y confirmacion antes de la clave. La gema cambia de dueno; no vuelve sola.
-	fmt.Printf("Vas a enviar 1 %s a %s. La gema deja de ser tuya.\n", nombresNivel[conf.Level], conf.ToAddress)
-	if !conf.Yes && !confirmar("Confirmas? Escribe 'si' para continuar: ") {
-		fmt.Println("Cancelado. No se movio nada.")
+	fmt.Printf(T("gema.enviar")+"\n", nombreNivel(conf.Level), conf.ToAddress)
+	if !conf.Yes && !confirmar(T("confirmar")) {
+		fmt.Println(T("cancelado"))
 		return nil
 	}
 
 	// La clave se pide con prompt: en la linea de comandos quedaba en el historial.
 	if len(conf.Password) == 0 {
-		conf.Password = keys.GetPassword("Password:")
+		conf.Password = keys.GetPassword(T("clave.prompt"))
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), daemonTimeout)
@@ -44,7 +44,7 @@ func transferGem(conf *transferGemConfig) error {
 		return traducirErrorNodo(err)
 	}
 
-	fmt.Printf("Gema %s transferida a %s\n", nombresNivel[conf.Level], conf.ToAddress)
+	fmt.Printf(T("gema.enviada")+"\n", nombreNivel(conf.Level), conf.ToAddress)
 	for _, txID := range response.TxIDs {
 		fmt.Printf("  tx: %s\n", txID)
 	}

@@ -26,6 +26,7 @@ const (
 	dumpUnencryptedDataSubCmd       = "dump-unencrypted-data"
 	startDaemonSubCmd               = "start-daemon"
 	versionSubCmd                   = "version"
+	languageSubCmd                  = "language"
 	getDaemonVersionSubCmd          = "get-daemon-version"
 	bumpFeeSubCmd                   = "bump-fee"
 	bumpFeeUnsignedSubCmd           = "bump-fee-unsigned"
@@ -37,8 +38,15 @@ const (
 	defaultRPCServer = "localhost"
 )
 
+type languageConfig struct {
+	Args struct {
+		Lang string `positional-arg-name:"lang" description:"es o en (sin argumento muestra el actual)"`
+	} `positional-args:"yes"`
+}
+
 type configFlags struct {
-	ShowVersion bool `short:"V" long:"version" description:"Display version information and exit"`
+	ShowVersion bool   `short:"V" long:"version" description:"Display version information and exit"`
+	Lang        string `long:"lang" description:"Idioma / language: es o en (tambien RUPIX_LANG o el comando language)"`
 	config.NetworkFlags
 }
 
@@ -202,6 +210,9 @@ type getDaemonVersionConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 }
 
+// langFlag (Rupix): el --lang global, leido antes de imprimir nada.
+var langFlag string
+
 func parseCommandLine() (subCommand string, config interface{}) {
 	cfg := &configFlags{}
 	parser := flags.NewParser(cfg, flags.PrintErrors|flags.HelpFlag)
@@ -268,6 +279,9 @@ func parseCommandLine() (subCommand string, config interface{}) {
 	}
 	parser.AddCommand(startDaemonSubCmd, "Start the wallet daemon", "Start the wallet daemon", startDaemonConf)
 	parser.AddCommand(versionSubCmd, "Get the wallet version", "Get the wallet version", &versionConfig{})
+	languageConf := &languageConfig{}
+	parser.AddCommand(languageSubCmd, "Idioma de la wallet / wallet language (es | en)",
+		"Guarda el idioma en que te habla la wallet. Sin argumento, muestra el actual.", languageConf)
 	getDaemonVersionConf := &getDaemonVersionConfig{DaemonAddress: defaultListen}
 	parser.AddCommand(getDaemonVersionSubCmd, "Get the wallet daemon version", "Get the wallet daemon version", getDaemonVersionConf)
 	bumpFeeConf := &bumpFeeConfig{DaemonAddress: defaultListen}
@@ -278,6 +292,7 @@ func parseCommandLine() (subCommand string, config interface{}) {
 		"Broadcast the given transaction replacement", broadcastConf)
 
 	_, err := parser.Parse()
+	langFlag = cfg.Lang
 	if err != nil {
 		var flagsErr *flags.Error
 		if ok := errors.As(err, &flagsErr); ok && flagsErr.Type == flags.ErrHelp {
@@ -410,6 +425,8 @@ func parseCommandLine() (subCommand string, config interface{}) {
 		}
 		config = startDaemonConf
 	case versionSubCmd:
+	case languageSubCmd:
+		config = languageConf
 	case getDaemonVersionSubCmd:
 		config = getDaemonVersionConf
 	case bumpFeeSubCmd:

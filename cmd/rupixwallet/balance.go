@@ -23,21 +23,20 @@ func balance(conf *balanceConfig) error {
 		return err
 	}
 
+	// Rupix: una linea clara para quien empieza; con -v, la tabla por direccion.
 	pendingSuffix := ""
 	if response.Pending > 0 {
-		pendingSuffix = " (pending)"
+		pendingSuffix = fmt.Sprintf(T("saldo.pendiente"), rupixTxt(response.Pending))
 	}
 	if conf.Verbose {
-		pendingSuffix = ""
-		println("Address                                                                       Available             Pending")
+		println(T("saldo.cabecera"))
 		println("-----------------------------------------------------------------------------------------------------------")
 		for _, addressBalance := range response.AddressBalances {
 			fmt.Printf("%s %s %s\n", addressBalance.Address, utils.FormatRupix(addressBalance.Available), utils.FormatRupix(addressBalance.Pending))
 		}
 		println("-----------------------------------------------------------------------------------------------------------")
-		print("                                                 ")
 	}
-	fmt.Printf("Total balance, RUPIX %s %s%s\n", utils.FormatRupix(response.Available), utils.FormatRupix(response.Pending), pendingSuffix)
+	fmt.Printf(T("saldo.total")+"%s\n", rupixTxt(response.Available), pendingSuffix)
 
 	return nil
 }

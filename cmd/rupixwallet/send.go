@@ -76,20 +76,20 @@ func send(conf *sendConfig) error {
 	// muchas transacciones; la persona debe saber cuantas y cuanto antes de firmar nada.
 	n := len(createUnsignedTransactionsResponse.UnsignedTransactions)
 	if conf.IsSendAll {
-		fmt.Printf("Vas a enviar TODO el Gold de la wallet a %s en %d transaccion(es).\n", conf.ToAddress, n)
+		fmt.Printf(T("enviar.todo")+"\n", conf.ToAddress, n)
 	} else {
-		fmt.Printf("Vas a enviar %s RUPIX a %s en %d transaccion(es).\n", rupixTxt(sendAmountSompi), conf.ToAddress, n)
+		fmt.Printf(T("enviar.resumen")+"\n", rupixTxt(sendAmountSompi), conf.ToAddress, n)
 	}
 	if n > 1 {
-		fmt.Printf("(Se juntan pedazos chicos en lotes y la ultima paga; tarda ~%d s.)\n", n/5+2)
+		fmt.Printf(T("enviar.lotes")+"\n", n/5+2)
 	}
-	if !conf.Yes && !confirmar("Confirmas? Escribe 'si' para continuar: ") {
-		fmt.Println("Cancelado. No se movio nada.")
+	if !conf.Yes && !confirmar(T("confirmar")) {
+		fmt.Println(T("cancelado"))
 		return nil
 	}
 
 	if len(conf.Password) == 0 {
-		conf.Password = keys.GetPassword("Password:")
+		conf.Password = keys.GetPassword(T("clave.prompt"))
 	}
 	mnemonics, err := keysFile.DecryptMnemonics(conf.Password)
 	if err != nil {
