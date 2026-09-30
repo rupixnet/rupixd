@@ -6,9 +6,11 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/utils/utxo"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 
+	"github.com/rupixnet/rupixd/domain/consensus/database"
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/topes"
 	"github.com/rupixnet/rupixd/domain/consensus/utils/transactionhelper"
 )
 
@@ -173,6 +175,20 @@ func (csm *consensusStateManager) applyMergeSetBlocks(stagingArea *model.Staging
 	}
 	log.Tracef("The past median time for block %s is: %d", blockHash, selectedParentMedianTime)
 
+	// Rupix (v0.6.2): conteo corriente de gemas, partiendo del padre seleccionado
+	// (segun GHOSTDAG; el mergeset puede estar vacio). Una forja que rompa un tope historico queda NO ACEPTADA,
+	// como cualquier transaccion que falla en contexto; el orden es el de GHOSTDAG,
+	// asi que todos los nodos no aceptan la misma. Antes el tope se revisaba despues,
+	// sobre el bloque entero, y mataba al bloque honesto que mergeaba la forja.
+	ghostdagData, err := csm.ghostdagDataStore.Get(csm.databaseContext, stagingArea, blockHash, false)
+	if err != nil {
+		return nil, nil, err
+	}
+	conteo, err := csm.conteoDelPadre(stagingArea, ghostdagData.SelectedParent())
+	if err != nil {
+		return nil, nil, err
+	}
+
 	multiblockAcceptanceData := make(externalapi.AcceptanceData, len(mergeSetBlocks))
 	accumulatedUTXODiff := selectedParentPastUTXODiff.CloneMutable()
 	accumulatedMass := uint64(0)
@@ -194,7 +210,7 @@ func (csm *consensusStateManager) applyMergeSetBlocks(stagingArea *model.Staging
 				transactionID, mergeSetBlockHash)
 
 			isAccepted, accumulatedMass, err = csm.maybeAcceptTransaction(stagingArea, transaction, blockHash,
-				isSelectedParent, accumulatedUTXODiff, accumulatedMass, selectedParentMedianTime, daaScore)
+				isSelectedParent, accumulatedUTXODiff, accumulatedMass, selectedParentMedianTime, daaScore, conteo)
 			if err != nil {
 				return nil, nil, err
 			}
@@ -225,7 +241,7 @@ func (csm *consensusStateManager) applyMergeSetBlocks(stagingArea *model.Staging
 func (csm *consensusStateManager) maybeAcceptTransaction(stagingArea *model.StagingArea,
 	transaction *externalapi.DomainTransaction, blockHash *externalapi.DomainHash, isSelectedParent bool,
 	accumulatedUTXODiff externalapi.MutableUTXODiff, accumulatedMassBefore uint64, selectedParentPastMedianTime int64,
-	blockDAAScore uint64) (isAccepted bool, accumulatedMassAfter uint64, err error) {
+	blockDAAScore uint64, conteo *topes.Conteo) (isAccepted bool, accumulatedMassAfter uint64, err error) {
 
 	transactionID := consensushashing.TransactionID(transaction)
 	log.Tracef("maybeAcceptTransaction start for transaction %s in block %s", transactionID, blockHash)
@@ -264,6 +280,16 @@ func (csm *consensusStateManager) maybeAcceptTransaction(stagingArea *model.Stag
 			return false, accumulatedMassBefore, nil
 		}
 		log.Tracef("Validation passed for transaction %s in block %s", transactionID, blockHash)
+
+		// Rupix: topes historicos. Si esta transaccion llevaria una gema sobre su tope,
+		// no se acepta: sus inputs no se gastan (el forjador que perdio la carrera no
+		// quema nada) y las transacciones que dependan de su gema tampoco se aceptan
+		// (su UTXO nunca existe). El bloque que la mergea sigue siendo valido.
+		if !conteo.Cabe(transaction) {
+			log.Warnf("Rupix: transaccion %s (mergeada por %s) NO aceptada: llevaria una gema sobre su tope historico",
+				transactionID, blockHash)
+			return false, accumulatedMassBefore, nil
+		}
 	}
 
 	log.Tracef("Adding transaction %s in block %s to the accumulated diff", transactionID, blockHash)
@@ -307,4 +333,27 @@ func (csm *consensusStateManager) RestorePastUTXOSetIterator(stagingArea *model.
 	}
 
 	return utxo.IteratorWithDiff(virtualUTXOSetIterator, blockDiff)
+}
+
+// conteoDelPadre (Rupix) arma el conteo corriente de gemas a partir de lo guardado
+// para el padre seleccionado: gemas nacidas por nivel (GemsHistoryStore) y Kings vivos
+// (KingsCountStore). Un padre sin registro (genesis) es cero de todo.
+func (csm *consensusStateManager) conteoDelPadre(stagingArea *model.StagingArea,
+	selectedParent *externalapi.DomainHash) (*topes.Conteo, error) {
+
+	var historia *externalapi.GemsHistory
+	h, err := csm.gemsHistoryStore.Get(csm.databaseContext, stagingArea, selectedParent)
+	if err == nil {
+		historia = h
+	} else if !database.IsNotFoundError(err) {
+		return nil, err
+	}
+	kings, err := csm.kingsCountStore.Get(csm.databaseContext, stagingArea, selectedParent)
+	if err != nil {
+		if !database.IsNotFoundError(err) {
+			return nil, err
+		}
+		kings = 0
+	}
+	return topes.Desde(historia, kings), nil
 }
