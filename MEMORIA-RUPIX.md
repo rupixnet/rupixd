@@ -98,6 +98,17 @@ Un bloque de comandos se pegó dos veces y el script de parche insertó `Default
 ### La forja se acepta en el bloque siguiente
 El primer intento del test de topes decía que el Diamante 2,100,000 "no se contó": el bloque entró, pero el conteo guardado no subió. No era un bug: en un DAG las transacciones de un bloque las acepta el bloque que lo mergea, no él mismo. Ya estaba escrito en el test del mempool ("el siguiente bloque acepta las forjas") y se había olvidado. Lo que salió de reescribirlo valió más que el test: el builder honesto simula el virtual y se niega a incluir una forja que rompa el tope, y un bloque fabricado a mano con ella se rechaza entero al insertarlo.
 
+*(30-sep, tarde: esa última frase era el hueco. Ver "El veneno del tope".)*
+
+### El veneno del tope
+"Un bloque que exceda el tope se rechaza entero" sonaba a la regla más dura posible. El auditor vio lo que eso permite: si el bloque envenenado llega a ser punta, cada bloque honesto que lo mergee o construya encima se rechaza con él. Una forja de 10 Gold para tirar a los mineros honestos. La regla correcta es la que ya usábamos para toda transacción inválida por UTXO: el bloque entra y la transacción, sola, no se acepta. Sin efectos colaterales: el Gold sigue vivo, el sello no cambia, nadie más pierde. La lección: la severidad de un rechazo no es una virtud; en un DAG, rechazar un bloque es castigar a quien lo mergea, y eso lo puede provocar cualquiera.
+
+### Archivos completos, no parches
+El primer arreglo del tope se aplicó con un heredoc y varios `sed` encadenados en el seed. Uno de ellos no encontró su ancla, no dijo nada, y el código quedó a medias: `mergeSetHashes[0]` en un mergeset vacío, pánico en el primer bloque después del génesis. ER lo dijo claro: "no me gusta parchar en términos breves". Desde entonces, cuando se toca consenso, viaja el archivo completo, con su hash comprobado al llegar, y el test se corre con `-v` esperando `--- PASS: <nombre>`. Un parche que puede fallar en silencio no es más rápido: es más lento, porque el fallo aparece después y lejos.
+
+### El exit que decía dos cosas
+`go test ./domain/... | grep -v '^ok'` con `pipefail` devuelve 1 cuando el `grep` no encuentra nada (todo ok) y también cuando `go test` falla. La misma cifra para el mejor y el peor caso. Y en ese mismo bloque un tecleo (`&<`) mandó la cadena a segundo plano y corrió la suite en paralelo con la copia del archivo. Se repitió con `go test` a un archivo y su código de salida solo, y el filtro aparte. Es la tercera vez que la lección es la misma: una verificación tiene que poder decir que no, y tiene que decir solo una cosa.
+
 ---
 
 *No confíes, verifica.*

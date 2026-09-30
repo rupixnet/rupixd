@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **CAMBIO DE CONSENSO (rama `tope-no-acepta`, `826be325`, para v0.6.2; no corre en el seed):** el tope histórico de gemas se aplica al aceptar la transacción, no al insertar el bloque. Antes, un bloque con una forja sobre el tope se rechazaba entero, y un atacante podía "envenenar" la punta: los bloques honestos que lo mergearan caían con él (hallazgo del auditor, 30-sep). Ahora el bloque entra y la forja que excede el tope no se acepta (`applyMergeSetBlocks` → `maybeAcceptTransaction`, conteo del selected parent en orden GHOSTDAG, `utils/topes`), sin efectos colaterales: el Gold sigue vivo, el sello no cambia, los hermanos honestos son UTXOValid. El mempool aplica el mismo conteo en la puerta (`ErrGemsCapExceeded`). Tests en rojo antes y en verde después: `TestVenenoDeTopeNoMataAlHonesto`, `TestDosHermanosUltimaGema` (dos consensos coinciden), `TestForjaSobreTopeEnMempool`; suite `./domain/...` en verde (35 paquetes).
 - `tools/verificar-binarios.sh`: recompila un tag con los flags del CI y compara SHA256 con la release. v0.6.1: 4 de 4 identicos (compilacion reproducible verificada).
 - CI: `race.yaml` heredado (corria sobre `master` y ramas `v*-dev` inexistentes) retirado; el nuevo corre `go test -race ./...` sobre `main` cada noche. Badge del CI en los README.
 - CI: el workflow `Tests` heredado (rojo en cada push por piezas de Kaspa) se retira a `.github/workflows-retirados/` y se reemplaza por gofmt + go vet + staticcheck + build + `go test ./...` en Linux y macOS.
