@@ -20,8 +20,13 @@ import (
 // donde "nacidas" = max(0, outputs(nivel) - inputs(nivel)) por transaccion.
 // Asi las transferencias no inflan (out-in = 0), y las quemas para ascender
 // NO devuelven cupo al nivel inferior. Una vez alcanzado el tope de un nivel,
-// jamas nace otra gema de ese nivel en ninguna cadena valida — el bloque que
-// lo intente es invalido por entero.
+// jamas nace otra gema de ese nivel en ninguna cadena valida.
+//
+// Desde v0.6.2 (hueco #7) el tope se aplica ANTES, en la aceptacion: una forja
+// que lo rompa no se acepta (utils/topes, maybeAcceptTransaction) y por eso
+// nunca llega aqui. La muralla de abajo queda como INVARIANTE: si llega a
+// dispararse no es un ataque, es un bug en el conteo, y se registra en Error
+// para que no se confunda con un rechazo normal.
 func (csm *consensusStateManager) calculateGemsHistory(stagingArea *model.StagingArea,
 	blockHash *externalapi.DomainHash,
 	acceptanceData externalapi.AcceptanceData,
@@ -80,18 +85,25 @@ func (csm *consensusStateManager) calculateGemsHistory(stagingArea *model.Stagin
 		}
 	}
 
-	// La muralla: si algun nivel supera su tope historico, el bloque es invalido.
+	// INVARIANTE (no debe poder dispararse: la aceptacion ya filtro las forjas
+	// sobre el tope). Si se dispara, el conteo de la aceptacion y este divergieron.
 	if history.Diamante > constants.MaxDiamante {
+		log.Errorf("INVARIANTE ROTA: el bloque %s lleva los Diamantes historicos a %d (tope %d) "+
+			"pese al filtro de la aceptacion; bug en el conteo, no un ataque", blockHash, history.Diamante, constants.MaxDiamante)
 		return nil, errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
 			"el bloque %s llevaria los Diamantes historicos a %d, tope %d",
 			blockHash, history.Diamante, constants.MaxDiamante)
 	}
 	if history.Platino > constants.MaxPlatino {
+		log.Errorf("INVARIANTE ROTA: el bloque %s lleva los Platinos historicos a %d (tope %d) "+
+			"pese al filtro de la aceptacion; bug en el conteo, no un ataque", blockHash, history.Platino, constants.MaxPlatino)
 		return nil, errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
 			"el bloque %s llevaria los Platinos historicos a %d, tope %d",
 			blockHash, history.Platino, constants.MaxPlatino)
 	}
 	if history.Rodio > constants.MaxRodio {
+		log.Errorf("INVARIANTE ROTA: el bloque %s lleva los Rodios historicos a %d (tope %d) "+
+			"pese al filtro de la aceptacion; bug en el conteo, no un ataque", blockHash, history.Rodio, constants.MaxRodio)
 		return nil, errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
 			"el bloque %s llevaria los Rodios historicos a %d, tope %d",
 			blockHash, history.Rodio, constants.MaxRodio)

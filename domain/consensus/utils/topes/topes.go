@@ -72,7 +72,12 @@ func (c *Conteo) Cabe(tx *externalapi.DomainTransaction) bool {
 	p := c.Platino + nacidos(outP, inP)
 	r := c.Rodio + nacidos(outR, inR)
 	if inK > c.Kings+outK {
-		return false // consumiria un King que no existe segun el conteo
+		// INVARIANTE: el UTXO set ya valido que esos Kings existen (las entradas
+		// llegan con UTXOEntry). Si el conteo no los conoce, el conteo de Kings y el
+		// UTXO set divergieron: es un bug, no un ataque, y tiene que gritar.
+		log.Errorf("INVARIANTE ROTA: la transaccion consume %d Kings con un conteo de %d vivos (+%d que crea); "+
+			"el conteo de Kings y el UTXO set divergieron", inK, c.Kings, outK)
+		return false
 	}
 	k := c.Kings + outK - inK
 	if d > constants.MaxDiamante || p > constants.MaxPlatino || r > constants.MaxRodio || k > constants.MaxKings {
