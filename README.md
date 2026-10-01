@@ -143,12 +143,12 @@ Every block you find pays you Gold. With that Gold you can forge gems (see [FORG
 
 - ✅ **Mining accessible to everyone — DONE (v0.6.0)** — Rupix migrated from Kaspa's inherited algorithm to RupixHeavyHash, its own algorithm. Kaspa ASICs can no longer mine Rupix; it is mined from an ordinary computer (GPU/CPU). Rupix is for everyone.
 - ✅ **Total verification with commitment in header** — the gem count is sealed into every block's hash (protected by PoW), validated on receipt, and persisted to disk. A false count is rejected: the seal doesn't match. This CLOSES total verifiability — tested live (first transfer between nodes, testnet v0.4.2).
-- ✅ **Temporary checkpoints — DONE (v0.6.0)** — with expiry inside consensus, tested on devnet, public policy in [CHECKPOINTS.en.md](./CHECKPOINTS.en.md). The first real one is yet to be published.
+- ✅ **Temporary checkpoints — DONE (v0.6.0, first one published in v0.6.1)** — with expiry inside consensus, public policy in [CHECKPOINTS.en.md](./CHECKPOINTS.en.md). Checkpoint #1 sits on the pruning point the seed and a community node already shared (blue score 86,400). Since v0.6.2 a node syncing from scratch also validates the pruning-point list it receives against the checkpoints.
 - **Go vs Rust — declared risk.** Rupix runs on kaspad-go, the legacy implementation; Kaspa's active development is in rusty-kaspa. kaspad-go does everything Rupix needs today (GHOSTDAG, pruning, kHeavyHash) but receives no upstream improvements or fixes. A migration to rusty-kaspa is a second-year goal, conditional on having contributors who can sustain it. Not a promise; a stated direction.
-- **External audit of the consensus code**
+- **External review of the consensus code — in progress.** An independent, anonymous auditor has reviewed every release since v0.6.0 with the diff in hand (four rounds; findings and fixes in the [CHANGELOG](./CHANGELOG.md)); every consensus rule is in [ESPECIFICACION.md](./ESPECIFICACION.md) next to the attack it stops and the test that proves it (6 of 7 gaps closed). What is still missing: a reviewer with a public name. The README will not say "audited" until then.
 - **Redundant infrastructure** (multiple seed nodes) and **committed hashrate**
 
-**Mainnet date: we will announce it when the code is ready, not before.** We would rather launch late and right than early and compromised.
+**Mainnet has no date; it will have criteria first.** [MAINNET.md](./MAINNET.md) (draft, not yet in force) lists what has to be true —code, external review, network, economics— each with how a stranger can verify it, and the rule that from the day of the green light there will be two months' public notice before block 1. We would rather launch late and right than early and compromised.
 
 ## Philosophy
 

@@ -143,11 +143,11 @@ Cada bloque que encuentres te paga Gold. Con ese Gold puedes forjar gemas (ver [
 - **Minado accesible para todos — HECHO (v0.6.0)** — Rupix migró del algoritmo heredado de Kaspa a RupixHeavyHash, su propio algoritmo. Los ASIC de Kaspa ya no pueden minar Rupix; se mina desde una computadora normal (GPU/CPU). Rupix es para todos.
 - ✅ **Verificación total con commitment en header** — el conteo de gemas se sella en el hash de cada bloque (protegido por PoW), se valida al recibir, y persiste en disco. Un conteo falso se rechaza: el sello no cuadra. Esto CIERRA el verificable total — probado en vivo (primera transferencia entre nodos, testnet v0.4.2).
 - **Go vs Rust — riesgo declarado.** Rupix corre en kaspad-go, la implementación legacy; el desarrollo activo de Kaspa está en rusty-kaspa. kaspad-go hace todo lo que Rupix necesita hoy (GHOSTDAG, pruning, kHeavyHash) pero no recibe mejoras ni correcciones upstream. La migración a rusty-kaspa es un objetivo del segundo año, condicionado a tener contribuidores que la sostengan. No es una promesa; es una dirección declarada.
-- **Auditoría externa del código de consenso**
+- **Revisión externa del código de consenso — en curso.** Un auditor independiente y anónimo revisó cada versión desde v0.6.0 con el diff en la mano (cuatro rondas; hallazgos y arreglos en el [CHANGELOG](./CHANGELOG.md)); cada regla de consenso está en [ESPECIFICACION.md](./ESPECIFICACION.md) junto al ataque que detiene y al test que lo prueba (6 de 7 huecos cerrados). Lo que falta: un revisor con nombre público. El README no dirá "auditado" hasta entonces.
 - **Infraestructura redundante** (múltiples nodos semilla) y **hashrate comprometido**
-- ✅ **Checkpoints temporales — HECHO (v0.6.0)** — con caducidad dentro del consenso, probados en devnet, política pública en [CHECKPOINTS.md](./CHECKPOINTS.md). Falta publicar el primero real.
+- ✅ **Checkpoints temporales — HECHO (v0.6.0; el primero publicado en v0.6.1)** — con caducidad dentro del consenso, política pública en [CHECKPOINTS.md](./CHECKPOINTS.md). El checkpoint #1 va sobre el punto de poda que el seed y un nodo de la comunidad ya compartían (blue score 86,400). Desde v0.6.2 un nodo que sincroniza desde cero también valida la lista de puntos de poda que recibe contra los checkpoints.
 
-**Fecha de mainnet: la anunciaremos cuando el código esté listo, no antes.** Preferimos lanzar tarde y bien que pronto y comprometidos.
+**Mainnet no tiene fecha; tendrá criterios antes.** [MAINNET.md](./MAINNET.md) (borrador, aún no vigente) lista lo que tiene que ser verdad —código, revisión externa, red, economía— con cómo lo verifica un desconocido, y la regla de que desde el día de la luz verde habrá dos meses de aviso público antes del bloque 1. Preferimos lanzar tarde y bien que pronto y comprometidos.
 
 ## Filosofía
 
