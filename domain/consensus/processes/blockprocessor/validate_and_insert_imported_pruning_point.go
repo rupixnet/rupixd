@@ -32,6 +32,13 @@ func (bp *blockProcessor) validateAndInsertImportedPruningPoint(
 			"chain to genesis")
 	}
 
+	// Rupix: la lista de pruning points tiene que contener (o tener en su pasado)
+	// a cada checkpoint publicado que quede por debajo del nuevo pruning point.
+	err = bp.checkCheckpointsEnPruningPoints(stagingArea, newPruningPointHash)
+	if err != nil {
+		return err
+	}
+
 	log.Infof("Updating consensus state manager according to the new pruning point %s", newPruningPointHash)
 	err = bp.consensusStateManager.ImportPruningPointUTXOSet(stagingArea, newPruningPointHash)
 	if err != nil {
