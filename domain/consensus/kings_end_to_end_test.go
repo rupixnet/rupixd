@@ -247,4 +247,27 @@ func TestKingsEndToEnd(t *testing.T) {
 		t.Fatalf("el minero de produccion sella Kings=0: H-10 revertido")
 	}
 	t.Logf("King minado por block_builder.go, validado por verify_and_build_utxo.go: %s | %+v", sealBlk.Header.GemsCommitment(), gh)
+
+	// Las dos fuentes de Kings coinciden (auditor, 30-sep): el conteo sellado
+	// (KingsCount del selected parent del virtual) y los Kings VIVOS en el UTXO set
+	// del virtual tienen que ser el mismo numero. Si alguna vez divergen, Cabe y
+	// calculateKingsCount lo registran como INVARIANTE ROTA.
+	info, err := tc.GetVirtualInfo()
+	if err != nil {
+		t.Fatalf("GetVirtualInfo: %+v", err)
+	}
+	utxos, err := tc.GetVirtualUTXOs(info.ParentHashes, nil, 1_000_000)
+	if err != nil {
+		t.Fatalf("GetVirtualUTXOs: %+v", err)
+	}
+	var kingsVivos uint64
+	for _, u := range utxos {
+		if u.UTXOEntry.ScriptPublicKey().Version == constants.LevelKings {
+			kingsVivos++
+		}
+	}
+	if kingsVivos != gh.Kings {
+		t.Fatalf("doble fuente de Kings: el UTXO set tiene %d Kings vivos y el conteo sellado dice %d", kingsVivos, gh.Kings)
+	}
+	t.Logf("ambas fuentes coinciden: %d King vivo en el UTXO set, %d en el conteo sellado", kingsVivos, gh.Kings)
 }

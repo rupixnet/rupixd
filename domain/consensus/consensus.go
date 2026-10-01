@@ -11,6 +11,8 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/ruleerrors"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/consensushashing"
+	"github.com/rupixnet/rupixd/domain/consensus/utils/topes"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"github.com/rupixnet/rupixd/util/staging"
 )
@@ -342,6 +344,13 @@ func (s *consensus) ValidateTransactionAndPopulateWithConsensusData(transaction 
 
 	err = s.consensusStateManager.PopulateTransactionWithUTXOEntries(stagingArea, transaction)
 	if err != nil {
+		return err
+	}
+
+	// Rupix (v0.6.2): los topes historicos se revisan aqui, en la puerta del mempool,
+	// para que una forja sobre el tope se rechace al entrar y nunca llegue a una
+	// plantilla (cierra el H-1 nivel B). El consenso, ademas, no la aceptaria.
+	if err := s.revisaTopes(stagingArea, transaction); err != nil {
 		return err
 	}
 
@@ -1146,4 +1155,23 @@ func (s *consensus) isNearlySyncedNoLock() (bool, error) {
 	log.Debugf("The selected tip timestamp is old (%d), so IsNearlySynced returns false",
 		virtualSelectedParentHeader.TimeInMilliseconds())
 	return false, nil
+}
+
+// revisaTopes (Rupix) rechaza una transaccion que llevaria alguna gema sobre su tope
+// historico, segun el conteo del virtual. Sin registro del virtual (recien arrancado)
+// no hay nada que revisar.
+func (s *consensus) revisaTopes(stagingArea *model.StagingArea, transaction *externalapi.DomainTransaction) error {
+	historia, err := s.gemsHistoryStore.Get(s.databaseContext, stagingArea, model.VirtualBlockHash)
+	if err != nil {
+		if database.IsNotFoundError(err) {
+			return nil
+		}
+		return err
+	}
+	if !topes.Desde(historia, historia.Kings).Cabe(transaction) {
+		return errors.Wrapf(ruleerrors.ErrGemsCapExceeded,
+			"la transaccion %s llevaria una gema sobre su tope historico: no se acepta",
+			consensushashing.TransactionID(transaction))
+	}
+	return nil
 }

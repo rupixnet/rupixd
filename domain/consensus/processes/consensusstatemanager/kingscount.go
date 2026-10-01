@@ -42,6 +42,10 @@ func (csm *consensusStateManager) calculateKingsCount(stagingArea *model.Staging
 			for _, input := range tx.Inputs {
 				if input.UTXOEntry.ScriptPublicKey().Version == constants.LevelKings {
 					if count == 0 {
+						// INVARIANTE: el UTXO set ya valido que ese King existe. Si el
+						// conteo dice 0, las dos fuentes de Kings divergieron: bug, no ataque.
+						log.Errorf("INVARIANTE ROTA: el bloque %s gasta un King que el conteo del padre no registra; "+
+							"el conteo de Kings y el UTXO set divergieron", blockHash)
 						return 0, errors.Wrapf(ruleerrors.ErrKingsCapExceeded,
 							"el bloque %s gasta un King que el conteo del padre no registra (underflow)", blockHash)
 					}
@@ -57,6 +61,9 @@ func (csm *consensusStateManager) calculateKingsCount(stagingArea *model.Staging
 	}
 
 	if count > constants.MaxKings {
+		// INVARIANTE (desde v0.6.2 la aceptacion filtra el King 2,101 antes de llegar aqui).
+		log.Errorf("INVARIANTE ROTA: el bloque %s lleva el conteo de Kings a %d (tope %d) "+
+			"pese al filtro de la aceptacion; bug en el conteo, no un ataque", blockHash, count, constants.MaxKings)
 		return 0, errors.Wrapf(ruleerrors.ErrKingsCapExceeded,
 			"el bloque %s llevaria el conteo de Kings a %d, tope absoluto %d",
 			blockHash, count, constants.MaxKings)
