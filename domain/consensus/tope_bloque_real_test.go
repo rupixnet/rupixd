@@ -193,8 +193,11 @@ func TestTopeDeDiamantesEnBloqueReal(t *testing.T) {
 	if errVeneno != nil {
 		t.Fatalf("el bloque fabricado con la forja %d debe entrar (su forja no se acepta); fallo: %+v", constants.MaxDiamante+1, errVeneno)
 	}
-	if st := estado(hashVeneno); st != externalapi.StatusUTXOValid {
-		t.Fatalf("el bloque fabricado con la forja %d debe ser UTXOValid (la forja no se acepta, el bloque no es invalido): %s", constants.MaxDiamante+1, st)
+	// El veneno es hermano de bExceso y la cadena seleccionada ya paso por "hijo": el
+	// virtual no resuelve el UTXO de un bloque fuera de su cadena (queda
+	// UTXOPendingVerification). Lo que importa: NO esta descalificado ni invalido.
+	if st := estado(hashVeneno); st == externalapi.StatusDisqualifiedFromChain || st == externalapi.StatusInvalid {
+		t.Fatalf("el bloque fabricado con la forja %d no debe quedar %s: la forja no se acepta, el bloque no es invalido", constants.MaxDiamante+1, st)
 	}
 	hv, err := tc.GemsHistoryStore().Get(tc.DatabaseContext(), model.NewStagingArea(), model.VirtualBlockHash)
 	if err != nil {
@@ -210,6 +213,10 @@ func TestTopeDeDiamantesEnBloqueReal(t *testing.T) {
 	}
 	if st := estado(hijoVeneno); st != externalapi.StatusUTXOValid {
 		t.Fatalf("VENENO: el bloque honesto que mergea la forja %d queda %s", constants.MaxDiamante+1, st)
+	}
+	// Al resolver al hijo se resuelve su selected parent: el veneno mismo es UTXOValid.
+	if st := estado(hashVeneno); st != externalapi.StatusUTXOValid {
+		t.Fatalf("el bloque fabricado con la forja %d, ya mergeado por un honesto, debe ser UTXOValid: %s", constants.MaxDiamante+1, st)
 	}
 	if got := historia(hijoVeneno).Diamante; got != constants.MaxDiamante {
 		t.Fatalf("conteo tras mergear el veneno: esperado %d, obtenido %d", constants.MaxDiamante, got)
