@@ -114,3 +114,23 @@ la historia de Rupix.
 
 *Rupix — el dinero que solo se consume. No confíes. Verifica — desde el génesis.*
 🔗 rupix.network · github.com/rupixnet/rupixd · explorer.rupix.network
+
+## Qué cambió en la wallet (v0.6.2) y por qué
+
+Estos cambios existen porque vimos a personas reales tropezar con la wallet. Cada uno evita un error concreto.
+
+| Antes | Ahora | Por qué |
+|---|---|---|
+| `forge` mandaba la transacción y esperaba a que la red la rechazara | **Revisa antes:** cuenta tus gemas y tu Gold, le pregunta al nodo en qué bloque va y si el nivel está abierto. Si falta algo, lo dice en palabras y **no manda nada** | La red rechazó un Platino a JC el 28-sep porque el nivel no estaba abierto; con esto lo habría sabido antes de intentar |
+| Forjar era inmediato e irreversible | **Resume y pregunta:** "Vas a forjar 1 Platino… se queman 10 Diamantes PARA SIEMPRE… ¿Confirmas?" Solo `si` continúa | Lo que se quema no vuelve. Un dedo de más no debe costarte 10 gemas |
+| `send` firmaba y mandaba sin más | Dice cuánto, a quién y **en cuántas transacciones** (un envío grande se parte en lotes), y pregunta | 10,000 RUPIX salen en 232 transacciones; hay que saberlo antes de firmar |
+| `--gem-address` obligatorio | Opcional: si no lo das, la gema nace en tu primera dirección | Un paso menos para quien empieza |
+| `--password=` en la línea de comandos | Se pide en pantalla, sin eco | Quedaba en el historial y en las capturas de pantalla |
+| Errores del nodo en crudo (`nivel 2 bloqueado…`) | Explicados en palabras, con el original abajo entre paréntesis | Para saber qué hacer, no solo qué pasó |
+| Solo español | **Español o inglés**, cambiable cuando quieras | Rupix es para todos |
+
+**Elegir idioma:** `./rupixwallet language en` lo deja guardado (o `es`). Para una sola vez: `--lang=en` antes del comando. También vale la variable `RUPIX_LANG`. Si no dices nada, usa el del sistema.
+
+**Para scripts** que no pueden contestar preguntas: `--yes` en `forge`, `send` y `transfer-gem`.
+
+Nada de esto toca el consenso: la red sigue revisando todo igual. La wallet solo te avisa antes.

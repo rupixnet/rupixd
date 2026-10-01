@@ -24,11 +24,11 @@ func gems(conf *gemsConfig) error {
 	}
 
 	total := response.Diamante + response.Platino + response.Rodio + response.Kings
-	fmt.Println("La escalera — tus gemas:")
-	fmt.Printf("  💎 Diamante : %d\n", response.Diamante)
-	fmt.Printf("  ⬜ Platino  : %d\n", response.Platino)
-	fmt.Printf("  ◼ Rodio    : %d\n", response.Rodio)
-	fmt.Printf("  👑 Kings    : %d\n", response.Kings)
-	fmt.Printf("  Total: %d gema(s)\n", total)
+	fmt.Println(T("gemas.titulo"))
+	fmt.Printf("  💎 %-9s: %d\n", nombreNivel(1), response.Diamante)
+	fmt.Printf("  ⬜ %-9s: %d\n", nombreNivel(2), response.Platino)
+	fmt.Printf("  ◼ %-9s: %d\n", nombreNivel(3), response.Rodio)
+	fmt.Printf("  👑 %-9s: %d\n", nombreNivel(4), response.Kings)
+	fmt.Printf(T("gemas.total")+"\n", total)
 	return nil
 }

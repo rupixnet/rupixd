@@ -28,6 +28,9 @@ var (
 // LastVersion is the most up to date file format version
 const LastVersion = 1
 
+// DefaultAppDir (Rupix) es la carpeta de la wallet; ahi vive tambien la preferencia de idioma.
+func DefaultAppDir() string { return defaultAppDir }
+
 func defaultKeysFile(netParams *dagconfig.Params) string {
 	return filepath.Join(defaultAppDir, netParams.Name, "keys.json")
 }

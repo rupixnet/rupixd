@@ -72,8 +72,24 @@ func send(conf *sendConfig) error {
 		return err
 	}
 
+	// Rupix: resumen y confirmacion ANTES de pedir la clave. Un envio grande se parte en
+	// muchas transacciones; la persona debe saber cuantas y cuanto antes de firmar nada.
+	n := len(createUnsignedTransactionsResponse.UnsignedTransactions)
+	if conf.IsSendAll {
+		fmt.Printf(T("enviar.todo")+"\n", conf.ToAddress, n)
+	} else {
+		fmt.Printf(T("enviar.resumen")+"\n", rupixTxt(sendAmountSompi), conf.ToAddress, n)
+	}
+	if n > 1 {
+		fmt.Printf(T("enviar.lotes")+"\n", n/5+2)
+	}
+	if !conf.Yes && !confirmar(T("confirmar")) {
+		fmt.Println(T("cancelado"))
+		return nil
+	}
+
 	if len(conf.Password) == 0 {
-		conf.Password = keys.GetPassword("Password:")
+		conf.Password = keys.GetPassword(T("clave.prompt"))
 	}
 	mnemonics, err := keysFile.DecryptMnemonics(conf.Password)
 	if err != nil {

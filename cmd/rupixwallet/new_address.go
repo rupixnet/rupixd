@@ -22,6 +22,6 @@ func newAddress(conf *newAddressConfig) error {
 		return err
 	}
 
-	fmt.Printf("New address:\n%s\n", response.Address)
+	fmt.Printf(T("direccion.nueva")+"\n%s\n", response.Address)
 	return nil
 }

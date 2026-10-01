@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/pkg/errors"
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/client"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/pb"
@@ -16,10 +17,19 @@ func transferGem(conf *transferGemConfig) error {
 	}
 	defer tearDown()
 
-	// Rupix: la clave se pide con prompt, como en `send`. En la linea de
-	// comandos quedaba en el historial y en cualquier captura de pantalla.
+	if conf.Level < 1 || conf.Level > 4 {
+		return errors.New(T("forjar.nivel_invalido"))
+	}
+	// Rupix: resumen y confirmacion antes de la clave. La gema cambia de dueno; no vuelve sola.
+	fmt.Printf(T("gema.enviar")+"\n", nombreNivel(conf.Level), conf.ToAddress)
+	if !conf.Yes && !confirmar(T("confirmar")) {
+		fmt.Println(T("cancelado"))
+		return nil
+	}
+
+	// La clave se pide con prompt: en la linea de comandos quedaba en el historial.
 	if len(conf.Password) == 0 {
-		conf.Password = keys.GetPassword("Password:")
+		conf.Password = keys.GetPassword(T("clave.prompt"))
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), daemonTimeout)
@@ -31,11 +41,10 @@ func transferGem(conf *transferGemConfig) error {
 		Password:  conf.Password,
 	})
 	if err != nil {
-		return err
+		return traducirErrorNodo(err)
 	}
 
-	nombres := map[uint32]string{1: "Diamante", 2: "Platino", 3: "Rodio", 4: "Kings"}
-	fmt.Printf("Gema %s transferida a %s\n", nombres[conf.Level], conf.ToAddress)
+	fmt.Printf(T("gema.enviada")+"\n", nombreNivel(conf.Level), conf.ToAddress)
 	for _, txID := range response.TxIDs {
 		fmt.Printf("  tx: %s\n", txID)
 	}

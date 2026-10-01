@@ -110,3 +110,23 @@ Each higher level is 10 times rarer. A King (level 4) requires burning
 
 *Rupix — money that only gets consumed. Don't trust. Verify — from genesis.*
 🔗 rupix.network · github.com/rupixnet/rupixd · explorer.rupix.network
+
+## What changed in the wallet (v0.6.2) and why
+
+These changes exist because we watched real people trip over the wallet. Each one prevents a concrete mistake.
+
+| Before | Now | Why |
+|---|---|---|
+| `forge` sent the transaction and waited for the network to reject it | **Checks first:** counts your gems and Gold, asks the node which block it is at and whether the level is open. If something is missing, it says so in plain words and **sends nothing** | The network rejected JC's Platinum on 28-Sep because the level wasn't open yet; with this he'd have known before trying |
+| Forging was immediate and irreversible | **Summarizes and asks:** "You are about to forge 1 Platinum… 10 Diamonds are burned FOREVER… Confirm?" Only `yes` continues | What is burned doesn't come back. A slip of the finger shouldn't cost you 10 gems |
+| `send` signed and broadcast without more | Says how much, to whom and **in how many transactions** (a large send is split in batches), and asks | 10,000 RUPIX go out as 232 transactions; you should know before signing |
+| `--gem-address` required | Optional: if you don't give it, the gem is born at your first address | One less step for beginners |
+| `--password=` on the command line | Asked on screen, without echo | It ended up in your history and in screenshots |
+| Raw node errors (`nivel 2 bloqueado…`) | Explained in plain words, with the original below in parentheses | So you know what to do, not just what happened |
+| Spanish only | **Spanish or English**, switchable any time | Rupix is for everyone |
+
+**Choosing the language:** `./rupixwallet language en` saves it (or `es`). Just once: `--lang=en` before the command. The `RUPIX_LANG` variable works too. If you say nothing, it uses your system's.
+
+**For scripts** that can't answer questions: `--yes` on `forge`, `send` and `transfer-gem`.
+
+None of this touches consensus: the network keeps checking everything the same way. The wallet just warns you first.

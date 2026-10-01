@@ -89,22 +89,30 @@ func create(conf *createConfig) error {
 		return err
 	}
 
-	fmt.Printf("Wrote the keys into %s\n", file.Path())
+	fmt.Printf(T("crear.guardado")+"\n", file.Path())
 
 	// Rupix: la frase semilla se muestra UNA vez, ya con el archivo guardado.
 	// Es la unica forma de recuperar la wallet si se pierde el archivo o la
 	// contrasena. Antes no se mostraba nunca al crear.
 	if len(mnemonics) > 0 {
 		fmt.Printf("\n========================================================\n")
-		fmt.Printf("FRASE SEMILLA / SEED PHRASE — copiala en PAPEL, ahora.\n")
-		fmt.Printf("Es la unica forma de recuperar esta wallet si pierdes el\n")
-		fmt.Printf("archivo o la contrasena. No la guardes en el telefono ni\n")
-		fmt.Printf("en el chat. Se muestra UNA sola vez.\n")
+		fmt.Println(T("crear.frase.1"))
+		fmt.Println(T("crear.frase.2"))
+		fmt.Println(T("crear.frase.3"))
+		fmt.Println(T("crear.frase.4"))
 		fmt.Printf("========================================================\n")
 		for i, mnemonic := range mnemonics {
-			fmt.Printf("Frase #%d:\n%s\n\n", i+1, mnemonic)
+			fmt.Printf(T("crear.frase.n")+"\n%s\n\n", i+1, mnemonic)
 		}
-		fmt.Printf("Cuando la tengas en papel, limpia la pantalla (clear / cls).\n")
+		// Rupix: dos palabras al azar, para que "luego la anoto" no exista. La wallet ya
+		// esta guardada; si falla, solo se le pide mirar el papel otra vez. No hay forma de
+		// saltarse esta comprobacion (--yes aqui solo sobrescribe el archivo): la frase es
+		// lo unico que recupera la wallet, y ninguna bandera debe poder callarla.
+		if verificarFrase(mnemonics) {
+			fmt.Println(T("crear.bien"))
+		} else {
+			fmt.Println(T("crear.limpia"))
+		}
 	}
 	return nil
 }
