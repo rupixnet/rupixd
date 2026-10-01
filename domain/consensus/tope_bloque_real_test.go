@@ -206,22 +206,29 @@ func TestTopeDeDiamantesEnBloqueReal(t *testing.T) {
 	if hv.Diamante != constants.MaxDiamante {
 		t.Fatalf("conteo del virtual tras el veneno: esperado %d, obtenido %d", constants.MaxDiamante, hv.Diamante)
 	}
-	// Un bloque honesto que mergea al veneno: UTXOValid y con el conteo en el tope.
-	hijoVeneno, _, err := tc.AddBlock([]*externalapi.DomainHash{hashVeneno}, nil, nil)
+	// Un minero honesto de verdad construye sobre la punta actual Y mergea al veneno
+	// (si lo construyera solo sobre el veneno, su cadena empataria con la otra y el
+	// virtual no la resolveria: quedaria UTXOPendingVerification sin decir nada).
+	// Ese bloque es el mas pesado del DAG: el virtual lo sigue y se resuelve.
+	puntaAntes, err := tc.GetVirtualSelectedParent()
+	if err != nil {
+		t.Fatalf("GetVirtualSelectedParent: %+v", err)
+	}
+	mergeaVeneno, _, err := tc.AddBlock([]*externalapi.DomainHash{puntaAntes, hashVeneno}, nil, nil)
 	if err != nil {
 		t.Fatalf("el bloque honesto que mergea la forja %d debe entrar: %+v", constants.MaxDiamante+1, err)
 	}
-	if st := estado(hijoVeneno); st != externalapi.StatusUTXOValid {
+	if st := estado(mergeaVeneno); st != externalapi.StatusUTXOValid {
 		t.Fatalf("VENENO: el bloque honesto que mergea la forja %d queda %s", constants.MaxDiamante+1, st)
 	}
-	// Al resolver al hijo se resuelve su selected parent: el veneno mismo es UTXOValid.
-	if st := estado(hashVeneno); st != externalapi.StatusUTXOValid {
-		t.Fatalf("el bloque fabricado con la forja %d, ya mergeado por un honesto, debe ser UTXOValid: %s", constants.MaxDiamante+1, st)
-	}
-	if got := historia(hijoVeneno).Diamante; got != constants.MaxDiamante {
+	if got := historia(mergeaVeneno).Diamante; got != constants.MaxDiamante {
 		t.Fatalf("conteo tras mergear el veneno: esperado %d, obtenido %d", constants.MaxDiamante, got)
 	}
-	t.Logf("bloque fabricado con la forja %d: entra, su forja no se acepta, el honesto que lo mergea es UTXOValid, virtual en %d", constants.MaxDiamante+1, hv.Diamante)
+	// Y el veneno sigue sin estar descalificado: su forja no se acepto, nada mas.
+	if st := estado(hashVeneno); st == externalapi.StatusDisqualifiedFromChain || st == externalapi.StatusInvalid {
+		t.Fatalf("el bloque fabricado con la forja %d quedo %s tras ser mergeado", constants.MaxDiamante+1, st)
+	}
+	t.Logf("bloque fabricado con la forja %d: entra (%s), su forja no se acepta, el honesto que lo mergea es UTXOValid, virtual en %d", constants.MaxDiamante+1, estado(hashVeneno), hv.Diamante)
 
 	// Un hermano honesto que NO mergea al bloque envenenado: debe entrar sin problema.
 	hermano, _, err := tc.AddBlock([]*externalapi.DomainHash{bAcepta}, nil, nil)
