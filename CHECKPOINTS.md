@@ -33,12 +33,16 @@ de todos, con la regla escrita, y con compromiso de retirarlo.
   alterna que no pasa por H se rechaza entera. Probado en `TestCheckpointDAG`, y se
   comprobó que la prueba falla si la regla se apaga.
 - Un nodo que ya podó por debajo de H (no lo tiene) no aplica la regla: no puede.
-- **Alcance hoy:** protege a nodos ya sincronizados. Un nodo que sincroniza desde cero
+- **Alcance (v0.6.1):** protegía a nodos ya sincronizados. Un nodo que sincroniza desde cero
   recibe de un peer honesto a H como su propio punto de poda, así que la regla funciona
   por construcción; contra un peer hostil que sirve otro punto de poda con su propia
-  prueba, la validación de la lista de puntos de poda contra los checkpoints llega en
-  v0.6.2 (después de `ArePruningPointsInValidChain`). Por eso los checkpoints se publican
-  **solo sobre puntos de poda**.
+  prueba no había defensa.
+- **Desde v0.6.2, también el nodo nuevo:** antes de importar el punto de poda que le sirve
+  un peer (después de `ArePruningPointsInValidChain`), cada checkpoint activo por debajo
+  de ese punto tiene que estar en la lista de puntos de poda recibida o ser un ancestro
+  que el nodo conozca; si no, `ErrCheckpointMismatch` y el punto de poda no se importa
+  (`TestNodoNuevoContraPeerHostil`). Por eso los checkpoints se publican **solo sobre
+  puntos de poda**: así están en la lista de todo peer honesto.
 - `CheckpointsExpireDAAScore`: pasado ese DAA score, los checkpoints se ignoran.
   Es la fecha de caducidad, dentro del consenso, verificable.
 - Lista vacía = sin efecto. Mainnet, simnet y devnet tienen la lista vacía; la testnet

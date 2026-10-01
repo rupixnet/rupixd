@@ -159,3 +159,14 @@ Cuatro de cuatro. Cualquiera con Go 1.26.6 puede repetirlo con `tools/verificar-
 Quedan el #2 (validar la lista de puntos de poda para nodos nuevos, código de v0.6.2) y el #6 (fuzzing). Rama `test-sello-falso`, 4 commits.
 
 **El auditor, segunda y tercera ronda:** sin hallazgos en consenso ni en la infraestructura de verificación; tres precisiones aplicadas (el verificador de binarios exige la versión de Go del CI; renovación de checkpoints sin hueco; `--yes` no existe en nada que muestre la frase semilla). "Cuando llegue el revisor con nombre, `ESPECIFICACION.md` es lo primero que debe leer."
+
+## 30 de septiembre de 2026 (noche) — v0.6.2: el tope ya no mata bloques, y el nodo nuevo valida sus puntos de poda
+
+**El hallazgo del auditor, y la respuesta el mismo día.** Revisando `test-sello-falso` encontró que nuestra regla más dura, "un bloque que exceda el tope de gemas se rechaza entero", era en un DAG un veneno: si ese bloque llegaba a ser punta, cada bloque honesto que lo mergeara o construyera encima caía con él. Una forja de 10 Gold para tirar a los mineros honestos. Lo bloqueante era para mainnet, no para hoy (en la testnet ningún tope es alcanzable), pero se cerró hoy, con su método: **primero tres tests en rojo, luego el patrón, luego los tres en verde.** La regla pasó a ser la que ya usábamos para toda transacción inválida: el bloque entra y la forja que excede el tope, sola, no se acepta. El Gold sigue vivo, el sello no cambia, nadie más pierde. Dos consensos independientes coinciden en cuál de dos hermanos con la última gema se la lleva. Visto bueno explícito del auditor a `826be325`, con dos ajustes aplicados en `fb123dfe` (las invariantes gritan en `Error`; las dos fuentes de Kings se comparan en el test de punta a punta).
+
+**Hueco #2, lo que le prometimos a JC y JP en v0.6.1.** El checkpoint protegía a nodos ya sincronizados; un nodo que sincroniza desde cero recibe de un peer la lista de puntos de poda y, contra un peer hostil que sirviera otra historia, no tenía defensa. Desde v0.6.2 la tiene: antes de importar el punto de poda, cada checkpoint activo por debajo tiene que estar en esa lista o ser un ancestro conocido; si no, el punto de poda no se importa. `TestNodoNuevoContraPeerHostil`, rojo antes y verde después, con cinco configuraciones sobre la sincronización real en las cuatro redes.
+
+**Seis de siete huecos de la especificación cerrados y en `main`** (queda el fuzzing). Y una pregunta que desde hoy se le hace a toda regla nueva de Rupix: *¿y si no es punta?*
+
+**v0.6.2** = las cuatro ramas (`wallet-principiantes`, `test-sello-falso`, `tope-no-acepta`, `ibd-checkpoint`), el test del tope en bloque real afirmando la regla nueva, y la suite completa en verde. Primer cambio de consenso desde que hay checkpoints. Binarios reproducibles como en v0.6.1.
+

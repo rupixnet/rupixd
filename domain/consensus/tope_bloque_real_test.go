@@ -23,8 +23,10 @@ import (
 // lee) y se construyen bloques reales encima:
 //   - un bloque que forja 1 Diamante llega EXACTAMENTE al tope: entra (UTXOValid) y el
 //     conteo guardado es MaxDiamante;
-//   - un bloque que forja 1 mas (el 2,100,001) muere: o el builder honesto se niega, o
-//     el validador lo descalifica (ErrGemsCapExceeded); en ningun caso queda UTXOValid.
+//   - la forja 1 mas (el 2,100,001) NO NACE: el builder honesto se niega a incluirla, el
+//     mempool la rechaza y, si un atacante la mete en un bloque fabricado a mano, el
+//     bloque entra pero la forja no se acepta (regla desde v0.6.2, hueco #7): el conteo
+//     se queda en el tope y el bloque honesto que lo mergea sigue siendo UTXOValid.
 func TestTopeDeDiamantesEnBloqueReal(t *testing.T) {
 	params := dagconfig.DevnetParams
 	params.BlocksPerHalving = 50 // Diamante abierto desde DAA 50
@@ -171,7 +173,7 @@ func TestTopeDeDiamantesEnBloqueReal(t *testing.T) {
 	// bloque vacio valido, se le mete la forja y se recalcula la raiz de Merkle (nada mas
 	// del encabezado depende de las propias transacciones). Es un bloque valido en si
 	// mismo: su tx solo se acepta cuando alguien lo mergea. La pregunta: que pasa con el
-	// virtual (que lo mergea al insertarlo) y con la red.
+	// virtual (que lo mergea al insertarlo), con el honesto que lo mergea y con la red.
 	veneno, _, err := tc.BuildBlockWithParents([]*externalapi.DomainHash{bAcepta}, nil, nil)
 	if err != nil {
 		t.Fatalf("BuildBlockWithParents (vacio): %+v", err)
@@ -182,15 +184,17 @@ func TestTopeDeDiamantesEnBloqueReal(t *testing.T) {
 	veneno.Header = hdr.ToImmutable()
 	hashVeneno := consensushashing.BlockHash(veneno)
 	errVeneno := tc.ValidateAndInsertBlock(veneno, true)
-	// Lo observado el 30-sep-2026 y lo que se exige desde entonces: la actualizacion del
-	// virtual (que mergea al bloque nuevo) detecta el tope, la insercion entera se
-	// deshace y el bloque NO queda guardado. Ni veneno para bloques honestos ni perdida
-	// de liveness: para un nodo honesto ese bloque no existe.
-	if !errors.Is(errVeneno, ruleerrors.ErrGemsCapExceeded) {
-		t.Fatalf("el bloque fabricado con la forja %d debe rechazarse con ErrGemsCapExceeded; devolvio: %v", constants.MaxDiamante+1, errVeneno)
+	// Regla hasta v0.6.1 (lo observado el 30-sep por la manana): el virtual detectaba el
+	// tope al mergear, la insercion se deshacia y el bloque no quedaba guardado. El auditor
+	// mostro esa misma tarde que esa regla era el veneno (hueco #7): si el bloque llegaba a
+	// ser punta, cada honesto que lo mergeara caia con el.
+	// Regla desde v0.6.2 (rama tope-no-acepta): el bloque ENTRA, la forja que rompe el tope
+	// simplemente no se acepta, el conteo no se mueve y nadie mas pierde.
+	if errVeneno != nil {
+		t.Fatalf("el bloque fabricado con la forja %d debe entrar (su forja no se acepta); fallo: %+v", constants.MaxDiamante+1, errVeneno)
 	}
-	if _, err := tc.BlockStatusStore().Get(tc.DatabaseContext(), model.NewStagingArea(), hashVeneno); err == nil {
-		t.Fatalf("el bloque fabricado con la forja %d quedo guardado; no debe existir", constants.MaxDiamante+1)
+	if st := estado(hashVeneno); st != externalapi.StatusUTXOValid {
+		t.Fatalf("el bloque fabricado con la forja %d debe ser UTXOValid (la forja no se acepta, el bloque no es invalido): %s", constants.MaxDiamante+1, st)
 	}
 	hv, err := tc.GemsHistoryStore().Get(tc.DatabaseContext(), model.NewStagingArea(), model.VirtualBlockHash)
 	if err != nil {
@@ -199,7 +203,18 @@ func TestTopeDeDiamantesEnBloqueReal(t *testing.T) {
 	if hv.Diamante != constants.MaxDiamante {
 		t.Fatalf("conteo del virtual tras el veneno: esperado %d, obtenido %d", constants.MaxDiamante, hv.Diamante)
 	}
-	t.Logf("bloque fabricado con la forja %d: rechazado al insertar, no guardado; virtual en %d", constants.MaxDiamante+1, hv.Diamante)
+	// Un bloque honesto que mergea al veneno: UTXOValid y con el conteo en el tope.
+	hijoVeneno, _, err := tc.AddBlock([]*externalapi.DomainHash{hashVeneno}, nil, nil)
+	if err != nil {
+		t.Fatalf("el bloque honesto que mergea la forja %d debe entrar: %+v", constants.MaxDiamante+1, err)
+	}
+	if st := estado(hijoVeneno); st != externalapi.StatusUTXOValid {
+		t.Fatalf("VENENO: el bloque honesto que mergea la forja %d queda %s", constants.MaxDiamante+1, st)
+	}
+	if got := historia(hijoVeneno).Diamante; got != constants.MaxDiamante {
+		t.Fatalf("conteo tras mergear el veneno: esperado %d, obtenido %d", constants.MaxDiamante, got)
+	}
+	t.Logf("bloque fabricado con la forja %d: entra, su forja no se acepta, el honesto que lo mergea es UTXOValid, virtual en %d", constants.MaxDiamante+1, hv.Diamante)
 
 	// Un hermano honesto que NO mergea al bloque envenenado: debe entrar sin problema.
 	hermano, _, err := tc.AddBlock([]*externalapi.DomainHash{bAcepta}, nil, nil)

@@ -268,7 +268,8 @@ func (v *blockValidator) checkpointApplies(cp dagconfig.Checkpoint, blueScore, d
 // IsAncestorOf es inclusivo (H == padre cuenta).
 // Si el nodo no tiene a H porque sincronizo desde un pruning point posterior a H,
 // la regla no se puede evaluar aqui: esa defensa vive en la validacion de los
-// pruning points recibidos (pendiente, ver CHECKPOINTS.md).
+// pruning points recibidos (checkCheckpointsEnPruningPoints en blockprocessor,
+// desde v0.6.2; ver CHECKPOINTS.md).
 func (v *blockValidator) checkCheckpoint(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash, header externalapi.BlockHeader) error {
 	if len(v.checkpoints) == 0 {
 		return nil

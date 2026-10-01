@@ -33,12 +33,16 @@ with the rule written down, and with a commitment to remove it.
   that skips H is rejected whole. Tested in `TestCheckpointDAG`, and we verified the
   test fails if the rule is switched off.
 - A node that already pruned below H (does not have it) does not apply the rule: it can't.
-- **Scope today:** it protects nodes that are already synced. A node syncing from
+- **Scope (v0.6.1):** it protected nodes that were already synced. A node syncing from
   scratch receives H from an honest peer as its own pruning point, so the rule works by
   construction; against a hostile peer serving a different pruning point with its own
-  proof, validating the pruning-point list against the checkpoints lands in v0.6.2
-  (after `ArePruningPointsInValidChain`). That is why checkpoints are published **only
-  on pruning points**.
+  proof there was no defense.
+- **Since v0.6.2, the fresh node too:** before importing the pruning point a peer serves
+  (after `ArePruningPointsInValidChain`), every active checkpoint below that point must be
+  in the received pruning-point list or be an ancestor the node knows; otherwise
+  `ErrCheckpointMismatch` and the pruning point is not imported
+  (`TestNodoNuevoContraPeerHostil`). That is why checkpoints are published **only on
+  pruning points**: that way they are in every honest peer's list.
 - `CheckpointsExpireDAAScore`: past that DAA score, checkpoints are ignored.
   It is the expiry date, inside consensus, verifiable.
 - Empty list = no effect. Mainnet, simnet and devnet have empty lists; testnet has
