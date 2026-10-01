@@ -170,3 +170,5 @@ Quedan el #2 (validar la lista de puntos de poda para nodos nuevos, código de v
 
 **v0.6.2** = las cuatro ramas (`wallet-principiantes`, `test-sello-falso`, `tope-no-acepta`, `ibd-checkpoint`), el test del tope en bloque real afirmando la regla nueva, y la suite completa en verde. Primer cambio de consenso desde que hay checkpoints. Binarios reproducibles como en v0.6.1.
 
+**Publicada a las 19:24:** `main` = tag `v0.6.2` = `80f857d7`; binarios reproducibles **4 de 4** (`tools/verificar-binarios.sh v0.6.2`); seed actualizado y minando. Auditor, última ronda: sin hallazgos en `80f857d7`. *"El código deja de ser el cuello de botella. Lo que sigue es el revisor con nombre, y ahora sí tiene con qué recibirlo: ESPECIFICACION, los tests que violan cada regla, builds reproducibles y CI con race."*
+
