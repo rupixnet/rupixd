@@ -6,6 +6,7 @@ import (
 	"github.com/rupixnet/rupixd/domain/consensus/model"
 	"github.com/rupixnet/rupixd/domain/consensus/model/externalapi"
 	"github.com/rupixnet/rupixd/domain/consensus/processes/blockprocessor/blocklogger"
+	"github.com/rupixnet/rupixd/domain/dagconfig"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 )
 
@@ -14,9 +15,13 @@ import (
 type blockProcessor struct {
 	genesisHash        *externalapi.DomainHash
 	targetTimePerBlock time.Duration
-	maxBlockLevel      int
-	databaseContext    model.DBManager
-	blockLogger        *blocklogger.BlockLogger
+	// checkpoints (Rupix): los checkpoints publicados de la red, para validar la
+	// lista de pruning points que un peer sirve a un nodo que sincroniza desde cero.
+	checkpoints               []dagconfig.Checkpoint
+	checkpointsExpireDAAScore uint64
+	maxBlockLevel             int
+	databaseContext           model.DBManager
+	blockLogger               *blocklogger.BlockLogger
 
 	consensusStateManager model.ConsensusStateManager
 	pruningManager        model.PruningManager
@@ -55,6 +60,8 @@ func New(
 	genesisHash *externalapi.DomainHash,
 	targetTimePerBlock time.Duration,
 	maxBlockLevel int,
+	checkpoints []dagconfig.Checkpoint,
+	checkpointsExpireDAAScore uint64,
 	databaseContext model.DBManager,
 
 	consensusStateManager model.ConsensusStateManager,
@@ -87,20 +94,23 @@ func New(
 ) model.BlockProcessor {
 
 	return &blockProcessor{
-		genesisHash:           genesisHash,
-		targetTimePerBlock:    targetTimePerBlock,
-		maxBlockLevel:         maxBlockLevel,
-		databaseContext:       databaseContext,
-		blockLogger:           blocklogger.NewBlockLogger(),
-		pruningManager:        pruningManager,
-		blockValidator:        blockValidator,
-		dagTopologyManager:    dagTopologyManager,
-		reachabilityManager:   reachabilityManager,
-		difficultyManager:     difficultyManager,
-		pastMedianTimeManager: pastMedianTimeManager,
-		coinbaseManager:       coinbaseManager,
-		headerTipsManager:     headerTipsManager,
-		syncManager:           syncManager,
+		genesisHash:        genesisHash,
+		targetTimePerBlock: targetTimePerBlock,
+		maxBlockLevel:      maxBlockLevel,
+		databaseContext:    databaseContext,
+
+		checkpoints:               checkpoints,
+		checkpointsExpireDAAScore: checkpointsExpireDAAScore,
+		blockLogger:               blocklogger.NewBlockLogger(),
+		pruningManager:            pruningManager,
+		blockValidator:            blockValidator,
+		dagTopologyManager:        dagTopologyManager,
+		reachabilityManager:       reachabilityManager,
+		difficultyManager:         difficultyManager,
+		pastMedianTimeManager:     pastMedianTimeManager,
+		coinbaseManager:           coinbaseManager,
+		headerTipsManager:         headerTipsManager,
+		syncManager:               syncManager,
 
 		consensusStateManager:               consensusStateManager,
 		acceptanceDataStore:                 acceptanceDataStore,
