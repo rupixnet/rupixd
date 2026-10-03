@@ -37,6 +37,7 @@ var textos = map[string][2]string{
 	"dump.aviso":     {"ATENCION: este comando muestra tu FRASE SEMILLA en pantalla. Quien la vea puede vaciar tu wallet. Hazlo sin conexion, sin nadie mirando, y copiala a papel.", "WARNING: this command shows your SEED PHRASE on screen. Anyone who sees it can empty your wallet. Do it offline, with nobody watching, and copy it to paper."},
 	"dump.confirmar": {"Entiendes el riesgo? Escribe 'si' para mostrarla: ", "Do you understand the risk? Type 'yes' to show it: "},
 	"dump.frase":     {"Frase semilla #%d:\n%s\n\n", "Seed phrase #%d:\n%s\n\n"},
+	"dump.cancelado": {"Cancelado. No se mostro nada.", "Cancelled. Nothing was shown."},
 	"dump.limpia":    {"Ya la anotaste? Limpia la pantalla: clear (Linux/Mac) o cls (Windows).", "Written down? Clear the screen: clear (Linux/Mac) or cls (Windows)."},
 
 	"forjar.nivel_invalido":  {"--level debe ser 1 (Diamante), 2 (Platino), 3 (Rodio) o 4 (Kings)", "--level must be 1 (Diamond), 2 (Platinum), 3 (Rhodium) or 4 (Kings)"},

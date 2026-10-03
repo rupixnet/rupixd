@@ -13,7 +13,7 @@ func dumpUnencryptedData(conf *dumpUnencryptedDataConfig) error {
 	// mismo criterio que en create, pedido por el auditor externo.
 	fmt.Println(T("dump.aviso"))
 	if !confirmar(T("dump.confirmar")) {
-		fmt.Println(T("cancelado"))
+		fmt.Println(T("dump.cancelado"))
 		return nil
 	}
 
