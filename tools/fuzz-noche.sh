@@ -13,8 +13,10 @@ echo "== fuzz-noche $(date -u +%FT%TZ) · $T por objetivo · $(go version) · $(
 fallos=0
 correr() { # paquete objetivo
   echo "--- $2 ($1) · inicio $(date -u +%T)" | tee -a "$LOG"
+  antes=$(wc -l <"$LOG")
   if go test -run '^$' -fuzz="^$2\$" -fuzztime="$T" "$1" >>"$LOG" 2>&1; then
-    echo "    OK   $2 · $(grep -c 'new interesting' "$LOG" 2>/dev/null) lineas de progreso acumuladas" | tee -a "$LOG"
+    ultimo=$(tail -n +"$antes" "$LOG" | grep 'execs:' | tail -1 | sed 's/.*execs: \([0-9]*\).*total: \([0-9]*\).*/\1 intentos, \2 caminos/')
+    echo "    OK   $2 · $ultimo" | tee -a "$LOG"
   else
     fallos=$((fallos+1))
     echo "    FALLO $2 · revisa $LOG y $1/testdata/fuzz/$2/" | tee -a "$LOG"
