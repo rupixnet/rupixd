@@ -27,10 +27,8 @@ func transferGem(conf *transferGemConfig) error {
 		return nil
 	}
 
-	// La clave se pide con prompt: en la linea de comandos quedaba en el historial.
-	if len(conf.Password) == 0 {
-		conf.Password = keys.GetPassword(T("clave.prompt"))
-	}
+	// La clave se pide siempre con prompt (v0.6.3: ya no existe --password).
+	password := keys.GetPassword(T("clave.prompt"))
 
 	ctx, cancel := context.WithTimeout(context.Background(), daemonTimeout)
 	defer cancel()
@@ -38,7 +36,7 @@ func transferGem(conf *transferGemConfig) error {
 	response, err := daemonClient.TransferGem(ctx, &pb.TransferGemRequest{
 		Level:     conf.Level,
 		ToAddress: conf.ToAddress,
-		Password:  conf.Password,
+		Password:  password,
 	})
 	if err != nil {
 		return traducirErrorNodo(err)

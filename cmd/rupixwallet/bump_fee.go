@@ -60,10 +60,8 @@ func bumpFee(conf *bumpFeeConfig) error {
 		return err
 	}
 
-	if len(conf.Password) == 0 {
-		conf.Password = keys.GetPassword("Password:")
-	}
-	mnemonics, err := keysFile.DecryptMnemonics(conf.Password)
+	password := keys.GetPassword(T("clave.prompt"))
+	mnemonics, err := keysFile.DecryptMnemonics(password)
 	if err != nil {
 		if strings.Contains(err.Error(), "message authentication failed") {
 			fmt.Fprintf(os.Stderr, "Password decryption failed. Sometimes this is a result of not "+

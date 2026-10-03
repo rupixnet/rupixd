@@ -25,10 +25,8 @@ func sign(conf *signConfig) error {
 		return err
 	}
 
-	if len(conf.Password) == 0 {
-		conf.Password = keys.GetPassword("Password:")
-	}
-	privateKeys, err := keysFile.DecryptMnemonics(conf.Password)
+	password := keys.GetPassword(T("clave.prompt"))
+	privateKeys, err := keysFile.DecryptMnemonics(password)
 	if err != nil {
 		return err
 	}

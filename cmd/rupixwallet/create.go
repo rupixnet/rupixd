@@ -20,9 +20,9 @@ func create(conf *createConfig) error {
 	var err error
 	isMultisig := conf.NumPublicKeys > 1
 	if !conf.Import {
-		encryptedMnemonics, signerExtendedPublicKeys, mnemonics, err = keys.CreateMnemonicsRevealing(conf.NetParams(), conf.NumPrivateKeys, conf.Password, isMultisig)
+		encryptedMnemonics, signerExtendedPublicKeys, mnemonics, err = keys.CreateMnemonicsRevealing(conf.NetParams(), conf.NumPrivateKeys, "", isMultisig)
 	} else {
-		encryptedMnemonics, signerExtendedPublicKeys, err = keys.ImportMnemonics(conf.NetParams(), conf.NumPrivateKeys, conf.Password, isMultisig)
+		encryptedMnemonics, signerExtendedPublicKeys, err = keys.ImportMnemonics(conf.NetParams(), conf.NumPrivateKeys, "", isMultisig)
 	}
 	if err != nil {
 		return err

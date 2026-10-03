@@ -7,6 +7,10 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Wallet (para v0.6.3, sin cambio de consenso): **ya no existe `--password`** en ningun comando (`create`, `send`, `sign`, `forge`, `transfer-gem`, `start-daemon`, `dump-unencrypted-data`, `bump-fee`): la clave se pide siempre en pantalla, sin eco. `dump-unencrypted-data` (muestra la frase semilla) **ya no acepta `--yes`**: aviso, confirmacion explicita y recordatorio de limpiar la pantalla, en espanol o ingles (mismo criterio del auditor que en `create`). La pista "verificalo desde cualquier nodo" incluye la red (`rupixctl --testnet ...`). Textos de ayuda: `--send-all` (decia `--all`), tarifas en rupias (decia Sompi), ruta real del archivo de claves (`<carpeta>/<red>/keys.json`).
+- CI: `govulncheck ./...` en cada push (antes solo una corrida manual del 27-sep).
+- Heredado de Kaspa apartado a `retirados/` (no borrado): Dockerfiles que compilaban `kaspad`, `build_and_test.sh`, y los README de kaspactl/kaspaminer que vivian en `cmd/rupixctl` y `cmd/rupixminer`.
+- Comentarios de `ErrGemsCapExceeded`/`ErrKingsCapExceeded` al dia con la regla de v0.6.2.
 - Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
 - Pendiente: fuzzing de `checkLevelRules` y de la validacion de transacciones (hueco #6 de ESPECIFICACION.md).
 

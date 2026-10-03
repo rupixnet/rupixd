@@ -78,7 +78,7 @@ Forged: Diamond gem created.
 - `--level=1` → Diamond (the first gem level)
 - `--gem-address=` is **optional**: leave it out and the gem is born at your first address (from step 3)
 - Before asking for the password the wallet asks your node: if the level isn't open or Gold is missing, it tells you in words and sends nothing
-- The password is asked at that moment; don't type it in the command (the `--password` flag still exists from upstream and is removed in v0.6.3)
+- The password is always asked at that moment; since v0.6.3 there is no `--password` flag on any command (it ended up in your history)
 
 This **burns 10 Gold forever** and creates **1 Diamond**. The burn is
 recorded on the blockchain, visible to everyone, irreversible.

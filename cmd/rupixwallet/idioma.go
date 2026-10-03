@@ -31,9 +31,13 @@ var textos = map[string][2]string{
 	"nivel.3": {"Rodio", "Rhodium"},
 	"nivel.4": {"Kings", "Kings"},
 
-	"clave.prompt": {"Contrasena:", "Password:"},
-	"confirmar":    {"Confirmas? Escribe 'si' para continuar: ", "Confirm? Type 'yes' to continue: "},
-	"cancelado":    {"Cancelado. No se movio nada.", "Cancelled. Nothing moved."},
+	"clave.prompt":   {"Contrasena:", "Password:"},
+	"confirmar":      {"Confirmas? Escribe 'si' para continuar: ", "Confirm? Type 'yes' to continue: "},
+	"cancelado":      {"Cancelado. No se movio nada.", "Cancelled. Nothing moved."},
+	"dump.aviso":     {"ATENCION: este comando muestra tu FRASE SEMILLA en pantalla. Quien la vea puede vaciar tu wallet. Hazlo sin conexion, sin nadie mirando, y copiala a papel.", "WARNING: this command shows your SEED PHRASE on screen. Anyone who sees it can empty your wallet. Do it offline, with nobody watching, and copy it to paper."},
+	"dump.confirmar": {"Entiendes el riesgo? Escribe 'si' para mostrarla: ", "Do you understand the risk? Type 'yes' to show it: "},
+	"dump.frase":     {"Frase semilla #%d:\n%s\n\n", "Seed phrase #%d:\n%s\n\n"},
+	"dump.limpia":    {"Ya la anotaste? Limpia la pantalla: clear (Linux/Mac) o cls (Windows).", "Written down? Clear the screen: clear (Linux/Mac) or cls (Windows)."},
 
 	"forjar.nivel_invalido":  {"--level debe ser 1 (Diamante), 2 (Platino), 3 (Rodio) o 4 (Kings)", "--level must be 1 (Diamond), 2 (Platinum), 3 (Rhodium) or 4 (Kings)"},
 	"wallet.sin_direcciones": {"la wallet no tiene direcciones todavia; crea una con new-address", "the wallet has no addresses yet; create one with new-address"},
@@ -49,7 +53,7 @@ var textos = map[string][2]string{
 	"forjar.quema_gemas":     {"Se queman %d %s PARA SIEMPRE (y una comision pequena en Gold). Quedaran %d %s.", "%d %s are burned FOREVER (plus a small fee in Gold). %d %s will remain."},
 	"red.bloque":             {"La red va en el bloque %s; el %s esta abierto desde el %s.", "The network is at block %s; %s has been open since block %s."},
 	"forjar.hecho":           {"Ascenso forjado: gema %s creada.", "Forged: %s gem created."},
-	"forjar.verifica":        {"Verificalo desde cualquier nodo: rupixctl GetUtxosByAddresses %s (busca version = %d).", "Verify it from any node: rupixctl GetUtxosByAddresses %s (look for version = %d)."},
+	"forjar.verifica":        {"Verificalo desde cualquier nodo: rupixctl %sGetUtxosByAddresses %s (busca version = %d).", "Verify it from any node: rupixctl %sGetUtxosByAddresses %s (look for version = %d)."},
 
 	"enviar.todo":    {"Vas a enviar TODO el Gold de la wallet a %s en %d transaccion(es).", "You are about to send ALL the Gold in the wallet to %s in %d transaction(s)."},
 	"enviar.resumen": {"Vas a enviar %s RUPIX a %s en %d transaccion(es).", "You are about to send %s RUPIX to %s in %d transaction(s)."},

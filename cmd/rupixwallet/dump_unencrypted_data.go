@@ -1,23 +1,20 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/librupixwallet"
-	"github.com/rupixnet/rupixd/cmd/rupixwallet/utils"
-
-	"github.com/pkg/errors"
 )
 
 func dumpUnencryptedData(conf *dumpUnencryptedDataConfig) error {
-	if !conf.Yes {
-		err := confirmDump()
-		if err != nil {
-			return err
-		}
+	// v0.6.3: este comando muestra la frase semilla. Nunca se salta la confirmacion
+	// (no hay --yes) y la clave no viaja por la linea de comandos (no hay --password):
+	// mismo criterio que en create, pedido por el auditor externo.
+	fmt.Println(T("dump.aviso"))
+	if !confirmar(T("dump.confirmar")) {
+		fmt.Println(T("cancelado"))
+		return nil
 	}
 
 	keysFile, err := keys.ReadKeysFile(conf.NetParams(), conf.KeysFile)
@@ -25,17 +22,15 @@ func dumpUnencryptedData(conf *dumpUnencryptedDataConfig) error {
 		return err
 	}
 
-	if len(conf.Password) == 0 {
-		conf.Password = keys.GetPassword("Password:")
-	}
-	mnemonics, err := keysFile.DecryptMnemonics(conf.Password)
+	password := keys.GetPassword(T("clave.prompt"))
+	mnemonics, err := keysFile.DecryptMnemonics(password)
 	if err != nil {
 		return err
 	}
 
 	mnemonicPublicKeys := make(map[string]struct{})
 	for i, mnemonic := range mnemonics {
-		fmt.Printf("Mnemonic #%d:\n%s\n\n", i+1, mnemonic)
+		fmt.Printf(T("dump.frase"), i+1, mnemonic)
 		publicKey, err := librupixwallet.MasterPublicKeyFromMnemonic(conf.NetParams(), mnemonic, len(keysFile.ExtendedPublicKeys) > 1)
 		if err != nil {
 			return err
@@ -55,23 +50,6 @@ func dumpUnencryptedData(conf *dumpUnencryptedDataConfig) error {
 	}
 
 	fmt.Printf("Minimum number of signatures: %d\n", keysFile.MinimumSignatures)
-	return nil
-}
-
-func confirmDump() error {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Printf("This operation will print your unencrypted keys on the screen. Anyone that sees this information " +
-		"will be able to steal your funds. Are you sure you want to proceed (y/N)? ")
-	line, err := utils.ReadLine(reader)
-	if err != nil {
-		return err
-	}
-
-	fmt.Println()
-
-	if string(line) != "y" {
-		return errors.Errorf("Dump aborted by user")
-	}
-
+	fmt.Println(T("dump.limpia"))
 	return nil
 }
