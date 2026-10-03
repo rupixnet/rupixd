@@ -112,6 +112,12 @@ Al pasar `TestTopeDeDiamantesEnBloqueReal` a la regla nueva, dos rondas se fuero
 ### El exit que decía dos cosas
 `go test ./domain/... | grep -v '^ok'` con `pipefail` devuelve 1 cuando el `grep` no encuentra nada (todo ok) y también cuando `go test` falla. La misma cifra para el mejor y el peor caso. Y en ese mismo bloque un tecleo (`&<`) mandó la cadena a segundo plano y corrió la suite en paralelo con la copia del archivo. Se repitió con `go test` a un archivo y su código de salida solo, y el filtro aparte. Es la tercera vez que la lección es la misma: una verificación tiene que poder decir que no, y tiene que decir solo una cosa.
 
+### Los trabajadores huérfanos del fuzzer
+La primera noche de fuzzing el seed llegó a carga 22 sobre 4 núcleos. `pkill -f fuzz-noche.sh` mataba el script, pero los procesos que de verdad gastan CPU se llaman `.test -test.fuzzworker`, y cada reinicio dejaba los anteriores vivos. Tres arranques, nueve huérfanos. La lección es de siempre con otra cara: antes de reiniciar algo, comprobar que lo anterior murió de verdad (`pgrep` del nombre real, no del que uno cree), y correr lo pesado con `nice` y en su propia copia de trabajo (`git worktree`) para no pisar la rama en la que se sigue trabajando.
+
+### Repetir una verdad no la hace más verdad
+El 2-oct, ER lo dijo claro: "ya me lo dijiste muchas veces". Tenía razón. Una verdad incómoda (el revisor con nombre) dicha tres veces en una noche deja de ser información y se vuelve ruido; peor, hace que lo demás suene negativo cuando no lo es. Lo que hay que decir se dice una vez, bien dicho, se escribe donde corresponde (MAINNET.md), y no se vuelve a traer hasta que haya novedad. La honestidad incluye saber callarse.
+
 ---
 
 *No confíes, verifica.*

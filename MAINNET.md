@@ -51,6 +51,12 @@ Cada criterio dice qué tiene que ser verdad, con número, y **cómo lo comprueb
 
 ---
 
+## 1b. Lo que Bitcoin hizo en 2009–2014, y qué copiamos
+
+Bitcoin no se protegió en sus inicios con criptografía: se protegió con cuatro cosas. (1) **No valía nada y nadie miraba**: un 51 % era trivial y nadie lo hizo porque no había nada que ganar; el ataque llega con el valor, y para entonces ya había gente. (2) **Checkpoints en el código**: el cliente trajo bloques fijos (11,111; 33,333; 74,000…) desde 2010 hasta 2014, puestos por el propio Satoshi, y los fue quitando cuando el hashrate ya no los necesitaba; es nuestra política de checkpoints temporales con caducidad, con la diferencia de que nosotros escribimos la regla de retiro (`CHECKPOINTS.md`). (3) **Un fundador con la mayoría del hashrate que no abusó**: Satoshi minó cerca de un millón de BTC el primer año y nunca lo usó contra la red; la lección para Rupix es que un fundador con la mayoría es un riesgo aunque sea honesto, porque la gente no verifica intenciones, verifica hashrate; de ahí N3. (4) **Una comunidad chica que coordinaba a mano**: el bug del "value overflow" de 2010 (184 mil millones de BTC de la nada) se arregló en horas con una versión nueva y una reorganización a propósito; nuestro equivalente es `OPERACIONES.md`, el aviso a los nodos y la regla de que todo cambio de consenso sale etiquetado y anunciado.
+
+Lo que Bitcoin no tuvo y Rupix sí: una especificación con cada regla y su test, builds reproducibles y una regla escrita de cuándo se quitan los candados. No sustituye a la gente; hace que la gente buena, cuando llegue, pueda confiar sin confiar.
+
 ## 2. Qué NO es criterio
 
 - **Precio, exchanges, "listados".** Rupix no promete ninguno, no paga por ninguno y no los necesita para arrancar.

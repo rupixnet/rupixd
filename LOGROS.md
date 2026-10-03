@@ -172,3 +172,13 @@ Quedan el #2 (validar la lista de puntos de poda para nodos nuevos, código de v
 
 **Publicada a las 19:24:** `main` = tag `v0.6.2` = `80f857d7`; binarios reproducibles **4 de 4** (`tools/verificar-binarios.sh v0.6.2`); seed actualizado y minando. Auditor, última ronda: sin hallazgos en `80f857d7`. *"El código deja de ser el cuello de botella. Lo que sigue es el revisor con nombre, y ahora sí tiene con qué recibirlo: ESPECIFICACION, los tests que violan cada regla, builds reproducibles y CI con race."*
 
+## 2 de octubre de 2026 — Revisión del repo a detalle, el último hueco en marcha y la wallet sin contraseñas en el comando
+
+**Revisión del repo, 1,282 archivos.** Constantes, parámetros, emisión recalculada, cada test citado y cada comando de las guías: todo coincide con el código; cero secretos. Lo que no coincidía era texto en la regla vieja del tope (cuatro lugares), guías en v0.6.1 y herencia de Kaspa. Trece documentos corregidos en un commit (`3df09f70`); herencia apartada a `retirados/`, no borrada.
+
+**Hueco #6, fuzzing, arrancado.** Cinco objetivos con `go test -fuzz` y sus invariantes escritas en el propio test: `FuzzCabe`, `FuzzCalculateGemsCommitment`, `FuzzGenerateMatrix`, `FuzzComputeRank`, `FuzzMsgPruningPoints`. Humo de un minuto por objetivo: cinco de cinco sin fallo. Primera noche corriendo en el seed, dos horas por objetivo, con el minero intacto (rama `fuzzing`).
+
+**Wallet v0.6.3 en rama** (`wallet-v063`, sin consenso): ya no existe `--password` en ningún comando (la clave se pide siempre en pantalla); `dump-unencrypted-data`, el que muestra la frase semilla, ya no acepta `--yes`: avisa, pide confirmación explícita y recuerda limpiar la pantalla, en español o inglés. `govulncheck` en el CI. Compila, seis paquetes de tests en verde, probado a mano.
+
+**Decisión del fundador:** ni fecha ni ventana de mainnet en público. Cuando los criterios se cumplan, se anuncia. Y una respuesta que vamos a dar muchas veces, ahora escrita en `MAINNET.md`: cómo se protegió Bitcoin en 2009–2014 (oscuridad, checkpoints en el código, un fundador que se contuvo, una comunidad chica que coordinaba) y cuáles de esas cuatro ya tiene Rupix.
+
