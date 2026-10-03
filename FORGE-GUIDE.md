@@ -39,7 +39,7 @@ In another window, see how much Gold you have:
 ```
 ./rupixwallet --testnet balance
 ```
-You need at least ~10.5 RUPIX to forge a Diamond
+You need at least 11 RUPIX of Gold to forge a Diamond (10 that burn + margin for the fee; the wallet checks it before sending). For Platinum, Rhodium and Kings: the 10 gems of the previous level and at least 2 RUPIX of Gold for the fee
 (10 are burned, plus a little for the fee).
 
 ---
@@ -67,13 +67,18 @@ Copy the address that starts with `rupixtest:...`
 > command line (it would end up in your history). Still on v0.6.0? Update before forging.
 
 ```
-./rupixwallet --testnet forge --level=1 --gem-address=YOUR_ADDRESS
+./rupixwallet --lang=en --testnet forge --level=1
+You are about to forge 1 Diamond at rupixtest:qq...your_address
+10 Gold are burned FOREVER, plus a small fee.
+Confirm? Type 'yes' to continue: yes
 Password: (type it here, it is not shown)
+Forged: Diamond gem created.
 ```
 
 - `--level=1` → Diamond (the first gem level)
-- `--gem-address=` → the address where the gem is born (from step 3)
-- The password is asked at that moment; it never goes in the command
+- `--gem-address=` is **optional**: leave it out and the gem is born at your first address (from step 3)
+- Before asking for the password the wallet asks your node: if the level isn't open or Gold is missing, it tells you in words and sends nothing
+- The password is asked at that moment; don't type it in the command (the `--password` flag still exists from upstream and is removed in v0.6.3)
 
 This **burns 10 Gold forever** and creates **1 Diamond**. The burn is
 recorded on the blockchain, visible to everyone, irreversible.
@@ -118,14 +123,14 @@ These changes exist because we watched real people trip over the wallet. Each on
 | Before | Now | Why |
 |---|---|---|
 | `forge` sent the transaction and waited for the network to reject it | **Checks first:** counts your gems and Gold, asks the node which block it is at and whether the level is open. If something is missing, it says so in plain words and **sends nothing** | The network rejected JC's Platinum on 28-Sep because the level wasn't open yet; with this he'd have known before trying |
-| Forging was immediate and irreversible | **Summarizes and asks:** "You are about to forge 1 Platinum… 10 Diamonds are burned FOREVER… Confirm?" Only `yes` continues | What is burned doesn't come back. A slip of the finger shouldn't cost you 10 gems |
+| Forging was immediate and irreversible | **Summarizes and asks:** "You are about to forge 1 Platinum… 10 Diamonds are burned FOREVER… Confirm?" `yes`, `y`, `si` or `s` continue; anything else cancels continues | What is burned doesn't come back. A slip of the finger shouldn't cost you 10 gems |
 | `send` signed and broadcast without more | Says how much, to whom and **in how many transactions** (a large send is split in batches), and asks | 10,000 RUPIX go out as 232 transactions; you should know before signing |
 | `--gem-address` required | Optional: if you don't give it, the gem is born at your first address | One less step for beginners |
 | `--password=` on the command line | Asked on screen, without echo | It ended up in your history and in screenshots |
 | Raw node errors (`nivel 2 bloqueado…`) | Explained in plain words, with the original below in parentheses | So you know what to do, not just what happened |
 | Spanish only | **Spanish or English**, switchable any time | Rupix is for everyone |
 
-**Choosing the language:** `./rupixwallet language en` saves it (or `es`). Just once: `--lang=en` before the command. The `RUPIX_LANG` variable works too. If you say nothing, it uses your system's.
+**Choosing the language:** `./rupixwallet language en` saves it (or `es`). Just once: `--lang=en` before the command. The `RUPIX_LANG` variable works too. If you say nothing, it uses the system language (`LANG`) and, failing that, Spanish.
 
 **For scripts** that can't answer questions: `--yes` on `forge`, `send` and `transfer-gem`.
 

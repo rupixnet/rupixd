@@ -4,10 +4,12 @@
 
 ## Qué son
 
-Un checkpoint es un bloque canónico conocido: a cierta altura de la red (DAA score),
-el bloque válido es uno y solo uno, identificado por su hash. Cualquier nodo que
-reciba una cadena alternativa que no pase por ese bloque la rechaza, sin importar
-cuánto trabajo de minado tenga.
+Un checkpoint es un bloque canónico conocido, H, identificado por su hash y su blue
+score X. La regla (v0.6.1, formulada para un DAG): todo bloque con blue score
+≥ X + MergeDepth tiene que tener a H en su pasado. Cualquier nodo que reciba una
+historia alternativa que no pase por H la rechaza, sin importar cuánto trabajo de
+minado tenga. (Hasta v0.6.0 la regla heredada era "a cierto DAA score el bloque válido
+es uno y solo uno"; en un DAG eso habría partido la red. Ver la historia más abajo.)
 
 ## Por qué Rupix los usa
 
@@ -48,18 +50,20 @@ de todos, con la regla escrita, y con compromiso de retirarlo.
 - Lista vacía = sin efecto. Mainnet, simnet y devnet tienen la lista vacía; la testnet
   tiene el checkpoint #1 (abajo).
 
-Probado en devnet (18 de septiembre de 2026): con el checkpoint correcto el nodo
-acepta y mina encima; con un checkpoint falso, rechaza el bloque en ese DAA score
-y la cadena no avanza.
+Probado en devnet (18 de septiembre de 2026, con la regla anterior por DAA exacto):
+con el checkpoint correcto el nodo acepta y mina encima; con uno falso, rechaza y la
+cadena no avanza. La regla actual por blue score la prueba `TestCheckpointDAG` (v0.6.1):
+un hermano tardío de H entra, una historia sin H se rechaza, y la prueba falla si la
+regla se apaga.
 
 ## Cuándo se publica uno
 
 Un checkpoint se publica solo sobre un bloque que ya tiene profundidad suficiente
 (varios miles de bloques encima) y que los nodos externos ya tienen. Nunca sobre
 bloques recientes. Cada checkpoint publicado se anuncia con: red, DAA score, hash,
-fecha, y la versión del nodo que lo incluye.
+fecha, y la versión del nodo que lo incluye. (El registro de abajo da el blue score, que es lo que usa la regla; el DAA score se anota como referencia.)
 
-**Historia (27-sep-2026), ya resuelta en v0.6.1:** la regla heredada era por DAA exacto; en un DAG habría partido la red (ver MEMORIA, "El checkpoint que habría partido la red"). Lo que decía entonces: un solo bloque en ese DAA. Rupix es un DAG: dos bloques hermanos pueden tener el mismo DAA score. El código rechaza *cualquier* bloque con el DAA del checkpoint y otro hash, así que un checkpoint puesto donde hay dos bloques invalidaría al hermano y a todo lo que lo incluye, y un nodo nuevo no podría sincronizar. Por eso, antes de publicar, se verifica con el nodo que en ese DAA hay exactamente un bloque. El arreglo de fondo (exigir el hash solo a bloques de la cadena) va en la próxima versión, con test.
+**Historia (27-sep-2026), ya resuelta en v0.6.1:** la regla heredada era por DAA exacto; en un DAG habría partido la red (ver MEMORIA, "El checkpoint que habría partido la red"). Lo que decía entonces: un solo bloque en ese DAA. Rupix es un DAG: dos bloques hermanos pueden tener el mismo DAA score. El código rechaza *cualquier* bloque con el DAA del checkpoint y otro hash, así que un checkpoint puesto donde hay dos bloques invalidaría al hermano y a todo lo que lo incluye, y un nodo nuevo no podría sincronizar. Por eso, antes de publicar, se verifica con el nodo que en ese DAA hay exactamente un bloque. El arreglo de fondo (H en el pasado de todo bloque con blue score ≥ X + MergeDepth) salió en v0.6.1, con `TestCheckpointDAG`.
 
 ## Qué pasa cuando la poda avanza más allá del checkpoint
 
@@ -78,7 +82,7 @@ fecha fija: hay condiciones públicas.
 
 ## Registro de checkpoints publicados
 
-| Red | DAA score | Hash | Fecha | Versión |
+| Red | Blue score (y DAA) | Hash | Fecha | Versión |
 |---|---|---|---|---|
 | testnet #4 | blue score 86,400 (DAA 86,399) | `7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad` | 29-sep-2026 | v0.6.1 · caduca en DAA 2,000,000 |
 

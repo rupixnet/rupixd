@@ -1,4 +1,5 @@
 > **Nota (26-sep-2026):** este documento es de otra etapa y menciona RandomX/Autolykos como planes de ese momento. El algoritmo de Rupix es RupixHeavyHash, en producción desde v0.6.0; esos planes ya no están en el mapa.
+> **Nota (2-oct-2026):** varias líneas de abajo quedaron superadas y se conservan como historia: `forge` **no** lleva `--keys-file` (solo `start-daemon`, `send` y `sign`; la guía vigente es GUIA-TESTNET.md); la lista de checkpoints **ya no está vacía** (el #1 se publicó en v0.6.1, CHECKPOINTS.md) y desde v0.6.2 un nodo que sincroniza desde cero valida la lista de puntos de poda contra los checkpoints. Lo vigente está en ESPECIFICACION.md y CHANGELOG.md.
 
 
 ## DEFINICIÓN HONESTA DE "PARA TODOS" (reflexión del fundador)

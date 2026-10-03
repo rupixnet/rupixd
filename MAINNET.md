@@ -16,7 +16,7 @@ Cada criterio dice qué tiene que ser verdad, con número, y **cómo lo comprueb
 
 | # | Qué tiene que ser verdad | Cómo se verifica | Estado al 30-sep |
 |---|---|---|---|
-| C1 | **Especificación completa**: cada regla de consenso en `ESPECIFICACION.md` con el ataque que detiene y el test que lo prueba, **sin huecos abiertos**. | Correr cada test citado: `go test -v -run <Nombre> ./...` debe dar `--- PASS`. La lista "Los huecos" vacía. | 6 de 7 cerrados. Falta #6 (fuzzing). |
+| C1 | **Especificación completa**: cada regla de consenso en `ESPECIFICACION.md` con el ataque que detiene y el test que lo prueba, **sin huecos abiertos**. | Correr cada test citado: `go test -v -run <Nombre> ./...` debe dar `--- PASS`. La lista "Los huecos" vacía. | 7 de 8 cerrados (#0–#7). Falta #6 (fuzzing). |
 | C2 | **Fuzzing** de `topes.Cabe`, `CalculateGemsCommitment`, RupixHeavyHash/`computeRank` y el parseo de `MsgPruningPoints`, con corpus en el repo y **≥ 24 horas acumuladas por objetivo sin fallo**. | `go test -fuzz=<Objetivo>` con el corpus de `testdata/fuzz/`; el registro de horas en `ESPECIFICACION.md`. | Pendiente. |
 | C3 | **CI en verde** (`Tests` y `race` nocturno) sobre `main` durante las **4 semanas** previas a la luz verde, sin excepciones silenciadas. | Pestaña Actions del repo; `.github/workflows/`. | Verde desde el 30-sep (día 1 de 28). |
 | C4 | **Binarios reproducibles** en cada release etiquetada: 4 de 4 SHA256 iguales. | `tools/verificar-binarios.sh vX.Y.Z` con Go 1.26.6. | v0.6.1 y v0.6.2: 4/4. |
