@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Fuzzing (hueco #6 de ESPECIFICACION.md): cinco objetivos con `go test -fuzz` nativo (`FuzzCabe`, `FuzzCalculateGemsCommitment`, `FuzzGenerateMatrix`, `FuzzComputeRank`, `FuzzMsgPruningPoints`), cada uno con sus invariantes escritas; `tools/fuzz-noche.sh` los corre en serie con registro. Corren tambien como tests normales con su semilla.
 - Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
 - Pendiente: fuzzing de `checkLevelRules` y de la validacion de transacciones (hueco #6 de ESPECIFICACION.md).
 
