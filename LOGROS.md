@@ -182,3 +182,11 @@ Quedan el #2 (validar la lista de puntos de poda para nodos nuevos, código de v
 
 **Decisión del fundador:** ni fecha ni ventana de mainnet en público. Cuando los criterios se cumplan, se anuncia. Y una respuesta que vamos a dar muchas veces, ahora escrita en `MAINNET.md`: cómo se protegió Bitcoin en 2009–2014 (oscuridad, checkpoints en el código, un fundador que se contuvo, una comunidad chica que coordinaba) y cuáles de esas cuatro ya tiene Rupix.
 
+## 3 de octubre de 2026 — El fuzzer encontró lo que buscábamos: un paquete de 9 bytes apagaba un nodo
+
+**La primera noche de fuzzing** (2 h por objetivo, dos núcleos, con el minero intacto): los topes, el sello de gemas, RupixHeavyHash y el rango aguantaron ~200 millones de intentos sin un golpe. El quinto objetivo, los mensajes de red, **falló a los 31 minutos**: un `KaspadMessage` de 9 bytes (una respuesta de estimación de comisión sin su cubeta prioritaria, código heredado de kaspad) hacía pánico en el conversor. Como el bucle que recibe mensajes de otros nodos convierte cualquier mensaje antes de saber qué es, y el único atrapa-pánicos del proceso lo apaga, **cualquiera en internet podía apagar un nodo Rupix con 9 bytes.**
+
+Al repetir la caza con la pila completa lo volvió a encontrar en 27 segundos. Arreglo en dos capas: la raíz (comprobar que el campo exista; error limpio) y una red de seguridad en la recepción (un conversor que entre en pánico cierra esa conexión y avisa; el nodo sigue). Rojo antes, verde después, el caso de 9 bytes guardado en el repo como prueba permanente. **v0.6.3, release de seguridad, sin cambio de consenso.** Se avisa en privado a los mantenedores de kaspad, que muy probablemente tienen el mismo tropiezo.
+
+Una lección que costó la primera evidencia: el primer caso se perdió por limpiar la copia de trabajo antes de copiarlo. Primero se copia, luego se limpia. Está en MEMORIA.
+

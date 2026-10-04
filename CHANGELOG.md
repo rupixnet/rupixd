@@ -7,14 +7,17 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
+- Pendiente: fuzzing de `checkLevelRules` y de la validacion de transacciones (hueco #6 de ESPECIFICACION.md).
+
+## [v0.6.3] - 2026-10-04 — Release de seguridad: un paquete de 9 bytes podia apagar un nodo
+**Sin cambio de consenso.** Actualiza en cuanto puedas: hasta v0.6.2 cualquier peer podia apagar tu nodo con un mensaje de red malformado de 9 bytes (hallado por nuestro propio fuzzing la primera noche que corrio). Misma wallet, mismas claves, mismos datos; solo cambia el binario. Ramas `fuzzing` y `wallet-v063`.
 - **SEGURIDAD (hallado por el fuzzing, 3-oct-2026; para v0.6.3):** un mensaje de red de 9 bytes (una `GetFeeEstimateResponse` sin `PriorityBucket`, codigo heredado de kaspad) hacia panico en `RpcFeeEstimate.toAppMessage`; como el bucle de recepcion convierte cualquier mensaje antes de saber que es y el unico `recover` del nodo apaga el proceso, **cualquier peer podia apagar un nodo con ese paquete**. Arreglo en dos capas: la raiz (nil-check de `PriorityBucket` y de cada cubeta → error limpio) y una red de seguridad en el bucle de recepcion (`toAppMessageSinCaer`: un conversor en panico cierra esa conexion y avisa en el log; el nodo sigue). Tests: `TestMensajeDe9BytesNoTiraElNodo` (con los 9 bytes exactos), `TestConversionDeRedNoTiraElNodo`; el caso queda en `testdata/fuzz/FuzzMsgPruningPoints/80ec04c90cc2259b`. Se avisara a los mantenedores de kaspad en privado.
 - Fuzzing (hueco #6 de ESPECIFICACION.md): cinco objetivos con `go test -fuzz` nativo (`FuzzCabe`, `FuzzCalculateGemsCommitment`, `FuzzGenerateMatrix`, `FuzzComputeRank`, `FuzzMsgPruningPoints`), cada uno con sus invariantes escritas; `tools/fuzz-noche.sh` los corre en serie con registro. Corren tambien como tests normales con su semilla.
 - Wallet (para v0.6.3, sin cambio de consenso): **ya no existe `--password`** en ningun comando (`create`, `send`, `sign`, `forge`, `transfer-gem`, `start-daemon`, `dump-unencrypted-data`, `bump-fee`): la clave se pide siempre en pantalla, sin eco. `dump-unencrypted-data` (muestra la frase semilla) **ya no acepta `--yes`**: aviso, confirmacion explicita y recordatorio de limpiar la pantalla, en espanol o ingles (mismo criterio del auditor que en `create`). La pista "verificalo desde cualquier nodo" incluye la red (`rupixctl --testnet ...`). Textos de ayuda: `--send-all` (decia `--all`), tarifas en rupias (decia Sompi), ruta real del archivo de claves (`<carpeta>/<red>/keys.json`).
 - CI: `govulncheck ./...` en cada push (antes solo una corrida manual del 27-sep).
 - Heredado de Kaspa apartado a `retirados/` (no borrado): Dockerfiles que compilaban `kaspad`, `build_and_test.sh`, y los README de kaspactl/kaspaminer que vivian en `cmd/rupixctl` y `cmd/rupixminer`.
 - Comentarios de `ErrGemsCapExceeded`/`ErrKingsCapExceeded` al dia con la regla de v0.6.2.
-- Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
-- Pendiente: fuzzing de `checkLevelRules` y de la validacion de transacciones (hueco #6 de ESPECIFICACION.md).
 
 ## [v0.6.2] - 2026-09-30 — El tope no mata bloques, el nodo nuevo valida sus puntos de poda, wallet para principiantes
 **Cambio de consenso** (el primero desde que hay checkpoints). Cuatro ramas revisadas por el auditor externo (`tope-no-acepta` con visto bueno explicito el 30-sep; `wallet-principiantes` y `test-sello-falso` con sus rondas 2 y 3; `ibd-checkpoint` cierra lo prometido en v0.6.1), mergeadas sobre `55ff16ee`. En la testnet ningun tope es alcanzable, asi que nodos v0.6.1 y v0.6.2 siguen de acuerdo en la practica; aun asi, actualiza: el candado para nodos nuevos solo existe en v0.6.2.

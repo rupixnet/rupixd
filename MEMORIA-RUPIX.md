@@ -118,6 +118,12 @@ La primera noche de fuzzing el seed llegó a carga 22 sobre 4 núcleos. `pkill -
 ### Repetir una verdad no la hace más verdad
 El 2-oct, ER lo dijo claro: "ya me lo dijiste muchas veces". Tenía razón. Una verdad incómoda (el revisor con nombre) dicha tres veces en una noche deja de ser información y se vuelve ruido; peor, hace que lo demás suene negativo cuando no lo es. Lo que hay que decir se dice una vez, bien dicho, se escribe donde corresponde (MAINNET.md), y no se vuelve a traer hasta que haya novedad. La honestidad incluye saber callarse.
 
+### Primero se copia la evidencia, luego se limpia
+El fuzzer dejó su primer hallazgo (un caso de 9 bytes) en la copia de trabajo de la noche. El bloque de la mañana hacía `git worktree remove --force` y después `cp`: en ese orden. El archivo desapareció con la copia y el único rastro era "nil pointer", sin saber dónde. Se recuperó porque el fuzzer sabe volver (lo encontró de nuevo en 27 segundos), pero pudo no ser así. Regla: cualquier limpieza va **después** de poner a salvo lo que se quiere conservar, y el bloque se lee dos veces antes de mandarlo cuando borra algo.
+
+### El fuzzer encontró en 31 minutos lo que ningún test nuestro buscaba
+Teníamos 347 tests y ninguno mandaba basura de 9 bytes al conversor de mensajes de red. El fuzzer no sabe de reglas de Rupix; sabe mutar bytes hasta que algo cruje. Crujió un conversor heredado que ni habíamos leído, en un camino (recepción de red) donde un pánico apaga el proceso. La lección no es "había un bug": es que las pruebas que escribe uno prueban lo que uno imaginó; la máquina prueba lo que uno no imaginó. Los dos hacen falta, y el fuzzing se queda corriendo cada noche.
+
 ---
 
 *No confíes, verifica.*
