@@ -109,17 +109,16 @@ func forge(conf *forgeConfig) error {
 		return nil
 	}
 
-	// La clave se pide con prompt: en la linea de comandos quedaba en el historial.
-	if len(conf.Password) == 0 {
-		conf.Password = keys.GetPassword(T("clave.prompt"))
-	}
+	// La clave se pide siempre con prompt (v0.6.3: ya no existe --password; en la
+	// linea de comandos quedaba en el historial).
+	password := keys.GetPassword(T("clave.prompt"))
 
 	forgeCtx, forgeCancel := context.WithTimeout(context.Background(), daemonTimeout)
 	defer forgeCancel()
 	response, err := daemonClient.Forge(forgeCtx, &pb.ForgeRequest{
 		Level:      conf.Level,
 		GemAddress: conf.GemAddress,
-		Password:   conf.Password,
+		Password:   password,
 	})
 	if err != nil {
 		return traducirErrorNodo(err)
@@ -129,7 +128,11 @@ func forge(conf *forgeConfig) error {
 	for _, txID := range response.TxIDs {
 		fmt.Printf("  tx: %s\n", txID)
 	}
-	fmt.Printf(T("forjar.verifica")+"\n", conf.GemAddress, conf.Level)
+	red := banderaRed()
+	if red != "" {
+		red += " "
+	}
+	fmt.Printf(T("forjar.verifica")+"\n", red, conf.GemAddress, conf.Level)
 	return nil
 }
 

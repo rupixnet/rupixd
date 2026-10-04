@@ -51,8 +51,7 @@ type configFlags struct {
 }
 
 type createConfig struct {
-	KeysFile          string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
-	Password          string `long:"password" short:"p" description:"Wallet password"`
+	KeysFile          string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/<red>/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\<red>\\keys.json (Windows); <red> = rupix-testnet, rupix-mainnet...)"`
 	Yes               bool   `long:"yes" short:"y" description:"Assume \"yes\" to all questions"`
 	MinimumSignatures uint32 `long:"min-signatures" short:"m" description:"Minimum required signatures" default:"1"`
 	NumPrivateKeys    uint32 `long:"num-private-keys" short:"k" description:"Number of private keys" default:"1"`
@@ -69,17 +68,16 @@ type balanceConfig struct {
 }
 
 type sendConfig struct {
-	KeysFile                 string   `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
-	Password                 string   `long:"password" short:"p" description:"Wallet password"`
+	KeysFile                 string   `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/<red>/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\<red>\\keys.json (Windows); <red> = rupix-testnet, rupix-mainnet...)"`
 	DaemonAddress            string   `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	ToAddress                string   `long:"to-address" short:"t" description:"The public address to send RUPIX to" required:"true"`
 	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send RUPIX from. Repeat multiple times (adding -a before each) to accept several addresses" required:"false"`
 	SendAmount               string   `long:"send-amount" short:"v" description:"An amount to send in RUPIX (e.g. 1234.12345678)"`
 	IsSendAll                bool     `long:"send-all" description:"Send all the RUPIX in the wallet (mutually exclusive with --send-amount). If --from-address was used, will send all only from the specified addresses."`
 	UseExistingChangeAddress bool     `long:"use-existing-change-address" short:"u" description:"Will use an existing change address (in case no change address was ever used, it will use a new one)"`
-	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in Sompi/gram to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
-	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in Sompi/gram to use for the transaction. This option will override any fee estimate from the connected node."`
-	MaxFee                   uint64   `long:"max-fee" short:"x" description:"Maximum fee in Sompi (not Sompi/gram) to use for the transaction. The wallet will take the minimum between the fee estimate from the connected node and this value. If no other fee policy is specified, it will set the max fee to 1 RUPIX"`
+	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in rupias/gramo to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
+	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in rupias/gramo to use for the transaction. This option will override any fee estimate from the connected node."`
+	MaxFee                   uint64   `long:"max-fee" short:"x" description:"Maximum fee in rupias (not rupias/gramo) to use for the transaction. The wallet will take the minimum between the fee estimate from the connected node and this value. If no other fee policy is specified, it will set the max fee to 1 RUPIX"`
 	Verbose                  bool     `long:"show-serialized" short:"s" description:"Show a list of hex encoded sent transactions"`
 	Yes                      bool     `long:"yes" short:"y" description:"No pedir confirmacion antes de enviar"`
 	config.NetworkFlags
@@ -98,15 +96,14 @@ type createUnsignedTransactionConfig struct {
 	SendAmount               string   `long:"send-amount" short:"v" description:"An amount to send in RUPIX (e.g. 1234.12345678)"`
 	IsSendAll                bool     `long:"send-all" description:"Send all the RUPIX in the wallet (mutually exclusive with --send-amount)"`
 	UseExistingChangeAddress bool     `long:"use-existing-change-address" short:"u" description:"Will use an existing change address (in case no change address was ever used, it will use a new one)"`
-	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in Sompi/gram to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
-	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in Sompi/gram to use for the transaction. This option will override any fee estimate from the connected node."`
-	MaxFee                   uint64   `long:"max-fee" short:"x" description:"Maximum fee in Sompi (not Sompi/gram) to use for the transaction. The wallet will take the minimum between the fee estimate from the connected node and this value. If no other fee policy is specified, it will set the max fee to 1 RUPIX"`
+	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in rupias/gramo to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
+	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in rupias/gramo to use for the transaction. This option will override any fee estimate from the connected node."`
+	MaxFee                   uint64   `long:"max-fee" short:"x" description:"Maximum fee in rupias (not rupias/gramo) to use for the transaction. The wallet will take the minimum between the fee estimate from the connected node and this value. If no other fee policy is specified, it will set the max fee to 1 RUPIX"`
 	config.NetworkFlags
 }
 
 type signConfig struct {
-	KeysFile        string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
-	Password        string `long:"password" short:"p" description:"Wallet password"`
+	KeysFile        string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/<red>/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\<red>\\keys.json (Windows); <red> = rupix-testnet, rupix-mainnet...)"`
 	Transaction     string `long:"transaction" short:"t" description:"The unsigned transaction(s) to sign on (encoded in hex)"`
 	TransactionFile string `long:"transaction-file" short:"F" description:"The file containing the unsigned transaction(s) to sign on (encoded in hex)"`
 	config.NetworkFlags
@@ -120,7 +117,7 @@ type broadcastConfig struct {
 }
 
 type parseConfig struct {
-	KeysFile        string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
+	KeysFile        string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/<red>/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\<red>\\keys.json (Windows); <red> = rupix-testnet, rupix-mainnet...)"`
 	Transaction     string `long:"transaction" short:"t" description:"The transaction to parse (encoded in hex)"`
 	TransactionFile string `long:"transaction-file" short:"F" description:"The file containing the transaction to parse (encoded in hex)"`
 	Verbose         bool   `long:"verbose" short:"v" description:"Verbose: show transaction inputs"`
@@ -141,7 +138,6 @@ type forgeConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	Level         uint32 `long:"level" short:"l" description:"Nivel: 1=Diamante 2=Platino 3=Rodio 4=Kings"`
 	GemAddress    string `long:"gem-address" description:"Direccion donde nace la gema (si no se da, la primera de tu wallet)"`
-	Password      string `long:"password" short:"p" description:"Wallet password (mejor no: se pide en pantalla)"`
 	RPCServer     string `long:"rpcserver" short:"s" description:"Nodo rupixd para preguntar en que bloque va la red (default: 127.0.0.1 con el puerto de la red)"`
 	Yes           bool   `long:"yes" short:"y" description:"No pedir confirmacion"`
 	config.NetworkFlags
@@ -156,14 +152,12 @@ type transferGemConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	Level         uint32 `long:"level" short:"l" description:"Nivel de la gema a transferir: 1-4"`
 	ToAddress     string `long:"to-address" description:"Direccion destino de la gema"`
-	Password      string `long:"password" short:"p" description:"Wallet password (mejor no: se pide en pantalla)"`
 	Yes           bool   `long:"yes" short:"y" description:"No pedir confirmacion"`
 	config.NetworkFlags
 }
 
 type startDaemonConfig struct {
-	KeysFile  string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
-	Password  string `long:"password" short:"p" description:"Wallet password"`
+	KeysFile  string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/<red>/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\<red>\\keys.json (Windows); <red> = rupix-testnet, rupix-mainnet...)"`
 	RPCServer string `long:"rpcserver" short:"s" description:"RPC server to connect to"`
 	Listen    string `long:"listen" short:"l" description:"Address to listen on (default: 0.0.0.0:8082)"`
 	Timeout   uint32 `long:"wait-timeout" short:"w" description:"Waiting timeout for RPC calls, seconds (default: 30 s)"`
@@ -172,9 +166,7 @@ type startDaemonConfig struct {
 }
 
 type dumpUnencryptedDataConfig struct {
-	KeysFile string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
-	Password string `long:"password" short:"p" description:"Wallet password"`
-	Yes      bool   `long:"yes" short:"y" description:"Assume \"yes\" to all questions"`
+	KeysFile string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/<red>/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\<red>\\keys.json (Windows); <red> = rupix-testnet, rupix-mainnet...)"`
 	config.NetworkFlags
 }
 
@@ -183,22 +175,21 @@ type bumpFeeUnsignedConfig struct {
 	DaemonAddress            string   `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send RUPIX from. Use multiple times to accept several addresses" required:"false"`
 	UseExistingChangeAddress bool     `long:"use-existing-change-address" short:"u" description:"Will use an existing change address (in case no change address was ever used, it will use a new one)"`
-	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in Sompi/gram to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
-	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in Sompi/gram to use for the transaction. This option will override any fee estimate from the connected node."`
-	MaxFee                   uint64   `long:"max-fee" short:"x" description:"Maximum fee in Sompi (not Sompi/gram) to use for the transaction. The wallet will take the minimum between the fee estimate from the connected node and this value. If no other fee policy is specified, it will set the max fee to 1 RUPIX"`
+	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in rupias/gramo to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
+	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in rupias/gramo to use for the transaction. This option will override any fee estimate from the connected node."`
+	MaxFee                   uint64   `long:"max-fee" short:"x" description:"Maximum fee in rupias (not rupias/gramo) to use for the transaction. The wallet will take the minimum between the fee estimate from the connected node and this value. If no other fee policy is specified, it will set the max fee to 1 RUPIX"`
 	config.NetworkFlags
 }
 
 type bumpFeeConfig struct {
 	TxID                     string   `long:"txid" short:"i" description:"The transaction ID to bump the fee for"`
-	KeysFile                 string   `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\key.json (Windows))"`
-	Password                 string   `long:"password" short:"p" description:"Wallet password"`
+	KeysFile                 string   `long:"keys-file" short:"f" description:"Keys file location (default: ~/.rupixwallet/<red>/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Rupixwallet\\<red>\\keys.json (Windows); <red> = rupix-testnet, rupix-mainnet...)"`
 	DaemonAddress            string   `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	FromAddresses            []string `long:"from-address" short:"a" description:"Specific public address to send RUPIX from. Repeat multiple times (adding -a before each) to accept several addresses" required:"false"`
 	UseExistingChangeAddress bool     `long:"use-existing-change-address" short:"u" description:"Will use an existing change address (in case no change address was ever used, it will use a new one)"`
-	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in Sompi/gram to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
-	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in Sompi/gram to use for the transaction. This option will override any fee estimate from the connected node."`
-	MaxFee                   uint64   `long:"max-fee" short:"x" description:"Maximum fee in Sompi (not Sompi/gram) to use for the transaction. The wallet will take the minimum between the fee estimate from the connected node and this value. If no other fee policy is specified, it will set the max fee to 1 RUPIX"`
+	MaxFeeRate               float64  `long:"max-fee-rate" short:"m" description:"Maximum fee rate in rupias/gramo to use for the transaction. The wallet will take the minimum between the fee rate estimate from the connected node and this value."`
+	FeeRate                  float64  `long:"fee-rate" short:"r" description:"Fee rate in rupias/gramo to use for the transaction. This option will override any fee estimate from the connected node."`
+	MaxFee                   uint64   `long:"max-fee" short:"x" description:"Maximum fee in rupias (not rupias/gramo) to use for the transaction. The wallet will take the minimum between the fee estimate from the connected node and this value. If no other fee policy is specified, it will set the max fee to 1 RUPIX"`
 	Verbose                  bool     `long:"show-serialized" short:"s" description:"Show a list of hex encoded sent transactions"`
 	config.NetworkFlags
 }
@@ -464,7 +455,7 @@ func validateCreateUnsignedTransactionConf(conf *createUnsignedTransactionConfig
 	if (!conf.IsSendAll && conf.SendAmount == "") ||
 		(conf.IsSendAll && conf.SendAmount != "") {
 
-		return errors.New("exactly one of '--send-amount' or '--all' must be specified")
+		return errors.New("exactly one of '--send-amount' or '--send-all' must be specified")
 	}
 
 	if conf.MaxFeeRate < 0 {
@@ -486,7 +477,7 @@ func validateSendConfig(conf *sendConfig) error {
 	if (!conf.IsSendAll && conf.SendAmount == "") ||
 		(conf.IsSendAll && conf.SendAmount != "") {
 
-		return errors.New("exactly one of '--send-amount' or '--all' must be specified")
+		return errors.New("exactly one of '--send-amount' or '--send-all' must be specified")
 	}
 
 	if conf.MaxFeeRate < 0 {

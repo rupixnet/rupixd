@@ -81,7 +81,7 @@ Ascenso forjado: gema Diamante creada.
 - `--level=1` → Diamante (el primer nivel de gema)
 - `--gem-address=` es **opcional**: si no lo pones, la gema nace en tu primera dirección (la del paso 3)
 - Antes de pedir la contraseña, la wallet consulta tu nodo: si el nivel no está abierto o falta Gold, te lo dice en palabras y no manda nada
-- La contraseña se pide al momento; no la escribas en el comando (la bandera `--password` existe todavía por herencia y se retira en v0.6.3)
+- La contraseña se pide al momento, siempre; desde v0.6.3 ya no existe la bandera `--password` en ningún comando (quedaba en el historial)
 
 Esto **quema 10 Gold para siempre** y crea **1 Diamante**. La quema
 queda grabada en la blockchain, visible para todos, irreversible.

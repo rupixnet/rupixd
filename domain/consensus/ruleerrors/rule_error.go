@@ -96,13 +96,15 @@ var (
 	// invalid in some way such as being out of range.
 	ErrBadTxOutValue = newRuleError("ErrBadTxOutValue")
 
-	// ErrKingsCapExceeded (Rupix) indicates a block would push the total
-	// count of Kings (level 4) above constants.MaxKings. The 2,101st King
-	// cannot exist in any valid chain.
+	// ErrKingsCapExceeded (Rupix): the 2,101st live King cannot exist in any valid
+	// chain. Since v0.6.2 the cap is applied when a transaction is accepted (the forge
+	// is simply not accepted, the block stays valid; utils/topes), so this error is
+	// now only an invariant in calculateKingsCount that must never fire.
 	ErrKingsCapExceeded = newRuleError("ErrKingsCapExceeded")
-	// ErrGemsCapExceeded (Rupix) indicates a block would push the historical
-	// count of Diamante/Platino/Rodio above their max. Once a level's historical
-	// cap is reached, no more gems of that level can ever be born.
+	// ErrGemsCapExceeded (Rupix): a Diamante/Platino/Rodio would be born above its
+	// historical cap. Since v0.6.2 it is returned by the mempool/consensus transaction
+	// check (the transaction is rejected, never the block) and otherwise only as an
+	// invariant in calculateGemsHistory that must never fire.
 	ErrGemsCapExceeded = newRuleError("ErrGemsCapExceeded")
 
 	// ErrInsufficientBurn (Rupix) indicates a transaction does not burn the
