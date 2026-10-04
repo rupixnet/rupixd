@@ -51,11 +51,9 @@ func FuzzMsgPruningPoints(f *testing.F) {
 	f.Add([]byte{0xff, 0xff, 0xff, 0xff})
 
 	f.Fuzz(func(t *testing.T, datos []byte) {
-		defer func() {
-			if r := recover(); r != nil {
-				t.Fatalf("PANICO con %d bytes: %v", len(datos), r)
-			}
-		}()
+		// Sin recover() a proposito: si algo entra en panico, el motor de fuzzing guarda
+		// el caso en testdata/fuzz/ e imprime la pila completa (archivo y linea del
+		// tropiezo). Con recover() solo se veia "nil pointer", sin saber donde.
 		var km KaspadMessage
 		if err := proto.Unmarshal(datos, &km); err != nil {
 			return // bytes que no son protobuf valido: rechazo limpio
