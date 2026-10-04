@@ -45,25 +45,43 @@ func (x *RpcFeeEstimate) toAppMessage() (appmessage.RPCFeeEstimate, error) {
 	if x == nil {
 		return appmessage.RPCFeeEstimate{}, errors.Wrapf(errorNil, "RpcFeeEstimate is nil")
 	}
+	// Rupix (hueco #6, fuzzing, 3-oct-2026): PriorityBucket es un submensaje opcional en
+	// protobuf; un mensaje de 9 bytes sin el lo dejaba en nil y aqui se leia sin mirar.
+	// Como el bucle de recepcion convierte cualquier mensaje antes de saber que es, un
+	// peer podia tirar el nodo con ese paquete. Ahora es un error limpio.
+	if x.PriorityBucket == nil {
+		return appmessage.RPCFeeEstimate{}, errors.Wrapf(errorNil, "RpcFeeEstimate.PriorityBucket is nil")
+	}
+	normal, err := feeRateBucketsToAppMessage(x.NormalBuckets)
+	if err != nil {
+		return appmessage.RPCFeeEstimate{}, err
+	}
+	low, err := feeRateBucketsToAppMessage(x.LowBuckets)
+	if err != nil {
+		return appmessage.RPCFeeEstimate{}, err
+	}
 	return appmessage.RPCFeeEstimate{
 		PriorityBucket: appmessage.RPCFeeRateBucket{
 			Feerate:          x.PriorityBucket.Feerate,
 			EstimatedSeconds: x.PriorityBucket.EstimatedSeconds,
 		},
-		NormalBuckets: feeRateBucketsToAppMessage(x.NormalBuckets),
-		LowBuckets:    feeRateBucketsToAppMessage(x.LowBuckets),
+		NormalBuckets: normal,
+		LowBuckets:    low,
 	}, nil
 }
 
-func feeRateBucketsToAppMessage(protoBuckets []*RpcFeerateBucket) []appmessage.RPCFeeRateBucket {
+func feeRateBucketsToAppMessage(protoBuckets []*RpcFeerateBucket) ([]appmessage.RPCFeeRateBucket, error) {
 	appMsgBuckets := make([]appmessage.RPCFeeRateBucket, len(protoBuckets))
 	for i, bucket := range protoBuckets {
+		if bucket == nil {
+			return nil, errors.Wrapf(errorNil, "RpcFeerateBucket #%d is nil", i)
+		}
 		appMsgBuckets[i] = appmessage.RPCFeeRateBucket{
 			Feerate:          bucket.Feerate,
 			EstimatedSeconds: bucket.EstimatedSeconds,
 		}
 	}
-	return appMsgBuckets
+	return appMsgBuckets, nil
 }
 
 func (x *KaspadMessage_GetFeeEstimateResponse) fromAppMessage(message *appmessage.GetFeeEstimateResponseMessage) error {

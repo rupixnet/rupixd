@@ -7,6 +7,8 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **SEGURIDAD (hallado por el fuzzing, 3-oct-2026; para v0.6.3):** un mensaje de red de 9 bytes (una `GetFeeEstimateResponse` sin `PriorityBucket`, codigo heredado de kaspad) hacia panico en `RpcFeeEstimate.toAppMessage`; como el bucle de recepcion convierte cualquier mensaje antes de saber que es y el unico `recover` del nodo apaga el proceso, **cualquier peer podia apagar un nodo con ese paquete**. Arreglo en dos capas: la raiz (nil-check de `PriorityBucket` y de cada cubeta → error limpio) y una red de seguridad en el bucle de recepcion (`toAppMessageSinCaer`: un conversor en panico cierra esa conexion y avisa en el log; el nodo sigue). Tests: `TestMensajeDe9BytesNoTiraElNodo` (con los 9 bytes exactos), `TestConversionDeRedNoTiraElNodo`; el caso queda en `testdata/fuzz/FuzzMsgPruningPoints/80ec04c90cc2259b`. Se avisara a los mantenedores de kaspad en privado.
+- Fuzzing (hueco #6 de ESPECIFICACION.md): cinco objetivos con `go test -fuzz` nativo (`FuzzCabe`, `FuzzCalculateGemsCommitment`, `FuzzGenerateMatrix`, `FuzzComputeRank`, `FuzzMsgPruningPoints`), cada uno con sus invariantes escritas; `tools/fuzz-noche.sh` los corre en serie con registro. Corren tambien como tests normales con su semilla.
 - Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
 - Pendiente: fuzzing de `checkLevelRules` y de la validacion de transacciones (hueco #6 de ESPECIFICACION.md).
 
