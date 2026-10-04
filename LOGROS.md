@@ -190,3 +190,5 @@ Al repetir la caza con la pila completa lo volvió a encontrar en 27 segundos. A
 
 Una lección que costó la primera evidencia: el primer caso se perdió por limpiar la copia de trabajo antes de copiarlo. Primero se copia, luego se limpia. Está en MEMORIA.
 
+**v0.6.3 publicada** (madrugada del 4-oct): suite completa en verde en el seed (65 paquetes), `main` = tag `v0.6.3` = `8fe8f8d4`, binarios reproducibles **4/4**, seed actualizado (0.6.2 guardado en `/root/bin-anterior/v0.6.2/`), tres servicios activos, DAA 712,071. Web al día (`3fc47ab`): hito, guías con los zips v0.6.3, forja sin `--password`. Entre la primera release de la semana (v0.6.2, martes) y esta pasaron tres días: una regla de consenso nueva, el último hueco de la especificación en marcha y un fallo de red real encontrado y cerrado por nuestras propias pruebas.
+
