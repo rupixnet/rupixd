@@ -85,7 +85,7 @@ func (c *gRPCConnection) receiveLoop() error {
 			}
 			return err
 		}
-		message, err := protoMessage.ToAppMessage()
+		message, err := toAppMessageSinCaer(protoMessage)
 		if err != nil {
 			if c.onInvalidMessageHandler != nil {
 				c.onInvalidMessageHandler(err)
@@ -123,4 +123,28 @@ func (c *gRPCConnection) receiveLoop() error {
 		}
 	}
 	return nil
+}
+
+// toAppMessageSinCaer (Rupix, hueco #6, 3-oct-2026) convierte un mensaje recibido de
+// la red y, si el conversor entra en panico por un mensaje malformado, lo vuelve un
+// error en vez de dejar que mate al proceso. El fuzzing encontro un mensaje de 9 bytes
+// que hacia exactamente eso (RpcFeeEstimate sin PriorityBucket; arreglado en la raiz).
+// Esta red de seguridad es para los que aun no se han encontrado: un mensaje malo
+// cierra ESA conexion y queda en el log; el nodo sigue. Vive aqui, en el punto de
+// recepcion, y no dentro de ToAppMessage, para que el fuzzing siga viendo los panicos
+// de los conversores y se arreglen en la raiz.
+// convertidorDeRed es lo unico que toAppMessageSinCaer necesita de un mensaje; asi el
+// test puede meterle un conversor que entra en panico a proposito.
+type convertidorDeRed interface {
+	ToAppMessage() (appmessage.Message, error)
+}
+
+func toAppMessageSinCaer(protoMessage convertidorDeRed) (message appmessage.Message, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Warnf("mensaje de red malformado: el conversor entro en panico (%v); se cierra la conexion", r)
+			message, err = nil, errors.Errorf("malformed network message: %v", r)
+		}
+	}()
+	return protoMessage.ToAppMessage()
 }
