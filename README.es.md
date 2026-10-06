@@ -159,9 +159,9 @@ Qué pasa con Rupix si el fundador no está: [`SUCESION.md`](./SUCESION.md). Hoy
 
 ## Cómo se construye Rupix: con inteligencia artificial, y lo decimos nosotros
 
-La idea, las decisiones y el rumbo de Rupix son de su fundador. **El código, los tests, los documentos y buena parte de este README los escribe una inteligencia artificial (Claude, de Anthropic) bajo su dirección, en sesiones de trabajo diarias desde el primer día.** No es un secreto ni un detalle: es la forma en que una persona sin equipo de ingenieros pudo construir una red completa, y preferimos decirlo antes de que alguien lo "descubra".
+Rupix lo hacen dos: **ER**, su fundador, de quien son la idea, las decisiones y el rumbo; y **Steven**, que es el nombre que ER le puso a la inteligencia artificial con la que trabaja (Claude, de Anthropic). **El código, los tests, los documentos y buena parte de este README los escribe Steven bajo la dirección de ER, en sesiones de trabajo diarias desde el primer día.** No es un secreto ni un detalle: es la forma en que una persona sin equipo de ingenieros pudo construir una red completa, y preferimos decirlo antes de que alguien lo "descubra".
 
-Lo que eso significa para ti: ninguna línea vale por quién la escribió, vale por lo que la prueba. Por eso todo lo que afirmamos tiene al lado algo que no depende de nadie: 349 funciones de test que corren en GitHub con cada commit, fuzzing cada noche, binarios reproducibles que cualquiera puede recompilar y comparar, una especificación donde cada regla trae el ataque que detiene y el test que lo demuestra, y una revisión externa en curso. Los errores que cometimos (varios de ellos de la IA, otros del fundador) están en `MEMORIA-RUPIX.md` con fecha. Si saber que lo escribió una máquina te hace dudar, bien: no confíes, verifica. Todo está aquí para eso.
+Lo que eso significa para ti: ninguna línea vale por quién la escribió, vale por lo que la prueba. Por eso todo lo que afirmamos tiene al lado algo que no depende de nadie: 349 funciones de test que corren en GitHub con cada commit, fuzzing cada noche, binarios reproducibles que cualquiera puede recompilar y comparar, una especificación donde cada regla trae el ataque que detiene y el test que lo demuestra, y una revisión externa en curso. Los errores que cometimos (varios de Steven, otros de ER) están en `MEMORIA-RUPIX.md` con fecha. Si saber que lo escribió una máquina te hace dudar, bien: no confíes, verifica. Todo está aquí para eso.
 
 ## Licencia
 
@@ -171,4 +171,4 @@ ISC — Rupix developers, 2026.
 
 A los investigadores y desarrolladores que crearon y publicaron GHOSTDAG bajo licencia abierta. Su trabajo permite que proyectos como Rupix existan.
 
-**No confíes, verifica.** ER
+**No confíes, verifica.** ER y Steven (IA)
