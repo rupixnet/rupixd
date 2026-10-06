@@ -159,7 +159,7 @@ What happens to Rupix if the founder is gone: [`SUCESION.md`](./SUCESION.md). To
 
 ## How Rupix is built: with artificial intelligence, and we say so ourselves
 
-**Rupix is created by ER with Claude, Anthropic's artificial intelligence: all the code, tests and documents are made with Claude.** It is not a secret or a footnote: it is how one person without an engineering team could build a complete network, and we would rather say it than have someone "discover" it.
+**Rupix is created by ER with Claude, Anthropic's artificial intelligence: all the code, tests and documents are made with Claude.** It is not a secret or a footnote: it is how one person without an engineering team could build a complete network.
 
 What that means for you: no line is worth anything because of who wrote it; it is worth what proves it. That is why everything we claim has something next to it that depends on nobody: 349 test functions that run on GitHub with every commit, fuzzing every night, reproducible binaries anyone can rebuild and compare, a specification where every rule carries the attack it stops and the test that proves it, and an external review in progress. The mistakes we made (several by Claude, others by ER) are in `MEMORIA-RUPIX.md`, dated. If knowing a machine wrote it makes you doubt, good: don't trust, verify. Everything is here for that.
 
