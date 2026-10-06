@@ -165,10 +165,13 @@ What that means for you: no line is worth anything because of who wrote it; it i
 
 ## License
 
-ISC — Rupix developers, 2026.
+ISC. The [`LICENSE`](./LICENSE) file carries the full copyright chain, and we keep it as is: Rupix developers (2026) on top of kaspanet developers (2018–2019), on top of btcsuite developers (2013–2018, the Go implementation of Bitcoin), on top of Decred developers (2015–2016) and Conformal Systems (2013–2014). Each layer exists thanks to the one before.
 
 ## Acknowledgments
 
-To the researchers and developers who created and published GHOSTDAG under an open license. Their work makes projects like Rupix possible.
+- **To Bitcoin and Satoshi Nakamoto**, for the idea everything comes from: money no one controls, fixed issuance, proof of work, and the phrase we use as a rule: don't trust, verify.
+- **To Kaspa and its developers**, for GHOSTDAG and for kaspad, the open-source code Rupix is built on. Rupix is a fork of kaspad; without that work it would not exist.
+- **To btcsuite, Decred and Conformal**, whose Go implementation of Bitcoin is the base Kaspa took and we inherited.
+- To the researchers who published GHOSTDAG under an open license, and to everyone who has questioned, tested or corrected Rupix: they are in [`THANKS.md`](./THANKS.md).
 
 **Don't trust, verify.** ER and Claude
