@@ -8,6 +8,7 @@ Formato: [versión] - fecha - descripción técnica
 
 ## [Sin publicar]
 - Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
+- ESPECIFICACION.md seccion 7 (5-oct): el ataque del 51 %, lo que puede (reorganizar la ultima hora, censurar) y lo que no (crear monedas, forjar sin quemar, pasar el merge depth de 3,600 bloques, mover a un nodo sincronizado fuera de su punto de finalidad, reescribir antes de un checkpoint), con los tests heredados `TestBoundedMergeDepth`, `TestFinality`, `TestFinalityResolveVirtual`.
 - Pendiente: fuzzing de `checkLevelRules` y de la validacion de transacciones (hueco #6 de ESPECIFICACION.md).
 
 ## [v0.6.3] - 2026-10-04 — Release de seguridad: un paquete de 9 bytes podia apagar un nodo
