@@ -159,9 +159,9 @@ What happens to Rupix if the founder is gone: [`SUCESION.md`](./SUCESION.md). To
 
 ## How Rupix is built: with artificial intelligence, and we say so ourselves
 
-Rupix is made by two of us. **ER brings the ideas, the decisions and the direction. Steven, the name ER gave to the artificial intelligence he works with (Claude, by Anthropic), turns them into code, tests and documents.** We work together every day since the first; this README is written by both of us. It is not a secret or a footnote: it is how one person without an engineering team could build a complete network, and we would rather say it than have someone "discover" it.
+Rupix is made by two of us. **ER brings the ideas, the decisions and the direction. Claude, Anthropic's artificial intelligence, turns them into code: all of Rupix's code, its tests and its documents are made with Claude.** We work together every day since the first; this README is written by both of us. It is not a secret or a footnote: it is how one person without an engineering team could build a complete network, and we would rather say it than have someone "discover" it.
 
-What that means for you: no line is worth anything because of who wrote it; it is worth what proves it. That is why everything we claim has something next to it that depends on nobody: 349 test functions that run on GitHub with every commit, fuzzing every night, reproducible binaries anyone can rebuild and compare, a specification where every rule carries the attack it stops and the test that proves it, and an external review in progress. The mistakes we made (several by Steven, others by ER) are in `MEMORIA-RUPIX.md`, dated. If knowing a machine wrote it makes you doubt, good: don't trust, verify. Everything is here for that.
+What that means for you: no line is worth anything because of who wrote it; it is worth what proves it. That is why everything we claim has something next to it that depends on nobody: 349 test functions that run on GitHub with every commit, fuzzing every night, reproducible binaries anyone can rebuild and compare, a specification where every rule carries the attack it stops and the test that proves it, and an external review in progress. The mistakes we made (several by Claude, others by ER) are in `MEMORIA-RUPIX.md`, dated. If knowing a machine wrote it makes you doubt, good: don't trust, verify. Everything is here for that.
 
 ## License
 
@@ -171,4 +171,4 @@ ISC — Rupix developers, 2026.
 
 To the researchers and developers who created and published GHOSTDAG under an open license. Their work makes projects like Rupix possible.
 
-**Don't trust, verify.** ER and Steven (AI)
+**Don't trust, verify.** ER and Claude
