@@ -171,4 +171,4 @@ ISC — Rupix developers, 2026.
 
 To the researchers and developers who created and published GHOSTDAG under an open license. Their work makes projects like Rupix possible.
 
-**Don't trust, verify.** ER
+**Don't trust, verify.** ER and Steven (AI)
