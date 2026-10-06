@@ -155,6 +155,14 @@ Rupix is not a fork for novelty or hype. It is a new economic architecture on a 
 
 Whoever created Rupix mines from block 1, like anyone else. There are no privileged addresses, no sales, no rounds. The only advantage of arriving early is having been awake when the network started.
 
+What happens to Rupix if the founder is gone: [`SUCESION.md`](./SUCESION.md). Today operations depend on one person; that file says what, what the plan is and what is missing for that to stop being true.
+
+## How Rupix is built: with artificial intelligence, and we say so ourselves
+
+The idea, the decisions and the direction of Rupix belong to its founder. **The code, the tests, the documents and much of this README are written by an artificial intelligence (Claude, by Anthropic) under his direction, in daily working sessions since day one.** It is not a secret or a footnote: it is how one person without an engineering team could build a complete network, and we would rather say it than have someone "discover" it.
+
+What that means for you: no line is worth anything because of who wrote it; it is worth what proves it. That is why everything we claim has something next to it that depends on nobody: 349 test functions that run on GitHub with every commit, fuzzing every night, reproducible binaries anyone can rebuild and compare, a specification where every rule carries the attack it stops and the test that proves it, and an external review in progress. The mistakes we made (several by the AI, others by the founder) are in `MEMORIA-RUPIX.md`, dated. If knowing a machine wrote it makes you doubt, good: don't trust, verify. Everything is here for that.
+
 ## License
 
 ISC — Rupix developers, 2026.

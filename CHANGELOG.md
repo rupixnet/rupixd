@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- README ES/EN (6-oct): seccion "Como se construye Rupix: con inteligencia artificial, y lo decimos nosotros" (decision de ER: se dice en todos lados). `SUCESION.md` nuevo: que depende hoy de una sola persona, el plan si el fundador no esta, y lo que falta para que el documento sobre; enlazado desde Filosofia.
 - `tools/checkpoint-propuesto.sh` (6-oct): propone el siguiente checkpoint desde el punto de poda del nodo, coteja con un nodo externo e imprime las lineas exactas; `TestCheckpointsPublicados` ahora es una tabla (agregar el #2 es una linea en el codigo, una en el test y una en CHECKPOINTS.md). CHECKPOINTS ES/EN: procedimiento y caducidad unica para la lista.
 - Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
 - ESPECIFICACION.md seccion 7 (5-oct): el ataque del 51 %, lo que puede (reorganizar la ultima hora, censurar) y lo que no (crear monedas, forjar sin quemar, pasar el merge depth de 3,600 bloques, mover a un nodo sincronizado fuera de su punto de finalidad, reescribir antes de un checkpoint), con los tests heredados `TestBoundedMergeDepth`, `TestFinality`, `TestFinalityResolveVirtual`.
