@@ -9,7 +9,7 @@ Formato: [versión] - fecha - descripción técnica
 ## [Sin publicar]
 - Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
 - ESPECIFICACION.md seccion 7 (5-oct): el ataque del 51 %, lo que puede (reorganizar la ultima hora, censurar) y lo que no (crear monedas, forjar sin quemar, pasar el merge depth de 3,600 bloques, mover a un nodo sincronizado fuera de su punto de finalidad, reescribir antes de un checkpoint), con los tests heredados `TestBoundedMergeDepth`, `TestFinality`, `TestFinalityResolveVirtual`.
-- Pendiente: fuzzing de `checkLevelRules` y de la validacion de transacciones (hueco #6 de ESPECIFICACION.md).
+- `FuzzCheckLevelRules` (5-oct): sexto objetivo de fuzzing, la escalera entera contra un oraculo independiente (`oraculoEscalera`); `tools/fuzz-noche.sh` lo corre al final. Cierra la lista de objetivos del hueco #6; faltan las horas (criterio C2).
 
 ## [v0.6.3] - 2026-10-04 — Release de seguridad: un paquete de 9 bytes podia apagar un nodo
 **Sin cambio de consenso.** Actualiza en cuanto puedas: hasta v0.6.2 cualquier peer podia apagar tu nodo con un mensaje de red malformado de 9 bytes (hallado por nuestro propio fuzzing la primera noche que corrio). Misma wallet, mismas claves, mismos datos; solo cambia el binario. Ramas `fuzzing` y `wallet-v063`.
