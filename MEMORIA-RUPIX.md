@@ -124,6 +124,15 @@ El fuzzer dejó su primer hallazgo (un caso de 9 bytes) en la copia de trabajo d
 ### El fuzzer encontró en 31 minutos lo que ningún test nuestro buscaba
 Teníamos 347 tests y ninguno mandaba basura de 9 bytes al conversor de mensajes de red. El fuzzer no sabe de reglas de Rupix; sabe mutar bytes hasta que algo cruje. Crujió un conversor heredado que ni habíamos leído, en un camino (recepción de red) donde un pánico apaga el proceso. La lección no es "había un bug": es que las pruebas que escribe uno prueban lo que uno imaginó; la máquina prueba lo que uno no imaginó. Los dos hacen falta, y el fuzzing se queda corriendo cada noche.
 
+### Un fuzzer que compara el código consigo mismo no prueba nada
+El 5-oct, al escribir el último objetivo de fuzzing (la escalera), la tentación era "generar transacciones y ver que no haga pánico". Eso solo prueba que no se cae; no prueba que decida bien. Lo que vale es un **oráculo escrito aparte**, desde la especificación y sin mirar el validador, y que el fuzzer busque un caso donde los dos discrepen. Si el oráculo y el código se parecen porque uno se copió del otro, están de acuerdo también en los errores. Regla: toda prueba de "veredicto" necesita una segunda fuente de verdad independiente; si no la hay, la prueba está midiendo coherencia, no corrección.
+
+### No se le cambian los archivos a un proceso que los está leyendo
+El fuzz nocturno corre en `/root/rupixd` leyendo `tools/fuzz-noche.sh` y compilando cada objetivo cuando le toca. Mergear en esa copia a medio camino habría cambiado el script debajo del `sh` que lo ejecuta y el código debajo del `go test` que viene. Por eso los pushes de la noche del 5-oct salieron desde un worktree aparte (`/root/rupixd-level`) y la copia principal se pone al día cuando el fuzz termine. Regla: el checkout donde corre algo largo se congela hasta que termine; lo demás se hace en otro worktree.
+
+### "Todo guardado" solo cuando lo vi en `git fetch`
+El 6-oct a la 01:18 mandé el bundle del cierre del 5-oct (LOGROS, dos lecciones de MEMORIA, CONTEXTO) y seguí con otras cosas. ER nunca corrió ese bloque: la conversación se fue a otro tema y yo di por hecho que sí. Esa misma noche escribí "todo guardado" dos veces. Se descubrió el 7-oct, al ir a escribir el cierre siguiente y no encontrar la sección anterior. El trabajo se recuperó del bundle, pero la afirmación fue falsa. Regla: "verificado en GitHub" significa que yo corrí `git fetch origin` y vi el hash; ninguna otra cosa cuenta, y menos mi memoria de haber mandado algo.
+
 ---
 
 *No confíes, verifica.*

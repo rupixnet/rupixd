@@ -192,3 +192,20 @@ Una lección que costó la primera evidencia: el primer caso se perdió por limp
 
 **v0.6.3 publicada** (madrugada del 4-oct): suite completa en verde en el seed (65 paquetes), `main` = tag `v0.6.3` = `8fe8f8d4`, binarios reproducibles **4/4**, seed actualizado (0.6.2 guardado en `/root/bin-anterior/v0.6.2/`), tres servicios activos, DAA 712,071. Web al día (`3fc47ab`): hito, guías con los zips v0.6.3, forja sin `--password`. Entre la primera release de la semana (v0.6.2, martes) y esta pasaron tres días: una regla de consenso nueva, el último hueco de la especificación en marcha y un fallo de red real encontrado y cerrado por nuestras propias pruebas.
 
+## 5 de octubre de 2026 — La verdad del 51 %, el último objetivo de fuzzing y el camino del checkpoint #2
+
+**ESPECIFICACION, sección 7:** lo que un atacante con más de la mitad del hashrate **no** puede hacer (crear monedas, forjar sin quemar, pasar un tope o falsificar el sello, reescribir antes de un checkpoint, reorganizar más de 3,600 bloques, sacar a un nodo sincronizado de su punto de finalidad; cada afirmación con su test, tres heredados de Kaspa) y lo que **sí** puede: deshacer la última hora y censurar, "sin test porque no hay regla; está aquí para que nadie crea que la hay". No prometemos un número de confirmaciones seguras: depende del hashrate ajeno y eso se mide.
+
+**`FuzzCheckLevelRules`:** el sexto y último objetivo del hueco #6. La escalera entera, con cualquier combinación de entradas y salidas por nivel, contra un oráculo escrito aparte desde la especificación; 946,513 transacciones en 3 minutos en el seed sin una sola discrepancia. Desde esta noche el fuzz nocturno corre seis objetivos.
+
+**Checkpoint #2, preparado:** `tools/checkpoint-propuesto.sh` corrió a la primera contra el nodo vivo (punto de poda `452a78bc…`, blue score 604,801, 271,599 bloques encima); el test de checkpoints publicados es una tabla; CHECKPOINTS ES/EN documentan el procedimiento y la caducidad única de la lista. Decisión de ER: **v0.6.4 con el checkpoint #2 sale esta semana**, con aviso a JC y JP pidiéndoles su `pruningPointHash` para anotar la confirmación externa cuando la haya.
+
+## 7 de octubre de 2026 — v0.6.4: el checkpoint #2 salió antes de que caducara el #1
+
+La regla de CHECKPOINTS.md dice que nunca hay un hueco entre checkpoints. El #1 caducaba el 18 de octubre; el #2 salió el 7, once días antes, sobre el punto de poda del seed esa noche (blue score 691,200, 269,575 bloques encima). `tools/checkpoint-propuesto.sh` lo propuso a la primera, el test de checkpoints publicados exige que cada uno sea más reciente que el anterior, y la lista entera caduca ahora en DAA 2,600,000: el #3 va antes del 2,300,000 (~22 de octubre).
+
+Lo que no teníamos y dijimos tal cual: **ningún nodo ajeno estaba encendido** el día de publicarlo, así que la tabla dice "confirmación externa: pendiente" y se anota con fecha cuando JC o JP reporten el mismo `pruningPointHash`. Preferimos un checkpoint que confiesa su límite a una red sin candado.
+
+Suite completa en verde (65 paquetes), binarios reproducibles 4/4, seed en 0.6.4 (0.6.3 guardado en `/root/bin-anterior/v0.6.3/`). Fuzz #4 la noche anterior: cinco objetivos, dos horas cada uno, cero fallos. De paso, las guías del repo seguían diciendo zips v0.6.2: se nos había pasado en v0.6.3 y ya dicen v0.6.4.
+
+Y un error nuestro, con su lección en MEMORIA: el cierre del 5-oct (esta sección de arriba y dos lecciones) nunca llegó a GitHub porque el bloque que lo empujaba no se corrió, y yo di por hecho que sí. Se detectó hoy al ir a escribir el cierre siguiente y se subió junto con este.
