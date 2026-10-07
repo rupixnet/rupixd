@@ -27,7 +27,7 @@ Cada criterio dice qué tiene que ser verdad, con número, y **cómo lo comprueb
 | # | Qué tiene que ser verdad | Cómo se verifica | Estado al 30-sep |
 |---|---|---|---|
 | R1 | **Revisor con nombre**: al menos una persona con identidad pública y reputación verificable que haya leído `ESPECIFICACION.md`, compilado, corrido la suite y publicado su revisión **con su nombre**, sin hallazgos bloqueantes abiertos. | Enlace a su revisión pública desde el README; los hallazgos y su cierre en `CHANGELOG.md`. | Pendiente. (El auditor actual es anónimo: su trabajo cuenta, su firma no basta.) |
-| R2 | **Reporte privado de vulnerabilidades** activo en GitHub y `SECURITY.md` con tiempos de respuesta públicos. | Pestaña Security del repo. | Pendiente (lo activa ER). |
+| R2 | **Reporte privado de vulnerabilidades** activo en GitHub y `SECURITY.md` con tiempos de respuesta públicos. | Pestaña Security del repo. | **Cumplido el 7-oct-2026**: Private vulnerability reporting activado por ER (la pestaña Security muestra "Report a vulnerability"); `SECURITY.md` ya existía. |
 | R3 | **Periodo de "rómpelo"**: ≥ 4 semanas con la invitación pública abierta (Reddit, X) a atacar la testnet, con los reportes recibidos y su respuesta publicados. | Hilo público + `LOGROS.md`. | Pendiente. |
 
 ### Red y operación
