@@ -86,6 +86,7 @@ fecha fija: hay condiciones públicas.
 
 | Red | Blue score (y DAA) | Hash | Fecha | Versión |
 |---|---|---|---|---|
-| testnet #4 | blue score 86,400 (DAA 86,399) | `7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad` | 29-sep-2026 | v0.6.1 · caduca en DAA 2,000,000 |
+| testnet #4 | blue score 86,400 (DAA 86,399) | `7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad` | 29-sep-2026 | v0.6.1 · caducaba en DAA 2,000,000; desde v0.6.4 la lista entera caduca en DAA 2,600,000 |
+| testnet #4 | blue score 691,200 (DAA 691,211) | `ef79c0b3382489f8d4859608a86fe05411e60978e30fa9f3350272f26f8b9669` | 7-oct-2026 | v0.6.4 · caduca en DAA 2,600,000 · **confirmación externa: pendiente** (el día de publicarlo no había ningún nodo ajeno encendido; se anota aquí, con fecha, cuando un nodo externo reporte el mismo `pruningPointHash`) |
 
 *No confíes, verifica.*

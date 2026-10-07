@@ -86,6 +86,7 @@ date: there are public conditions.
 
 | Network | Blue score (and DAA) | Hash | Date | Version |
 |---|---|---|---|---|
-| testnet #4 | blue score 86,400 (DAA 86,399) | `7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad` | 29-Sep-2026 | v0.6.1 · expires at DAA 2,000,000 |
+| testnet #4 | blue score 86,400 (DAA 86,399) | `7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad` | 29-Sep-2026 | v0.6.1 · expired at DAA 2,000,000; since v0.6.4 the whole list expires at DAA 2,600,000 |
+| testnet #4 | blue score 691,200 (DAA 691,211) | `ef79c0b3382489f8d4859608a86fe05411e60978e30fa9f3350272f26f8b9669` | 7-Oct-2026 | v0.6.4 · expires at DAA 2,600,000 · **external confirmation: pending** (no external node was online on publication day; recorded here, dated, when an external node reports the same `pruningPointHash`) |
 
 *Don't trust, verify.*

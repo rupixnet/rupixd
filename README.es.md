@@ -10,7 +10,7 @@
 
 ---
 
-## Estado actual (Rupix v0.6.2)
+## Estado actual (Rupix v0.6.4)
 
 - ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa; Rupix es un fork de kaspad bajo licencia ISC, con agradecimiento). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos) y en la testnet pública. El minero (rupixminer, incluido en cada release) usa la misma función interna que el nodo, por lo que mina con RupixHeavyHash: no hay dos algoritmos, minero y validador comparten una sola fuente. Motor de Kaspa, semilla de Rupix.
 
@@ -145,7 +145,7 @@ Cada bloque que encuentres te paga Gold. Con ese Gold puedes forjar gemas (ver [
 - **Go vs Rust — riesgo declarado.** Rupix corre en kaspad-go, la implementación legacy; el desarrollo activo de Kaspa está en rusty-kaspa. kaspad-go hace todo lo que Rupix necesita hoy (GHOSTDAG, pruning, kHeavyHash) pero no recibe mejoras ni correcciones upstream. La migración a rusty-kaspa es un objetivo del segundo año, condicionado a tener contribuidores que la sostengan. No es una promesa; es una dirección declarada.
 - **Revisión externa del código de consenso — en curso.** Un auditor independiente y anónimo revisó cada versión desde v0.6.0 con el diff en la mano (cuatro rondas; hallazgos y arreglos en el [CHANGELOG](./CHANGELOG.md)); cada regla de consenso está en [ESPECIFICACION.md](./ESPECIFICACION.md) junto al ataque que detiene y al test que lo prueba (7 de 8 huecos cerrados (#0–#7; queda el del fuzzing)). Lo que falta: un revisor con nombre público. El README no dirá "auditado" hasta entonces.
 - **Infraestructura redundante** (múltiples nodos semilla) y **hashrate comprometido**
-- ✅ **Checkpoints temporales — HECHO (v0.6.0; el primero publicado en v0.6.1)** — con caducidad dentro del consenso, política pública en [CHECKPOINTS.md](./CHECKPOINTS.md). El checkpoint #1 va sobre el punto de poda que el seed y un nodo de la comunidad ya compartían (blue score 86,400). Desde v0.6.2 un nodo que sincroniza desde cero también valida la lista de puntos de poda que recibe contra los checkpoints.
+- ✅ **Checkpoints temporales — HECHO (v0.6.0; el primero publicado en v0.6.1)** — con caducidad dentro del consenso, política pública en [CHECKPOINTS.md](./CHECKPOINTS.md). El checkpoint #1 va sobre el punto de poda que el seed y un nodo de la comunidad ya compartían (blue score 86,400); el #2 (v0.6.4, blue score 691,200) se publicó sin nodo externo encendido y CHECKPOINTS.md lo dice tal cual. Desde v0.6.2 un nodo que sincroniza desde cero también valida la lista de puntos de poda que recibe contra los checkpoints.
 
 **Mainnet no tiene fecha; tendrá criterios antes.** [MAINNET.md](./MAINNET.md) (borrador, aún no vigente) lista lo que tiene que ser verdad —código, revisión externa, red, economía— con cómo lo verifica un desconocido, y la regla de que desde el día de la luz verde habrá dos meses de aviso público antes del bloque 1. Preferimos lanzar tarde y bien que pronto y comprometidos.
 

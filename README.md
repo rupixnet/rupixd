@@ -10,7 +10,7 @@
 
 ---
 
-## Current state (Rupix v0.6.2)
+## Current state (Rupix v0.6.4)
 
 - ✅ **Own mining algorithm — RupixHeavyHash**: a variant of kHeavyHash (Kaspa's algorithm; Rupix is a fork of kaspad under the ISC license, with gratitude). Rupix keeps Kaspa's proven engine (64x64 matrix, HeavyHash) and replaces the generator that fills the matrix (xoshiro256++) with its own, using a structurally different formula (a non-linear multiplication that xoshiro does not have) and a "RUPIX" seal in the seed. Effect: ASICs built for Kaspa cannot mine Rupix — their hardware produces the wrong matrix and the network rejects it. A fair start: minable with GPU/CPU, no inherited hardware advantage. Tested on devnet (22,000+ blocks, 0 rejections, commitment and economy intact) and on the public testnet. The miner (rupixminer, included in every release) uses the same internal function as the node, so it mines with RupixHeavyHash: there are no two algorithms — miner and validator share a single source. Kaspa's engine, Rupix's seed.
 
@@ -142,7 +142,7 @@ Every block you find pays you Gold. With that Gold you can forge gems (see [FORG
 
 - ✅ **Mining accessible to everyone — DONE (v0.6.0)** — Rupix migrated from Kaspa's inherited algorithm to RupixHeavyHash, its own algorithm. Kaspa ASICs can no longer mine Rupix; it is mined from an ordinary computer (GPU/CPU). Rupix is for everyone.
 - ✅ **Total verification with commitment in header** — the gem count is sealed into every block's hash (protected by PoW), validated on receipt, and persisted to disk. A false count is rejected: the seal doesn't match. This CLOSES total verifiability — tested live (first transfer between nodes, testnet v0.4.2).
-- ✅ **Temporary checkpoints — DONE (v0.6.0, first one published in v0.6.1)** — with expiry inside consensus, public policy in [CHECKPOINTS.en.md](./CHECKPOINTS.en.md). Checkpoint #1 sits on the pruning point the seed and a community node already shared (blue score 86,400). Since v0.6.2 a node syncing from scratch also validates the pruning-point list it receives against the checkpoints.
+- ✅ **Temporary checkpoints — DONE (v0.6.0, first one published in v0.6.1)** — with expiry inside consensus, public policy in [CHECKPOINTS.en.md](./CHECKPOINTS.en.md). Checkpoint #1 sits on the pruning point the seed and a community node already shared (blue score 86,400); #2 (v0.6.4, blue score 691,200) was published with no external node online, and CHECKPOINTS.md says so. Since v0.6.2 a node syncing from scratch also validates the pruning-point list it receives against the checkpoints.
 - **Go vs Rust — declared risk.** Rupix runs on kaspad-go, the legacy implementation; Kaspa's active development is in rusty-kaspa. kaspad-go does everything Rupix needs today (GHOSTDAG, pruning, kHeavyHash) but receives no upstream improvements or fixes. A migration to rusty-kaspa is a second-year goal, conditional on having contributors who can sustain it. Not a promise; a stated direction.
 - **External review of the consensus code — in progress.** An independent, anonymous auditor has reviewed every release since v0.6.0 with the diff in hand (four rounds; findings and fixes in the [CHANGELOG](./CHANGELOG.md)); every consensus rule is in [ESPECIFICACION.md](./ESPECIFICACION.md) next to the attack it stops and the test that proves it (7 of 8 gaps closed (#0–#7; the fuzzing one is open)). What is still missing: a reviewer with a public name. The README will not say "audited" until then.
 - **Redundant infrastructure** (multiple seed nodes) and **committed hashrate**

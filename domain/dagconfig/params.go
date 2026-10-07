@@ -377,7 +377,7 @@ var TestnetParams = Params{
 	DeflationaryPhaseDaaScore:               defaultDeflationaryPhaseDaaScore,
 	BlocksPerHalving:                        100_000,            // Rupix testnet: emision util ~1 dia por halving, escalera en ~5 dias
 	Checkpoints:                             testnetCheckpoints, // Rupix: ver checkpoints.go y CHECKPOINTS.md
-	CheckpointsExpireDAAScore:               2_000_000,          // Rupix: caducidad del checkpoint #1 (~23 dias de testnet); se retira antes si se cumplen las condiciones publicas
+	CheckpointsExpireDAAScore:               2_600_000,          // Rupix: caducidad de la lista (v0.6.4, checkpoint #2; el #3 se publica antes del DAA 2,300,000); se retira antes si se cumplen las condiciones publicas
 
 	MaxBlockLevel: 250,
 	MergeDepth:    defaultMergeDepth,

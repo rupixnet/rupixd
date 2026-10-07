@@ -10,7 +10,8 @@ var checkpointsPublicadosTestnet = []struct {
 	blueScore uint64
 	hash      string
 }{
-	{86400, "7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad"}, // #1, 29-sep-2026, v0.6.1
+	{86400, "7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad"},  // #1, 29-sep-2026, v0.6.1
+	{691200, "ef79c0b3382489f8d4859608a86fe05411e60978e30fa9f3350272f26f8b9669"}, // #2, 7-oct-2026, v0.6.4
 }
 
 // TestCheckpointsPublicados (Rupix): lo que dice el codigo debe ser lo que dice

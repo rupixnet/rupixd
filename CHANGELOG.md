@@ -7,9 +7,15 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
+
+## [v0.6.4] - 2026-10-07 — Checkpoint #2 de la testnet
+**Sin cambio de consenso mas alla de la lista de checkpoints.** Actualiza antes del DAA 1,700,000 (~15-oct): el checkpoint #1 caducaba en DAA 2,000,000 y la regla de CHECKPOINTS.md es que nunca haya hueco. Misma wallet, mismas claves, mismos datos.
+- **Checkpoint #2** (testnet #4): blue score 691,200, hash `ef79c0b3…`, el punto de poda del seed el 7-oct con 269,575 bloques encima. `CheckpointsExpireDAAScore` pasa de 2,000,000 a **2,600,000** para toda la lista (el #1 sigue vigente hasta entonces; esta en el pasado del #2). El #3 se publica antes del DAA 2,300,000 (~22-oct). **Confirmacion externa: pendiente** — el dia de publicarlo no habia ningun nodo ajeno encendido; CHECKPOINTS.md lo dice y se anota cuando JC o JP reporten el mismo `pruningPointHash`.
+- `TestCheckpointsPublicados` con los dos checkpoints; `TestNodoNuevoContraPeerHostil` y `TestCheckpointDAG` sin cambios (usan sus propias listas).
+- Fuzzing noche #4 (5→6-oct): 5 objetivos × 2 h sin fallo; horas acumuladas en ESPECIFICACION #6.
 - README ES/EN (6-oct): seccion "Como se construye Rupix: con inteligencia artificial, y lo decimos nosotros" (decision de ER: se dice en todos lados). `SUCESION.md` nuevo: que depende hoy de una sola persona, el plan si el fundador no esta, y lo que falta para que el documento sobre; enlazado desde Filosofia.
 - `tools/checkpoint-propuesto.sh` (6-oct): propone el siguiente checkpoint desde el punto de poda del nodo, coteja con un nodo externo e imprime las lineas exactas; `TestCheckpointsPublicados` ahora es una tabla (agregar el #2 es una linea en el codigo, una en el test y una en CHECKPOINTS.md). CHECKPOINTS ES/EN: procedimiento y caducidad unica para la lista.
-- Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
 - ESPECIFICACION.md seccion 7 (5-oct): el ataque del 51 %, lo que puede (reorganizar la ultima hora, censurar) y lo que no (crear monedas, forjar sin quemar, pasar el merge depth de 3,600 bloques, mover a un nodo sincronizado fuera de su punto de finalidad, reescribir antes de un checkpoint), con los tests heredados `TestBoundedMergeDepth`, `TestFinality`, `TestFinalityResolveVirtual`.
 - `FuzzCheckLevelRules` (5-oct): sexto objetivo de fuzzing, la escalera entera contra un oraculo independiente (`oraculoEscalera`); `tools/fuzz-noche.sh` lo corre al final. Cierra la lista de objetivos del hueco #6; faltan las horas (criterio C2).
 
