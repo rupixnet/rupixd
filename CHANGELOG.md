@@ -9,6 +9,7 @@ Formato: [versión] - fecha - descripción técnica
 ## [Sin publicar]
 - Explorador (7-oct): `/api/gems` (proxy de `GetGemsInfo`) y la escalera en vivo en la pagina: por nivel, nacidas (conteo sellado) · vivas (UTXO set) · tope; si Kings nacidos != vivos lo dice en pantalla. Los candados por halving siguen igual.
 - Explorador (7-oct, noche): la escalera con la redaccion de ER, por nivel: `creados N / tope` (el conteo sellado; el tope cuenta creados, no vivos) · `por crear` (tope − creados) · `quemados` (creados − vivos: los que subieron de nivel; Kings lleva raya porque nunca se queman) · `vivos` (UTXO set, lo que hay en wallets). Solo pagina, sin recompilar.
+- `tools/escalera-hasta-king.sh` (7-oct): forja gema a gema hasta 1 King en red viva (prueba de la escalera completa); la clave nunca se escribe. Pendientes de wallet v0.7 que deja: `forge --count N`, `gems` con la linea de Gold.
 - Pendiente: contador exacto de Gold minado/quemado (no se deriva del DAA del virtual sin recorrer la cadena; se decide aparte); tarjetas de gemas en explorador y web (el RPC ya existe).
 
 ## [v0.6.5] - 2026-10-07 — La red se cierra por tipo de conexion, la escalera por RPC y `rupixwallet verificar`
