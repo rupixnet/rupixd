@@ -14,6 +14,7 @@
 #   unset CLAVE
 #   tail -f /root/escalera-king.log
 # Parar limpio: touch /root/escalera-king.stop
+# Meta mas corta (prueba): META_NIVEL=2 META=2 para en cuanto haya 2 Platinos.
 #
 # La clave nunca se escribe: va por tuberia a un pty (`script`), con 2 s de espera
 # para que la wallet ya haya apagado el eco. Al registro solo van las lineas de
@@ -23,6 +24,8 @@ LOG="${1:-/root/escalera-king.log}"
 STOP="${STOP:-/root/escalera-king.stop}"
 RED="${RED:---testnet}"
 ESPERA_MAX="${ESPERA_MAX:-240}"   # segundos maximos para ver la gema nueva
+META_NIVEL="${META_NIVEL:-4}"      # nivel meta (4 = Kings)
+META="${META:-1}"                  # cuantas gemas de ese nivel hay que tener
 [ -n "${CLAVE:-}" ] || { echo "falta CLAVE en el entorno (read -s CLAVE; export CLAVE)"; exit 2; }
 command -v script >/dev/null || { echo "falta 'script' (util-linux)"; exit 2; }
 
@@ -59,10 +62,10 @@ while :; do
 	[ -e "$STOP" ] && { log "parado por $STOP"; break; }
 	d=$(cuenta 1); p=$(cuenta 2); r=$(cuenta 3); k=$(cuenta 4)
 	case "$d$p$r$k" in *[!0-9]*|"") log "no pude leer gems; paro"; exit 1;; esac
-	[ "$k" -ge 1 ] && { log "KING: $k. Fin."; break; }
-	if   [ "$r" -ge 10 ]; then n=4; antes=$k
-	elif [ "$p" -ge 10 ]; then n=3; antes=$r
-	elif [ "$d" -ge 10 ]; then n=2; antes=$p
+	[ "$(cuenta "$META_NIVEL")" -ge "$META" ] && { log "META: nivel $META_NIVEL = $(cuenta "$META_NIVEL") (>= $META). Fin."; break; }
+	if   [ "$r" -ge 10 ] && [ "$META_NIVEL" -ge 4 ]; then n=4; antes=$k
+	elif [ "$p" -ge 10 ] && [ "$META_NIVEL" -ge 3 ]; then n=3; antes=$r
+	elif [ "$d" -ge 10 ] && [ "$META_NIVEL" -ge 2 ]; then n=2; antes=$p
 	else                       n=1; antes=$d
 	fi
 	forjar "$n"
