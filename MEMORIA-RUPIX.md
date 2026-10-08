@@ -133,6 +133,12 @@ El fuzz nocturno corre en `/root/rupixd` leyendo `tools/fuzz-noche.sh` y compila
 ### "Todo guardado" solo cuando lo vi en `git fetch`
 El 6-oct a la 01:18 mandé el bundle del cierre del 5-oct (LOGROS, dos lecciones de MEMORIA, CONTEXTO) y seguí con otras cosas. ER nunca corrió ese bloque: la conversación se fue a otro tema y yo di por hecho que sí. Esa misma noche escribí "todo guardado" dos veces. Se descubrió el 7-oct, al ir a escribir el cierre siguiente y no encontrar la sección anterior. El trabajo se recuperó del bundle, pero la afirmación fue falsa. Regla: "verificado en GitHub" significa que yo corrí `git fetch origin` y vi el hash; ninguna otra cosa cuenta, y menos mi memoria de haber mandado algo.
 
+### El reemplazo que no encontró su objetivo y se calló
+El 7-oct, un script que cambiaba la firma de una función no la encontró (gofmt la había partido en tres líneas), no avisó, y cambió solo las llamadas. El resultado compiló, pasó los tests, y `go vet` quedó rojo. Encima, el bloque del seed llevaba `;` en vez de `&&` entre el vet y el merge, así que el merge pasó con vet rojo y `main` quedó en rojo hasta el arreglo siguiente. Dos reglas: todo reemplazo de texto afirma que encontró lo que buscaba (`assert`), y un bloque de merge o release es una sola cadena de `&&` de principio a fin: un paso rojo no deja pasar al siguiente.
+
+### `git fetch` a la rama que está activa se rechaza
+Dos veces la misma noche: `git fetch bundle rama:rama` con `rama` ya en checkout. Git lo rechaza, el `&&` corta, y lo que sigue parece que corrió pero no. Regla: antes de traer un bundle, `git checkout main`; después, `git checkout rama`. Y leer la salida completa, no solo la última línea.
+
 ---
 
 *No confíes, verifica.*
