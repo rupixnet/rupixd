@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- `ESPECIFICACION.en.md` (7-oct): la especificacion completa en ingles, al paso de la española (misma estructura, mismos nombres de test; manda la española). ESPECIFICACION #6 reescrito limpio (una frase habia quedado cortada al anotar horas) con las horas tras el fuzz #5.
 - Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
 
 ## [v0.6.4] - 2026-10-07 — Checkpoint #2 de la testnet
