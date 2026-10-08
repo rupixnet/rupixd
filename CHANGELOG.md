@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Explorador (7-oct): `/api/gems` (proxy de `GetGemsInfo`) y la escalera en vivo en la pagina: por nivel, nacidas (conteo sellado) · vivas (UTXO set) · tope; si Kings nacidos != vivos lo dice en pantalla. Los candados por halving siguen igual.
 - Pendiente: contador exacto de Gold minado/quemado (no se deriva del DAA del virtual sin recorrer la cadena; se decide aparte); tarjetas de gemas en explorador y web (el RPC ya existe).
 
 ## [v0.6.5] - 2026-10-07 — La red se cierra por tipo de conexion, la escalera por RPC y `rupixwallet verificar`

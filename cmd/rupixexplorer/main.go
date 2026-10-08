@@ -32,6 +32,12 @@ func main() {
 		resp, err := client.GetCoinSupply()
 		writeJSON(w, resp, err)
 	})
+	// Rupix (7-oct-2026): la escalera en vivo. Nacidas = conteo sellado en cada
+	// encabezado; vivas = indice de UTXOs del nodo. Dos fuentes, a proposito.
+	http.HandleFunc("/api/gems", func(w http.ResponseWriter, r *http.Request) {
+		resp, err := client.GetGemsInfo()
+		writeJSON(w, resp, err)
+	})
 	http.HandleFunc("/api/hashrate", func(w http.ResponseWriter, r *http.Request) {
 		resp, err := client.EstimateNetworkHashesPerSecond("", 1000)
 		writeJSON(w, resp, err)

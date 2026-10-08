@@ -29,6 +29,8 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;pa
 .rung{display:flex;justify-content:space-between;align-items:center;background:#0a0710;border:1px solid var(--line);border-radius:10px;padding:12px 16px}
 .rung .name{font-weight:700}
 .rung .lock{color:var(--muted);font-size:.82rem}
+.rung .count{color:#e8e0f0;font-size:.9rem;font-variant-numeric:tabular-nums;margin-left:auto;margin-right:14px}
+.rung .count b{color:#9ad8ff}
 .blocks table{width:100%;border-collapse:collapse;font-size:.85rem}
 .blocks th{text-align:left;color:var(--muted);font-weight:600;padding:8px;border-bottom:1px solid var(--line);font-size:.75rem;text-transform:uppercase}
 .blocks td{padding:8px;border-bottom:1px solid #1a1226;font-family:ui-monospace,monospace}
@@ -73,11 +75,12 @@ footer a{color:var(--violet);text-decoration:none}
   </div>
   <div class="card full">
     <h2>💎 La escalera — cada nivel se forja quemando 10 del anterior</h2>
+    <div class="sub" id="gems-sub" style="margin-bottom:8px">nacidas en toda la historia (el conteo que sella cada bloque) · vivas ahora (UTXO set) · tope</div>
     <div class="ladder">
-      <div class="rung"><span class="name" style="color:#9ad8ff">💎 Diamante</span><span class="lock" id="rung1">🔒 halving 1</span></div>
-      <div class="rung"><span class="name" style="color:#d8dde3">⬜ Platino</span><span class="lock" id="rung2">🔒 halving 2</span></div>
-      <div class="rung"><span class="name" style="color:#8f9aa8">◼ Rodio</span><span class="lock" id="rung3">🔒 halving 3</span></div>
-      <div class="rung"><span class="name" style="color:var(--gold)">👑 Kings — solo 2,100 existirán</span><span class="lock" id="rung4">🔒 halving 4</span></div>
+      <div class="rung"><span class="name" style="color:#9ad8ff">💎 Diamante</span><span class="count" id="count1"></span><span class="lock" id="rung1">🔒 halving 1</span></div>
+      <div class="rung"><span class="name" style="color:#d8dde3">⬜ Platino</span><span class="count" id="count2"></span><span class="lock" id="rung2">🔒 halving 2</span></div>
+      <div class="rung"><span class="name" style="color:#8f9aa8">◼ Rodio</span><span class="count" id="count3"></span><span class="lock" id="rung3">🔒 halving 3</span></div>
+      <div class="rung"><span class="name" style="color:var(--gold)">👑 Kings — solo 2,100 existirán</span><span class="count" id="count4"></span><span class="lock" id="rung4">🔒 halving 4</span></div>
     </div>
   </div>
   <div class="card full blocks">
@@ -119,6 +122,20 @@ async function refresh(){
         notaEl.textContent="";
       }
     }
+    // La escalera en vivo: GetGemsInfo (nodo v0.6.5+ con --utxoindex). Si el nodo no lo
+    // tiene, los contadores quedan vacios y los candados siguen funcionando.
+    try{
+      const g=await j("/api/gems");
+      if(g && !g.error && g.TopeDiamantes){
+        const pinta=(id,nac,viv,tope)=>{const el=document.getElementById(id);if(el)el.innerHTML="<b>"+fmt(nac)+"</b> nacidas · "+fmt(viv)+" vivas · tope "+fmt(tope)};
+        pinta("count1",g.DiamantesNacidos,g.DiamantesVivos,g.TopeDiamantes);
+        pinta("count2",g.PlatinosNacidos,g.PlatinosVivos,g.TopePlatinos);
+        pinta("count3",g.RodiosNacidos,g.RodiosVivos,g.TopeRodios);
+        pinta("count4",g.KingsNacidos,g.KingsVivos,g.TopeKings);
+        const gs=document.getElementById("gems-sub");
+        if(gs && Number(g.KingsNacidos)!==Number(g.KingsVivos)) gs.textContent="⚠ Kings nacidos ≠ vivos: las dos fuentes divergen; repórtalo";
+      }
+    }catch(e){}
     // Actualizar la escalera: cada nivel se desbloquea en su halving
     const niveles=[["rung1",1],["rung2",2],["rung3",3],["rung4",4]];
     for(const [id,n] of niveles){

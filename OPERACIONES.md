@@ -200,3 +200,7 @@ Encontrado al escribir la receta del seed: disco al **82 %** (59/75 GB) con la c
 
 Resultado: **41 %** (30/75 GB). Verificado también que `seed.rupix.network` resuelve a la IP del seed (el `DNSSeeds` de `params.go` funciona; un nodo sin `--addpeer` encuentra la red). Regla desde hoy: `df -h /` en cada cierre de semana; nada por encima del 70 % sin explicación.
 
+## El explorador lee la escalera (7-oct-2026)
+
+- `rupixexplorer` tiene `/api/gems` (proxy de `GetGemsInfo`; necesita nodo v0.6.5+ con `--utxoindex`). La página muestra por nivel nacidas · vivas · tope.
+- Actualizar el explorador en el seed: compilar `go build -o /usr/local/bin/rupixexplorer ./cmd/rupixexplorer` desde el commit publicado, `systemctl restart rupix-explorer`, y copiar la página: `cp cmd/rupixexplorer/web/index.html /root/rupix-explorer-web/index.html` (antes `diff` para no pisar nada vivo). Comprobar con `curl -s 127.0.0.1:8090/api/gems`.
