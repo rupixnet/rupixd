@@ -85,6 +85,14 @@ func (c *gRPCConnection) receiveLoop() error {
 			}
 			return err
 		}
+		// Rupix: lista blanca por tipo de conexion, antes de convertir nada.
+		if err := cargaPermitida(c.server.name, protoMessage); err != nil {
+			log.Warnf("%s desde %s: %v; se cierra la conexion", c.server.name, c, err)
+			if c.onInvalidMessageHandler != nil {
+				c.onInvalidMessageHandler(err)
+			}
+			return err
+		}
 		message, err := toAppMessageSinCaer(protoMessage)
 		if err != nil {
 			if c.onInvalidMessageHandler != nil {
@@ -147,4 +155,24 @@ func toAppMessageSinCaer(protoMessage convertidorDeRed) (message appmessage.Mess
 		}
 	}()
 	return protoMessage.ToAppMessage()
+}
+
+// cargaPermitida (Rupix) rechaza un payload que no pertenece al protocolo de la conexion:
+// en una conexion P2P solo entran payloads P2P; en una RPC, solo RPC. Reduce la superficie
+// que un peer puede tocar de todos los conversores a los de su protocolo, y vuelve
+// irrelevante para un peer cualquier bug que quede en los conversores RPC. Un nombre de
+// servidor desconocido no restringe nada (no hay un tercer tipo hoy; si lo hubiera, se
+// agrega aqui a proposito).
+func cargaPermitida(nombreServidor string, protoMessage *protowire.KaspadMessage) error {
+	switch nombreServidor {
+	case "P2P":
+		if !protoMessage.EsCargaP2P() {
+			return errors.Errorf("payload %d no pertenece al protocolo P2P", protoMessage.NumeroDeCarga())
+		}
+	case "RPC":
+		if !protoMessage.EsCargaRPC() {
+			return errors.Errorf("payload %d no pertenece al RPC", protoMessage.NumeroDeCarga())
+		}
+	}
+	return nil
 }

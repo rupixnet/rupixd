@@ -14,8 +14,11 @@ import (
 )
 
 // Conteo es el estado corriente: gemas NACIDAS en toda la historia por nivel
-// (Diamante, Platino, Rodio; nunca bajan) y Kings VIVOS (suben al nacer, bajan al
-// consumirse; su tope es sobre los vivos, como en calculateKingsCount).
+// (Diamante, Platino, Rodio; nunca bajan) y Kings VIVOS. Como Kings es el ultimo nivel,
+// la escalera no permite consumirlos (checkLevelRules rechaza que un King desaparezca):
+// en toda transaccion valida vivos == nacidos. La resta por entradas de Kings de abajo
+// es defensiva (y si alguna vez se ejecuta, grita INVARIANTE ROTA). Corregido el
+// 7-oct-2026 a pedido del auditor: antes decia "bajan al consumirse", y eso no pasa.
 type Conteo struct {
 	Diamante, Platino, Rodio, Kings uint64
 }

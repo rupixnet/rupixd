@@ -40,3 +40,43 @@ func TestConversionDeRedNoTiraElNodo(t *testing.T) {
 		t.Fatalf("un ping bien formado debe convertir: %v", err)
 	}
 }
+
+// TestListaBlancaPorTipoDeConexion (auditor, 7-oct-2026): un peer P2P no puede mandar
+// payloads de RPC y un cliente RPC no puede mandar payloads P2P. Se decide por el numero
+// de campo del oneof, antes de convertir nada.
+func TestListaBlancaPorTipoDeConexion(t *testing.T) {
+	ping, _ := protowire.FromAppMessage(appmessage.NewMsgPing(7))
+	dag, _ := protowire.FromAppMessage(&appmessage.GetBlockDAGInfoRequestMessage{})
+	fee := &protowire.KaspadMessage{Payload: &protowire.KaspadMessage_GetFeeEstimateResponse{}}
+	vacio := &protowire.KaspadMessage{}
+
+	casos := []struct {
+		servidor string
+		msg      *protowire.KaspadMessage
+		permite  bool
+		nombre   string
+	}{
+		{"P2P", ping, true, "P2P acepta Ping"},
+		{"P2P", dag, false, "P2P rechaza GetBlockDagInfoRequest"},
+		{"P2P", fee, false, "P2P rechaza GetFeeEstimateResponse (el de los 9 bytes)"},
+		{"P2P", vacio, false, "P2P rechaza un mensaje sin payload"},
+		{"RPC", dag, true, "RPC acepta GetBlockDagInfoRequest"},
+		{"RPC", ping, false, "RPC rechaza Ping"},
+		{"RPC", vacio, false, "RPC rechaza un mensaje sin payload"},
+	}
+	for _, c := range casos {
+		err := cargaPermitida(c.servidor, c.msg)
+		if c.permite && err != nil {
+			t.Errorf("%s: debia permitirse, dio %v", c.nombre, err)
+		}
+		if !c.permite && err == nil {
+			t.Errorf("%s: debia rechazarse", c.nombre)
+		}
+	}
+	if n := ping.NumeroDeCarga(); n <= 0 || n >= 1000 {
+		t.Fatalf("Ping debe tener numero P2P (<1000), tiene %d", n)
+	}
+	if n := dag.NumeroDeCarga(); n < 1000 {
+		t.Fatalf("GetBlockDagInfoRequest debe tener numero RPC (>=1000), tiene %d", n)
+	}
+}
