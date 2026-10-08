@@ -870,6 +870,16 @@ func toRPCPayload(message appmessage.Message) (isKaspadMessage_Payload, error) {
 			return nil, err
 		}
 		return payload, nil
+	case *appmessage.StopNotifyingPruningPointUTXOSetOverrideResponseMessage:
+		// Rupix (7-oct-2026, hallado por FuzzKaspadMessage en su primera corrida): esta
+		// respuesta se podia recibir pero no mandar ("unknown message type"); heredado
+		// de kaspad. El RPC StopNotifyingPruningPointUTXOSetOverride nunca podia responder.
+		payload := new(KaspadMessage_StopNotifyingPruningPointUTXOSetOverrideResponse)
+		err := payload.fromAppMessage(message)
+		if err != nil {
+			return nil, err
+		}
+		return payload, nil
 	case *appmessage.EstimateNetworkHashesPerSecondRequestMessage:
 		payload := new(KaspadMessage_EstimateNetworkHashesPerSecondRequest)
 		err := payload.fromAppMessage(message)

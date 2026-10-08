@@ -72,3 +72,19 @@ func TestGetGemsInfoIdaYVuelta(t *testing.T) {
 		t.Fatalf("el error RPC se perdio en el camino")
 	}
 }
+
+// TestTodaRespuestaRecibibleSePuedeMandar (hallazgo de FuzzKaspadMessage, 7-oct-2026):
+// StopNotifyingPruningPointUTXOSetOverrideResponse se podia deserializar pero
+// FromAppMessage no la conocia; el nodo nunca podia contestar ese RPC. Aqui se afirma
+// la simetria para ese mensaje, y el fuzz la vigila para todos los demas.
+func TestTodaRespuestaRecibibleSePuedeMandar(t *testing.T) {
+	km := &KaspadMessage{Payload: &KaspadMessage_StopNotifyingPruningPointUTXOSetOverrideResponse{
+		StopNotifyingPruningPointUTXOSetOverrideResponse: &StopNotifyingPruningPointUTXOSetOverrideResponseMessage{}}}
+	msg, err := km.ToAppMessage()
+	if err != nil {
+		t.Fatalf("recibir: %v", err)
+	}
+	if _, err := FromAppMessage(msg); err != nil {
+		t.Fatalf("lo que se recibe se debe poder mandar: %v", err)
+	}
+}
