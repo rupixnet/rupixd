@@ -27,9 +27,10 @@ import (
 func verificar(conf *verificarConfig) error {
 	params := conf.NetParams()
 	ok, aviso, fallo := "OK   ", "AVISO", "FALLO"
-	linea := func(estado, formato string, a ...interface{}) {
-		fmt.Printf("%s  %s\n", estado, fmt.Sprintf(formato, a...))
-	}
+	// linea imprime "ESTADO  texto". Recibe el texto ya formateado a proposito: go vet
+	// clasificaria un envoltorio de Sprintf como printf-like y marcaria los textos
+	// traducidos (T(...)) como "non-constant format string".
+	linea := func(estado, texto string) { fmt.Println(estado + "  " + texto) }
 	fallos := 0
 
 	// 1) El binario.
