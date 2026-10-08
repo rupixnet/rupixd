@@ -109,3 +109,82 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 ## Verificar una release (30-sep-2026)
 
 Después de publicar una release, en el seed: `sh /root/rupixd/tools/verificar-binarios.sh vX.Y.Z`. Debe decir `OK` con cuatro `IGUAL`. Si difiere, no se anuncia la release hasta entender por qué (versión de Go distinta a la del CI, flags cambiados, o algo peor). El CI compila con Go 1.26.6 y CGO activo con enlace estático; el seed debe tener la misma versión de Go.
+
+## Levantar un seed desde cero / Setting up a seed from scratch (7-oct-2026)
+
+🇲🇽 Esto es lo que hace falta para que **cualquier persona** levante un nodo semilla de la testnet igual al nuestro, de arriba a abajo. Es lo que seguirá el segundo seed. Un seed es solo un nodo con el puerto P2P abierto a internet y una dirección fija: el minero y la wallet son opcionales.
+
+🇬🇧 This is what **anyone** needs to run a testnet seed node identical to ours, top to bottom. It is what the second seed will follow. A seed is just a node with its P2P port open to the internet and a fixed address: miner and wallet are optional.
+
+### 1. Máquina / Machine
+- 4 núcleos, 8 GB de RAM, 80 GB de disco SSD, IP pública fija. Ubuntu 24.04 LTS. (El seed 1: 4 núcleos, 7.6 GB, 75 GB; la cadena ocupa ~7.5 GB al DAA 1,000,000 y crece ~0.3 GB/día con poda.)
+- Proveedor y país **distintos** del seed 1, a propósito: la red no debe depender de una empresa ni de una jurisdicción.
+- 4 cores, 8 GB RAM, 80 GB SSD, fixed public IP, Ubuntu 24.04 LTS. Different provider and country from seed 1, on purpose.
+
+### 2. Firewall
+```
+ufw allow 22/tcp        # SSH
+ufw allow 17211/tcp     # P2P de Rupix testnet, abierto / open
+ufw deny  17210         # RPC: nunca a internet / never to the internet
+ufw enable
+```
+(Mainnet, cuando exista: P2P 17111, RPC 17110.)
+
+### 3. Binarios verificados / Verified binaries
+```
+cd /root
+V=v0.6.4
+curl -sSLO https://github.com/rupixnet/rupixd/releases/download/$V/rupix-$V-linux.zip
+curl -sSLO https://github.com/rupixnet/rupixd/releases/download/$V/rupix-$V-linux.zip.sha256
+sha256sum -c rupix-$V-linux.zip.sha256          # debe decir OK; si no, no sigas / must say OK
+mkdir -p /root/$V && unzip -q rupix-$V-linux.zip -d /root/$V
+cp $(find /root/$V -type f \( -name rupixd -o -name rupixctl -o -name rupixwallet -o -name rupixminer \)) /usr/local/bin/
+rupixd --version
+```
+Quien quiera ir más lejos recompila desde el tag y compara (`tools/verificar-binarios.sh $V`, Go 1.26.6).
+
+### 4. El servicio del nodo / The node service
+`/etc/systemd/system/rupixd-testnet.service` (es el del seed 1, con dos cambios: la IP, y sin `--allow-submit-block-when-not-synced`, que solo tenía sentido cuando no había nadie a quien sincronizarse):
+```
+[Unit]
+Description=Rupix testnet seed node
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/bin/rupixd --testnet --appdir=/root/rupix-testnet --utxoindex --listen=0.0.0.0:17211 --externalip=<IP PUBLICA DE ESTE SEED> --rpclisten=127.0.0.1:17210 --addpeer=178.104.69.148:17211
+Restart=always
+RestartSec=5
+StandardOutput=append:/root/rupix-testnet.log
+StandardError=append:/root/rupix-testnet.log
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+```
+```
+systemctl daemon-reload && systemctl enable --now rupixd-testnet
+sleep 30 && rupixctl --testnet GetBlockDagInfo | grep -E "virtualDaaScore|pruningPointHash"
+rupixctl --testnet GetConnectedPeerInfo | grep -c '"address"'     # >= 1
+```
+Sincroniza desde cero contra el seed 1 (unas horas). Cuando `virtualDaaScore` alcance al del seed 1 y `pruningPointHash` coincida, es un seed. Esa coincidencia se anota en `CHECKPOINTS.md` como confirmación del checkpoint vigente.
+
+### 5. Opcional: minero y wallet / Optional: miner and wallet
+Los `.service` del seed 1 (`rupixminer-testnet`, `rupixwallet-testnet`) están en este archivo arriba en espíritu; el minero lleva `--miningaddr=<tu direccion>` y, en un seed 2, **sin** `--mine-when-not-synced`. La wallet del servicio corre con su propio `keys.json`; la contraseña se pide al arrancar o va en un archivo solo legible por root. Un seed no necesita ninguno de los dos.
+
+### 6. Alarma / Alarm
+`/root/rupix-monitor-descalificados.sh` cada 10 min por cron (sección "Alarma v2.1"). Copiarlo del seed 1 y registrar la línea `*/10 * * * * /root/rupix-monitor-descalificados.sh` con `crontab -e`.
+
+### 7. Anunciarlo / Announcing it
+- `GUIA-TESTNET.md` / `TESTNET-GUIDE.md`, paso 2: segundo `--addpeer`.
+- `dagconfig/params.go` tiene `DNSSeeds: seed.rupix.network`: ese nombre debe resolver a **todas** las IPs de seeds (un registro A por seed). Si no resuelve, los nodos sin `--addpeer` no encuentran la red. **Pendiente de verificar el 7-oct: si `seed.rupix.network` existe en el DNS.**
+- `SUCESION.md`: tachar "segundo seed" con fecha. `MAINNET.md`: criterio N1.
+- Quién lo opera y cómo se le avisa de una release: en `ACCESOS-RUPIX.md` (privado), nunca aquí.
+
+### 8. Mantenimiento que ya nos mordió / Maintenance that already bit us
+- **Disco:** el 7-oct el seed 1 estaba al 82 % con la cadena en 7.5 GB; el resto era caché de Go y archivos viejos. Revisar cada semana con `df -h /` y `du -xsh /root/* | sort -h | tail`; `go clean -cache` es seguro. Un disco lleno mata al nodo igual que el OOM del 21-sep.
+- **RAM:** no correr `go test ./...` entero con el nodo arriba sin `-p 1`; el fuzzing nocturno va con `GOMAXPROCS=2 nice -n 19`.
+- **Actualizar:** sección "Actualizar el binario", siempre con `sha256sum -c` y copia de los binarios anteriores en `/root/bin-anterior/<version>/`.
+

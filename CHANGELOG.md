@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- OPERACIONES.md (7-oct): seccion "Levantar un seed desde cero" (maquina, firewall, binarios verificados, el .service del nodo tal cual, sincronizacion, opcionales, alarma, como anunciarlo, mantenimiento). Es la receta del segundo seed.
 - `ESPECIFICACION.en.md` (7-oct): la especificacion completa en ingles, al paso de la española (misma estructura, mismos nombres de test; manda la española). ESPECIFICACION #6 reescrito limpio (una frase habia quedado cortada al anotar horas) con las horas tras el fuzz #5.
 - Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
 
