@@ -188,3 +188,15 @@ Los `.service` del seed 1 (`rupixminer-testnet`, `rupixwallet-testnet`) están e
 - **RAM:** no correr `go test ./...` entero con el nodo arriba sin `-p 1`; el fuzzing nocturno va con `GOMAXPROCS=2 nice -n 19`.
 - **Actualizar:** sección "Actualizar el binario", siempre con `sha256sum -c` y copia de los binarios anteriores en `/root/bin-anterior/<version>/`.
 
+## Limpieza de disco del seed 1 (7-oct-2026)
+
+Encontrado al escribir la receta del seed: disco al **82 %** (59/75 GB) con la cadena viva en 7.4 GB. Se identificó cada cosa antes de tocarla y se borró solo por nombre completo, después de copiar lo que se conserva:
+
+- Journal de systemd: 3.9 GB → 500 MB (`journalctl --vacuum-size=500M`). Caché de Go: 1.2 GB (`go clean -cache`; se regenera).
+- Borradas las bases de datos de tres testnets muertas (génesis que ya no existe; su historia está en `TESTNET-RELANZAMIENTOS.md`): `rupix-testnet-OLD-0.12.22` (6.2 GB, testnet privada anterior al relanzamiento #1), `rupix-testnet-OLD-halving10k-1788491577` (4.2 GB, testnet #1), `rupix-testnet-v052-vieja` (6.2 GB, testnet #3).
+- Borrada la devnet de la "fábrica" de la escalera de agosto (`rupix-escalera/rupix-devnet`, 8.5 GB) y su copia vieja; **conservados** en `/root/retirados/escalera-ago2026/`: `fabrica.sh`, sus logs, `node.log`, `miner.log` y la wallet de devnet (`wallet/keys.json`).
+- Borrado `/root/repro` (residuo de `verificar-binarios.sh`; se regenera).
+- **No se tocó:** `rupixd-v3` (769 MB: el código de antes del 18-jun-2026, la era descartada, que no está en el repo; es historia), las devnets de septiembre (`rupix-devnet-algo`, `rupix-devnet-v06`), `/root/go`, `/root/bin-anterior/`.
+
+Resultado: **41 %** (30/75 GB). Verificado también que `seed.rupix.network` resuelve a la IP del seed (el `DNSSeeds` de `params.go` funciona; un nodo sin `--addpeer` encuentra la red). Regla desde hoy: `df -h /` en cada cierre de semana; nada por encima del 70 % sin explicación.
+
