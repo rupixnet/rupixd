@@ -75,7 +75,7 @@ footer a{color:var(--violet);text-decoration:none}
   </div>
   <div class="card full">
     <h2>💎 La escalera — cada nivel se forja quemando 10 del anterior</h2>
-    <div class="sub" id="gems-sub" style="margin-bottom:8px">nacidas en toda la historia (el conteo que sella cada bloque) · vivas ahora (UTXO set) · tope</div>
+    <div class="sub" id="gems-sub" style="margin-bottom:8px">creados en toda la historia (el conteo que sella cada bloque) · por crear hasta el tope · quemados para subir de nivel · vivos ahora en wallets</div>
     <div class="ladder">
       <div class="rung"><span class="name" style="color:#9ad8ff">💎 Diamante</span><span class="count" id="count1"></span><span class="lock" id="rung1">🔒 halving 1</span></div>
       <div class="rung"><span class="name" style="color:#d8dde3">⬜ Platino</span><span class="count" id="count2"></span><span class="lock" id="rung2">🔒 halving 2</span></div>
@@ -127,13 +127,15 @@ async function refresh(){
     try{
       const g=await j("/api/gems");
       if(g && !g.error && g.TopeDiamantes){
-        const pinta=(id,nac,viv,tope)=>{const el=document.getElementById(id);if(el)el.innerHTML="<b>"+fmt(nac)+"</b> nacidas · "+fmt(viv)+" vivas · tope "+fmt(tope)};
+        const pinta=(id,nac,viv,tope,kings)=>{const el=document.getElementById(id);if(!el)return;
+          const quem=kings?"—":fmt(Number(nac)-Number(viv));
+          el.innerHTML="creados <b>"+fmt(nac)+"</b> / "+fmt(tope)+" · por crear "+fmt(Number(tope)-Number(nac))+" · quemados "+quem+" · vivos <b>"+fmt(viv)+"</b>"};
         pinta("count1",g.DiamantesNacidos,g.DiamantesVivos,g.TopeDiamantes);
         pinta("count2",g.PlatinosNacidos,g.PlatinosVivos,g.TopePlatinos);
         pinta("count3",g.RodiosNacidos,g.RodiosVivos,g.TopeRodios);
-        pinta("count4",g.KingsNacidos,g.KingsVivos,g.TopeKings);
+        pinta("count4",g.KingsNacidos,g.KingsVivos,g.TopeKings,true);
         const gs=document.getElementById("gems-sub");
-        if(gs && Number(g.KingsNacidos)!==Number(g.KingsVivos)) gs.textContent="⚠ Kings nacidos ≠ vivos: las dos fuentes divergen; repórtalo";
+        if(gs && Number(g.KingsNacidos)!==Number(g.KingsVivos)) gs.textContent="⚠ Kings creados ≠ vivos: los Kings nunca se queman; las dos fuentes divergen, repórtalo";
       }
     }catch(e){}
     // Actualizar la escalera: cada nivel se desbloquea en su halving
