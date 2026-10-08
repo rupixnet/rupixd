@@ -37,6 +37,8 @@ func main() {
 		err = forge(config.(*forgeConfig))
 	case gemsSubCmd:
 		err = gems(config.(*gemsConfig))
+	case verificarSubCmd:
+		err = verificar(config.(*verificarConfig))
 	case transferGemSubCmd:
 		err = transferGem(config.(*transferGemConfig))
 	case dumpUnencryptedDataSubCmd:

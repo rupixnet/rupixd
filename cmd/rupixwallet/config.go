@@ -22,6 +22,7 @@ const (
 	newAddressSubCmd                = "new-address"
 	forgeSubCmd                     = "forge"
 	gemsSubCmd                      = "gems"
+	verificarSubCmd                 = "verificar"
 	transferGemSubCmd               = "transfer-gem"
 	dumpUnencryptedDataSubCmd       = "dump-unencrypted-data"
 	startDaemonSubCmd               = "start-daemon"
@@ -143,6 +144,12 @@ type forgeConfig struct {
 	config.NetworkFlags
 }
 
+type verificarConfig struct {
+	RPCServer   string `long:"rpcserver" short:"s" description:"Nodo rupixd a verificar (default: 127.0.0.1 con el puerto de la red)"`
+	SinInternet bool   `long:"sin-internet" description:"No consultar GitHub para comparar el sha256 del binario con la release"`
+	config.NetworkFlags
+}
+
 type gemsConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	config.NetworkFlags
@@ -252,6 +259,10 @@ func parseCommandLine() (subCommand string, config interface{}) {
 	forgeConf := &forgeConfig{DaemonAddress: defaultListen}
 	parser.AddCommand(forgeSubCmd, "Forja una gema quemando Gold (ascenso de nivel)",
 		"Quema 10 Gold por gema y crea una gema del nivel indicado", forgeConf)
+	verificarConf := &verificarConfig{}
+	parser.AddCommand(verificarSubCmd, "Verifica binario, nodo, checkpoints y escalera (sin contrasena)",
+		"Una pantalla con lo que cualquiera puede comprobar: si este binario es el de la release, si el nodo esta sano y en la red correcta, si tiene los checkpoints, y el estado de la escalera", verificarConf)
+
 	gemsConf := &gemsConfig{DaemonAddress: defaultListen}
 	parser.AddCommand(gemsSubCmd, "Lista tus gemas por nivel",
 		"Muestra el inventario de gemas (Diamante, Platino, Rodio, Kings)", gemsConf)
@@ -387,6 +398,13 @@ func parseCommandLine() (subCommand string, config interface{}) {
 			printErrorAndExit(err)
 		}
 		config = forgeConf
+	case verificarSubCmd:
+		combineNetworkFlags(&verificarConf.NetworkFlags, &cfg.NetworkFlags)
+		err := verificarConf.ResolveNetwork(parser)
+		if err != nil {
+			printErrorAndExit(err)
+		}
+		config = verificarConf
 	case gemsSubCmd:
 		combineNetworkFlags(&gemsConf.NetworkFlags, &cfg.NetworkFlags)
 		err := gemsConf.ResolveNetwork(parser)

@@ -71,6 +71,12 @@ You should see:
 Compare your `blockCount` with the official explorer
 (**https://explorer.rupix.network**). When they're close, you're up to date.
 
+**Since v0.6.5, one screen with everything** (no password, does not touch your wallet):
+```
+./rupixwallet --testnet verificar
+```
+It tells you whether your `rupixwallet` is exactly the one in the release (compares its sha256 with the list GitHub publishes), whether your node answers, which network and block it is on, how many peers it has, whether it has the published checkpoints as known blocks, and the state of the ladder (gems born, alive and caps). Every line starts with `OK`, `AVISO` or `FALLO`. It is what we would ask you to send us if something does not add up.
+
 ---
 
 ## Step 4 (optional) — Mine Rupix

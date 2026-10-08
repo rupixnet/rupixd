@@ -30,7 +30,9 @@ jobs:
           archive="rupix-${{ github.event.release.tag_name }}-linux.zip"
           zip -r -j "${archive}" ./bin/*
           sha256sum "${archive}" > "${archive}.sha256"
+          (cd bin && sha256sum *) > SHA256SUMS-linux.txt
           echo "archive=${archive}" >> $GITHUB_ENV
+          echo "sums=SHA256SUMS-linux.txt" >> $GITHUB_ENV
       - name: Build on Windows
         if: runner.os == 'Windows'
         shell: bash
@@ -40,7 +42,9 @@ jobs:
           archive="rupix-${{ github.event.release.tag_name }}-win64.zip"
           powershell "Compress-Archive bin/* \"${archive}\""
           sha256sum "${archive}" > "${archive}.sha256"
+          (cd bin && sha256sum *) > SHA256SUMS-win64.txt
           echo "archive=${archive}" >> $GITHUB_ENV
+          echo "sums=SHA256SUMS-win64.txt" >> $GITHUB_ENV
       - name: Build on MacOS
         if: runner.os == 'macOS'
         run: |
@@ -49,10 +53,13 @@ jobs:
           archive="rupix-${{ github.event.release.tag_name }}-osx.zip"
           zip -r -j "${archive}" ./bin/*
           shasum -a 256 "${archive}" > "${archive}.sha256"
+          (cd bin && shasum -a 256 *) > SHA256SUMS-osx.txt
           echo "archive=${archive}" >> $GITHUB_ENV
+          echo "sums=SHA256SUMS-osx.txt" >> $GITHUB_ENV
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
         with:
           files: |
             ${{ env.archive }}
             ${{ env.archive }}.sha256
+            ${{ env.sums }}
