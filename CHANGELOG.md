@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- ESPECIFICACION hueco #8 (7-oct): `TestMaxSompi` (libreria de la wallet, heredado) esta saltado con nota "antes de mainnet"; ahora rastreado. Los otros dos skips del repo estan justificados.
 - Tests (7-oct): `TestHijoDeSelloFalsoHeredaDescalificacion` (seccion 4: el hijo fabricado a mano sobre un sello falso hereda la descalificacion) y `TestVenenoQueLlegaSinSerPunta` (seccion 3: la forja sobre el tope que llega sin ser punta del virtual y se mergea tarde). Eran los dos "pendientes" escritos en ESPECIFICACION; ya no hay ninguno.
 - OPERACIONES.md (7-oct): seccion "Levantar un seed desde cero" (maquina, firewall, binarios verificados, el .service del nodo tal cual, sincronizacion, opcionales, alarma, como anunciarlo, mantenimiento). Es la receta del segundo seed.
 - `ESPECIFICACION.en.md` (7-oct): la especificacion completa en ingles, al paso de la española (misma estructura, mismos nombres de test; manda la española). ESPECIFICACION #6 reescrito limpio (una frase habia quedado cortada al anotar horas) con las horas tras el fuzz #5.
