@@ -6,7 +6,11 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"sync"
+	"time"
 )
+
+// gemCountsTTL (Rupix): cuanto se reutiliza el ultimo conteo de gemas vivas.
+const gemCountsTTL = 30 * time.Second
 
 // UTXOIndex maintains an index between transaction scriptPublicKeys
 // and UTXOs
@@ -15,6 +19,9 @@ type UTXOIndex struct {
 	store  *utxoIndexStore
 
 	mutex sync.Mutex
+
+	gemCounts   [5]uint64 // Rupix: cache de GetGemCounts
+	gemCountsAt time.Time
 }
 
 // New creates a new UTXO index.
@@ -200,6 +207,24 @@ func (ui *UTXOIndex) UTXOs(scriptPublicKey *externalapi.ScriptPublicKey) (UTXOOu
 }
 
 // GetCirculatingRupiaSupply returns the current circulating supply of rupias in the network
+// GetGemCounts (Rupix) devuelve cuantos UTXOs de cada nivel viven ahora mismo
+// (indice 0 = Gold, 1 Diamante, 2 Platino, 3 Rodio, 4 Kings). Recorre el indice
+// entero, asi que se guarda el resultado durante gemCountsTTL para que un explorador
+// que pregunte seguido no cueste una pasada por segundo.
+func (ui *UTXOIndex) GetGemCounts() ([5]uint64, error) {
+	ui.mutex.Lock()
+	defer ui.mutex.Unlock()
+	if !ui.gemCountsAt.IsZero() && time.Since(ui.gemCountsAt) < gemCountsTTL {
+		return ui.gemCounts, nil
+	}
+	conteo, err := ui.store.countGems()
+	if err != nil {
+		return conteo, err
+	}
+	ui.gemCounts, ui.gemCountsAt = conteo, time.Now()
+	return conteo, nil
+}
+
 func (ui *UTXOIndex) GetCirculatingRupiaSupply() (uint64, error) {
 
 	ui.mutex.Lock()

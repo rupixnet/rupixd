@@ -38,6 +38,7 @@ var commandTypes = []reflect.Type{
 	reflect.TypeOf(protowire.KaspadMessage_GetUtxosByAddressesRequest{}),
 	reflect.TypeOf(protowire.KaspadMessage_GetBalanceByAddressRequest{}),
 	reflect.TypeOf(protowire.KaspadMessage_GetCoinSupplyRequest{}),
+	reflect.TypeOf(protowire.KaspadMessage_GetGemsInfoRequest{}),
 
 	reflect.TypeOf(protowire.KaspadMessage_BanRequest{}),
 	reflect.TypeOf(protowire.KaspadMessage_UnbanRequest{}),

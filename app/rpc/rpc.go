@@ -51,6 +51,7 @@ var handlers = map[appmessage.MessageCommand]handler{
 	appmessage.CmdNotifyVirtualDaaScoreChangedRequestMessage:                rpchandlers.HandleNotifyVirtualDaaScoreChanged,
 	appmessage.CmdNotifyNewBlockTemplateRequestMessage:                      rpchandlers.HandleNotifyNewBlockTemplate,
 	appmessage.CmdGetCoinSupplyRequestMessage:                               rpchandlers.HandleGetCoinSupply,
+	appmessage.CmdGetGemsInfoRequestMessage:                                 rpchandlers.HandleGetGemsInfo,
 	appmessage.CmdGetMempoolEntriesByAddressesRequestMessage:                rpchandlers.HandleGetMempoolEntriesByAddresses,
 }
 

@@ -150,6 +150,7 @@ message KaspadMessage {
     GetFeeEstimateRequestMessage getFeeEstimateRequest = 1106;
     GetFeeEstimateExperimentalRequestMessage getFeeEstimateExperimentalRequest = 1108;
     GetCurrentBlockColorRequestMessage getCurrentBlockColorRequest = 1110;
+    GetGemsInfoRequestMessage getGemsInfoRequest = 1112; // Rupix
     PingResponseMessage pingResponse= 1089;
     GetMetricsResponseMessage getMetricsResponse= 1091;
     GetServerInfoResponseMessage getServerInfoResponse = 1093;
@@ -161,6 +162,7 @@ message KaspadMessage {
     GetFeeEstimateResponseMessage getFeeEstimateResponse = 1107;
     GetFeeEstimateExperimentalResponseMessage getFeeEstimateExperimentalResponse = 1109;
     GetCurrentBlockColorResponseMessage getCurrentBlockColorResponse = 1111;
+    GetGemsInfoResponseMessage getGemsInfoResponse = 1113; // Rupix
   }
 }
 

@@ -7,11 +7,12 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **RPC `GetGemsInfo`** (7-oct, rama `rpc-gemas`): el estado de la escalera por RPC: nacidas en toda la historia (el conteo sellado del virtual, `GetVirtualGemsHistory` nuevo en la interfaz de consenso), vivas ahora (recorrido del indice de UTXOs, con cache de 30 s) y topes; `rupixctl --testnet GetGemsInfo`. Dos fuentes a proposito. Requiere `--utxoindex`. Protos regenerados con protoc 3.21.12 / protoc-gen-go 1.28.1 (mismas versiones que los .pb.go existentes). Test de ida y vuelta y de nil (`TestGetGemsInfoIdaYVuelta`). Falta: tarjeta en explorador y web.
 - ESPECIFICACION hueco #8 (7-oct): `TestMaxSompi` (libreria de la wallet, heredado) esta saltado con nota "antes de mainnet"; ahora rastreado. Los otros dos skips del repo estan justificados.
 - Tests (7-oct): `TestHijoDeSelloFalsoHeredaDescalificacion` (seccion 4: el hijo fabricado a mano sobre un sello falso hereda la descalificacion) y `TestVenenoQueLlegaSinSerPunta` (seccion 3: la forja sobre el tope que llega sin ser punta del virtual y se mergea tarde). Eran los dos "pendientes" escritos en ESPECIFICACION; ya no hay ninguno.
 - OPERACIONES.md (7-oct): seccion "Levantar un seed desde cero" (maquina, firewall, binarios verificados, el .service del nodo tal cual, sincronizacion, opcionales, alarma, como anunciarlo, mantenimiento). Es la receta del segundo seed.
 - `ESPECIFICACION.en.md` (7-oct): la especificacion completa en ingles, al paso de la española (misma estructura, mismos nombres de test; manda la española). ESPECIFICACION #6 reescrito limpio (una frase habia quedado cortada al anotar horas) con las horas tras el fuzz #5.
-- Pendiente: RPC con los conteos de gemas (`GemsHistory` del virtual) y contador exacto de Gold minado/quemado, fuera del sello; tarjetas en explorador y web.
+- Pendiente: contador exacto de Gold minado/quemado (no se deriva del DAA del virtual sin recorrer la cadena; se decide aparte); tarjetas de gemas en explorador y web (el RPC ya existe).
 
 ## [v0.6.4] - 2026-10-07 — Checkpoint #2 de la testnet
 **Sin cambio de consenso mas alla de la lista de checkpoints.** Actualiza antes del DAA 1,700,000 (~15-oct): el checkpoint #1 caducaba en DAA 2,000,000 y la regla de CHECKPOINTS.md es que nunca haya hueco. Misma wallet, mismas claves, mismos datos.

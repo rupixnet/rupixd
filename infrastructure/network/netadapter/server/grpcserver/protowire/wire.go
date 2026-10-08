@@ -954,6 +954,20 @@ func toRPCPayload(message appmessage.Message) (isKaspadMessage_Payload, error) {
 			return nil, err
 		}
 		return payload, nil
+	case *appmessage.GetGemsInfoRequestMessage:
+		payload := new(KaspadMessage_GetGemsInfoRequest)
+		err := payload.fromAppMessage(message)
+		if err != nil {
+			return nil, err
+		}
+		return payload, nil
+	case *appmessage.GetGemsInfoResponseMessage:
+		payload := new(KaspadMessage_GetGemsInfoResponse)
+		err := payload.fromAppMessage(message)
+		if err != nil {
+			return nil, err
+		}
+		return payload, nil
 	case *appmessage.GetCoinSupplyRequestMessage:
 		payload := new(KaspadMessage_GetCoinSupplyRequest)
 		err := payload.fromAppMessage(message)

@@ -163,6 +163,8 @@ const (
 	CmdGetMempoolEntriesByAddressesResponseMessage
 	CmdGetCoinSupplyRequestMessage
 	CmdGetCoinSupplyResponseMessage
+	CmdGetGemsInfoRequestMessage
+	CmdGetGemsInfoResponseMessage
 	CmdGetFeeEstimateRequestMessage
 	CmdGetFeeEstimateResponseMessage
 	CmdSubmitTransactionReplacementRequestMessage
@@ -304,6 +306,8 @@ var RPCMessageCommandToString = map[MessageCommand]string{
 	CmdGetMempoolEntriesByAddressesResponseMessage:                "GetMempoolEntriesByAddressesResponse",
 	CmdGetCoinSupplyRequestMessage:                                "GetCoinSupplyRequest",
 	CmdGetCoinSupplyResponseMessage:                               "GetCoinSupplyResponse",
+	CmdGetGemsInfoRequestMessage:                                  "GetGemsInfoRequest",
+	CmdGetGemsInfoResponseMessage:                                 "GetGemsInfoResponse",
 	CmdGetFeeEstimateRequestMessage:                               "GetFeeEstimateRequest",
 	CmdGetFeeEstimateResponseMessage:                              "GetFeeEstimateResponse",
 	CmdSubmitTransactionReplacementRequestMessage:                 "SubmitTransactionReplacementRequest",

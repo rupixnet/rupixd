@@ -39,6 +39,9 @@ type Consensus interface {
 	GetSyncInfo() (*SyncInfo, error)
 	Tips() ([]*DomainHash, error)
 	GetVirtualInfo() (*VirtualInfo, error)
+	// GetVirtualGemsHistory (Rupix): el conteo historico de gemas del virtual, el mismo que
+	// sella cada encabezado (GemsCommitment). Para RPC y explorador; no cambia consenso.
+	GetVirtualGemsHistory() (*GemsHistory, error)
 	GetVirtualDAAScore() (uint64, error)
 	IsValidPruningPoint(blockHash *DomainHash) (bool, error)
 	ArePruningPointsViolatingFinality(pruningPoints []BlockHeader) (bool, error)

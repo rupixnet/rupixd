@@ -663,6 +663,30 @@ message GetMempoolEntriesByAddressesResponseMessage {
   RPCError error = 1000;
 }
 
+// Rupix: estado de la escalera de gemas.
+message GetGemsInfoRequestMessage {}
+
+message GetGemsInfoResponseMessage {
+  // Nacidas en toda la historia (conteo sellado en GemsCommitment del virtual).
+  uint64 diamantesNacidos = 1;
+  uint64 platinosNacidos = 2;
+  uint64 rodiosNacidos = 3;
+  uint64 kingsNacidos = 4;
+  // Vivas ahora en el UTXO set (requiere --utxoindex).
+  uint64 diamantesVivos = 5;
+  uint64 platinosVivos = 6;
+  uint64 rodiosVivos = 7;
+  uint64 kingsVivos = 8;
+  // Topes historicos.
+  uint64 topeDiamantes = 9;
+  uint64 topePlatinos = 10;
+  uint64 topeRodios = 11;
+  uint64 topeKings = 12;
+  uint64 virtualDaaScore = 13;
+
+  RPCError error = 1000;
+}
+
 message GetCoinSupplyRequestMessage {}
 
 message GetCoinSupplyResponseMessage {

@@ -705,6 +705,19 @@ func (s *consensus) Tips() ([]*externalapi.DomainHash, error) {
 	return s.consensusStateStore.Tips(stagingArea, s.databaseContext)
 }
 
+// GetVirtualGemsHistory (Rupix) devuelve el conteo historico de gemas del virtual
+// (Diamante, Platino, Rodio nacidos; Kings vivos, que como no se consumen son los nacidos).
+// Es el dato que cada bloque sella en GemsCommitment; aqui solo se lee, bajo el lock.
+func (s *consensus) GetVirtualGemsHistory() (*externalapi.GemsHistory, error) {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+	gh, err := s.gemsHistoryStore.Get(s.databaseContext, model.NewStagingArea(), model.VirtualBlockHash)
+	if err != nil {
+		return nil, err
+	}
+	return gh.Clone(), nil
+}
+
 func (s *consensus) GetVirtualInfo() (*externalapi.VirtualInfo, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()

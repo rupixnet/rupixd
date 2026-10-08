@@ -369,6 +369,35 @@ func (uis *utxoIndexStore) deleteAll() error {
 	return nil
 }
 
+// countGems (Rupix) recorre el indice entero y cuenta los UTXOs por nivel
+// (indice 0 = Gold, 1..4 = Diamante..Kings). Es una pasada completa: O(UTXOs).
+func (uis *utxoIndexStore) countGems() ([5]uint64, error) {
+	var conteo [5]uint64
+	if uis.isAnythingStaged() {
+		return conteo, errors.Errorf("cannot count gems while staging isn't empty")
+	}
+	cursor, err := uis.database.Cursor(utxoIndexBucket)
+	if err != nil {
+		return conteo, err
+	}
+	defer cursor.Close()
+	for cursor.Next() {
+		serialized, err := cursor.Value()
+		if err != nil {
+			return conteo, err
+		}
+		entry, err := deserializeUTXOEntry(serialized)
+		if err != nil {
+			return conteo, err
+		}
+		v := entry.ScriptPublicKey().Version
+		if int(v) < len(conteo) {
+			conteo[v]++
+		}
+	}
+	return conteo, nil
+}
+
 func (uis *utxoIndexStore) initializeCirculatingSompiSupply() error {
 
 	cursor, err := uis.database.Cursor(utxoIndexBucket)
