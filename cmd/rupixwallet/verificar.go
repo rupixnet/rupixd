@@ -35,30 +35,30 @@ func verificar(conf *verificarConfig) error {
 	// 1) El binario.
 	fmt.Println(T("verificar.binario"))
 	ver := version.Version()
-	linea(ok, T("verificar.version"), ver, runtime.GOOS, runtime.GOARCH)
+	linea(ok, fmt.Sprintf(T("verificar.version"), ver, runtime.GOOS, runtime.GOARCH))
 	exe, err := os.Executable()
 	if err == nil {
 		exe, _ = filepath.EvalSymlinks(exe)
 	}
 	hashLocal, err := sha256DeArchivo(exe)
 	if err != nil {
-		linea(aviso, T("verificar.sinhash"), err)
+		linea(aviso, fmt.Sprintf(T("verificar.sinhash"), err))
 	} else {
-		linea(ok, "sha256 %s  %s", filepath.Base(exe), hashLocal)
+		linea(ok, fmt.Sprintf("sha256 %s  %s", filepath.Base(exe), hashLocal))
 		if conf.SinInternet {
 			linea(aviso, T("verificar.sininternet"))
 		} else {
 			publicado, err := sha256Publicado(ver, filepath.Base(exe))
 			switch {
 			case err != nil:
-				linea(aviso, T("verificar.release.noleida"), ver, err)
+				linea(aviso, fmt.Sprintf(T("verificar.release.noleida"), ver, err))
 			case publicado == "":
-				linea(aviso, T("verificar.release.sinlista"), ver)
+				linea(aviso, fmt.Sprintf(T("verificar.release.sinlista"), ver))
 			case publicado == hashLocal:
-				linea(ok, T("verificar.release.igual"), ver)
+				linea(ok, fmt.Sprintf(T("verificar.release.igual"), ver))
 			default:
 				fallos++
-				linea(fallo, T("verificar.release.distinto"), ver, publicado)
+				linea(fallo, fmt.Sprintf(T("verificar.release.distinto"), ver, publicado))
 			}
 		}
 	}
@@ -72,7 +72,7 @@ func verificar(conf *verificarConfig) error {
 	}
 	c, err := rpcclient.NewRPCClient(rpcServer)
 	if err != nil {
-		linea(fallo, T("verificar.nodo.noresponde"), rpcServer, err)
+		linea(fallo, fmt.Sprintf(T("verificar.nodo.noresponde"), rpcServer, err))
 		fmt.Println()
 		fmt.Printf(T("verificar.resumen")+"\n", fallos+1)
 		return nil
@@ -80,39 +80,39 @@ func verificar(conf *verificarConfig) error {
 	defer c.Close()
 	info, err := c.GetInfo()
 	if err != nil {
-		linea(fallo, T("verificar.nodo.noresponde"), rpcServer, err)
+		linea(fallo, fmt.Sprintf(T("verificar.nodo.noresponde"), rpcServer, err))
 		return nil
 	}
 	dag, err := c.GetBlockDAGInfo()
 	if err != nil {
-		linea(fallo, T("verificar.nodo.noresponde"), rpcServer, err)
+		linea(fallo, fmt.Sprintf(T("verificar.nodo.noresponde"), rpcServer, err))
 		return nil
 	}
 	if strings.TrimPrefix(info.ServerVersion, "v") != ver {
-		linea(aviso, T("verificar.nodo.otraversion"), info.ServerVersion, ver)
+		linea(aviso, fmt.Sprintf(T("verificar.nodo.otraversion"), info.ServerVersion, ver))
 	} else {
-		linea(ok, T("verificar.nodo.version"), info.ServerVersion)
+		linea(ok, fmt.Sprintf(T("verificar.nodo.version"), info.ServerVersion))
 	}
 	if dag.NetworkName != params.Name {
 		fallos++
-		linea(fallo, T("verificar.nodo.otrared"), dag.NetworkName, params.Name)
+		linea(fallo, fmt.Sprintf(T("verificar.nodo.otrared"), dag.NetworkName, params.Name))
 	} else {
-		linea(ok, T("verificar.nodo.red"), dag.NetworkName)
+		linea(ok, fmt.Sprintf(T("verificar.nodo.red"), dag.NetworkName))
 	}
 	estadoSync := ok
 	if !info.IsSynced {
 		estadoSync = aviso
 	}
-	linea(estadoSync, T("verificar.nodo.bloque"), dag.VirtualDAAScore, dag.BlockCount, info.IsSynced)
+	linea(estadoSync, fmt.Sprintf(T("verificar.nodo.bloque"), dag.VirtualDAAScore, dag.BlockCount, info.IsSynced))
 	peers, err := c.GetConnectedPeerInfo()
 	if err == nil {
 		estadoPeers := ok
 		if len(peers.Infos) == 0 {
 			estadoPeers = aviso
 		}
-		linea(estadoPeers, T("verificar.nodo.peers"), len(peers.Infos))
+		linea(estadoPeers, fmt.Sprintf(T("verificar.nodo.peers"), len(peers.Infos)))
 	}
-	linea(ok, T("verificar.nodo.poda"), dag.PruningPointHash)
+	linea(ok, fmt.Sprintf(T("verificar.nodo.poda"), dag.PruningPointHash))
 	if !info.IsUtxoIndexed {
 		linea(aviso, T("verificar.nodo.sinindice"))
 	}
@@ -129,13 +129,13 @@ func verificar(conf *verificarConfig) error {
 		switch {
 		case err != nil && vigente:
 			fallos++
-			linea(fallo, T("verificar.cp.falta"), i+1, cp.BlueScore, cp.Hash)
+			linea(fallo, fmt.Sprintf(T("verificar.cp.falta"), i+1, cp.BlueScore, cp.Hash))
 		case err != nil:
-			linea(aviso, T("verificar.cp.faltacaducado"), i+1, cp.BlueScore, cp.Hash)
+			linea(aviso, fmt.Sprintf(T("verificar.cp.faltacaducado"), i+1, cp.BlueScore, cp.Hash))
 		case vigente:
-			linea(ok, T("verificar.cp.tiene"), i+1, cp.BlueScore, cp.Hash, params.CheckpointsExpireDAAScore)
+			linea(ok, fmt.Sprintf(T("verificar.cp.tiene"), i+1, cp.BlueScore, cp.Hash, params.CheckpointsExpireDAAScore))
 		default:
-			linea(ok, T("verificar.cp.caducado"), i+1, cp.BlueScore, cp.Hash, params.CheckpointsExpireDAAScore)
+			linea(ok, fmt.Sprintf(T("verificar.cp.caducado"), i+1, cp.BlueScore, cp.Hash, params.CheckpointsExpireDAAScore))
 		}
 	}
 
@@ -144,7 +144,7 @@ func verificar(conf *verificarConfig) error {
 	fmt.Println(T("verificar.gemas"))
 	gi, err := c.GetGemsInfo()
 	if err != nil {
-		linea(aviso, T("verificar.gemas.noleidas"), err)
+		linea(aviso, fmt.Sprintf(T("verificar.gemas.noleidas"), err))
 	} else {
 		fmt.Printf("       %-9s %10s %10s %10s\n", "", T("verificar.gemas.nacidas"), T("verificar.gemas.vivas"), T("verificar.gemas.tope"))
 		fmt.Printf("       %-9s %10d %10d %10d\n", nombreNivel(1), gi.DiamantesNacidos, gi.DiamantesVivos, gi.TopeDiamantes)
@@ -153,9 +153,9 @@ func verificar(conf *verificarConfig) error {
 		fmt.Printf("       %-9s %10d %10d %10d\n", nombreNivel(4), gi.KingsNacidos, gi.KingsVivos, gi.TopeKings)
 		if gi.KingsNacidos != gi.KingsVivos {
 			fallos++
-			linea(fallo, T("verificar.gemas.kings"), gi.KingsNacidos, gi.KingsVivos)
+			linea(fallo, fmt.Sprintf(T("verificar.gemas.kings"), gi.KingsNacidos, gi.KingsVivos))
 		} else {
-			linea(ok, T("verificar.gemas.kingsok"), gi.KingsNacidos)
+			linea(ok, fmt.Sprintf(T("verificar.gemas.kingsok"), gi.KingsNacidos))
 		}
 		if gi.DiamantesVivos > gi.DiamantesNacidos || gi.PlatinosVivos > gi.PlatinosNacidos || gi.RodiosVivos > gi.RodiosNacidos {
 			fallos++
