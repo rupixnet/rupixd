@@ -53,13 +53,13 @@ func FuzzKaspadMessage(f *testing.F) {
 		&appmessage.GetVirtualSelectedParentChainFromBlockResponseMessage{},
 	}
 	for _, m := range semillas {
-		km, err := FromAppMessage(m)
-		if err != nil {
-			continue // una semilla que no se puede construir vacia no es un fallo del fuzz
-		}
-		b, err := proto.Marshal(km)
-		if err != nil {
-			f.Fatalf("semilla %T: %v", m, err)
+		b, ok := semillaSerializada(m)
+		if !ok {
+			// Algunos mensajes de aplicacion vacios no se pueden serializar (su conversor
+			// de SALIDA espera campos poblados; esa direccion la construye el propio nodo,
+			// no un peer). No es un fallo del fuzz; la semilla simplemente se omite.
+			f.Logf("semilla %T omitida: su conversor de salida no acepta el mensaje vacio", m)
+			continue
 		}
 		f.Add(b)
 	}
@@ -98,4 +98,23 @@ func FuzzKaspadMessage(f *testing.F) {
 			t.Fatalf("ida y vuelta cambio el comando: %s -> %s", msg.Command(), msg2.Command())
 		}
 	})
+}
+
+// semillaSerializada convierte y serializa un mensaje de aplicacion; si el conversor de
+// salida entra en panico o falla con el mensaje vacio, devuelve ok=false.
+func semillaSerializada(m appmessage.Message) (b []byte, ok bool) {
+	defer func() {
+		if r := recover(); r != nil {
+			b, ok = nil, false
+		}
+	}()
+	km, err := FromAppMessage(m)
+	if err != nil {
+		return nil, false
+	}
+	b, err = proto.Marshal(km)
+	if err != nil {
+		return nil, false
+	}
+	return b, true
 }
