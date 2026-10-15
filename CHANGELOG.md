@@ -7,6 +7,10 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Pendiente: contador exacto de Gold emitido/quemado (va con `historial`, v0.7); tarjeta de gemas en la web.
+
+## [v0.6.6] - 2026-10-14 — Gemas vivas exactas, `forge --count`, el explorador con la escalera completa
+**Sin cambio de consenso.** Mismas claves, mismos datos; solo cambia el binario. Cierra lo que dejo ver la noche del 7-oct forjando a mano: el conteo de gemas vivas iba con una cache de 30 s y durante esa ventana la resta "quemados" mentia; y forjar muchas gemas era una clave por gema. Suite 65 ok en el seed (Go 1.26.6); fuzz #6 de 7 objetivos con 0 fallos.
 - **Conteo de gemas vivas exacto** (14-oct): `GetGemCounts` ya no es una cache de 30 s; recorre el indice una vez y desde ahi cada `Update` suma lo que entra y resta lo que sale (`ajustarGemCounts`), asi que `GetGemsInfo`, `verificar` y el explorador dan nacidas y vivas del mismo instante. Motivo: el 7-oct el explorador mostro "creados 23 · vivos 2 · quemados 21" durante unos segundos tras forjar. Test `TestGemCountsSiguenAlIndice`.
 - **`rupixwallet forge --count N`** (14-oct): N gemas seguidas con una sola clave; entre forjas espera a ver la gema nueva (`esperarGema`, hasta 4 min) y si algo falla dice cuantas salieron. El daemon ya no vuelve a elegir gemas recien mandadas a quemar (`usedOutpoints`, como el Gold). Test `TestEsperarGema`. Guias ES/EN.
 - **`rupixwallet gems`** empieza con la linea de Gold (disponible + llegando), como pidio ER.
@@ -14,7 +18,6 @@ Formato: [versión] - fecha - descripción técnica
 - Explorador (7-oct): `/api/gems` (proxy de `GetGemsInfo`) y la escalera en vivo en la pagina: por nivel, nacidas (conteo sellado) · vivas (UTXO set) · tope; si Kings nacidos != vivos lo dice en pantalla. Los candados por halving siguen igual.
 - Explorador (7-oct, noche): la escalera con la redaccion de ER, por nivel: `creados N / tope` (el conteo sellado; el tope cuenta creados, no vivos) · `por crear` (tope − creados) · `quemados` (creados − vivos: los que subieron de nivel; Kings lleva raya porque nunca se queman) · `vivos` (UTXO set, lo que hay en wallets). Solo pagina, sin recompilar.
 - `tools/escalera-hasta-king.sh` (7-oct): forja gema a gema hasta 1 King en red viva (prueba de la escalera completa); la clave nunca se escribe. Pendientes de wallet v0.7 que deja: `forge --count N`, `gems` con la linea de Gold.
-- Pendiente: contador exacto de Gold minado/quemado (no se deriva del DAA del virtual sin recorrer la cadena; se decide aparte); tarjetas de gemas en explorador y web (el RPC ya existe).
 
 ## [v0.6.5] - 2026-10-07 — La red se cierra por tipo de conexion, la escalera por RPC y `rupixwallet verificar`
 **Sin cambio de consenso.** Mismas claves, mismos datos; solo cambia el binario. Trae lo que pidio el auditor tras v0.6.4 y dos herramientas para el usuario. Desde esta release los assets incluyen `SHA256SUMS-<os>.txt` con el sha256 de cada binario, que `rupixwallet verificar` compara solo.

@@ -106,6 +106,17 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 4. Verificar: `rupixd --version`, `rupixctl --testnet GetInfo` (versión del servidor), `GetBlockDagInfo` (DAA avanza, `isSynced`), `journalctl -u rupixd-testnet -n 20`.
 5. La release en GitHub (tag + CI) es lo que actualiza a la comunidad; el seed puede ir un paso adelante, nunca atrás.
 
+## Publicar una release (procedimiento desde v0.6.4; escrito 14-oct-2026)
+
+Siempre en un worktree (`/root/rupixd-rel`) si en `/root/rupixd` corre el fuzz. Una sola cadena `&&`: un paso rojo para los siguientes.
+
+1. Candidata: `version/version.go`, `CHANGELOG.md` (`[vX.Y.Z]`), README ES/EN (estado), guías con los zips nuevos, `releases/vX.Y.Z.md` (notas ES/EN). Suite: `go test -count=1 -p 1 ./... > log` con exit 0 (65 `ok` hoy).
+2. `git push origin rama:main`, luego `git tag -a vX.Y.Z -m "Rupix vX.Y.Z" && git push origin vX.Y.Z`.
+3. `gh release create vX.Y.Z --title "Rupix vX.Y.Z" --notes-file releases/vX.Y.Z.md --verify-tag`. El CI (deploy.yaml) sube los tres zips y los `SHA256SUMS-<os>.txt` en ~10 min.
+4. `sh tools/verificar-binarios.sh vX.Y.Z | tail -6`: 4/4 IGUAL (sección siguiente).
+5. Seed: parar servicios, copiar binarios actuales a `/root/bin-anterior/vPREV/`, `sha256sum -c` del zip de linux contra `SHA256SUMS-linux.txt`, descomprimir, copiar a `/usr/local/bin/`, arrancar. El explorador también va con `stop`/copia/`start`.
+6. `rupixwallet --testnet verificar`: 0 fallos, binario igual a la release. Web: hito + zips. LOGROS, CONTEXTO.
+
 ## Verificar una release (30-sep-2026)
 
 Después de publicar una release, en el seed: `sh /root/rupixd/tools/verificar-binarios.sh vX.Y.Z`. Debe decir `OK` con cuatro `IGUAL`. Si difiere, no se anuncia la release hasta entender por qué (versión de Go distinta a la del CI, flags cambiados, o algo peor). El CI compila con Go 1.26.6 y CGO activo con enlace estático; el seed debe tener la misma versión de Go.
