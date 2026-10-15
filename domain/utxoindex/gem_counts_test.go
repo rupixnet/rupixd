@@ -26,10 +26,11 @@ func TestGemCountsSiguenAlIndice(t *testing.T) {
 	}
 
 	gema := func(version uint16, n byte) (externalapi.DomainOutpoint, externalapi.UTXOEntry) {
-		var id externalapi.DomainTransactionID
-		id[0], id[1] = byte(version), n
+		var bytes [externalapi.DomainHashSize]byte
+		bytes[0], bytes[1] = byte(version), n
+		id := externalapi.NewDomainTransactionIDFromByteArray(&bytes)
 		spk := &externalapi.ScriptPublicKey{Script: []byte{0x20, n}, Version: version}
-		return externalapi.DomainOutpoint{TransactionID: id, Index: 0}, utxo.NewUTXOEntry(1, spk, false, 1)
+		return externalapi.DomainOutpoint{TransactionID: *id, Index: 0}, utxo.NewUTXOEntry(1, spk, false, 1)
 	}
 	aplicar := func(toAdd, toRemove map[externalapi.DomainOutpoint]externalapi.UTXOEntry) {
 		t.Helper()
