@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rupix — mapa de nodos · node map</title>
+<style>
+:root{--bg:#0d0813;--panel:#150e1f;--line:#2a2138;--text:#ece8f4;--muted:#a89fbd;--gold:#e8c766;--violet:#b794f6;--green:#7dd88f}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:12px}
+.logo h1{font-size:1.4rem;color:var(--gold)}
+.logo h1 a{color:inherit;text-decoration:none}
+.net{font-size:.75rem;color:var(--violet);background:var(--panel);border:1px solid var(--line);padding:3px 10px;border-radius:20px}
+.lang button{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:6px 10px;cursor:pointer}
+.lang button.on{border-color:var(--gold);color:var(--gold)}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:20px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px}
+.big{font-size:1.9rem;font-weight:800;color:var(--gold)}
+.sub{color:var(--muted);font-size:.85rem;margin-top:4px;line-height:1.45}
+#mapa{width:100%;height:auto;display:block;background:#0a0710;border-radius:10px;border:1px solid var(--line)}
+.tierra{fill:#1c1430;stroke:#2e2446;stroke-width:.4}
+.luz{fill:var(--gold)}
+.luz.propio{fill:var(--violet)}
+.halo{fill:none;stroke:var(--gold);stroke-width:1.2;opacity:0}
+.halo.propio{stroke:var(--violet)}
+.enlace{stroke:var(--gold);stroke-width:.7;opacity:.45;fill:none}
+@keyframes encender{0%{r:2;opacity:.9}100%{r:16;opacity:0}}
+.halo.nuevo{animation:encender 1.6s ease-out 2}
+ul{list-style:none}
+li{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+li:last-child{border-bottom:0}
+li b{color:var(--gold)}
+li .m{color:var(--muted);font-size:.8rem;text-align:right;white-space:nowrap}
+code{background:#0a0710;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.85em}
+footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem;text-align:center;line-height:1.6}
+footer a{color:var(--violet)}
+html[data-lang="es"] .en{display:none}
+html[data-lang="en"] .es{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="logo"><h1><a href="/">◆ RUPIX EXPLORER</a></h1><span class="net"><span class="es">mapa de nodos</span><span class="en">node map</span></span></div>
+  <div class="lang"><button id="b-es" onclick="idioma('es')">ES</button> <button id="b-en" onclick="idioma('en')">EN</button></div>
+</header>
+
+<div class="grid">
+  <div class="card">
+    <h2><span class="es">🌍 Nodos conectados ahora</span><span class="en">🌍 Nodes connected now</span></h2>
+    <svg id="mapa" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet" aria-label="mapa"></svg>
+    <div class="sub" id="leyenda">
+      <span class="es">Cada luz es un nodo que el seed ve conectado ahora. La línea va hacia quien lo reporta. Posición aproximada por país y ciudad; <b>la IP no se publica ni se guarda</b>.</span>
+      <span class="en">Each light is a node the seed sees connected right now. The line goes to whoever reports it. Position is approximate by country and city; <b>the IP is neither published nor stored</b>.</span>
+    </div>
+  </div>
+  <div class="card">
+    <h2><span class="es">Ahora</span><span class="en">Now</span></h2>
+    <div class="big" id="total">…</div>
+    <div class="sub" id="paises"></div>
+    <div class="sub" id="singeo" style="margin-top:8px"></div>
+    <h2 style="margin-top:18px"><span class="es">Quién está</span><span class="en">Who is here</span></h2>
+    <ul id="lista"><li><span class="es">cargando…</span><span class="en">loading…</span></li></ul>
+    <h2 style="margin-top:18px"><span class="es">Enciende tu luz</span><span class="en">Light yours</span></h2>
+    <div class="sub">
+      <span class="es">Corre un nodo y ponle nombre: <code>rupixd --testnet --uacomment=TuNombre</code>. El nombre viaja en el saludo de la red; nada más. Guía en <a href="https://rupix.network/guia.html" style="color:var(--violet)">rupix.network/guia</a>.</span>
+      <span class="en">Run a node and name it: <code>rupixd --testnet --uacomment=YourName</code>. The name travels in the network handshake; nothing else. Guide at <a href="https://rupix.network/guide.html" style="color:var(--violet)">rupix.network/guide</a>.</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="es">Rupix testnet — el laboratorio público · Esta página no carga nada de terceros · Contorno: Natural Earth vía world-atlas (ISC) · d3 (ISC) · Ubicación: DB-IP (CC BY 4.0) · <a href="https://github.com/rupixnet/rupixd">github.com/rupixnet/rupixd</a> · No confíes, verifica.</span>
+  <span class="en">Rupix testnet — the public lab · This page loads nothing from third parties · Outline: Natural Earth via world-atlas (ISC) · d3 (ISC) · Location: DB-IP (CC BY 4.0) · <a href="https://github.com/rupixnet/rupixd">github.com/rupixnet/rupixd</a> · Don't trust, verify.</span>
+</footer>
+</div>
+
+<script src="/vendor/d3-7.9.0.min.js"></script>
+<script src="/vendor/topojson-client-3.1.0.min.js"></script>
+<script>
+function idioma(l){document.documentElement.setAttribute("data-lang",l);document.getElementById("b-es").classList.toggle("on",l==="es");document.getElementById("b-en").classList.toggle("on",l==="en");try{localStorage.setItem("rupix-lang",l)}catch(e){}}
+idioma((function(){try{const g=localStorage.getItem("rupix-lang");if(g==="es"||g==="en")return g;return (navigator.language||"es").slice(0,2)==="en"?"en":"es"}catch(e){return "es"}})());
+
+// El mapa solo si d3 cargo (lo sirve este mismo explorador desde /vendor). La lista y
+// los contadores funcionan siempre, con o sin mapa.
+const conMapa=!!(window.d3&&window.topojson);
+const W=960, H=500;
+let svg,proy,camino,gTierra,gEnlaces,gLuces;
+let vistos=new Set();   // claves ya pintadas: para animar solo las nuevas
+let mundoListo=!conMapa;
+if(conMapa){
+  svg=d3.select("#mapa"); proy=d3.geoNaturalEarth1().scale(165).translate([W/2,H/2]); camino=d3.geoPath(proy);
+  gTierra=svg.append("g"); gEnlaces=svg.append("g"); gLuces=svg.append("g");
+  d3.json("/vendor/countries-110m.json").then(mundo=>{
+    gTierra.selectAll("path").data(topojson.feature(mundo,mundo.objects.countries).features).join("path").attr("class","tierra").attr("d",camino);
+    mundoListo=true; refrescar();
+  }).catch(()=>{ mundoListo=true; refrescar(); }); // sin contorno, las luces igual se pintan
+}
+
+const fmtT=s=>{s=Number(s)||0;if(s<90)return s+" s";if(s<5400)return Math.round(s/60)+" min";if(s<172800)return Math.round(s/3600)+" h";return Math.round(s/86400)+" d"};
+const es=()=>document.documentElement.getAttribute("data-lang")!=="en";
+const clave=n=>[n.nombre,n.version,n.pais,n.ciudad,n.lat,n.lon,n.saliente].join("|");
+
+async function refrescar(){
+  let r; try{ r=await (await fetch("/api/peers")).json(); }catch(e){ return; }
+  if(!r||r.error) return;
+  const propio=r.propio, nodos=r.nodos||[];
+  const total=nodos.length+(propio?1:0);
+  document.getElementById("total").textContent=total+(es()?" nodo"+(total===1?"":"s"):" node"+(total===1?"":"s"));
+  document.getElementById("paises").textContent=r.paises?(es()?"en "+r.paises+" país"+(r.paises===1?"":"es"):"in "+r.paises+" countr"+(r.paises===1?"y":"ies")):"";
+  const sinUbicar=nodos.filter(n=>!n.ubicado).length;
+  document.getElementById("singeo").textContent=!r.conGeo?(es()?"Sin base de ubicación en este explorador: los nodos se listan sin país.":"No location database on this explorer: nodes are listed without a country."):(sinUbicar?(es()?sinUbicar+" sin ubicar (IPv6 o fuera de la base)":sinUbicar+" not located (IPv6 or outside the database)"):"");
+
+  // Lista
+  const ul=document.getElementById("lista"); ul.innerHTML="";
+  const fila=(n,etq)=>{const li=document.createElement("li");
+    const a=document.createElement("span"); const b=document.createElement("b"); b.textContent=n.nombre||(es()?"nodo":"node"); a.appendChild(b);
+    if(etq){const t=document.createElement("span"); t.textContent=" · "+etq; t.style.color="var(--violet)"; a.appendChild(t);}
+    const m=document.createElement("span"); m.className="m";
+    m.textContent=[n.version?"v"+n.version:"", n.ciudad?n.ciudad+", "+n.pais:(n.pais||""), n.segundos?fmtT(n.segundos):""].filter(Boolean).join(" · ");
+    li.appendChild(a); li.appendChild(m); return li;};
+  if(propio) ul.appendChild(fila(propio,"seed"));
+  nodos.forEach(n=>ul.appendChild(fila(n)));
+  if(!total) ul.innerHTML="<li><span class='es'>nadie conectado ahora</span><span class='en'>nobody connected right now</span></li>";
+
+  if(!conMapa||!mundoListo) return;
+  // Luces: el propio en violeta; los demás en dorado, con línea hacia el seed si ambos están ubicados.
+  const puntos=[]; if(propio&&propio.ubicado) puntos.push({...propio,propio:true});
+  nodos.filter(n=>n.ubicado).forEach(n=>puntos.push(n));
+  const xy=n=>proy([n.lon,n.lat]);
+  const origen=propio&&propio.ubicado?xy(propio):null;
+  gEnlaces.selectAll("path").data(puntos.filter(n=>!n.propio&&origen),clave).join("path").attr("class","enlace")
+    .attr("d",n=>{const p=xy(n);if(!p)return"";const mx=(p[0]+origen[0])/2,my=Math.min(p[1],origen[1])-30;return`M${p[0]},${p[1]} Q${mx},${my} ${origen[0]},${origen[1]}`});
+  const g=gLuces.selectAll("g").data(puntos,clave).join(enter=>{
+    const e=enter.append("g");
+    e.append("circle").attr("class",n=>"halo"+(n.propio?" propio":"")+(vistos.has(clave(n))?"":" nuevo")).attr("r",2);
+    e.append("circle").attr("class",n=>"luz"+(n.propio?" propio":"")).attr("r",0).transition().duration(600).attr("r",n=>n.propio?5:3.5);
+    e.append("title");
+    return e;});
+  g.attr("transform",n=>{const p=xy(n);return p?`translate(${p[0]},${p[1]})`:"translate(-100,-100)"});
+  g.select("title").text(n=>(n.nombre||(es()?"nodo":"node"))+(n.version?" · v"+n.version:"")+(n.ciudad?" · "+n.ciudad+", "+n.pais:""));
+  puntos.forEach(n=>vistos.add(clave(n)));
+}
+setInterval(refrescar,15000);
+</script>
+</body>
+</html>

@@ -199,6 +199,17 @@ Los `.service` del seed 1 (`rupixminer-testnet`, `rupixwallet-testnet`) están e
 - **RAM:** no correr `go test ./...` entero con el nodo arriba sin `-p 1`; el fuzzing nocturno va con `GOMAXPROCS=2 nice -n 19`.
 - **Actualizar:** sección "Actualizar el binario", siempre con `sha256sum -c` y copia de los binarios anteriores en `/root/bin-anterior/<version>/`.
 
+## El mapa de nodos (14-oct-2026)
+
+El explorador sirve `/mapa.html` con los peers que ve el nodo. Para ubicarlos por pais/ciudad necesita una base local (no se consulta ningun servicio externo; la IP nunca sale del proceso):
+
+1. Bajar DB-IP lite de ciudad (CC BY 4.0, se renueva cada mes): `mkdir -p /root/geo && cd /root/geo && curl -sSLO https://download.db-ip.com/free/dbip-city-lite-$(date +%Y-%m).csv.gz && gunzip -f dbip-city-lite-*.csv.gz && ln -sf $(ls dbip-city-lite-*.csv | tail -1) dbip-city-lite.csv`. Pesa ~150 MB en disco y unos 200 MB en memoria al cargar.
+2. Ubicar el propio seed (una vez): `IP=$(curl -s https://ifconfig.me); awk -F, -v ip="$IP" 'BEGIN{split(ip,o,".");n=o[1]*16777216+o[2]*65536+o[3]*256+o[4]} $1!~/:/ {split($1,a,".");split($2,b,".");s=a[1]*16777216+a[2]*65536+a[3]*256+a[4];e=b[1]*16777216+b[2]*65536+b[3]*256+b[4]; if(n>=s&&n<=e){print $4","$6","$7","$8; exit}}' /root/geo/dbip-city-lite.csv` → `PAIS,Ciudad,lat,lon`.
+3. En `rupix-explorer.service`, `ExecStart` con `--geodb=/root/geo/dbip-city-lite.csv --nodo-propio="lat,lon,PAIS,Ciudad,Seed 1"`; `systemctl daemon-reload && systemctl restart rupix-explorer`. Comprobar `curl -s 127.0.0.1:8090/api/peers`.
+4. Renovar la base cada mes (paso 1 otra vez y `restart`). Sin base, el mapa lista los nodos sin pais y lo dice.
+
+Quien quiera nombre en el mapa: `rupixd --testnet --uacomment=SuNombre` (va en el saludo P2P, BIP 14; nada mas viaja). Limite de 32 caracteres en pantalla; se limpia de HTML.
+
 ## Limpieza de disco del seed 1 (7-oct-2026)
 
 Encontrado al escribir la receta del seed: disco al **82 %** (59/75 GB) con la cadena viva en 7.4 GB. Se identificó cada cosa antes de tocarla y se borró solo por nombre completo, después de copiar lo que se conserva:

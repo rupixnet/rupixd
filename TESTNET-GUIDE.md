@@ -24,6 +24,8 @@ Download the file for your system:
 - **Mac:** `rupix-v0.6.6-osx.zip`
 - **Linux:** `rupix-v0.6.6-linux.zip`
 
+> **Your light on the map.** The explorer has a [node map](https://explorer.rupix.network/mapa.html). If you want your node to show up with a name, start it with `--uacomment=YourName` (it travels in the network handshake, nothing else). The map shows approximate country and city; never your IP.
+
 Unzip it. Inside you'll find 4 programs:
 `rupixd` (the node), `rupixctl` (control), `rupixwallet` (wallet), `rupixminer` (miner).
 

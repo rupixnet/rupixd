@@ -8,6 +8,7 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
 )
@@ -15,6 +16,8 @@ import (
 var rpcAddress = flag.String("rpcserver", "127.0.0.1:17210", "direccion RPC del nodo rupixd")
 var listenAddress = flag.String("listen", "127.0.0.1:8090", "direccion HTTP del explorador")
 var webDir = flag.String("webdir", "/root/rupix-explorer-web", "carpeta del frontend")
+var geoDB = flag.String("geodb", "", "CSV de DB-IP lite (ciudad) para ubicar nodos por pais/ciudad aproximada; vacio = sin mapa")
+var nodoPropioFlag = flag.String("nodo-propio", "", "este nodo en el mapa: \"lat,lon,PAIS,Ciudad,Nombre\"")
 
 func main() {
 	flag.Parse()
@@ -22,6 +25,14 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("no pude conectar al nodo: %s", err))
 	}
+	geo, err := cargarGeoBase(*geoDB)
+	if err != nil {
+		panic(fmt.Sprintf("no pude cargar la base de ubicacion %s: %s", *geoDB, err))
+	}
+	if geo != nil {
+		fmt.Printf("mapa de nodos: %d rangos IPv4 cargados de %s\n", len(geo.inicio), *geoDB)
+	}
+	propio := nodoPropio(*nodoPropioFlag)
 	fmt.Printf("Rupix Explorer proxy: nodo=%s http=%s\n", *rpcAddress, *listenAddress)
 
 	http.HandleFunc("/api/dag", func(w http.ResponseWriter, r *http.Request) {
@@ -38,6 +49,18 @@ func main() {
 		resp, err := client.GetGemsInfo()
 		writeJSON(w, resp, err)
 	})
+	// Rupix (14-oct-2026): el mapa de nodos. Nombre elegido (--uacomment), version,
+	// antiguedad y ciudad aproximada; nunca la IP (ver nodos.go).
+	http.HandleFunc("/api/peers", func(w http.ResponseWriter, r *http.Request) {
+		resp, err := client.GetConnectedPeerInfo()
+		if err != nil {
+			writeJSON(w, nil, err)
+			return
+		}
+		nodos := nodosDesdePeers(resp.Infos, geo, time.Now())
+		writeJSON(w, &RespuestaNodos{Propio: propio, Nodos: nodos, Total: len(nodos), Paises: contarPaises(nodos, propio), ConGeo: geo != nil,
+			Nota: "Solo lo que cada nodo anuncia (nombre con --uacomment, version) y una ubicacion aproximada por pais/ciudad. La IP no se publica ni se guarda."}, nil)
+	})
 	http.HandleFunc("/api/hashrate", func(w http.ResponseWriter, r *http.Request) {
 		resp, err := client.EstimateNetworkHashesPerSecond("", 1000)
 		writeJSON(w, resp, err)
@@ -53,6 +76,10 @@ func main() {
 		writeJSON(w, resp, err)
 	})
 
+	// /mapa y /map llevan a la pagina del mapa de nodos.
+	for _, ruta := range []string{"/mapa", "/map"} {
+		http.HandleFunc(ruta, func(w http.ResponseWriter, r *http.Request) { http.Redirect(w, r, "/mapa.html", http.StatusFound) })
+	}
 	// Frontend: servir la carpeta web
 	http.Handle("/", http.FileServer(http.Dir(*webDir)))
 

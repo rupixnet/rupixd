@@ -24,6 +24,8 @@ Descarga el archivo de tu sistema:
 - **Mac:** `rupix-v0.6.6-osx.zip`
 - **Linux:** `rupix-v0.6.6-linux.zip`
 
+> **Tu luz en el mapa.** El explorador tiene un [mapa de nodos](https://explorer.rupix.network/mapa.html). Si quieres que tu nodo aparezca con nombre, arráncalo con `--uacomment=TuNombre` (viaja en el saludo de la red, nada más). El mapa muestra país y ciudad aproximados; nunca tu IP.
+
 Descomprime el archivo. Dentro encontrarás 4 programas:
 `rupixd` (el nodo), `rupixctl` (control), `rupixwallet` (billetera), `rupixminer` (minero).
 

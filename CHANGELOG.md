@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **Mapa de nodos en el explorador** (14-oct, noche): `/api/peers` y `/mapa.html` (`/mapa`, `/map`). Por nodo se publica solo lo que el propio nodo anuncia (nombre elegido con `rupixd --uacomment=Nombre`, version), desde cuando esta conectado y una ubicacion aproximada por pais/ciudad (coordenadas a un decimal) sacada de una base local libre (DB-IP lite, CSV de ciudad, `--geodb`); **la IP no se publica ni se guarda**. El seed se declara con `--nodo-propio="lat,lon,PAIS,Ciudad,Nombre"`. Luces que se encienden al aparecer, linea hacia quien reporta (hoy, el seed), lista lateral, ES/EN. La pagina **no carga nada de terceros**: d3, topojson-client y el contorno de Natural Earth van en `web/vendor/` (ISC, ver su README). Tests `TestMapaDeNodosNoFiltraIPs`, `TestPartirUserAgent`. Pendiente: rastreador P2P para ver mas alla de los peers del seed.
 - Pendiente: contador exacto de Gold emitido/quemado (va con `historial`, v0.7); tarjeta de gemas en la web.
 
 ## [v0.6.6] - 2026-10-14 — Gemas vivas exactas, `forge --count`, el explorador con la escalera completa
