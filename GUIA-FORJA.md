@@ -72,7 +72,7 @@ Copia la dirección que empieza con `rupixtest:...`
 ```
 ./rupixwallet --testnet forge --level=1
 Vas a forjar 1 Diamante en rupixtest:qq...tu_direccion
-Se queman 10 Gold PARA SIEMPRE, mas una comision pequena.
+Se queman 10 Gold PARA SIEMPRE, mas una comision pequena por gema.
 Confirmas? Escribe 'si' para continuar: si
 Contrasena: (la escribes aquí, no se ve)
 Ascenso forjado: gema Diamante creada.
@@ -82,6 +82,7 @@ Ascenso forjado: gema Diamante creada.
 - `--gem-address=` es **opcional**: si no lo pones, la gema nace en tu primera dirección (la del paso 3)
 - Antes de pedir la contraseña, la wallet consulta tu nodo: si el nivel no está abierto o falta Gold, te lo dice en palabras y no manda nada
 - La contraseña se pide al momento, siempre; desde v0.6.3 ya no existe la bandera `--password` en ningún comando (quedaba en el historial)
+- `--count=N` (desde v0.6.6): forja N gemas seguidas con una sola contraseña. Entre una y otra la wallet espera a **ver** la gema nueva antes de mandar la siguiente; si la red rechaza algo, se detiene y te dice cuántas salieron. Ejemplo: `forge --level=1 --count=10` deja 10 Diamantes listos para subir a Platino con `forge --level=2`.
 
 Esto **quema 10 Gold para siempre** y crea **1 Diamante**. La quema
 queda grabada en la blockchain, visible para todos, irreversible.

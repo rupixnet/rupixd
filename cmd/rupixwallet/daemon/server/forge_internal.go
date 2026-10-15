@@ -80,6 +80,16 @@ func (s *server) forgeGemFromGems(level uint16, gemScript *externalapi.ScriptPub
 	gemInputs := make([]*librupixwallet.UTXO, 0, constants.BurnRatio)
 	for _, entry := range s.utxosSortedByAmount {
 		if entry.UTXOEntry.ScriptPublicKey().Version == inferior {
+			// Rupix (14-oct-2026, forge --count): una gema que ya se mando a quemar y aun
+			// no ha salido del UTXO set no se vuelve a elegir, igual que hace selectUTXOs
+			// con el Gold; si no, dos forjas seguidas intentarian gastar las mismas diez.
+			if broadcastTime, ok := s.usedOutpoints[*entry.Outpoint]; ok {
+				if s.usedOutpointHasExpired(broadcastTime) {
+					delete(s.usedOutpoints, *entry.Outpoint)
+				} else {
+					continue
+				}
+			}
 			gemInputs = append(gemInputs, &librupixwallet.UTXO{
 				Outpoint:       entry.Outpoint,
 				UTXOEntry:      entry.UTXOEntry,

@@ -138,6 +138,7 @@ type newAddressConfig struct {
 type forgeConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	Level         uint32 `long:"level" short:"l" description:"Nivel: 1=Diamante 2=Platino 3=Rodio 4=Kings"`
+	Count         uint32 `long:"count" short:"n" default:"1" description:"Cuantas gemas forjar seguidas con una sola clave (espera a ver cada una antes de la siguiente)"`
 	GemAddress    string `long:"gem-address" description:"Direccion donde nace la gema (si no se da, la primera de tu wallet)"`
 	RPCServer     string `long:"rpcserver" short:"s" description:"Nodo rupixd para preguntar en que bloque va la red (default: 127.0.0.1 con el puerto de la red)"`
 	Yes           bool   `long:"yes" short:"y" description:"No pedir confirmacion"`

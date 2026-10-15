@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/pkg/errors"
 	"github.com/rupixnet/rupixd/cmd/rupixwallet/daemon/client"
@@ -22,6 +23,10 @@ func forge(conf *forgeConfig) error {
 		return errors.New(T("forjar.nivel_invalido"))
 	}
 	nombre := nombreNivel(conf.Level)
+	if conf.Count < 1 || conf.Count > 1000 {
+		return errors.New(T("forjar.count_invalido"))
+	}
+	n := uint64(conf.Count)
 
 	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress)
 	if err != nil {
@@ -58,17 +63,17 @@ func forge(conf *forgeConfig) error {
 	quema := uint64(constants.BurnRatio)
 	var faltas []string
 	if conf.Level == 1 {
-		necesario := quema*rupix + rupix // 10 Gold que se queman + margen para comision y quema por tx
+		necesario := n * (quema*rupix + rupix) // por gema: 10 Gold que se queman + margen para comision y quema por tx
 		if saldo.Available < necesario {
 			faltas = append(faltas, fmt.Sprintf(T("falta.gold_diamante"),
 				rupixTxt(saldo.Available), rupixTxt(necesario)))
 		}
 	} else {
 		inferior := conf.Level - 1
-		if tengo[inferior] < quema {
-			faltas = append(faltas, fmt.Sprintf(T("falta.gemas"), nombreNivel(inferior), tengo[inferior], quema))
+		if tengo[inferior] < n*quema {
+			faltas = append(faltas, fmt.Sprintf(T("falta.gemas"), nombreNivel(inferior), tengo[inferior], n*quema))
 		}
-		if saldo.Available < 2*rupix {
+		if saldo.Available < n*2*rupix {
 			faltas = append(faltas, fmt.Sprintf(T("falta.gold_comision"), rupixTxt(saldo.Available)))
 		}
 	}
@@ -94,12 +99,12 @@ func forge(conf *forgeConfig) error {
 	}
 
 	// Resumen y confirmacion: lo que se quema no vuelve.
-	fmt.Printf(T("forjar.resumen")+"\n", nombre, conf.GemAddress)
+	fmt.Printf(T("forjar.resumen")+"\n", n, nombre, conf.GemAddress)
 	if conf.Level == 1 {
-		fmt.Println(T("forjar.quema_gold"))
+		fmt.Printf(T("forjar.quema_gold")+"\n", n*quema)
 	} else {
 		fmt.Printf(T("forjar.quema_gemas")+"\n",
-			quema, nombreNivel(conf.Level-1), tengo[conf.Level-1]-quema, nombreNivel(conf.Level-1))
+			n*quema, nombreNivel(conf.Level-1), tengo[conf.Level-1]-n*quema, nombreNivel(conf.Level-1))
 	}
 	if errNodo == nil {
 		fmt.Printf(T("red.bloque")+"\n", miles(daa), nombre, miles(abreEn))
@@ -113,20 +118,43 @@ func forge(conf *forgeConfig) error {
 	// linea de comandos quedaba en el historial).
 	password := keys.GetPassword(T("clave.prompt"))
 
-	forgeCtx, forgeCancel := context.WithTimeout(context.Background(), daemonTimeout)
-	defer forgeCancel()
-	response, err := daemonClient.Forge(forgeCtx, &pb.ForgeRequest{
-		Level:      conf.Level,
-		GemAddress: conf.GemAddress,
-		Password:   password,
-	})
-	if err != nil {
-		return traducirErrorNodo(err)
-	}
-
-	fmt.Printf(T("forjar.hecho")+"\n", nombre)
-	for _, txID := range response.TxIDs {
-		fmt.Printf("  tx: %s\n", txID)
+	// Una clave, n forjas. Entre una y otra se espera a que la gema nueva aparezca en la
+	// wallet: asi la siguiente ya no ve las gemas consumidas ni el Gold gastado, y si la
+	// red rechaza algo se para ahi y se dice cuantas salieron.
+	hechas := uint64(0)
+	for i := uint64(1); i <= n; i++ {
+		antes := tengo[conf.Level]
+		forgeCtx, forgeCancel := context.WithTimeout(context.Background(), daemonTimeout)
+		response, err := daemonClient.Forge(forgeCtx, &pb.ForgeRequest{
+			Level:      conf.Level,
+			GemAddress: conf.GemAddress,
+			Password:   password,
+		})
+		forgeCancel()
+		if err != nil {
+			if hechas > 0 {
+				fmt.Printf(T("forjar.parcial")+"\n", hechas, n, nombre)
+			}
+			return traducirErrorNodo(err)
+		}
+		hechas++
+		if n == 1 {
+			fmt.Printf(T("forjar.hecho")+"\n", nombre)
+		} else {
+			fmt.Printf(T("forjar.hecho_n")+"\n", i, n, nombre)
+		}
+		for _, txID := range response.TxIDs {
+			fmt.Printf("  tx: %s\n", txID)
+		}
+		if i == n {
+			break
+		}
+		despues, err := esperarGema(daemonClient, conf.Level, antes)
+		if err != nil {
+			fmt.Printf(T("forjar.parcial")+"\n", hechas, n, nombre)
+			return err
+		}
+		tengo[conf.Level] = despues
 	}
 	red := banderaRed()
 	if red != "" {
@@ -152,3 +180,30 @@ func daaDelNodo(rpcServer string, params *dagconfig.Params) (uint64, error) {
 	}
 	return info.VirtualDAAScore, nil
 }
+
+// esperarGema espera a que la wallet vea una gema mas del nivel dado (es decir, que la
+// forja anterior ya este en un bloque y el daemon haya refrescado sus UTXOs). Hasta
+// esperaGemaMax; si no llega, devuelve error y la forja en serie se detiene.
+func esperarGema(daemonClient pb.KaspawalletdClient, nivel uint32, antes uint64) (uint64, error) {
+	limite := time.Now().Add(esperaGemaMax)
+	for {
+		ctx, cancel := context.WithTimeout(context.Background(), daemonTimeout)
+		g, err := daemonClient.Gems(ctx, &pb.GemsRequest{})
+		cancel()
+		if err != nil {
+			return 0, err
+		}
+		ahora := map[uint32]uint64{1: g.Diamante, 2: g.Platino, 3: g.Rodio, 4: g.Kings}[nivel]
+		if ahora > antes {
+			return ahora, nil
+		}
+		if time.Now().After(limite) {
+			return ahora, errors.Errorf(T("forjar.no_aparecio"), nombreNivel(nivel), int(esperaGemaMax.Seconds()))
+		}
+		time.Sleep(2 * time.Second)
+	}
+}
+
+// esperaGemaMax: cuanto espera forge --count a ver cada gema antes de rendirse
+// (variable para que el test la acorte).
+var esperaGemaMax = 4 * time.Minute

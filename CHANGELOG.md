@@ -7,6 +7,10 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **Conteo de gemas vivas exacto** (14-oct): `GetGemCounts` ya no es una cache de 30 s; recorre el indice una vez y desde ahi cada `Update` suma lo que entra y resta lo que sale (`ajustarGemCounts`), asi que `GetGemsInfo`, `verificar` y el explorador dan nacidas y vivas del mismo instante. Motivo: el 7-oct el explorador mostro "creados 23 · vivos 2 · quemados 21" durante unos segundos tras forjar. Test `TestGemCountsSiguenAlIndice`.
+- **`rupixwallet forge --count N`** (14-oct): N gemas seguidas con una sola clave; entre forjas espera a ver la gema nueva (`esperarGema`, hasta 4 min) y si algo falla dice cuantas salieron. El daemon ya no vuelve a elegir gemas recien mandadas a quemar (`usedOutpoints`, como el Gold). Test `TestEsperarGema`. Guias ES/EN.
+- **`rupixwallet gems`** empieza con la linea de Gold (disponible + llegando), como pidio ER.
+- Decidido: el contador exacto de Gold emitido/quemado va con `historial` (v0.7): el indice de UTXOs ve las coinbase con recompensa **mas comisiones** y no puede separarlas sin leer la transaccion; `historial` si.
 - Explorador (7-oct): `/api/gems` (proxy de `GetGemsInfo`) y la escalera en vivo en la pagina: por nivel, nacidas (conteo sellado) · vivas (UTXO set) · tope; si Kings nacidos != vivos lo dice en pantalla. Los candados por halving siguen igual.
 - Explorador (7-oct, noche): la escalera con la redaccion de ER, por nivel: `creados N / tope` (el conteo sellado; el tope cuenta creados, no vivos) · `por crear` (tope − creados) · `quemados` (creados − vivos: los que subieron de nivel; Kings lleva raya porque nunca se queman) · `vivos` (UTXO set, lo que hay en wallets). Solo pagina, sin recompilar.
 - `tools/escalera-hasta-king.sh` (7-oct): forja gema a gema hasta 1 King en red viva (prueba de la escalera completa); la clave nunca se escribe. Pendientes de wallet v0.7 que deja: `forge --count N`, `gems` con la linea de Gold.

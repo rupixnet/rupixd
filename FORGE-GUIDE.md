@@ -69,7 +69,7 @@ Copy the address that starts with `rupixtest:...`
 ```
 ./rupixwallet --lang=en --testnet forge --level=1
 You are about to forge 1 Diamond at rupixtest:qq...your_address
-10 Gold are burned FOREVER, plus a small fee.
+10 Gold are burned FOREVER, plus a small fee per gem.
 Confirm? Type 'yes' to continue: yes
 Password: (type it here, it is not shown)
 Forged: Diamond gem created.
@@ -79,6 +79,7 @@ Forged: Diamond gem created.
 - `--gem-address=` is **optional**: leave it out and the gem is born at your first address (from step 3)
 - Before asking for the password the wallet asks your node: if the level isn't open or Gold is missing, it tells you in words and sends nothing
 - The password is always asked at that moment; since v0.6.3 there is no `--password` flag on any command (it ended up in your history)
+- `--count=N` (since v0.6.6): forge N gems in a row with a single password. Between one and the next the wallet waits to **see** the new gem before sending the next; if the network rejects anything it stops and tells you how many were made. Example: `forge --level=1 --count=10` leaves 10 Diamonds ready to go up to Platinum with `forge --level=2`.
 
 This **burns 10 Gold forever** and creates **1 Diamond**. The burn is
 recorded on the blockchain, visible to everyone, irreversible.

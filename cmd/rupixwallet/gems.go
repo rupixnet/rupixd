@@ -23,6 +23,16 @@ func gems(conf *gemsConfig) error {
 		return err
 	}
 
+	// Rupix (14-oct-2026, pedido de ER): el Gold primero, en la misma pantalla que las gemas.
+	saldo, err := daemonClient.GetBalance(ctx, &pb.GetBalanceRequest{})
+	if err != nil {
+		return err
+	}
+	pendiente := ""
+	if saldo.Pending > 0 {
+		pendiente = fmt.Sprintf(T("saldo.pendiente"), rupixTxt(saldo.Pending))
+	}
+	fmt.Printf("  🪙 %-9s: %s RUPIX%s\n", "Gold", rupixTxt(saldo.Available), pendiente)
 	total := response.Diamante + response.Platino + response.Rodio + response.Kings
 	fmt.Println(T("gemas.titulo"))
 	fmt.Printf("  💎 %-9s: %d\n", nombreNivel(1), response.Diamante)

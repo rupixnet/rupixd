@@ -6,11 +6,7 @@ import (
 	"github.com/rupixnet/rupixd/infrastructure/db/database"
 	"github.com/rupixnet/rupixd/infrastructure/logger"
 	"sync"
-	"time"
 )
-
-// gemCountsTTL (Rupix): cuanto se reutiliza el ultimo conteo de gemas vivas.
-const gemCountsTTL = 30 * time.Second
 
 // UTXOIndex maintains an index between transaction scriptPublicKeys
 // and UTXOs
@@ -20,8 +16,13 @@ type UTXOIndex struct {
 
 	mutex sync.Mutex
 
-	gemCounts   [5]uint64 // Rupix: cache de GetGemCounts
-	gemCountsAt time.Time
+	// Rupix: conteo de gemas vivas por nivel (0 Gold, 1 Diamante, 2 Platino, 3 Rodio,
+	// 4 Kings). Se llena recorriendo el indice una vez (gemCountsListo) y desde ahi se
+	// mantiene en cada Update: suma lo anadido, resta lo quitado. Siempre al dia con el
+	// indice, nunca una foto vieja (14-oct-2026: una cache de 30 s hizo que el explorador
+	// mostrara "quemados 21" donde eran 20).
+	gemCounts      [5]uint64
+	gemCountsListo bool
 }
 
 // New creates a new UTXO index.
@@ -102,6 +103,7 @@ func (ui *UTXOIndex) Reset() error {
 		return err
 	}
 
+	ui.gemCountsListo = false // el indice cambio entero; se vuelve a contar al pedirlo
 	log.Infof("Finished UTXO index reset")
 	return nil
 }
@@ -154,9 +156,39 @@ func (ui *UTXOIndex) Update(virtualChangeSet *externalapi.VirtualChangeSet) (*UT
 	if err != nil {
 		return nil, err
 	}
+	ui.ajustarGemCounts(utxoIndexChanges)
 
 	log.Tracef("UTXO index updated with the UTXOChanged: %+v", utxoIndexChanges)
 	return utxoIndexChanges, nil
+}
+
+// ajustarGemCounts (Rupix) aplica al conteo de gemas vivas lo que acaba de entrar y
+// salir del indice. Solo si el conteo ya esta listo; si no, lo hara el recorrido completo.
+// Se llama con ui.mutex tomado.
+func (ui *UTXOIndex) ajustarGemCounts(cambios *UTXOChanges) {
+	if !ui.gemCountsListo {
+		return
+	}
+	for _, pares := range cambios.Added {
+		for _, entry := range pares {
+			if v := entry.ScriptPublicKey().Version; int(v) < len(ui.gemCounts) {
+				ui.gemCounts[v]++
+			}
+		}
+	}
+	for _, pares := range cambios.Removed {
+		for _, entry := range pares {
+			if v := entry.ScriptPublicKey().Version; int(v) < len(ui.gemCounts) {
+				if ui.gemCounts[v] == 0 {
+					// No deberia pasar: quitar lo que no se conto. Se vuelve a contar.
+					log.Warnf("gemCounts: nivel %d en 0 al quitar un UTXO; se recontara", v)
+					ui.gemCountsListo = false
+					return
+				}
+				ui.gemCounts[v]--
+			}
+		}
+	}
 }
 
 func (ui *UTXOIndex) addUTXOs(toAdd externalapi.UTXOCollection) error {
@@ -208,20 +240,20 @@ func (ui *UTXOIndex) UTXOs(scriptPublicKey *externalapi.ScriptPublicKey) (UTXOOu
 
 // GetCirculatingRupiaSupply returns the current circulating supply of rupias in the network
 // GetGemCounts (Rupix) devuelve cuantos UTXOs de cada nivel viven ahora mismo
-// (indice 0 = Gold, 1 Diamante, 2 Platino, 3 Rodio, 4 Kings). Recorre el indice
-// entero, asi que se guarda el resultado durante gemCountsTTL para que un explorador
-// que pregunte seguido no cueste una pasada por segundo.
+// (indice 0 = Gold, 1 Diamante, 2 Platino, 3 Rodio, 4 Kings), exactamente los del
+// indice en este instante. El recorrido completo ocurre una sola vez (o tras un Reset);
+// despues cada Update lo mantiene al dia.
 func (ui *UTXOIndex) GetGemCounts() ([5]uint64, error) {
 	ui.mutex.Lock()
 	defer ui.mutex.Unlock()
-	if !ui.gemCountsAt.IsZero() && time.Since(ui.gemCountsAt) < gemCountsTTL {
+	if ui.gemCountsListo {
 		return ui.gemCounts, nil
 	}
 	conteo, err := ui.store.countGems()
 	if err != nil {
 		return conteo, err
 	}
-	ui.gemCounts, ui.gemCountsAt = conteo, time.Now()
+	ui.gemCounts, ui.gemCountsListo = conteo, true
 	return conteo, nil
 }
 
