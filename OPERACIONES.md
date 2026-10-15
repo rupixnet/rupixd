@@ -199,6 +199,10 @@ Los `.service` del seed 1 (`rupixminer-testnet`, `rupixwallet-testnet`) están e
 - **RAM:** no correr `go test ./...` entero con el nodo arriba sin `-p 1`; el fuzzing nocturno va con `GOMAXPROCS=2 nice -n 19`.
 - **Actualizar:** sección "Actualizar el binario", siempre con `sha256sum -c` y copia de los binarios anteriores en `/root/bin-anterior/<version>/`.
 
+## Memoria del seed: el daemon de la wallet (15-oct-2026)
+
+`rupixwallet-testnet` (el daemon) llego a 2.97 GB porque la wallet de minado acumula un UTXO por bloque (1.6 M). **Se deja parado**; se arranca solo para forjar: `systemctl start rupixwallet-testnet`, esperar ~1 min a que cargue, forjar, `systemctl stop rupixwallet-testnet`. `verificar`, el explorador y el minero no lo necesitan. Vigilar con `free -m` (available > 2 GB) y `ps -eo rss,comm --sort=-rss | head -5`. Arreglo de fondo en CHANGELOG (minar a direccion aparte, `compactar`).
+
 ## El mapa de nodos (14-oct-2026)
 
 El explorador sirve `/mapa.html` con los peers que ve el nodo. Para ubicarlos por pais/ciudad necesita una base local (no se consulta ningun servicio externo; la IP nunca sale del proceso):
