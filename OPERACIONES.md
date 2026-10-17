@@ -200,6 +200,10 @@ Los `.service` del seed 1 (`rupixminer-testnet`, `rupixwallet-testnet`) están e
 - **RAM:** no correr `go test ./...` entero con el nodo arriba sin `-p 1`; el fuzzing nocturno va con `GOMAXPROCS=2 nice -n 19`.
 - **Actualizar:** sección "Actualizar el binario", siempre con `sha256sum -c` y copia de los binarios anteriores en `/root/bin-anterior/<version>/`.
 
+## Incidente 16-oct-2026: el instalador corrido en el seed 1
+
+23:31: `curl … instalar.sh | sh -s -- --seed=…` se ejecuto en el seed 1 en vez de en la maquina nueva. El script paro `rupixd-testnet`, reescribio su `.service` (usuario `rupix`, `/var/lib/rupix/testnet`, sin utxoindex) y arranco un nodo desde el genesis; `verificar` mostro DAA 0 y los checkpoints en FALLO; el minero quedo apuntando al nodo nuevo unos minutos. **Restauracion (23:41):** parar minero/nodo/explorador; guardar la unidad del instalador en `/root/retirados/instalador-en-seed1-16oct/`; copiar `ops/systemd/rupixd-testnet.service` (sha256 `ef88deb4…`) a `/etc/systemd/system/`; `daemon-reload`, arrancar; DAA 1,824,241, checkpoints OK, 0 fallos. Los datos nunca se tocaron. Queda `/var/lib/rupix/testnet` (un genesis) y el usuario `rupix`: retirar con calma. Lecciones en MEMORIA; el instalador ahora se niega si hay un nodo.
+
 ## Memoria del seed: el daemon de la wallet (15-oct-2026)
 
 `rupixwallet-testnet` (el daemon) llego a 2.97 GB porque la wallet de minado acumula un UTXO por bloque (1.6 M). **Se deja parado**; se arranca solo para forjar: `systemctl start rupixwallet-testnet`, esperar ~1 min a que cargue, forjar, `systemctl stop rupixwallet-testnet`. `verificar`, el explorador y el minero no lo necesitan. Vigilar con `free -m` (available > 2 GB) y `ps -eo rss,comm --sort=-rss | head -5`. Arreglo de fondo en CHANGELOG (minar a direccion aparte, `compactar`).

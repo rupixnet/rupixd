@@ -20,6 +20,13 @@
 #   --sin-servicio           solo instalar los binarios; no crear ni tocar servicios.
 #   --prefix=/ruta           donde instalar (RUPIX_PREFIX). Por defecto /usr/local/bin o ~/.local/bin.
 #   --sin-verificar          no correr `verificar` al final.
+#   --si                     no pedir confirmacion (para scripts); sin esto, muestra el plan y espera un "si".
+#   --actualizar             en una maquina que YA tiene un nodo: solo reemplaza los binarios (para el
+#                            servicio, copia, arranca) y NO toca el servicio ni los datos existentes.
+#
+# Seguridad: si encuentra un nodo ya instalado (servicio rupixd-testnet, datos en /root/rupix-testnet o
+# /var/lib/rupix, o un rupixd corriendo) SE NIEGA a seguir salvo con --actualizar. Leccion del 16-oct-2026:
+# la primera version se corrio por error en el seed 1 y reemplazo su servicio (se restauro desde ops/).
 #
 # Es texto plano: leelo antes de correrlo. Su sha256 esta publicado junto a cada release y en la guia.
 # No pide contrasenas, no toca wallets, no manda nada a ningun lado que no sea GitHub (descarga) y tu propio nodo.
@@ -38,14 +45,18 @@ PREFIX="${RUPIX_PREFIX:-}"
 SEED_IP=""
 SERVICIO=1
 VERIFICAR=1
+SI=0
+ACTUALIZAR=0
 for arg in "$@"; do
 	case "$arg" in
 		--nombre=*) NOMBRE="${arg#*=}" ;;
 		--version=*) VERSION="${arg#*=}" ;;
 		--prefix=*) PREFIX="${arg#*=}" ;;
-		--seed=*) SEED_IP="${arg#*=}" ;;
+		--seed=*) SEED_IP="${arg#*=}"; case "$SEED_IP" in *.*.*.*) ;; *) echo "--seed necesita una IPv4 publica (ej. --seed=\$(curl -4 -s https://ifconfig.me))"; exit 2 ;; esac ;;
 		--sin-servicio) SERVICIO=0 ;;
 		--sin-verificar) VERIFICAR=0 ;;
+		--si) SI=1 ;;
+		--actualizar) ACTUALIZAR=1 ;;
 		-h|--help) sed -n '2,30p' "$0" 2>/dev/null || true; exit 0 ;;
 		*) echo "opcion desconocida: $arg"; exit 2 ;;
 	esac
@@ -70,6 +81,17 @@ esac
 tiene curl || fallo "falta curl"
 tiene unzip || fallo "falta unzip (Linux: apt install unzip)"
 
+# 1b) ¿Ya hay un nodo aqui? Entonces no se instala encima: solo --actualizar (binarios) o nada.
+EXISTENTE=""
+[ -f /etc/systemd/system/rupixd-testnet.service ] && EXISTENTE="servicio rupixd-testnet"
+[ -d /root/rupix-testnet ] && EXISTENTE="${EXISTENTE:+$EXISTENTE, }datos en /root/rupix-testnet"
+[ -d /var/lib/rupix/testnet ] && EXISTENTE="${EXISTENTE:+$EXISTENTE, }datos en /var/lib/rupix/testnet"
+pgrep -x rupixd >/dev/null 2>&1 && EXISTENTE="${EXISTENTE:+$EXISTENTE, }un rupixd corriendo"
+if [ -n "$EXISTENTE" ] && [ "$ACTUALIZAR" = 0 ]; then
+	fallo "esta maquina YA tiene un nodo de Rupix ($EXISTENTE). No instalo encima. Para reemplazar solo los binarios y conservar servicio y datos: --actualizar"
+fi
+if [ "$ACTUALIZAR" = 1 ]; then SERVICIO=0; fi
+
 # 2) Version
 if [ -z "$VERSION" ]; then
 	VERSION=$(curl -sS -o /dev/null -w '%{redirect_url}' "https://github.com/$REPO/releases/latest" 2>/dev/null | sed -n 's#.*/tag/\(v[0-9][0-9.]*\)$#\1#p' || true)
@@ -77,6 +99,35 @@ if [ -z "$VERSION" ]; then
 fi
 case "$VERSION" in v[0-9]*) ;; *) fallo "version rara: $VERSION" ;; esac
 decir "Rupix $VERSION para $ETIQUETA ($ARQ)"
+
+# 2b) El plan, antes de tocar nada.
+echo
+echo "Esto es lo que va a pasar:"
+echo "  1. Bajar rupix-$VERSION-$ETIQUETA.zip y SHA256SUMS-$ETIQUETA.txt de github.com/$REPO"
+echo "  2. Verificar el sha256 de rupixd, rupixctl, rupixwallet y rupixminer; si uno falla, no se instala nada"
+if [ "$ACTUALIZAR" = 1 ]; then
+	echo "  3. ACTUALIZAR: parar el servicio si existe, reemplazar los 4 binarios, arrancarlo. Servicio y datos NO se tocan"
+else
+	echo "  3. Instalar los 4 binarios (en /usr/local/bin si hay permisos; si no, en ~/.local/bin)"
+	echo "  4. Preguntar el nombre de tu nodo para el mapa (viaja en el saludo de la red; nunca tu IP)"
+	if [ "$SO" = Linux ] && [ "$SERVICIO" = 1 ]; then
+		echo "  5. Crear el servicio rupixd-testnet (usuario de sistema 'rupix', datos en /var/lib/rupix/testnet) y encenderlo"
+		[ -n "$SEED_IP" ] && echo "     modo SEED: puerto $PUERTO_P2P abierto a internet, IP publica $SEED_IP, sin indice de UTXOs"
+	else
+		echo "  5. Mostrarte el comando para arrancar el nodo (sin servicio)"
+	fi
+	echo "  6. Correr 'rupixwallet --testnet verificar' para que veas tu pantalla de OK"
+fi
+echo "No pide contrasenas, no toca wallets, no borra nada."
+if [ "$SI" = 0 ]; then
+	if ( : < /dev/tty ) 2>/dev/null; then
+		printf '\n¿Seguimos? Escribe si para continuar: '
+		read -r resp < /dev/tty || resp=""
+		case "$resp" in si|SI|Si|s|S|yes|y) ;; *) echo "Cancelado. No se toco nada."; exit 0 ;; esac
+	else
+		fallo "sin terminal para confirmar; vuelve a correrlo con --si si de verdad quieres seguir"
+	fi
+fi
 
 # 3) Descargar y verificar
 TMP=$(mktemp -d 2>/dev/null || mktemp -d -t rupix)
@@ -102,18 +153,25 @@ fi
 mkdir -p "$PREFIX" 2>/dev/null || $SUDO mkdir -p "$PREFIX"
 PUEDE_ROOT=0; { [ "$(id -u)" = 0 ] || [ -n "$SUDO" ]; } && PUEDE_ROOT=1
 CON_SERVICIO=0; [ "$SERVICIO" = 1 ] && [ "$SO" = Linux ] && [ "$PUEDE_ROOT" = 1 ] && tiene systemctl && CON_SERVICIO=1
-if [ "$CON_SERVICIO" = 1 ]; then
-	$SUDO systemctl stop rupixd-testnet 2>/dev/null || true   # actualizar sin "Text file busy"
+SERVICIO_PREVIO=0
+if [ "$ACTUALIZAR" = 1 ] && [ "$PUEDE_ROOT" = 1 ] && tiene systemctl && $SUDO systemctl is-active --quiet rupixd-testnet 2>/dev/null; then
+	SERVICIO_PREVIO=1
+	$SUDO systemctl stop rupixd-testnet   # reemplazar sin "Text file busy"
 fi
 for b in rupixd rupixctl rupixwallet rupixminer; do
 	chmod +x "$TMP/bin/$b"
 	$SUDO cp "$TMP/bin/$b" "$PREFIX/$b.nuevo" && $SUDO mv -f "$PREFIX/$b.nuevo" "$PREFIX/$b"
 done
 decir "Instalado en $PREFIX: $("$PREFIX/rupixd" --version 2>/dev/null || echo rupixd)"
+if [ "$ACTUALIZAR" = 1 ]; then
+	if [ "$SERVICIO_PREVIO" = 1 ]; then $SUDO systemctl start rupixd-testnet && echo "   servicio rupixd-testnet arrancado de nuevo (sin tocar su configuracion)"; fi
+	decir "Actualizacion lista. Servicio y datos quedaron como estaban."
+	exit 0
+fi
 case ":$PATH:" in *":$PREFIX:"*) ;; *) echo "   (agrega $PREFIX a tu PATH, o llama a los programas con la ruta completa)";; esac
 
 # 5) Nombre en el mapa
-if [ -z "$NOMBRE" ] && [ -r /dev/tty ]; then
+if [ -z "$NOMBRE" ] && ( : < /dev/tty ) 2>/dev/null; then
 	printf '\n¿Como quieres que se llame tu nodo en el mapa? (sin espacios; vacio = "nodo"): '
 	read -r NOMBRE < /dev/tty || NOMBRE=""
 fi

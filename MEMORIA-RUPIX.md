@@ -142,6 +142,12 @@ Dos veces la misma noche: `git fetch bundle rama:rama` con `rama` ya en checkout
 ### La lista de archivos de una release se escribe una vez y se sigue siempre
 14-oct: `guide.html` (la guía de la web en inglés) se quedó en v0.6.3 durante dos releases porque cada vez "actualicé las guías" de memoria y solo toqué `guia.html`. "Todo en los dos idiomas, siempre" no se cumple de memoria: se cumple con una lista. Ahora está en OPERACIONES ("Publicar una release") y se recorre entera, con `grep` de la versión anterior en todo el repo y en toda la web antes de publicar.
 
+### Una herramienta que puede destruir se prueba lejos del seed, y se niega ante lo que no creó
+16-oct: el instalador de un comando, recién escrito, se corrió en el seed 1 (ER tenía la sesión del seed abierta; el comando era para la máquina nueva). Reemplazó el servicio del nodo y el seed quedó en DAA 0 diez minutos. Nada se perdió porque `ops/systemd/` guardaba el `.service` desde el 27-sep. Reglas que salen de aquí: (1) todo lo que instala o reemplaza **muestra el plan y pide confirmación**, y **se niega** si encuentra algo que no creó; (2) una herramienta nueva que toca servicios se estrena en una máquina que no sea el seed, nunca al revés; (3) los comandos que mando para "la máquina nueva" empiezan con una comprobación de hostname (`test "$(hostname)" != rupix-seed-1`) hasta que exista la máquina nueva.
+
+### En la urgencia también vale la regla del checkout del fuzz
+16-oct: para restaurar el seed hice `git pull` en `/root/rupixd` mientras corría el fuzz #8. El commit solo tocaba docs y un script, así que no pasó nada, pero la regla existe para no tener que comprobarlo: el worktree `/root/rupixd-rel` estaba a un `cd` de distancia.
+
 ### Tres bundles con el mismo nombre son dos de más
 7-oct: mandé tres `contexto-v07.bundle` distintos en una hora; ER subió el primero creyendo que era el último y `main` quedó a medias hasta el día siguiente. Cada bundle lleva nombre propio y único (`king-script.bundle`), y el bloque que lo consume comprueba el sha256 del que corresponde.
 

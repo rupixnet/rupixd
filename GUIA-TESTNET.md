@@ -22,7 +22,7 @@ Si estás en Linux o Mac, todo lo de abajo (descargar, verificar el sha256, inst
 curl -sSL https://rupix.network/instalar.sh | sh
 ```
 
-Es texto plano: léelo antes de correrlo (`curl -sSL https://rupix.network/instalar.sh | less`). Su sha256 para esta versión: `fbec2ce78e05e207a37ff05d7a60fe0b77c0c1f2e3c2b3df988b97c9724b87b2`. Verifica los binarios contra la lista que publica cada release y **si uno no coincide, no instala nada**. En Linux con systemd deja el nodo como servicio (arranca solo al reiniciar); en Mac te da el comando para arrancarlo. Opciones: `--nombre=TuNombre`, `--version=v0.6.6`, `--sin-servicio`. En Windows, sigue con el paso 1.
+Es texto plano: léelo antes de correrlo (`curl -sSL https://rupix.network/instalar.sh | less`). Su sha256 para esta versión: `9f537d3ae1ae418bf0b35fae5fe39a8de98c8fc8f21e94ae7806fcd0dcef6f43`. Verifica los binarios contra la lista que publica cada release y **si uno no coincide, no instala nada**. En Linux con systemd deja el nodo como servicio (arranca solo al reiniciar); en Mac te da el comando para arrancarlo. Antes de tocar nada muestra el plan y espera tu "si"; si la máquina ya tiene un nodo, **se niega** (para actualizar solo los binarios: `--actualizar`). Opciones: `--nombre=TuNombre`, `--version=v0.6.6`, `--sin-servicio`, `--si`. En Windows, sigue con el paso 1.
 
 ## Paso 1 — Descarga Rupix
 
