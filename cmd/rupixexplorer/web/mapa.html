@@ -41,6 +41,24 @@ li .m{color:var(--muted);font-size:.8rem;text-align:right;white-space:nowrap}
 code{background:#0a0710;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.85em}
 footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem;text-align:center;line-height:1.6}
 footer a{color:var(--violet)}
+.contador{display:flex;gap:28px;flex-wrap:wrap;margin:4px 0 14px;align-items:center}
+.contador div{flex:1;min-width:140px}
+.contador .n{font-size:2.2rem;font-weight:800;color:var(--gold);line-height:1}
+.contador .n.v{color:var(--violet)}
+.contador .l{color:var(--muted);font-size:.85rem;margin-top:4px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:#1b1230;border:1px solid #3a2d55;color:var(--text);border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:700;font-size:.9rem}
+.btn:hover{border-color:var(--gold)}
+.luz.apagada{fill:#4a3f66}
+#curva{width:100%;height:150px;display:block}
+.hist{list-style:none}
+.hist li{display:block;padding:8px 0;border-bottom:1px solid var(--line);font-size:.88rem}
+.hist .f{color:var(--muted);font-size:.78rem;margin-right:8px}
+.honor{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:860px){.honor{grid-template-columns:1fr}}
+.honor h3{font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.honor ol{padding-left:18px;font-size:.86rem}
+.honor li{padding:3px 0}
+.honor b{color:var(--gold)}
 html[data-lang="es"] .en{display:none}
 html[data-lang="en"] .es{display:none}
 </style>
@@ -55,18 +73,36 @@ html[data-lang="en"] .es{display:none}
 <div class="grid">
   <div class="card">
     <h2><span class="es">🌍 La red encendida — nodos conectados ahora</span><span class="en">🌍 The network, lit — nodes connected now</span></h2>
+    <div class="contador">
+      <div><div class="n" id="c-hist">…</div><div class="l"><span class="es">nodos han sostenido Rupix</span><span class="en">nodes have held Rupix up</span></div></div>
+      <div><div class="n v" id="c-ahora">…</div><div class="l"><span class="es">encendidos ahora</span><span class="en">lit right now</span></div></div>
+      <div><div class="n" id="c-paises">…</div><div class="l"><span class="es">países</span><span class="en">countries</span></div></div>
+      <div style="flex:0;white-space:nowrap"><button class="btn" onclick="replay()">▶ <span class="es">Ver cómo creció</span><span class="en">Watch it grow</span></button></div>
+    </div>
     <svg id="mapa" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet" aria-label="mapa"></svg>
     <div class="sub" id="leyenda">
-      <span class="es">Cada luz es un nodo que el seed ve conectado ahora; se encienden en el orden real en que llegaron, y la línea va hacia quien las ve. Posición aproximada por país y ciudad; <b>la IP no se publica ni se guarda</b>.</span>
-      <span class="en">Each light is a node the seed sees connected right now; they light up in the real order they arrived, and the line goes to whoever sees them. Position is approximate by country and city; <b>the IP is neither published nor stored</b>.</span>
+      <span class="es">Cada luz es un nodo que el seed ve conectado ahora; se encienden en el orden real en que llegaron, y la línea va hacia quien las ve. Los puntos apagados son nodos del libro que hoy no están. Posición aproximada por país y ciudad; <b>la IP no se publica ni se guarda</b>.</span>
+      <span class="en">Each light is a node the seed sees connected right now; they light up in the real order they arrived, and the line goes to whoever sees them. Dim dots are nodes from the book that are not here today. Position is approximate by country and city; <b>the IP is neither published nor stored</b>.</span>
     </div>
+    <h2 style="margin-top:22px"><span class="es">La curva</span><span class="en">The curve</span></h2>
+    <svg id="curva" viewBox="0 0 900 150" preserveAspectRatio="none"></svg>
+    <div class="sub"><span class="es">Dorado: nodos distintos acumulados. Violeta: encendidos a la vez, máximo de cada día. Desde el primer día del libro.</span><span class="en">Gold: distinct nodes, cumulative. Violet: lit at once, daily peak. Since the book's first day.</span></div>
+    <h2 style="margin-top:22px"><span class="es">La historia de la red</span><span class="en">The network's story</span></h2>
+    <ul class="hist" id="hist"><li><span class="es">cargando…</span><span class="en">loading…</span></li></ul>
   </div>
   <div class="card">
     <h2><span class="es">Ahora</span><span class="en">Now</span></h2>
     <div class="big" id="total">…</div>
     <div class="sub" id="paises"></div>
     <div class="sub" id="singeo" style="margin-top:8px"></div>
-    <h2 style="margin-top:18px"><span class="es">Quién sostiene Rupix</span><span class="en">Who holds Rupix up</span></h2>
+    <h2 style="margin-top:18px"><span class="es">Cuadro de honor</span><span class="en">Honor board</span></h2>
+    <div class="honor">
+      <div><h3><span class="es">Veteranos</span><span class="en">Veterans</span></h3><ol id="h-vet"></ol></div>
+      <div><h3><span class="es">Constantes (h)</span><span class="en">Steady (h)</span></h3><ol id="h-con"></ol></div>
+      <div><h3><span class="es">Racha (días)</span><span class="en">Streak (days)</span></h3><ol id="h-rac"></ol></div>
+    </div>
+    <div class="sub" style="margin-top:6px"><span class="es">Horas y rachas medidas por el seed mientras el nodo estuvo conectado. El libro lo lleva este explorador; no es consenso, es historia. Un nodo se reconoce por el nombre que anuncia (el primero en llegar con un nombre se queda con el número); sin nombre, por una huella privada de su conexión que nunca se publica.</span><span class="en">Hours and streaks measured by the seed while the node was connected. This explorer keeps the book; it is history, not consensus. A node is recognized by the name it announces (first to arrive with a name keeps the number); without a name, by a private fingerprint of its connection that is never published.</span></div>
+    <h2 style="margin-top:18px"><span class="es">Quién sostiene Rupix ahora</span><span class="en">Who holds Rupix up now</span></h2>
     <ul id="lista"><li><span class="es">cargando…</span><span class="en">loading…</span></li></ul>
     <h2 style="margin-top:18px"><span class="es">Enciende tu luz</span><span class="en">Light yours</span></h2>
     <div class="sub">
@@ -155,6 +191,69 @@ async function refrescar(){
   puntos.forEach(n=>vistos.add(clave(n)));
 }
 setInterval(refrescar,15000);
+
+// ---- El libro de nodos: contador, curva, historia, honor, apagados, replay ----
+let LIBRO=null;
+const fmtH=s=>Math.round((Number(s)||0)/3600);
+const li=(txt)=>{const e=document.createElement("li");e.innerHTML=txt;return e};
+const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+async function cargarLibro(){
+  let r; try{ r=await (await fetch("/api/libro")).json(); }catch(e){ return; }
+  if(!r||r.error) return; LIBRO=r;
+  document.getElementById("c-hist").textContent=r.total;
+  document.getElementById("c-ahora").textContent=r.ahora;
+  document.getElementById("c-paises").textContent=r.paises;
+  // historia
+  const h=document.getElementById("hist"); h.innerHTML="";
+  (r.hitos||[]).slice(0,12).forEach(x=>h.appendChild(li(`<span class="f">${esc(x.fecha)}</span>${esc(x.texto)}`)));
+  if(!(r.hitos||[]).length) h.appendChild(li(es()?"el libro acaba de empezar":"the book just started"));
+  // honor
+  const nom=n=>esc(n.nombre||(es()?"nodo":"node"));
+  const llena=(id,arr,f)=>{const o=document.getElementById(id);o.innerHTML="";(arr||[]).slice(0,5).forEach(n=>o.appendChild(li(f(n))))};
+  llena("h-vet",r.veteranos,n=>`<b>#${n.numero}</b> ${nom(n)}`);
+  llena("h-con",r.constantes,n=>`<b>${fmtH(n.segundos)}</b> ${nom(n)}`);
+  llena("h-rac",r.rachas,n=>`<b>${n.mejorRacha||0}</b> ${nom(n)}`);
+  // curva
+  if(conMapa&&(r.dias||[]).length){
+    const svg=d3.select("#curva"); svg.selectAll("*").remove();
+    const W=900,H=150,p=16,dias=r.dias,n=dias.length;
+    const x=d3.scaleLinear([0,Math.max(1,n-1)],[p,W-p]), maxY=Math.max(2,d3.max(dias,d=>d.distintos)), y=d3.scaleLinear([0,maxY],[H-p,p]);
+    const ln=k=>d3.line().x((d,i)=>x(i)).y(d=>y(d[k])).curve(d3.curveMonotoneX)(dias);
+    svg.append("path").attr("d",ln("distintos")).attr("fill","none").attr("stroke","#e8c766").attr("stroke-width",2.5);
+    svg.append("path").attr("d",ln("pico")).attr("fill","none").attr("stroke","#b794f6").attr("stroke-width",2);
+    svg.append("text").attr("x",x(0)).attr("y",H-2).attr("fill","#a89fbd").attr("font-size",11).text(dias[0].fecha);
+    if(n>1) svg.append("text").attr("x",x(n-1)).attr("y",H-2).attr("fill","#a89fbd").attr("font-size",11).attr("text-anchor","end").text(dias[n-1].fecha);
+    svg.append("text").attr("x",W-p).attr("y",y(maxY)+10).attr("fill","#e8c766").attr("font-size",11).attr("text-anchor","end").text(maxY);
+  }
+  // apagados: puntos tenues de nodos del libro que no estan conectados
+  if(conMapa&&mundoListo){
+    const ap=(r.nodos||[]).filter(n=>!n.conectado&&n.ubicado);
+    const g=gTierra.selectAll("g.apagado").data(ap,n=>n.numero).join(enter=>{const e=enter.append("g").attr("class","apagado");e.append("circle").attr("class","luz apagada").attr("r",2.5);e.append("title");return e;});
+    g.attr("transform",n=>{const q=proy([n.lon,n.lat]);return q?`translate(${q[0]},${q[1]})`:"translate(-100,-100)"});
+    g.select("title").text(n=>`#${n.numero} · ${n.nombre||(es()?"nodo":"node")} · ${es()?"última vez":"last seen"} ${fmtT(Math.floor(Date.now()/1000)-n.ultimaVez)}`);
+  }
+}
+cargarLibro(); setInterval(cargarLibro,60000);
+// Replay: las luces del libro en su orden real de llegada (primeraVez), con fechas.
+function replay(){
+  if(!conMapa||!LIBRO) return;
+  const todos=(LIBRO.nodos||[]).filter(n=>n.ubicado).sort((a,b)=>a.primeraVez-b.primeraVez);
+  if(!todos.length) return;
+  gLuces.selectAll("g.rp").remove(); gEnlaces.selectAll("path.rp").remove();
+  const propio=LIBRO.nodos.find(n=>n.numero===1&&n.ubicado); const o=propio?proy([propio.lon,propio.lat]):null;
+  const ch=document.getElementById("c-hist"), paisesVistos=new Set(), cp=document.getElementById("c-paises");
+  const paso=Math.max(120,Math.min(600,12000/todos.length));
+  todos.forEach((n,i)=>setTimeout(()=>{
+    const q=proy([n.lon,n.lat]); if(!q) return;
+    if(o&&n.numero!==1) gEnlaces.append("path").attr("class","enlace trazo rp").attr("d",`M${q[0]},${q[1]} Q${(q[0]+o[0])/2},${Math.min(q[1],o[1])-30} ${o[0]},${o[1]}`);
+    const g=gLuces.append("g").attr("class","rp").attr("transform",`translate(${q[0]},${q[1]})`);
+    g.append("circle").attr("class","halo nuevo"+(n.numero===1?" propio":"")).attr("r",2);
+    g.append("circle").attr("class","luz"+(n.numero===1?" propio":"")).attr("r",0).transition().duration(400).attr("r",n.numero===1?5:3.5);
+    g.append("title").text(`#${n.numero} · ${n.nombre||"nodo"} · ${new Date(n.primeraVez*1000).toISOString().slice(0,10)}`);
+    ch.textContent=i+1; if(n.pais) paisesVistos.add(n.pais); cp.textContent=paisesVistos.size;
+  },paso*i));
+  setTimeout(()=>{gLuces.selectAll("g.rp").remove(); gEnlaces.selectAll("path.rp").remove(); cargarLibro();},paso*todos.length+2500);
+}
 </script>
 </body>
 </html>

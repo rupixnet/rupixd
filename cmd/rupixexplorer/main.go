@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/rupixnet/rupixd/app/appmessage"
 	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
 )
 
@@ -19,6 +20,7 @@ var listenAddress = flag.String("listen", "127.0.0.1:8090", "direccion HTTP del 
 var webDir = flag.String("webdir", "/root/rupix-explorer-web", "carpeta del frontend")
 var geoDB = flag.String("geodb", "", "CSV de DB-IP lite (ciudad) para ubicar nodos por pais/ciudad aproximada; vacio = sin mapa")
 var nodoPropioFlag = flag.String("nodo-propio", "", "este nodo en el mapa: \"lat,lon,PAIS,Ciudad,Nombre\"")
+var libroRuta = flag.String("libro", "", "archivo JSON del libro de nodos (numeros de llegada, horas, rachas, hitos); vacio = solo en memoria")
 
 func main() {
 	flag.Parse()
@@ -54,6 +56,38 @@ func main() {
 	http.HandleFunc("/api/gems", func(w http.ResponseWriter, r *http.Request) {
 		resp, err := client.GetGemsInfo()
 		writeJSON(w, resp, err)
+	})
+	// Rupix (17-oct-2026): el libro de nodos (ver libro.go). Una pasada cada 30 s.
+	libro, err := cargarLibro(*libroRuta)
+	if err != nil {
+		panic(fmt.Sprintf("libro de nodos: %s", err))
+	}
+	libro.registrarPropio(propio, time.Now())
+	go func() {
+		const cada = 30 * time.Second
+		anterior := time.Now()
+		for {
+			time.Sleep(cada)
+			resp, err := client.GetConnectedPeerInfo()
+			if err != nil {
+				continue
+			}
+			ahora := time.Now()
+			nodos := make([]Nodo, 0, len(resp.Infos))
+			hosts := make([]string, 0, len(resp.Infos))
+			for _, p := range resp.Infos {
+				nodos = append(nodos, nodosDesdePeers([]*appmessage.GetConnectedPeerInfoMessage{p}, geo, ahora)[0])
+				hosts = append(hosts, hostDe(p.Address))
+			}
+			libro.pasada(nodos, hosts, ahora, ahora.Sub(anterior))
+			anterior = ahora
+			if err := libro.guardar(); err != nil {
+				fmt.Printf("libro: no pude guardar: %s\n", err)
+			}
+		}
+	}()
+	http.HandleFunc("/api/libro", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, libro.respuesta(), nil)
 	})
 	// Rupix (14-oct-2026): el mapa de nodos. Nombre elegido (--uacomment), version,
 	// antiguedad y ciudad aproximada; nunca la IP (ver nodos.go).

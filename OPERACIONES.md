@@ -216,6 +216,7 @@ El explorador sirve `/mapa.html` con los peers que ve el nodo. Para ubicarlos po
 2. Ubicar el propio seed (una vez): `IP=$(curl -s https://ifconfig.me); awk -F, -v ip="$IP" 'BEGIN{split(ip,o,".");n=o[1]*16777216+o[2]*65536+o[3]*256+o[4]} $1!~/:/ {split($1,a,".");split($2,b,".");s=a[1]*16777216+a[2]*65536+a[3]*256+a[4];e=b[1]*16777216+b[2]*65536+b[3]*256+b[4]; if(n>=s&&n<=e){print $4","$6","$7","$8; exit}}' /root/geo/dbip-city-lite.csv` → `PAIS,Ciudad,lat,lon`.
 3. En `rupix-explorer.service`, `ExecStart` con `--geodb=/root/geo/dbip-city-lite.csv --nodo-propio="lat,lon,PAIS,Ciudad,Seed 1"`; `systemctl daemon-reload && systemctl restart rupix-explorer`. Comprobar `curl -s 127.0.0.1:8090/api/peers`.
 4. Renovar la base cada mes (paso 1 otra vez y `restart`). Sin base, el mapa lista los nodos sin pais y lo dice.
+5. **El libro de nodos** (17-oct): `--libro=/root/geo/libro.json`. Es el unico archivo del explorador que guarda historia: respaldarlo con lo demas del seed (nunca borrarlo: ahi estan los numeros de llegada). Contiene huellas privadas (sha256 con sal) de conexiones sin nombre: no es publico, no se comparte. `curl -s 127.0.0.1:8090/api/libro | head -c 300` para verlo. El `.service` versionado en `ops/systemd/` ya trae las tres banderas.
 
 Quien quiera nombre en el mapa: `rupixd --testnet --uacomment=SuNombre` (va en el saludo P2P, BIP 14; nada mas viaja). Limite de 32 caracteres en pantalla; se limpia de HTML.
 
