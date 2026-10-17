@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **Explorador bilingüe.** La portada del explorador (`index.html`) ahora tiene ES/EN como el mapa: botón de idioma, textos fijos con `.es/.en` y los que arma el JS con `T()`; recuerda la elección y arranca en el idioma del navegador. Probado con API simulada en los dos idiomas.
 - **Explorador: `/api/estado`.** Un solo JSON para la portada de rupix.network: versión del nodo, sincronizado, DAA, bloques, hora del último bloque (el tip más reciente), días desde el relanzamiento de la testnet #4 (25-sep-2026; el génesis del 4-mar es simbólico), nodos encendidos/historia/países del libro y gemas creadas por nivel. Caché de 10 s. Si el nodo no contesta, el JSON lleva `error` y la web lo dice. `TestEstadoDeLaRed`.
 - Mapa: ubicación del seed 1 corregida a Núremberg (DE); `ops/systemd/rupix-explorer.service` al día; `registrarPropio` toma el nombre de la bandera `--nodo-propio` también después del alta.
 - **Mapa:** el botón "Ver cómo creció" tiene fila propia, dorado, con latido y corona (👑: quien más tiempo sostenga la red); al correr, los contadores cuentan desde cero y bajo el mapa sale cada nodo con número, nombre, ciudad y fecha (el #1: "aquí empezó"). Botón deshabilitado mientras corre.
