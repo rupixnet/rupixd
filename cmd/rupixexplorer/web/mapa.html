@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rupix — mapa de nodos · node map</title>
+<title>Rupix — La red encendida · The network, lit</title>
 <style>
 :root{--bg:#0d0813;--panel:#150e1f;--line:#2a2138;--text:#ece8f4;--muted:#a89fbd;--gold:#e8c766;--violet:#b794f6;--green:#7dd88f}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -29,6 +29,8 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;pa
 .halo{fill:none;stroke:var(--gold);stroke-width:1.2;opacity:0}
 .halo.propio{stroke:var(--violet)}
 .enlace{stroke:var(--gold);stroke-width:.7;opacity:.45;fill:none}
+.enlace.trazo{stroke-dasharray:600;stroke-dashoffset:600;animation:trazar 1.2s ease-out forwards}
+@keyframes trazar{to{stroke-dashoffset:0}}
 @keyframes encender{0%{r:2;opacity:.9}100%{r:16;opacity:0}}
 .halo.nuevo{animation:encender 1.6s ease-out 2}
 ul{list-style:none}
@@ -46,17 +48,17 @@ html[data-lang="en"] .es{display:none}
 <body>
 <div class="wrap">
 <header>
-  <div class="logo"><h1><a href="/">◆ RUPIX EXPLORER</a></h1><span class="net"><span class="es">mapa de nodos</span><span class="en">node map</span></span></div>
+  <div class="logo"><h1><a href="/">◆ RUPIX EXPLORER</a></h1><span class="net"><span class="es">la red encendida</span><span class="en">the network, lit</span></span></div>
   <div class="lang"><button id="b-es" onclick="idioma('es')">ES</button> <button id="b-en" onclick="idioma('en')">EN</button></div>
 </header>
 
 <div class="grid">
   <div class="card">
-    <h2><span class="es">🌍 Nodos conectados ahora</span><span class="en">🌍 Nodes connected now</span></h2>
+    <h2><span class="es">🌍 La red encendida — nodos conectados ahora</span><span class="en">🌍 The network, lit — nodes connected now</span></h2>
     <svg id="mapa" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet" aria-label="mapa"></svg>
     <div class="sub" id="leyenda">
-      <span class="es">Cada luz es un nodo que el seed ve conectado ahora. La línea va hacia quien lo reporta. Posición aproximada por país y ciudad; <b>la IP no se publica ni se guarda</b>.</span>
-      <span class="en">Each light is a node the seed sees connected right now. The line goes to whoever reports it. Position is approximate by country and city; <b>the IP is neither published nor stored</b>.</span>
+      <span class="es">Cada luz es un nodo que el seed ve conectado ahora; se encienden en el orden real en que llegaron, y la línea va hacia quien las ve. Posición aproximada por país y ciudad; <b>la IP no se publica ni se guarda</b>.</span>
+      <span class="en">Each light is a node the seed sees connected right now; they light up in the real order they arrived, and the line goes to whoever sees them. Position is approximate by country and city; <b>the IP is neither published nor stored</b>.</span>
     </div>
   </div>
   <div class="card">
@@ -64,7 +66,7 @@ html[data-lang="en"] .es{display:none}
     <div class="big" id="total">…</div>
     <div class="sub" id="paises"></div>
     <div class="sub" id="singeo" style="margin-top:8px"></div>
-    <h2 style="margin-top:18px"><span class="es">Quién está</span><span class="en">Who is here</span></h2>
+    <h2 style="margin-top:18px"><span class="es">Quién sostiene Rupix</span><span class="en">Who holds Rupix up</span></h2>
     <ul id="lista"><li><span class="es">cargando…</span><span class="en">loading…</span></li></ul>
     <h2 style="margin-top:18px"><span class="es">Enciende tu luz</span><span class="en">Light yours</span></h2>
     <div class="sub">
@@ -130,16 +132,22 @@ async function refrescar(){
 
   if(!conMapa||!mundoListo) return;
   // Luces: el propio en violeta; los demás en dorado, con línea hacia el seed si ambos están ubicados.
+  // Orden real de llegada: el propio primero, luego los demas de mas antiguo a mas nuevo.
   const puntos=[]; if(propio&&propio.ubicado) puntos.push({...propio,propio:true});
-  nodos.filter(n=>n.ubicado).forEach(n=>puntos.push(n));
+  nodos.filter(n=>n.ubicado).sort((a,b)=>(b.segundos||0)-(a.segundos||0)).forEach(n=>puntos.push(n));
+  // Retraso de encendido por nodo nuevo, en ese orden; los ya pintados no se reanimen.
+  const retrasos=new Map(); let k=0; puntos.forEach(n=>{ if(!vistos.has(clave(n))) retrasos.set(clave(n),(k++)*450); });
+  const retraso=n=>retrasos.get(clave(n))||0;
   const xy=n=>proy([n.lon,n.lat]);
   const origen=propio&&propio.ubicado?xy(propio):null;
-  gEnlaces.selectAll("path").data(puntos.filter(n=>!n.propio&&origen),clave).join("path").attr("class","enlace")
+  gEnlaces.selectAll("path").data(puntos.filter(n=>!n.propio&&origen),clave).join(
+      enter=>enter.append("path").attr("class","enlace trazo").style("animation-delay",n=>(retraso(n)+300)+"ms"),
+      update=>update.attr("class","enlace"))
     .attr("d",n=>{const p=xy(n);if(!p)return"";const mx=(p[0]+origen[0])/2,my=Math.min(p[1],origen[1])-30;return`M${p[0]},${p[1]} Q${mx},${my} ${origen[0]},${origen[1]}`});
   const g=gLuces.selectAll("g").data(puntos,clave).join(enter=>{
     const e=enter.append("g");
-    e.append("circle").attr("class",n=>"halo"+(n.propio?" propio":"")+(vistos.has(clave(n))?"":" nuevo")).attr("r",2);
-    e.append("circle").attr("class",n=>"luz"+(n.propio?" propio":"")).attr("r",0).transition().duration(600).attr("r",n=>n.propio?5:3.5);
+    e.append("circle").attr("class",n=>"halo"+(n.propio?" propio":"")+(vistos.has(clave(n))?"":" nuevo")).attr("r",2).style("animation-delay",n=>retraso(n)+"ms");
+    e.append("circle").attr("class",n=>"luz"+(n.propio?" propio":"")).attr("r",0).transition().delay(n=>retraso(n)).duration(600).attr("r",n=>n.propio?5:3.5);
     e.append("title");
     return e;});
   g.attr("transform",n=>{const p=xy(n);return p?`translate(${p[0]},${p[1]})`:"translate(-100,-100)"});

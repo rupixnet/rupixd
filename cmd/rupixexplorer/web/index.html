@@ -25,6 +25,10 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;pa
 .bar{height:10px;background:#0a0710;border-radius:6px;overflow:hidden;margin:12px 0 8px;border:1px solid var(--line)}
 .bar>div{height:100%;background:linear-gradient(90deg,var(--violet),var(--gold));border-radius:6px;transition:width .5s}
 .full{grid-column:1/-1}
+.red-viva{border-color:#3a2d55;background:linear-gradient(135deg,#150e1f,#1b1230)}
+.red-viva:hover{border-color:var(--gold)}
+.globo{font-size:2.6rem;filter:drop-shadow(0 0 10px rgba(232,199,102,.45));animation:latir 3s ease-in-out infinite}
+@keyframes latir{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 .ladder{display:grid;gap:10px}
 .rung{display:flex;justify-content:space-between;align-items:center;background:#0a0710;border:1px solid var(--line);border-radius:10px;padding:12px 16px}
 .rung .name{font-weight:700}
@@ -48,11 +52,18 @@ footer a{color:var(--violet);text-decoration:none}
 <body>
 <div class="wrap">
 <header>
-  <div class="logo"><h1>◆ RUPIX EXPLORER</h1><span class="net" id="netname">…</span><a class="net" href="/mapa.html" style="text-decoration:none">🌍 mapa de nodos · node map</a></div>
+  <div class="logo"><h1>◆ RUPIX EXPLORER</h1><span class="net" id="netname">…</span></div>
   <div class="search"><input id="q" placeholder="hash de bloque…" onkeydown="if(event.key==='Enter')buscar()"><button onclick="buscar()">Buscar</button></div>
 </header>
 
 <div id="home">
+<a class="card full red-viva" href="/mapa.html" style="display:flex;align-items:center;gap:18px;text-decoration:none;color:inherit;margin-top:20px">
+  <span class="globo" aria-hidden="true">🌍</span>
+  <span style="flex:1"><span class="big" style="font-size:1.4rem">La red encendida</span><br>
+  <span class="sub">Cada luz es un nodo real, con el nombre que su dueño eligió. Míralas encenderse · <em>The network, lit: every light is a real node</em></span></span>
+  <span class="sub" id="luces-resumen" style="white-space:nowrap">…</span>
+  <span style="color:var(--gold);font-size:1.4rem">→</span>
+</a>
 <div class="grid">
   <div class="card full">
     <h2>⛏ Próximo halving</h2>
@@ -122,6 +133,8 @@ async function refresh(){
         notaEl.textContent="";
       }
     }
+    // Resumen del mapa en el boton "La red encendida".
+    try{ const pr=await j("/api/peers"); if(pr&&!pr.error){ const t=(pr.nodos||[]).length+(pr.propio?1:0); const el=document.getElementById("luces-resumen"); if(el) el.textContent=t+(t===1?" luz":" luces")+(pr.paises?" · "+pr.paises+(pr.paises===1?" país":" países"):""); } }catch(e){}
     // La escalera en vivo: GetGemsInfo (nodo v0.6.5+ con --utxoindex). Si el nodo no lo
     // tiene, los contadores quedan vacios y los candados siguen funcionando.
     try{

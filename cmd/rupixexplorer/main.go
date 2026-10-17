@@ -8,6 +8,7 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
@@ -33,6 +34,11 @@ func main() {
 		fmt.Printf("mapa de nodos: %d rangos IPv4 cargados de %s\n", len(geo.inicio), *geoDB)
 	}
 	propio := nodoPropio(*nodoPropioFlag)
+	if propio != nil {
+		if info, err := client.GetInfo(); err == nil {
+			propio.Version = strings.TrimPrefix(info.ServerVersion, "v")
+		}
+	}
 	fmt.Printf("Rupix Explorer proxy: nodo=%s http=%s\n", *rpcAddress, *listenAddress)
 
 	http.HandleFunc("/api/dag", func(w http.ResponseWriter, r *http.Request) {
