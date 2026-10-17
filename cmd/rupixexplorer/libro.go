@@ -172,6 +172,9 @@ func (l *Libro) registrarPropio(p *Nodo, ahora time.Time) {
 		e = l.alta("propio", p.Nombre, ahora)
 	}
 	e.Pais, e.Ciudad, e.Lat, e.Lon, e.Ubicado = p.Pais, p.Ciudad, p.Lat, p.Lon, p.Ubicado
+	if p.Nombre != "" { // la bandera --nodo-propio manda: si cambia el nombre, cambia aqui (17-oct: Seed1-Austin era un error de geolocalizacion)
+		e.Nombre = p.Nombre
+	}
 	if p.Version != "" {
 		e.Version = p.Version
 	}

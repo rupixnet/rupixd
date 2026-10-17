@@ -5,7 +5,7 @@ After=network.target rupixd-testnet.service
 [Service]
 Type=simple
 User=root
-ExecStart=/usr/local/bin/rupixexplorer --rpcserver=127.0.0.1:17210 --listen=127.0.0.1:8090 --webdir=/root/rupix-explorer-web --geodb=/root/geo/dbip-city-lite.csv --nodo-propio="30.2,-97.7,US,Austin,Seed1-Austin" --libro=/root/geo/libro.json
+ExecStart=/usr/local/bin/rupixexplorer --rpcserver=127.0.0.1:17210 --listen=127.0.0.1:8090 --webdir=/root/rupix-explorer-web --geodb=/root/geo/dbip-city-lite.csv --nodo-propio="49.45,11.08,DE,Nuremberg,Seed1-Nuremberg" --libro=/root/geo/libro.json
 Restart=always
 RestartSec=10
 

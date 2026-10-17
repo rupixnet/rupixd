@@ -101,6 +101,12 @@ func main() {
 		writeJSON(w, &RespuestaNodos{Propio: propio, Nodos: nodos, Total: len(nodos), Paises: contarPaises(nodos, propio), ConGeo: geo != nil,
 			Nota: "Solo lo que cada nodo anuncia (nombre con --uacomment, version) y una ubicacion aproximada por pais/ciudad. La IP no se publica ni se guarda."}, nil)
 	})
+	// Rupix (17-oct-2026): /api/estado, la salud de la red para la portada (ver estado.go).
+	estadoCache := &cacheEstado{vida: 10 * time.Second}
+	http.HandleFunc("/api/estado", func(w http.ResponseWriter, r *http.Request) {
+		e := estadoCache.obtener(time.Now(), func() *Estado { return armarEstado(client, libro, time.Now()) })
+		writeJSON(w, e, nil)
+	})
 	http.HandleFunc("/api/hashrate", func(w http.ResponseWriter, r *http.Request) {
 		resp, err := client.EstimateNetworkHashesPerSecond("", 1000)
 		writeJSON(w, resp, err)

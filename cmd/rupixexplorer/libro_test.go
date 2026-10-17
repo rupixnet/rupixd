@@ -17,7 +17,10 @@ func TestLibroDeNodos(t *testing.T) {
 		t.Fatal(err)
 	}
 	t0 := time.Date(2026, 10, 17, 12, 0, 0, 0, time.UTC)
-	propio := &Nodo{Nombre: "Seed1-Austin", Pais: "US", Ciudad: "Austin", Lat: 30.2, Lon: -97.7, Ubicado: true, Version: "0.6.6"}
+	propio := &Nodo{Nombre: "Seed1", Pais: "DE", Ciudad: "Nuremberg", Lat: 49.45, Lon: 11.08, Ubicado: true, Version: "0.6.6"}
+	l.registrarPropio(propio, t0)
+	// Si la bandera cambia el nombre, el #1 cambia de nombre sin perder el numero.
+	propio.Nombre = "Seed1-Nuremberg"
 	l.registrarPropio(propio, t0)
 
 	jc := Nodo{Nombre: "JC", Pais: "MX", Ciudad: "Monterrey", Lat: 25.7, Lon: -100.3, Ubicado: true, Version: "0.6.6"}
@@ -37,7 +40,7 @@ func TestLibroDeNodos(t *testing.T) {
 	if r.Total != 3 {
 		t.Fatalf("3 nodos en el libro, hay %d", r.Total)
 	}
-	if r.Nodos[0].Numero != 1 || r.Nodos[0].Nombre != "Seed1-Austin" {
+	if r.Nodos[0].Numero != 1 || r.Nodos[0].Nombre != "Seed1-Nuremberg" {
 		t.Fatalf("el #1 es el seed: %+v", r.Nodos[0])
 	}
 	e := r.Nodos[1]
@@ -61,7 +64,7 @@ func TestLibroDeNodos(t *testing.T) {
 		t.Fatalf("ahora conectados: 2, hay %d", r.Ahora)
 	}
 	if r.Paises != 2 {
-		t.Fatalf("paises: 2 (US, MX), hay %d", r.Paises)
+		t.Fatalf("paises: 2 (DE, MX), hay %d", r.Paises)
 	}
 	// Hitos: #2 y primer nodo en MX, #3; el mas reciente primero.
 	textos := []string{}
