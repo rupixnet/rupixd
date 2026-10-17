@@ -48,6 +48,16 @@ footer a{color:var(--violet)}
 .contador .l{color:var(--muted);font-size:.85rem;margin-top:4px}
 .btn{display:inline-flex;align-items:center;gap:8px;background:#1b1230;border:1px solid #3a2d55;color:var(--text);border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:700;font-size:.9rem}
 .btn:hover{border-color:var(--gold)}
+.crecio{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:6px 0 16px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:#120c1c}
+.crecio .l{color:var(--muted);font-size:.85rem;line-height:1.4;flex:1;min-width:200px}
+.crecio .l b{color:var(--text)}
+.btn-rey{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#2b1a4d,#1b1230);border:1px solid var(--gold);color:var(--gold);border-radius:12px;padding:12px 20px;cursor:pointer;font-weight:800;font-size:1rem;white-space:nowrap;animation:latir 2.8s ease-out infinite}
+.btn-rey:hover{background:#34205e;animation:none;box-shadow:0 0 18px rgba(232,199,102,.35)}
+.btn-rey .k{font-size:1.25rem;line-height:1}
+.btn-rey:disabled{opacity:.6;cursor:default;animation:none}
+@keyframes latir{0%{box-shadow:0 0 0 0 rgba(232,199,102,.45)}70%{box-shadow:0 0 0 14px rgba(232,199,102,0)}100%{box-shadow:0 0 0 0 rgba(232,199,102,0)}}
+.rotulo{font:800 19px system-ui,sans-serif;fill:var(--gold);paint-order:stroke;stroke:#0d0813;stroke-width:4px;stroke-linejoin:round}
+.rotulo.f{font-weight:500;font-size:13px;fill:var(--muted)}
 .luz.apagada{fill:#4a3f66}
 #curva{width:100%;height:150px;display:block}
 .hist{list-style:none}
@@ -77,7 +87,10 @@ html[data-lang="en"] .es{display:none}
       <div><div class="n" id="c-hist">…</div><div class="l"><span class="es">nodos han sostenido Rupix</span><span class="en">nodes have held Rupix up</span></div></div>
       <div><div class="n v" id="c-ahora">…</div><div class="l"><span class="es">encendidos ahora</span><span class="en">lit right now</span></div></div>
       <div><div class="n" id="c-paises">…</div><div class="l"><span class="es">países</span><span class="en">countries</span></div></div>
-      <div style="flex:0;white-space:nowrap"><button class="btn" onclick="replay()">▶ <span class="es">Ver cómo creció</span><span class="en">Watch it grow</span></button></div>
+    </div>
+    <div class="crecio">
+      <button class="btn-rey" id="b-replay" onclick="replay()"><span class="k">👑</span><span class="es">Ver cómo creció</span><span class="en">Watch it grow</span><span>▶</span></button>
+      <div class="l"><span class="es"><b>Desde la primera luz hasta hoy</b>, cada nodo en el orden real en que llegó, con su fecha. El que más tiempo sostenga la red lleva la corona.</span><span class="en"><b>From the first light to today</b>, every node in the real order it arrived, with its date. Whoever holds the network up longest wears the crown.</span></div>
     </div>
     <svg id="mapa" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet" aria-label="mapa"></svg>
     <div class="sub" id="leyenda">
@@ -242,7 +255,13 @@ function replay(){
   gLuces.selectAll("g.rp").remove(); gEnlaces.selectAll("path.rp").remove();
   const propio=LIBRO.nodos.find(n=>n.numero===1&&n.ubicado); const o=propio?proy([propio.lon,propio.lat]):null;
   const ch=document.getElementById("c-hist"), paisesVistos=new Set(), cp=document.getElementById("c-paises");
-  const paso=Math.max(120,Math.min(600,12000/todos.length));
+  const boton=document.getElementById("b-replay"); if(boton) boton.disabled=true;
+  const es=document.documentElement.getAttribute("data-lang")!=="en";
+  ch.textContent=0; cp.textContent=0;
+  gLuces.selectAll("text.rotulo").remove();
+  const rot=gLuces.append("text").attr("class","rotulo rp").attr("x",480).attr("y",474).attr("text-anchor","middle");
+  const rotF=gLuces.append("text").attr("class","rotulo f rp").attr("x",480).attr("y",494).attr("text-anchor","middle");
+  const paso=Math.max(900,Math.min(1600,14000/todos.length));
   todos.forEach((n,i)=>setTimeout(()=>{
     const q=proy([n.lon,n.lat]); if(!q) return;
     if(o&&n.numero!==1) gEnlaces.append("path").attr("class","enlace trazo rp").attr("d",`M${q[0]},${q[1]} Q${(q[0]+o[0])/2},${Math.min(q[1],o[1])-30} ${o[0]},${o[1]}`);
@@ -251,8 +270,11 @@ function replay(){
     g.append("circle").attr("class","luz"+(n.numero===1?" propio":"")).attr("r",0).transition().duration(400).attr("r",n.numero===1?5:3.5);
     g.append("title").text(`#${n.numero} · ${n.nombre||"nodo"} · ${new Date(n.primeraVez*1000).toISOString().slice(0,10)}`);
     ch.textContent=i+1; if(n.pais) paisesVistos.add(n.pais); cp.textContent=paisesVistos.size;
+    const fecha=new Date(n.primeraVez*1000).toISOString().slice(0,10);
+    rot.text(`#${n.numero} · ${n.nombre||(es?"nodo":"node")}${n.ciudad?" · "+n.ciudad:""}${n.pais?", "+n.pais:""}`);
+    rotF.text(n.numero===1?(es?`${fecha} · aquí empezó`:`${fecha} · it started here`):fecha);
   },paso*i));
-  setTimeout(()=>{gLuces.selectAll("g.rp").remove(); gEnlaces.selectAll("path.rp").remove(); cargarLibro();},paso*todos.length+2500);
+  setTimeout(()=>{gLuces.selectAll("g.rp, text.rp").remove(); gEnlaces.selectAll("path.rp").remove(); if(boton) boton.disabled=false; cargarLibro();},paso*todos.length+3500);
 }
 </script>
 </body>
