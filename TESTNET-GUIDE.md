@@ -14,6 +14,16 @@ You don't need to be an expert — just follow the steps.
 > Without `./` or `.\`, the system can't find the program. (Thanks to JC for the tip!)
 ---
 
+## Step 0 — One command (Linux and Mac)
+
+On Linux or Mac, everything below (download, sha256 check, install, name your node and keep it running) is done by a script in a minute:
+
+```
+curl -sSL https://rupix.network/instalar.sh | sh
+```
+
+It is plain text: read it before running it (`curl -sSL https://rupix.network/instalar.sh | less`). Its sha256 for this version: `fbec2ce78e05e207a37ff05d7a60fe0b77c0c1f2e3c2b3df988b97c9724b87b2`. It checks the binaries against the list every release publishes and **if one does not match, it installs nothing**. On Linux with systemd it leaves the node as a service (starts on reboot); on Mac it prints the command to start it. Options: `--nombre=YourName`, `--version=v0.6.6`, `--sin-servicio`. On Windows, continue with step 1.
+
 ## Step 1 — Download Rupix
 
 Go to the official downloads (always the latest version):

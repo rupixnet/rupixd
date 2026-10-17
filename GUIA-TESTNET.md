@@ -14,6 +14,16 @@ No necesitas ser experto — sigue los pasos.
 > Sin el `./` o `.\`, el sistema no encuentra el programa. (¡Gracias a JC por el aporte!)
 ---
 
+## Paso 0 — Un solo comando (Linux y Mac)
+
+Si estás en Linux o Mac, todo lo de abajo (descargar, verificar el sha256, instalar, ponerle nombre a tu nodo y dejarlo corriendo) lo hace un script en un minuto:
+
+```
+curl -sSL https://rupix.network/instalar.sh | sh
+```
+
+Es texto plano: léelo antes de correrlo (`curl -sSL https://rupix.network/instalar.sh | less`). Su sha256 para esta versión: `fbec2ce78e05e207a37ff05d7a60fe0b77c0c1f2e3c2b3df988b97c9724b87b2`. Verifica los binarios contra la lista que publica cada release y **si uno no coincide, no instala nada**. En Linux con systemd deja el nodo como servicio (arranca solo al reiniciar); en Mac te da el comando para arrancarlo. Opciones: `--nombre=TuNombre`, `--version=v0.6.6`, `--sin-servicio`. En Windows, sigue con el paso 1.
+
 ## Paso 1 — Descarga Rupix
 
 Ve a las descargas oficiales:

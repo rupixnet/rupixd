@@ -115,7 +115,8 @@ Siempre en un worktree (`/root/rupixd-rel`) si en `/root/rupixd` corre el fuzz. 
 3. `gh release create vX.Y.Z --title "Rupix vX.Y.Z" --notes-file releases/vX.Y.Z.md --verify-tag`. El CI (deploy.yaml) sube los tres zips y los `SHA256SUMS-<os>.txt` en ~10 min.
 4. `sh tools/verificar-binarios.sh vX.Y.Z | tail -6`: 4/4 IGUAL (sección siguiente).
 5. Seed: parar servicios, copiar binarios actuales a `/root/bin-anterior/vPREV/`, descomprimir con `unzip -q -o rupix-vX.Y.Z-linux.zip -d bin` (el CI empaqueta con `zip -j`: los binarios van en la raíz del zip, sin carpeta), `(cd bin && sha256sum -c ../SHA256SUMS-linux.txt)`, copiar a `/usr/local/bin/`, arrancar. El explorador también va con `stop`/copia/`start`. Después, `grep -rn "vANTERIOR" --include=*.md . ../rupix-website` para no dejar ninguna guía atrás (lección del 14-oct: `guide.html` se quedó en v0.6.3 dos releases).
-6. `rupixwallet --testnet verificar`: 0 fallos, binario igual a la release. Web: hito + zips. LOGROS, CONTEXTO.
+6. `rupixwallet --testnet verificar`: 0 fallos, binario igual a la release. Web: hito + zips **en `guia.html` y `guide.html`** (los dos). LOGROS, CONTEXTO.
+7. Instalador: `ULTIMA_CONOCIDA` en `tools/instalar-nodo.sh` a la version nueva; copiarlo a la web como `instalar.sh`; su sha256 en GUIA-TESTNET.md, TESTNET-GUIDE.md, guia.html y guide.html.
 
 ## Verificar una release (30-sep-2026)
 
