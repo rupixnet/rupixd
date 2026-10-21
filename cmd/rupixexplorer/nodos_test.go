@@ -89,10 +89,16 @@ func TestMapaDeNodosNoFiltraIPs(t *testing.T) {
 
 func TestPartirUserAgent(t *testing.T) {
 	casos := []struct{ ua, version, nombre string }{
-		{"/kaspad:0.6.6/", "0.6.6", ""},
-		{"/kaspad:0.6.6/Edu/", "0.6.6", "Edu"},
-		{"/kaspad:0.6.6/JC/Monterrey/", "0.6.6", "JC Monterrey"},
-		{"/rupixd:0.7.0/x/", "0.7.0", "x"},
+		// Formato real (MsgVersion.AddUserAgent): nombre:version(comentarios).
+		// El saludo real de un nodo 0.6.6 (DefaultUserAgent heredado + el propio), visto el 20-oct:
+		{"/kaspad:0.6.6/rupixd:0.6.6(Coroping)/", "0.6.6", "Coroping"},
+		{"/kaspad:0.6.6/rupixd:0.6.6/", "0.6.6", ""},
+		{"/rupixd:0.6.6/", "0.6.6", ""},
+		{"/rupixd:0.6.6(Coroping)/", "0.6.6", "Coroping"},
+		{"/rupixd:0.6.6(JC; Monterrey)/", "0.6.6", "JC Monterrey"},
+		{"/kaspad:0.12.22/", "0.12.22", ""},
+		{"/rupixd:0.7.0(x)/otro:1/", "0.7.0", "x"},
+		{"/rupixd:0.6.6(<b>Edu</b>)/", "0.6.6", "bEdu/b"},
 		{"", "", ""},
 		{"/otro:1/", "", ""},
 	}

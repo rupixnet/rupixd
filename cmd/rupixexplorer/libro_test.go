@@ -91,7 +91,7 @@ func TestLibroDeNodos(t *testing.T) {
 
 	// Lo publicado no trae claves ni IPs.
 	pub, _ := json.Marshal(r)
-	for _, prohibido := range []string{"187.1.2.3", "8.8.8.8", "187.9.9.9", `"h:`, `"n:`, l.Sal} {
+	for _, prohibido := range []string{"187.1.2.3", "8.8.8.8", "187.9.9.9", `"h:`, `"n:`, `"huellas"`, l.Sal} {
 		if strings.Contains(string(pub), prohibido) {
 			t.Fatalf("se publico %q", prohibido)
 		}
@@ -146,5 +146,68 @@ func TestLibroPicoHito(t *testing.T) {
 	}
 	if n != 1 {
 		t.Fatalf("el hito de 5 encendidos debe salir una vez, salio %d", n)
+	}
+}
+
+// TestLibroCambioDeNombre (20-oct-2026): JC arranco sin que el explorador leyera su nombre
+// (quedo anonimo, #2), luego con --uacomment=Coroping y luego Corokingping, siempre desde la
+// misma maquina. Debe ser UN nodo, el #2, con el nombre mas reciente; otra maquina con nombre
+// si es un nodo nuevo. Y el archivo del libro recuerda las huellas tras recargar.
+func TestLibroCambioDeNombre(t *testing.T) {
+	ruta := filepath.Join(t.TempDir(), "libro.json")
+	l, err := cargarLibro(ruta)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t0 := time.Date(2026, 10, 20, 12, 0, 0, 0, time.UTC)
+	l.registrarPropio(&Nodo{Nombre: "Seed1-Nuremberg", Pais: "DE", Ubicado: true}, t0)
+	// 1) anonimo desde la casa de JC
+	l.pasada([]Nodo{{Version: "0.6.6"}}, []string{"201.1.1.1"}, t0, 0)
+	// 2) se va, vuelve con nombre
+	l.pasada(nil, nil, t0.Add(time.Minute), time.Minute)
+	l.pasada([]Nodo{{Nombre: "Coroping", Version: "0.6.6"}}, []string{"201.1.1.1"}, t0.Add(2*time.Minute), time.Minute)
+	// 3) se va, vuelve con otro nombre
+	l.pasada([]Nodo{{Nombre: "Corokingping", Version: "0.6.6"}}, []string{"201.1.1.1"}, t0.Add(3*time.Minute), time.Minute)
+	// 4) otra maquina, otro nombre: nodo nuevo
+	l.pasada([]Nodo{{Nombre: "Corokingping", Version: "0.6.6"}, {Nombre: "JP", Version: "0.6.6"}}, []string{"201.1.1.1", "201.2.2.2"}, t0.Add(4*time.Minute), time.Minute)
+
+	r := l.respuesta()
+	if r.Total != 3 {
+		t.Fatalf("seed, JC y JP: 3 nodos, hay %d: %+v", r.Total, r.Nodos)
+	}
+	jc := r.Nodos[1]
+	if jc.Numero != 2 || jc.Nombre != "Corokingping" {
+		t.Fatalf("JC debe seguir siendo el #2 con su nombre nuevo: %+v", jc)
+	}
+	if jc.Segundos != 180 {
+		t.Fatalf("JC acumulo 3 min (pasadas 2, 3 y 4): %d s", jc.Segundos)
+	}
+	if r.Nodos[2].Numero != 3 || r.Nodos[2].Nombre != "JP" {
+		t.Fatalf("JP es el #3: %+v", r.Nodos[2])
+	}
+	todo := ""
+	for _, h := range r.Hitos {
+		todo += h.Texto + "\n"
+	}
+	for _, esperado := range []string{"Nodo #2 ahora se llama Coroping", "Nodo #2 cambió de nombre: Coroping → Corokingping", "Nodo #3 · JP"} {
+		if !strings.Contains(todo, esperado) {
+			t.Fatalf("falta el hito %q en:\n%s", esperado, todo)
+		}
+	}
+	// Dos maquinas distintas con el mismo nombre al mismo tiempo: la segunda NO roba el
+	// numero (el primero en llegar con un nombre se lo queda) y no se abre uno nuevo por
+	// la huella, porque la clave con nombre ya existe. Limitacion documentada.
+	// Persistencia de las huellas.
+	if err := l.guardar(); err != nil {
+		t.Fatal(err)
+	}
+	l2, err := cargarLibro(ruta)
+	if err != nil {
+		t.Fatal(err)
+	}
+	l2.pasada([]Nodo{{Nombre: "JC-final", Version: "0.6.6"}}, []string{"201.1.1.1"}, t0.Add(time.Hour), time.Minute)
+	r2 := l2.respuesta()
+	if r2.Total != 3 || r2.Nodos[1].Numero != 2 || r2.Nodos[1].Nombre != "JC-final" {
+		t.Fatalf("tras recargar, el cambio de nombre debe seguir reconociendo la maquina: %+v", r2.Nodos)
 	}
 }

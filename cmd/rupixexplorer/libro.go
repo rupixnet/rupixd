@@ -72,7 +72,12 @@ type Libro struct {
 	Dias      map[string]*DiaLibro     `json:"dias"`  // fecha -> resumen
 	Hitos     []Hito                   `json:"hitos"`
 	Paises    map[string]bool          `json:"paises"` // paises ya vistos (para "primer nodo en X")
-	cambiado  bool
+	// Huellas: clave -> huella privada de la conexion con la que se vio por ultima vez. Solo en
+	// el archivo del libro, nunca en /api/libro. Sirve para reconocer que un nombre nuevo viene
+	// de la misma maquina (cambio de nombre) y no abrir un numero nuevo (20-oct-2026: JC
+	// cambio de --uacomment y aparecio como dos nodos).
+	Huellas  map[string]string `json:"huellas,omitempty"`
+	cambiado bool
 }
 
 // RespuestaLibro es /api/libro: todo lo publicable.
@@ -159,6 +164,28 @@ func (l *Libro) claveDe(nombre, host string) string {
 }
 
 func fechaDe(t time.Time) string { return t.UTC().Format("2006-01-02") }
+
+// mismaMaquina busca una entrada ya existente vista por ultima vez con esta huella, que no
+// sea el seed propio ni este ya contada en esta pasada. Si hay varias, la mas reciente.
+// Se llama con el lock tomado.
+func (l *Libro) mismaMaquina(huella string, vistos map[string]bool) (string, *EntradaLibro) {
+	var clave string
+	var mejor *EntradaLibro
+	// Un anonimo tiene la huella como clave (tambien los de antes de que existiera Huellas).
+	if e := l.Nodos[huella]; e != nil && !vistos[huella] {
+		clave, mejor = huella, e
+	}
+	for k, h := range l.Huellas {
+		if h != huella || k == "propio" || vistos[k] {
+			continue
+		}
+		e := l.Nodos[k]
+		if e != nil && (mejor == nil || e.UltimaVez > mejor.UltimaVez) {
+			clave, mejor = k, e
+		}
+	}
+	return clave, mejor
+}
 
 // registrarPropio asegura que el seed propio sea el #1 (clave fija "propio").
 func (l *Libro) registrarPropio(p *Nodo, ahora time.Time) {
@@ -249,11 +276,32 @@ func (l *Libro) pasada(peers []Nodo, hosts []string, ahora time.Time, transcurri
 			continue // dos conexiones del mismo nodo cuentan una vez
 		}
 		vistos[clave] = true
+		huella := l.claveDe("", host)
 		e := l.Nodos[clave]
+		if e == nil && n.Nombre != "" {
+			// ¿La misma maquina ya tenia numero (sin nombre, o con otro nombre y hoy no
+			// conectada con el)? Entonces es la misma luz: conserva el numero.
+			if claveVieja, vieja := l.mismaMaquina(huella, vistos); vieja != nil {
+				delete(l.Nodos, claveVieja)
+				delete(l.Huellas, claveVieja)
+				l.Nodos[clave] = vieja
+				if vieja.Nombre != "" && vieja.Nombre != n.Nombre {
+					l.hito(ahora, "Nodo #%d cambió de nombre: %s → %s", vieja.Numero, vieja.Nombre, n.Nombre)
+				} else if vieja.Nombre == "" {
+					l.hito(ahora, "Nodo #%d ahora se llama %s", vieja.Numero, n.Nombre)
+				}
+				vieja.Nombre = n.Nombre
+				e = vieja
+			}
+		}
 		nuevo := e == nil
 		if nuevo {
 			e = l.alta(clave, n.Nombre, ahora)
 		}
+		if l.Huellas == nil {
+			l.Huellas = map[string]string{}
+		}
+		l.Huellas[clave] = huella
 		e.Conectado = true
 		e.UltimaVez = ahora.Unix()
 		if n.Version != "" {

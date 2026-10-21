@@ -47,21 +47,25 @@ type RespuestaNodos struct {
 	Nota   string `json:"nota"`
 }
 
-// partirUserAgent saca version y nombre de "/kaspad:0.6.6/Nombre/" (BIP 14).
+// partirUserAgent saca version y nombre del saludo real del nodo (BIP 14, como lo arma
+// MsgVersion.AddUserAgent): "/rupixd:0.6.6/" o "/rupixd:0.6.6(Nombre)/"; varios --uacomment
+// van separados por "; " dentro del parentesis. Corregido el 20-oct-2026: la version anterior
+// esperaba "/rupixd:0.6.6/Nombre/", un formato que nunca existio, y el nombre se perdia.
 // Devuelve ("", "") si no tiene la forma esperada. El nombre se recorta y se limpia
 // de caracteres de control para que nadie pinte HTML en el mapa con su uacomment.
 func partirUserAgent(ua string) (version, nombre string) {
-	partes := strings.Split(strings.Trim(ua, "/"), "/")
-	if len(partes) == 0 {
-		return "", ""
-	}
-	if strings.HasPrefix(partes[0], "kaspad:") {
-		version = strings.TrimPrefix(partes[0], "kaspad:")
-	} else if strings.HasPrefix(partes[0], "rupixd:") {
-		version = strings.TrimPrefix(partes[0], "rupixd:")
-	}
-	if len(partes) > 1 {
-		nombre = limpiarNombre(strings.Join(partes[1:], " "))
+	for _, seg := range strings.Split(strings.Trim(ua, "/"), "/") {
+		comentario := ""
+		if i := strings.Index(seg, "("); i >= 0 && strings.HasSuffix(seg, ")") {
+			comentario = seg[i+1 : len(seg)-1]
+			seg = seg[:i]
+		}
+		if strings.HasPrefix(seg, "rupixd:") || strings.HasPrefix(seg, "kaspad:") {
+			version = seg[strings.Index(seg, ":")+1:]
+		}
+		if comentario != "" {
+			nombre = limpiarNombre(strings.ReplaceAll(comentario, "; ", " "))
+		}
 	}
 	return version, nombre
 }
