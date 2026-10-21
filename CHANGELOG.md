@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- Explorador: botón «🏠 Inicio» a rupix.network en la portada y en el mapa, y «◆ Explorador» desde el mapa (pedido de JC, 20-oct). En la web: menú arriba con las tres guías y el explorador, y descargas directas por sistema en la guía.
 - **Explorador: el nombre del nodo se leía mal y un cambio de nombre abría un nodo nuevo** (visto el 20-oct con el nodo de JC). (1) `partirUserAgent` ahora lee el saludo real `/kaspad:0.6.6/rupixd:0.6.6(Nombre)/` (BIP 14, con paréntesis); antes esperaba un formato que nunca existió y el nombre salía como `rupixd:0.6.6(Nombre)`. (2) El libro guarda, solo en su archivo, la huella privada con la que se vio cada nodo por última vez; si llega un nombre nuevo desde una máquina que ya tiene número (anónima o con otro nombre y no conectada con él), conserva el número y anota el hito «Nodo #N cambió de nombre». Limitación conocida: dos máquinas con el mismo nombre a la vez siguen contando como una (el primero en llegar se queda con el número). `TestPartirUserAgent` con los saludos reales, `TestLibroCambioDeNombre`.
 - Pendiente anotado: `DefaultUserAgent` sigue diciendo `kaspad:` (heredado); cambiarlo a `rupixd:` en v0.7, sin efecto en consenso.
 - **Explorador bilingüe.** La portada del explorador (`index.html`) ahora tiene ES/EN como el mapa: botón de idioma, textos fijos con `.es/.en` y los que arma el JS con `T()`; recuerda la elección y arranca en el idioma del navegador. Probado con API simulada en los dos idiomas.

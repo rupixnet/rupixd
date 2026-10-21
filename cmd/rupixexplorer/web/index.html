@@ -50,6 +50,8 @@ footer a{color:var(--violet);text-decoration:none}
 .back{color:var(--violet);cursor:pointer;margin-bottom:12px;display:inline-block}
 .lang button{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:6px 10px;cursor:pointer}
 .lang button.on{border-color:var(--gold);color:var(--gold)}
+.lang .casa{display:inline-block;background:var(--panel);border:1px solid #3a2d55;color:var(--text);border-radius:8px;padding:6px 12px;text-decoration:none;font-size:.9rem;margin-right:6px}
+.lang .casa:hover{border-color:var(--gold);color:var(--gold)}
 html[data-lang="es"] .en{display:none}
 html[data-lang="en"] .es{display:none}
 </style>
@@ -59,7 +61,7 @@ html[data-lang="en"] .es{display:none}
 <header>
   <div class="logo"><h1>◆ RUPIX EXPLORER</h1><span class="net" id="netname">…</span></div>
   <div class="search"><input id="q" placeholder="hash de bloque…" onkeydown="if(event.key==='Enter')buscar()"><button onclick="buscar()"><span class="es">Buscar</span><span class="en">Search</span></button></div>
-  <div class="lang"><button id="b-es" onclick="idioma('es')">ES</button> <button id="b-en" onclick="idioma('en')">EN</button></div>
+  <div class="lang"><a class="casa" href="https://rupix.network">🏠 <span class="es">Inicio</span><span class="en">Home</span></a> <button id="b-es" onclick="idioma('es')">ES</button> <button id="b-en" onclick="idioma('en')">EN</button></div>
 </header>
 
 <div id="home">

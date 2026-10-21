@@ -16,6 +16,8 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;pa
 .net{font-size:.75rem;color:var(--violet);background:var(--panel);border:1px solid var(--line);padding:3px 10px;border-radius:20px}
 .lang button{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:6px 10px;cursor:pointer}
 .lang button.on{border-color:var(--gold);color:var(--gold)}
+.lang .casa{display:inline-block;background:var(--panel);border:1px solid #3a2d55;color:var(--text);border-radius:8px;padding:6px 12px;text-decoration:none;font-size:.9rem;margin-right:6px}
+.lang .casa:hover{border-color:var(--gold);color:var(--gold)}
 .grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:20px}
 @media(max-width:860px){.grid{grid-template-columns:1fr}}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
@@ -77,7 +79,7 @@ html[data-lang="en"] .es{display:none}
 <div class="wrap">
 <header>
   <div class="logo"><h1><a href="/">◆ RUPIX EXPLORER</a></h1><span class="net"><span class="es">la red encendida</span><span class="en">the network, lit</span></span></div>
-  <div class="lang"><button id="b-es" onclick="idioma('es')">ES</button> <button id="b-en" onclick="idioma('en')">EN</button></div>
+  <div class="lang"><a class="casa" href="https://rupix.network">🏠 <span class="es">Inicio</span><span class="en">Home</span></a> <a class="casa" href="/">◆ <span class="es">Explorador</span><span class="en">Explorer</span></a> <button id="b-es" onclick="idioma('es')">ES</button> <button id="b-en" onclick="idioma('en')">EN</button></div>
 </header>
 
 <div class="grid">
