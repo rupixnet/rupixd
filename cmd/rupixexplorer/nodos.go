@@ -15,6 +15,7 @@ import (
 	"math"
 	"net"
 	"os"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -54,21 +55,18 @@ type RespuestaNodos struct {
 // Devuelve ("", "") si no tiene la forma esperada. El nombre se recorta y se limpia
 // de caracteres de control para que nadie pinte HTML en el mapa con su uacomment.
 func partirUserAgent(ua string) (version, nombre string) {
-	for _, seg := range strings.Split(strings.Trim(ua, "/"), "/") {
-		comentario := ""
-		if i := strings.Index(seg, "("); i >= 0 && strings.HasSuffix(seg, ")") {
-			comentario = seg[i+1 : len(seg)-1]
-			seg = seg[:i]
-		}
-		if strings.HasPrefix(seg, "rupixd:") || strings.HasPrefix(seg, "kaspad:") {
-			version = seg[strings.Index(seg, ":")+1:]
-		}
-		if comentario != "" {
-			nombre = limpiarNombre(strings.ReplaceAll(comentario, "; ", " "))
+	// No se corta por "/" porque un comentario puede traer barras; se buscan los tramos
+	// "nombre:version(comentario)" directamente. El ultimo tramo con comentario manda.
+	for _, m := range reUserAgent.FindAllStringSubmatch(ua, -1) {
+		version = m[1]
+		if m[2] != "" {
+			nombre = limpiarNombre(strings.ReplaceAll(m[2], "; ", " "))
 		}
 	}
 	return version, nombre
 }
+
+var reUserAgent = regexp.MustCompile(`(?:rupixd|kaspad):([0-9][^/()]*)(?:\(([^)]*)\))?`)
 
 func limpiarNombre(s string) string {
 	var b strings.Builder

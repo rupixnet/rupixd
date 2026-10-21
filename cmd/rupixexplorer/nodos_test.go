@@ -32,7 +32,7 @@ func TestMapaDeNodosNoFiltraIPs(t *testing.T) {
 
 	ahora := time.Unix(1_760_000_000, 0)
 	peers := []*appmessage.GetConnectedPeerInfoMessage{
-		{Address: "187.123.45.67:17211", UserAgent: "/kaspad:0.6.6/Edu <b>x</b>/", IsOutbound: false, TimeConnected: (ahora.Unix() - 3600) * 1000},
+		{Address: "187.123.45.67:17211", UserAgent: "/kaspad:0.6.6/rupixd:0.6.6(Edu <b>x</b>)/", IsOutbound: false, TimeConnected: (ahora.Unix() - 3600) * 1000},
 		{Address: "8.8.8.8:17211", UserAgent: "/kaspad:0.6.5/", IsOutbound: true, TimeConnected: ahora.Unix() * 1000},
 		{Address: "[2001:db8::1]:17211", UserAgent: "basura", TimeConnected: 0},
 	}
@@ -45,7 +45,7 @@ func TestMapaDeNodosNoFiltraIPs(t *testing.T) {
 	if !n.Ubicado || n.Pais != "MX" || n.Ciudad != "Monterrey" || n.Lat != 25.7 || n.Lon != -100.3 {
 		t.Fatalf("ubicacion mal: %+v", n)
 	}
-	if n.Nombre != "Edu bx b" || n.Version != "0.6.6" || n.Segundos != 3600 || n.Saliente {
+	if n.Nombre != "Edu bx/b" || n.Version != "0.6.6" || n.Segundos != 3600 || n.Saliente {
 		t.Fatalf("campos mal: %+v", n)
 	}
 	// Los otros dos no se ubican (fuera de la base / IPv6), pero existen.
@@ -98,7 +98,8 @@ func TestPartirUserAgent(t *testing.T) {
 		{"/rupixd:0.6.6(JC; Monterrey)/", "0.6.6", "JC Monterrey"},
 		{"/kaspad:0.12.22/", "0.12.22", ""},
 		{"/rupixd:0.7.0(x)/otro:1/", "0.7.0", "x"},
-		{"/rupixd:0.6.6(<b>Edu</b>)/", "0.6.6", "bEdu/b"},
+		{"/rupixd:0.6.6(<b>Edu</b>)/", "0.6.6", "bEdu/b"}, // barras y etiquetas adentro no rompen nada
+		{"/kaspad:0.6.6/rupixd:0.6.6(a/b; c)/", "0.6.6", "a/b c"},
 		{"", "", ""},
 		{"/otro:1/", "", ""},
 	}
