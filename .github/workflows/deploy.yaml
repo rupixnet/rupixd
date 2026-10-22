@@ -7,12 +7,14 @@ permissions:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    env:
-      CGO_ENABLED: "0"
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # Rupix (22-oct-2026): sistemas FIJOS, no 'latest'. go-secp256k1 y go-muhash son codigo C, asi que
+        # el gcc/glibc del runner entra al binario; la reproducibilidad se declara contra un sistema
+        # concreto (Linux: Ubuntu 24.04 + Go 1.26.6 + su gcc 13.3) y tools/verificar-binarios.sh lo exige.
+        # v0.6.7 (ubuntu-latest paso a GCC 15.2): 4/4 DIFIERE. v0.6.8 (CGO_ENABLED=0): no compilo.
+        os: [ubuntu-24.04, windows-2022, macos-14]
     name: Building, ${{ matrix.os }}
     steps:
       - name: Fix CRLF on Windows
@@ -20,9 +22,6 @@ jobs:
         run: git config --global core.autocrlf false
       - name: Check out code into the Go module directory
         uses: actions/checkout@v4
-      # Rupix (22-oct-2026): CGO_ENABLED=0 en los tres sistemas. Con cgo, el enlace final lo hace el
-      # gcc/glibc del runner y el binario cambia cuando GitHub cambia de sistema (v0.6.7: GCC 15.2 en
-      # el runner vs 13.3 en el seed => 4/4 DIFIERE). Go puro = el binario depende solo del codigo y de Go.
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
@@ -30,8 +29,8 @@ jobs:
       - name: Build on Linux
         if: runner.os == 'Linux'
         run: |
-          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -tags netgo,osusergo -o ./bin/ .
-          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -tags netgo,osusergo -o ./bin/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
+          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid= -extldflags=-static" -tags netgo,osusergo -o ./bin/ .
+          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid= -extldflags=-static" -tags netgo,osusergo -o ./bin/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
           archive="rupix-${{ github.event.release.tag_name }}-linux.zip"
           zip -r -j "${archive}" ./bin/*
           sha256sum "${archive}" > "${archive}.sha256"

@@ -8,7 +8,13 @@ Formato: [versión] - fecha - descripción técnica
 
 ## [Sin publicar]
 
-## [v0.6.8] — 22-oct-2026 (UTC) — Binarios reproducibles de verdad (Go puro)
+## [v0.6.9] — 22-oct-2026 (UTC) — Reproducibilidad contra un sistema declarado
+**Sin cambio de consenso.** Mismo código de consenso que v0.6.7/v0.6.8.
+- **v0.6.8 no compiló en el CI**: `CGO_ENABLED=0` era imposible; `go-secp256k1` (firmas) y `go-muhash` son código C. Error nuestro al afirmar "Go puro" sin comprobar las dependencias. v0.6.8 marcada «no usar».
+- Arreglo real: el gcc/glibc **sí** entra al binario, así que la reproducibilidad se declara contra un sistema concreto y se fija: `deploy.yaml` compila en `ubuntu-24.04`, `windows-2022` y `macos-14` (nunca `latest`), y `tools/verificar-binarios.sh` exige Go 1.26.6 **y** gcc 13.x (Ubuntu 24.04) antes de comparar; desde otro sistema se detiene con ALTO en vez de dar un DIFIERE que no significa nada. Pendiente para v0.7: compilar dentro de un contenedor con imagen fijada por digest, para no depender de las imágenes de GitHub.
+- Procedimiento de release endurecido en OPERACIONES: suite y publicación en **una sola cadena** (si la suite no da exit 0, el push y el tag no se ejecutan).
+
+## [v0.6.8] — 22-oct-2026 (UTC) — Binarios reproducibles de verdad (Go puro) · **no compiló: no usar (ver v0.6.9)**
 **Sin cambio de consenso.** Mismo código que v0.6.7; cambia cómo se compila.
 - **v0.6.7 no pasó la verificación de reproducibilidad: 4/4 DIFIERE.** Causa, confirmada con `go version -m` y `strings`: con `CGO_ENABLED=1` y `-extldflags=-static` el enlace final lo hace el gcc/glibc de la máquina; el runner de GitHub pasó a GCC 15.2 y el seed tiene 13.3, y 8 KB cambiaron sin que cambiara una línea de Go. La promesa C4 dependía del sistema del runner sin que lo supiéramos.
 - Arreglo: `CGO_ENABLED=0` en `deploy.yaml` (los tres sistemas) y en `tools/verificar-binarios.sh`; fuera `-extldflags=-static`. Binario = código + versión de Go, y nada más. **v0.6.7 queda marcada como no reproducible: no usarla**; v0.6.8 es la que se instala.

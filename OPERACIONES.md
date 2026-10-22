@@ -110,7 +110,7 @@ El servidor tiene 7.7 GB. rupixd usa ~2.7 GB. **No correr `go test ./...` comple
 
 Siempre en un worktree (`/root/rupixd-rel`) si en `/root/rupixd` corre el fuzz. Una sola cadena `&&`: un paso rojo para los siguientes.
 
-1. Candidata: `version/version.go`, `CHANGELOG.md` (`[vX.Y.Z]`), README ES/EN (estado), guías con los zips nuevos, `releases/vX.Y.Z.md` (notas ES/EN). Suite: `go test -count=1 -p 1 ./... > log` con exit 0 (65 `ok` hoy).
+1. Candidata: `version/version.go`, `CHANGELOG.md` (`[vX.Y.Z]`), README ES/EN (estado), guías con los zips nuevos, `releases/vX.Y.Z.md` (notas ES/EN). Suite: `go test -count=1 -p 1 ./... > log` con exit 0 (66 `ok` hoy). **La suite y el paso 2 van en la misma cadena `&&`**: si la suite falla, el push y el tag no se ejecutan (22-oct: v0.6.8 se publicó con la suite sin correr porque iban en bloques separados).
 2. La rama se llama `rel-vX.Y.Z` (nunca igual que el tag: el push se vuelve ambiguo). `git push origin rel-vX.Y.Z:main`, luego `git tag -a vX.Y.Z -m "Rupix vX.Y.Z" && git push origin refs/tags/vX.Y.Z`.
 3. `gh release create vX.Y.Z --title "Rupix vX.Y.Z" --notes-file releases/vX.Y.Z.md --verify-tag`. El CI (deploy.yaml) sube los tres zips y los `SHA256SUMS-<os>.txt` en ~10 min.
 4. `sh tools/verificar-binarios.sh vX.Y.Z | tail -6`: 4/4 IGUAL (sección siguiente). **Si DIFIERE, no se despliega nada**: se marca la release como «no usar» y se publica la siguiente (22-oct: v0.6.7 → v0.6.8, `CGO_ENABLED=0`).
