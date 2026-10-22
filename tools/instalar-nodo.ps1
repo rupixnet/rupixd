@@ -18,7 +18,7 @@
 #
 # Opciones, por variables de entorno (porque con `irm | iex` no se pasan parametros):
 #   $env:RUPIX_NOMBRE = "TuNombre"     nombre en el mapa (sin espacios). Vacio = "nodo".
-#   $env:RUPIX_VERSION = "v0.6.7"      una release concreta. Por defecto, la ultima.
+#   $env:RUPIX_VERSION = "v0.6.8"      una release concreta. Por defecto, la ultima.
 #   $env:RUPIX_SI = "1"                no pedir confirmacion.
 #   $env:RUPIX_ACTUALIZAR = "1"        solo reemplazar los programas de una instalacion existente.
 #
@@ -27,7 +27,7 @@
 # No confies, verifica.
 
 $ErrorActionPreference = "Stop"
-$UltimaConocida = "v0.6.7"   # se actualiza en cada release; ultimo recurso si GitHub no contesta
+$UltimaConocida = "v0.6.8"   # se actualiza en cada release; ultimo recurso si GitHub no contesta
 $Repo = "rupixnet/rupixd"
 $Seed1 = "178.104.69.148:17211"
 $Tarea = "Rupix testnet"

@@ -154,6 +154,9 @@ Dos veces la misma noche: `git fetch bundle rama:rama` con `rama` ya en checkout
 ### Una herramienta de verificación distingue "no lo puedo comprobar" de "está mal"
 21-oct: `rupixwallet verificar` pintó FALLO en los checkpoints #1 y #2 al primer nodo externo que lo corrió (JC), cuando su nodo estaba perfecto: esos bloques son anteriores a su punto de poda y ya no se pueden releer por RPC, aunque el nodo los exigió al sincronizar. Un FALLO falso en la primera pantalla que ve un recién llegado cuesta más que un bug: cuesta la confianza. Regla: toda comprobación que no se pueda hacer se reporta como AVISO con la razón, nunca como FALLO; FALLO se reserva para lo que se comprobó y está mal.
 
+### "Reproducible" significa que nada de la máquina entra al binario
+22-oct: la v0.6.7 dio 4/4 DIFIERE en nuestra propia verificación. Mismo código, mismo Go, mismas banderas; 8 KB distintos. Con `CGO_ENABLED=1` y `-extldflags=-static`, el enlace final lo hace el gcc/glibc del sistema, y GitHub cambió su runner a GCC 15.2 mientras el seed sigue en 13.3. Seis releases habían dado 4/4 solo porque las dos máquinas tenían el mismo sistema: la reproducibilidad era una coincidencia, no una propiedad. Regla: `CGO_ENABLED=0` siempre; y una promesa de reproducibilidad se prueba también desde una máquina distinta a la del CI, no solo desde la que casualmente coincide. Dos lecciones chicas de la misma noche: la rama de release se llama `rel-vX.Y.Z` (nombrarla igual que el tag hizo ambiguo el push), y una release que no pasa el 4/4 se marca «no usar» y se reemplaza, nunca se despliega "mientras tanto".
+
 ---
 
 *No confíes, verifica.*

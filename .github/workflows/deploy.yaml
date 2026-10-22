@@ -7,6 +7,8 @@ permissions:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    env:
+      CGO_ENABLED: "0"
     strategy:
       fail-fast: false
       matrix:
@@ -18,6 +20,9 @@ jobs:
         run: git config --global core.autocrlf false
       - name: Check out code into the Go module directory
         uses: actions/checkout@v4
+      # Rupix (22-oct-2026): CGO_ENABLED=0 en los tres sistemas. Con cgo, el enlace final lo hace el
+      # gcc/glibc del runner y el binario cambia cuando GitHub cambia de sistema (v0.6.7: GCC 15.2 en
+      # el runner vs 13.3 en el seed => 4/4 DIFIERE). Go puro = el binario depende solo del codigo y de Go.
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
@@ -25,8 +30,8 @@ jobs:
       - name: Build on Linux
         if: runner.os == 'Linux'
         run: |
-          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid= -extldflags=-static" -tags netgo,osusergo -o ./bin/ .
-          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid= -extldflags=-static" -tags netgo,osusergo -o ./bin/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
+          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -tags netgo,osusergo -o ./bin/ .
+          go build -v -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -tags netgo,osusergo -o ./bin/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
           archive="rupix-${{ github.event.release.tag_name }}-linux.zip"
           zip -r -j "${archive}" ./bin/*
           sha256sum "${archive}" > "${archive}.sha256"

@@ -15,7 +15,7 @@
 #
 # Opciones (tambien por variables de entorno):
 #   --nombre=TuNombre        nombre en el mapa (RUPIX_NOMBRE). Sin espacios. Vacio = "nodo".
-#   --version=v0.6.7         una release concreta (RUPIX_VERSION). Por defecto, la ultima.
+#   --version=v0.6.8         una release concreta (RUPIX_VERSION). Por defecto, la ultima.
 #   --seed=IP.PUBLICA        modo seed: puerto 17211 abierto a internet, sin indice de UTXOs (menos RAM).
 #   --sin-servicio           solo instalar los binarios; no crear ni tocar servicios.
 #   --prefix=/ruta           donde instalar (RUPIX_PREFIX). Por defecto /usr/local/bin o ~/.local/bin.
@@ -34,7 +34,7 @@
 
 set -eu
 
-ULTIMA_CONOCIDA="v0.6.7"   # se actualiza en cada release; es el ultimo recurso si GitHub no contesta
+ULTIMA_CONOCIDA="v0.6.8"   # se actualiza en cada release; es el ultimo recurso si GitHub no contesta
 REPO="rupixnet/rupixd"
 SEED1="178.104.69.148:17211"
 PUERTO_P2P=17211
@@ -137,7 +137,7 @@ ZIP="rupix-$VERSION-$ETIQUETA.zip"
 LISTA="SHA256SUMS-$ETIQUETA.txt"
 decir "Bajando $ZIP y $LISTA"
 curl -sSL -o "$TMP/$ZIP" "$BASE/$ZIP" || fallo "no pude bajar $BASE/$ZIP"
-curl -sSL -o "$TMP/$LISTA" "$BASE/$LISTA" || fallo "no pude bajar $BASE/$LISTA (releases anteriores a v0.6.5 no la tienen; usa --version=v0.6.7 o posterior)"
+curl -sSL -o "$TMP/$LISTA" "$BASE/$LISTA" || fallo "no pude bajar $BASE/$LISTA (releases anteriores a v0.6.5 no la tienen; usa --version=v0.6.8 o posterior)"
 mkdir -p "$TMP/bin" && unzip -q -o "$TMP/$ZIP" -d "$TMP/bin"
 decir "Verificando sha256 de cada binario contra la lista publicada"
 ( cd "$TMP/bin" && $SHA -c "../$LISTA" ) || fallo "un binario NO coincide con la lista publicada. No se instala nada. Reporta esto en github.com/$REPO/issues"

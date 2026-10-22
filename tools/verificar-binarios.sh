@@ -20,8 +20,8 @@ sed "s/rupix-$V-linux.zip/linux.zip/" linux.zip.sha256 | sha256sum -c
 python3 -m zipfile -e linux.zip ci
 git clone -q --depth 1 --branch "$V" https://github.com/rupixnet/rupixd src
 cd src
-go build -trimpath -buildvcs=false -ldflags="-s -w -buildid= -extldflags=-static" -tags netgo,osusergo -o ../local/ .
-go build -trimpath -buildvcs=false -ldflags="-s -w -buildid= -extldflags=-static" -tags netgo,osusergo -o ../local/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
+CGO_ENABLED=0 go build -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -tags netgo,osusergo -o ../local/ .
+CGO_ENABLED=0 go build -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -tags netgo,osusergo -o ../local/ ./cmd/rupixctl ./cmd/rupixwallet ./cmd/rupixminer
 cd ..
 ok=1
 for f in rupixd rupixctl rupixwallet rupixminer; do

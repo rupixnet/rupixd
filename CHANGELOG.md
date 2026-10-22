@@ -8,7 +8,13 @@ Formato: [versión] - fecha - descripción técnica
 
 ## [Sin publicar]
 
-## [v0.6.7] — 22-oct-2026 (UTC) — Checkpoint #3, compartido desde el nacimiento
+## [v0.6.8] — 22-oct-2026 (UTC) — Binarios reproducibles de verdad (Go puro)
+**Sin cambio de consenso.** Mismo código que v0.6.7; cambia cómo se compila.
+- **v0.6.7 no pasó la verificación de reproducibilidad: 4/4 DIFIERE.** Causa, confirmada con `go version -m` y `strings`: con `CGO_ENABLED=1` y `-extldflags=-static` el enlace final lo hace el gcc/glibc de la máquina; el runner de GitHub pasó a GCC 15.2 y el seed tiene 13.3, y 8 KB cambiaron sin que cambiara una línea de Go. La promesa C4 dependía del sistema del runner sin que lo supiéramos.
+- Arreglo: `CGO_ENABLED=0` en `deploy.yaml` (los tres sistemas) y en `tools/verificar-binarios.sh`; fuera `-extldflags=-static`. Binario = código + versión de Go, y nada más. **v0.6.7 queda marcada como no reproducible: no usarla**; v0.6.8 es la que se instala.
+- Lección en MEMORIA; criterio C4 de MAINNET.md precisado.
+
+## [v0.6.7] — 22-oct-2026 (UTC) — Checkpoint #3, compartido desde el nacimiento · **binarios NO reproducibles (ver v0.6.8); no usar**
 **Sin cambio de consenso.** Solo la lista de checkpoints, su caducidad, y herramientas.
 - **Checkpoint #3**: blue score 1,987,200 (DAA 1,987,552), `64305497e2210ec865b84eb98b5dfe5565d2f6a6af69498e0b6d8d465936356e`. El seed y el nodo #2 de la comunidad (JC) reportaron el mismo punto de poda a la vez y `GetBlock` desde los dos dio el mismo bloque: es el primer checkpoint confirmado por un nodo ajeno **antes** de publicarse. `CheckpointsExpireDAAScore` pasa de 2,600,000 a 3,900,000 (el #4 antes del DAA 3,600,000). `TestCheckpointsPublicados` con la fila nueva.
 - **Checkpoint #2, confirmación externa cerrada** (pendiente desde el 7-oct): el nodo de JC importó la lista de puntos de poda que lo contiene y está en la misma cadena. CHECKPOINTS.md ES/EN.
