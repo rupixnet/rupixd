@@ -7,6 +7,13 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+
+## [v0.6.7] — 22-oct-2026 (UTC) — Checkpoint #3, compartido desde el nacimiento
+**Sin cambio de consenso.** Solo la lista de checkpoints, su caducidad, y herramientas.
+- **Checkpoint #3**: blue score 1,987,200 (DAA 1,987,552), `64305497e2210ec865b84eb98b5dfe5565d2f6a6af69498e0b6d8d465936356e`. El seed y el nodo #2 de la comunidad (JC) reportaron el mismo punto de poda a la vez y `GetBlock` desde los dos dio el mismo bloque: es el primer checkpoint confirmado por un nodo ajeno **antes** de publicarse. `CheckpointsExpireDAAScore` pasa de 2,600,000 a 3,900,000 (el #4 antes del DAA 3,600,000). `TestCheckpointsPublicados` con la fila nueva.
+- **Checkpoint #2, confirmación externa cerrada** (pendiente desde el 7-oct): el nodo de JC importó la lista de puntos de poda que lo contiene y está en la misma cadena. CHECKPOINTS.md ES/EN.
+- **`rupixwallet verificar` asustaba a un nodo correcto.** Un checkpoint anterior al punto de poda ya no se puede releer por RPC (ni en un nodo que sincronizó desde cero ni en uno que podó); la herramienta decía FALLO «el nodo NO lo tiene». Ahora dice AVISO y explica: el nodo lo exigió al sincronizar. Visto el 21-oct con el nodo de JC.
+- Lo publicado desde v0.6.6 en el explorador y la web (ya en vivo; detalle abajo en las entradas del 17 y 20-oct).
 - Explorador: botón «🏠 Inicio» a rupix.network en la portada y en el mapa, y «◆ Explorador» desde el mapa (pedido de JC, 20-oct). En la web: menú arriba con las tres guías y el explorador, y descargas directas por sistema en la guía.
 - **Explorador: el nombre del nodo se leía mal y un cambio de nombre abría un nodo nuevo** (visto el 20-oct con el nodo de JC). (1) `partirUserAgent` ahora lee el saludo real `/kaspad:0.6.6/rupixd:0.6.6(Nombre)/` (BIP 14, con paréntesis); antes esperaba un formato que nunca existió y el nombre salía como `rupixd:0.6.6(Nombre)`. (2) El libro guarda, solo en su archivo, la huella privada con la que se vio cada nodo por última vez; si llega un nombre nuevo desde una máquina que ya tiene número (anónima o con otro nombre y no conectada con él), conserva el número y anota el hito «Nodo #N cambió de nombre». Limitación conocida: dos máquinas con el mismo nombre a la vez siguen contando como una (el primero en llegar se queda con el número). `TestPartirUserAgent` con los saludos reales, `TestLibroCambioDeNombre`.
 - Pendiente anotado: `DefaultUserAgent` sigue diciendo `kaspad:` (heredado); cambiarlo a `rupixd:` en v0.7, sin efecto en consenso.

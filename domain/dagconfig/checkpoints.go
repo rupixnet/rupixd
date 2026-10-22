@@ -25,4 +25,9 @@ var testnetCheckpoints = []Checkpoint{
 	// publicarlo). Confirmacion externa: pendiente (ningun nodo ajeno encendido ese dia);
 	// se anota en CHECKPOINTS.md cuando un nodo externo reporte el mismo pruningPointHash.
 	{BlueScore: 691200, Hash: mustHash("ef79c0b3382489f8d4859608a86fe05411e60978e30fa9f3350272f26f8b9669")},
+	// #3 — 22-oct-2026 (UTC), testnet #4, v0.6.7. Punto de poda que el seed y el nodo #2 de la
+	// comunidad (JC, Windows, sincronizado desde cero el 19-oct) reportaron a la vez con el
+	// mismo hash (virtual DAA 2,249,754 y 2,249,737); GetBlock desde los dos nodos: blue 1,987,200,
+	// DAA 1,987,552. Primer checkpoint confirmado por un nodo ajeno antes de publicarse.
+	{BlueScore: 1987200, Hash: mustHash("64305497e2210ec865b84eb98b5dfe5565d2f6a6af69498e0b6d8d465936356e")},
 }

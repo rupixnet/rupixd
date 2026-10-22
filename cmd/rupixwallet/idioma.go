@@ -124,6 +124,7 @@ var textos = map[string][2]string{
 	"verificar.checkpoints":      {"== Checkpoints compilados en este binario, contra el nodo", "== Checkpoints compiled into this binary, against the node"},
 	"verificar.cp.ninguno":       {"esta red no tiene checkpoints", "this network has no checkpoints"},
 	"verificar.cp.falta":         {"checkpoint #%d (blue %d) %s: el nodo NO lo tiene. O no ha sincronizado hasta ahi, o esta en otra historia.", "checkpoint #%d (blue %d) %s: the node does NOT have it. Either not synced that far, or on a different history."},
+	"verificar.cp.podado":        {"checkpoint #%d (blue %d) %s: anterior a tu punto de poda (blue %d). Tu nodo lo exigio al sincronizar (la lista de puntos de poda tenia que traerlo); ya no se puede releer por RPC. No es un fallo.", "checkpoint #%d (blue %d) %s: below your pruning point (blue %d). Your node enforced it when syncing (the pruning-point list had to include it); it can no longer be re-read over RPC. Not a failure."},
 	"verificar.cp.faltacaducado": {"checkpoint #%d (blue %d) %s: el nodo no lo tiene (ya caduco; no afecta)", "checkpoint #%d (blue %d) %s: the node lacks it (already expired; no effect)"},
 	"verificar.cp.tiene":         {"checkpoint #%d (blue %d) %s: el nodo lo tiene (vigente hasta DAA %d)", "checkpoint #%d (blue %d) %s: the node has it (in force until DAA %d)"},
 	"verificar.cp.caducado":      {"checkpoint #%d (blue %d) %s: el nodo lo tiene (caduco en DAA %d)", "checkpoint #%d (blue %d) %s: the node has it (expired at DAA %d)"},

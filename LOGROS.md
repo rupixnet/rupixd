@@ -4,6 +4,14 @@
 
 🇬🇧 Every item here is tested and verifiable against the code and the chain. Not a promise; what works today. Updated: 23 September 2026.
 
+## 22 de octubre de 2026 (03:47 UTC) — El checkpoint #3 nace compartido: dos máquinas, dos personas, la misma foto
+
+Hasta hoy los checkpoints de la testnet los tomaba el seed solo. Esta noche JC, desde su computadora con Windows, con un nodo que sincronizó desde cero el 19 de octubre, corrió `GetBlockDagInfo` al mismo tiempo que el seed: los dos reportaron el mismo punto de poda, `64305497…`, y `GetBlock` desde cada máquina dio el mismo bloque, blue score 1,987,200 (DAA 1,987,552). Ese bloque es el checkpoint #3 de la testnet #4, publicado en v0.6.7 antes de que caducara el #2, y es el primero de Rupix confirmado por un nodo ajeno **antes** de publicarse. De paso quedó cerrada la confirmación externa del #2, pendiente desde el 7 de octubre: el nodo de JC importó la lista de puntos de poda que lo contiene; sin él, habría rechazado la sincronización.
+
+La misma noche dejó una lección pública: `rupixwallet verificar` le dijo FALLO a un nodo que estaba perfecto, porque intentaba releer por RPC bloques anteriores al punto de poda, que ya no existen en disco. El nodo sí había exigido esos checkpoints al sincronizar (la regla del hueco #2). La herramienta ahora distingue "no comprobable" de "mal", que es la diferencia entre asustar y verificar.
+
+JC es el nodo #2 del libro de nodos, con su nombre, para siempre. *No confíes, verifica.*
+
 ## Base / Foundation
 - 🇲🇽 Fork de kaspad (Go): BlockDAG con GHOSTDAG, Proof of Work, pruning y red P2P heredados de Kaspa, con crédito. Cadena independiente, moneda propia, no usa KAS. / 🇬🇧 Fork of kaspad (Go): BlockDAG with GHOSTDAG, PoW, pruning and P2P from Kaspa, credited. Independent chain, own coin, does not use KAS.
 - 🇲🇽 Cero premine, verificable byte a byte en el génesis (subsidio 0x00). / 🇬🇧 Zero premine, verifiable byte by byte in genesis.

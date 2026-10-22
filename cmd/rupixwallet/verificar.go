@@ -124,10 +124,21 @@ func verificar(conf *verificarConfig) error {
 	if len(params.Checkpoints) == 0 {
 		linea(ok, T("verificar.cp.ninguno"))
 	}
+	// Blue score del punto de poda: los bloques anteriores ya no estan en disco (ni en un
+	// nodo que sincronizo desde cero ni en uno que podo), asi que un checkpoint por debajo
+	// no se puede releer por RPC. Eso NO es un fallo: el nodo lo exigio al importar la
+	// lista de puntos de poda (checkCheckpointsEnPruningPoints). Visto el 21-oct-2026 con
+	// el nodo de JC, que estaba perfecto y esta herramienta pintaba FALLO.
+	var podaBlue uint64
+	if pb, err := c.GetBlock(dag.PruningPointHash, false); err == nil && pb.Block != nil && pb.Block.VerboseData != nil {
+		podaBlue = pb.Block.VerboseData.BlueScore
+	}
 	for i, cp := range params.Checkpoints {
 		vigente := dag.VirtualDAAScore < params.CheckpointsExpireDAAScore
 		_, err := c.GetBlock(cp.Hash.String(), false)
 		switch {
+		case err != nil && vigente && podaBlue > 0 && cp.BlueScore < podaBlue:
+			linea(aviso, fmt.Sprintf(T("verificar.cp.podado"), i+1, cp.BlueScore, cp.Hash, podaBlue))
 		case err != nil && vigente:
 			fallos++
 			linea(fallo, fmt.Sprintf(T("verificar.cp.falta"), i+1, cp.BlueScore, cp.Hash))

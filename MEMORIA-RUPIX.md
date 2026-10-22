@@ -151,6 +151,9 @@ Dos veces la misma noche: `git fetch bundle rama:rama` con `rama` ya en checkout
 ### Tres bundles con el mismo nombre son dos de más
 7-oct: mandé tres `contexto-v07.bundle` distintos en una hora; ER subió el primero creyendo que era el último y `main` quedó a medias hasta el día siguiente. Cada bundle lleva nombre propio y único (`king-script.bundle`), y el bloque que lo consume comprueba el sha256 del que corresponde.
 
+### Una herramienta de verificación distingue "no lo puedo comprobar" de "está mal"
+21-oct: `rupixwallet verificar` pintó FALLO en los checkpoints #1 y #2 al primer nodo externo que lo corrió (JC), cuando su nodo estaba perfecto: esos bloques son anteriores a su punto de poda y ya no se pueden releer por RPC, aunque el nodo los exigió al sincronizar. Un FALLO falso en la primera pantalla que ve un recién llegado cuesta más que un bug: cuesta la confianza. Regla: toda comprobación que no se pueda hacer se reporta como AVISO con la razón, nunca como FALLO; FALLO se reserva para lo que se comprobó y está mal.
+
 ---
 
 *No confíes, verifica.*

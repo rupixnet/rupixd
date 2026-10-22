@@ -86,7 +86,8 @@ fecha fija: hay condiciones públicas.
 
 | Red | Blue score (y DAA) | Hash | Fecha | Versión |
 |---|---|---|---|---|
-| testnet #4 | blue score 86,400 (DAA 86,399) | `7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad` | 29-sep-2026 | v0.6.1 · caducaba en DAA 2,000,000; desde v0.6.4 la lista entera caduca en DAA 2,600,000 |
-| testnet #4 | blue score 691,200 (DAA 691,211) | `ef79c0b3382489f8d4859608a86fe05411e60978e30fa9f3350272f26f8b9669` | 7-oct-2026 | v0.6.4 · caduca en DAA 2,600,000 · **confirmación externa: pendiente** (el día de publicarlo no había ningún nodo ajeno encendido; se anota aquí, con fecha, cuando un nodo externo reporte el mismo `pruningPointHash`) |
+| testnet #4 | blue score 86,400 (DAA 86,399) | `7e2ece393c7d991c86e7ba915276cd85b5fc19e8647d5d197fa26bf116604fad` | 29-sep-2026 | v0.6.1 · caducaba en DAA 2,000,000; desde v0.6.4, 2,600,000; desde v0.6.7 la lista entera caduca en DAA 3,900,000 |
+| testnet #4 | blue score 691,200 (DAA 691,211) | `ef79c0b3382489f8d4859608a86fe05411e60978e30fa9f3350272f26f8b9669` | 7-oct-2026 | v0.6.4 · caducaba en DAA 2,600,000; desde v0.6.7 la lista entera caduca en DAA 3,900,000 · **confirmación externa: 21-oct-2026, nodo #2 (JC, Windows, sincronizado desde cero el 19-oct)**: su nodo importó la lista de puntos de poda con este checkpoint (regla `checkCheckpointsEnPruningPoints`; sin él habría rechazado la sincronización) y está en la misma cadena que el seed (mismo `pruningPointHash` a DAA 2,249,7xx). No es una relectura del bloque: anterior a su punto de poda, ya no está en disco |
+| testnet #4 | blue score 1,987,200 (DAA 1,987,552) | `64305497e2210ec865b84eb98b5dfe5565d2f6a6af69498e0b6d8d465936356e` | 22-oct-2026 (UTC) | v0.6.7 · caduca en DAA 3,900,000 (el #4 se publica antes del DAA 3,600,000) · **compartido desde el nacimiento**: el seed y el nodo #2 (JC) reportaron el mismo `pruningPointHash` a la vez (virtual DAA 2,249,754 / 2,249,737) y `GetBlock` desde los dos dio blue 1,987,200, DAA 1,987,552. Primer checkpoint confirmado por un nodo ajeno antes de publicarse |
 
 *No confíes, verifica.*
