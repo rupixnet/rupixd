@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"time"
 
 	"github.com/rupixnet/rupixd/infrastructure/config"
@@ -82,6 +83,13 @@ func (app *kaspadApp) main(startedChan chan<- struct{}) error {
 
 	// Show version at startup.
 	log.Infof("Version %s", version.Version())
+	// Rupix (24-oct-2026): el nodo #3 llego sin nombre y en el mapa salio como "nodo". Que nadie
+	// arranque sin saber que puede ponerselo.
+	if len(app.cfg.UserAgentComments) == 0 {
+		log.Infof("Este nodo saluda sin nombre: en el mapa (https://explorer.rupix.network/mapa.html) aparece como \"nodo\". Para ponerle el tuyo: --uacomment=TuNombre / This node greets without a name: on the map it shows as \"node\". To name it: --uacomment=YourName")
+	} else {
+		log.Infof("Nombre en el mapa / name on the map: %s", strings.Join(app.cfg.UserAgentComments, " "))
+	}
 
 	// Enable http profiling server if requested.
 	if app.cfg.Profile != "" {

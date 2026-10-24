@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **Ponle nombre a tu nodo, dicho en la pantalla.** `rupixd` al arrancar sin `--uacomment` avisa que en el mapa saldrá como «nodo» y cómo ponerle nombre (con nombre, lo confirma); `rupixwallet verificar` lo recuerda en la sección del nodo. Motivo: el 24-oct llegó el nodo #3 (alguien desconocido con la v0.6.9, 12 minutos, sin nombre).
 
 ## [v0.6.9] — 22-oct-2026 (UTC) — Reproducibilidad contra un sistema declarado
 **Sin cambio de consenso.** Mismo código de consenso que v0.6.7/v0.6.8.

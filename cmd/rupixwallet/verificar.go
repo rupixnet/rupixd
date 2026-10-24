@@ -114,6 +114,7 @@ func verificar(conf *verificarConfig) error {
 		linea(estadoPeers, fmt.Sprintf(T("verificar.nodo.peers"), len(peers.Infos)))
 	}
 	linea(ok, fmt.Sprintf(T("verificar.nodo.poda"), dag.PruningPointHash))
+	fmt.Println("       " + T("verificar.nodo.nombre"))
 	if !info.IsUtxoIndexed {
 		linea(aviso, T("verificar.nodo.sinindice"))
 	}

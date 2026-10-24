@@ -4,6 +4,12 @@
 
 🇬🇧 Every item here is tested and verifiable against the code and the chain. Not a promise; what works today. Updated: 23 September 2026.
 
+## 24 de octubre de 2026 (13:44 UTC) — La primera luz que no pedimos: nodo #3
+
+Alguien que no conocemos bajó la v0.6.9 (publicada 40 horas antes), arrancó un nodo, completó el saludo de la red con nuestro seed y estuvo conectado 12 minutos. Sin nombre (no puso `--uacomment`), ubicación aproximada "Moscú" según la base de IPs (puede ser una VPN; no lo sabemos ni lo vamos a averiguar: el libro no guarda IPs). Es el nodo #3 del libro de nodos, para siempre, aunque se haya ido.
+
+Es la primera vez que una persona llega a Rupix sin que nadie la invite. Probó diez minutos y se fue, que es exactamente lo que hace alguien técnico al leer "no confíes, verifica". Lo que nos toca es que, si vuelve, encuentre más: por lo pronto, `rupixd` ya dice en la pantalla cómo ponerle nombre al nodo. *No confíes, verifica.*
+
 ## 22 de octubre de 2026 (03:47 UTC) — El checkpoint #3 nace compartido: dos máquinas, dos personas, la misma foto
 
 Hasta hoy los checkpoints de la testnet los tomaba el seed solo. Esta noche JC, desde su computadora con Windows, con un nodo que sincronizó desde cero el 19 de octubre, corrió `GetBlockDagInfo` al mismo tiempo que el seed: los dos reportaron el mismo punto de poda, `64305497…`, y `GetBlock` desde cada máquina dio el mismo bloque, blue score 1,987,200 (DAA 1,987,552). Ese bloque es el checkpoint #3 de la testnet #4, publicado en v0.6.7 antes de que caducara el #2, y es el primero de Rupix confirmado por un nodo ajeno **antes** de publicarse. De paso quedó cerrada la confirmación externa del #2, pendiente desde el 7 de octubre: el nodo de JC importó la lista de puntos de poda que lo contiene; sin él, habría rechazado la sincronización.
