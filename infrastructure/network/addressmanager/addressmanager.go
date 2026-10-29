@@ -87,6 +87,12 @@ func (am *AddressManager) addAddressNoLock(netAddress *appmessage.NetAddress) er
 	if !IsRoutable(netAddress, am.cfg.AcceptUnroutable) {
 		return nil
 	}
+	// Rupix (28-oct-2026): no guardar nuestra propia direccion. El seed 1 es a la vez el seed DNS
+	// (seed.rupix.network resolvia a su propia IP) y se pasaba el dia intentando conectarse a si
+	// mismo: "Handshake protocol error: connected to self" cada 30 s, miles de lineas de log.
+	if am.localAddresses.isLocal(netAddress) {
+		return nil
+	}
 
 	key := netAddressKey(netAddress)
 	// We mark `connectionFailedCount` as 0 only after first success

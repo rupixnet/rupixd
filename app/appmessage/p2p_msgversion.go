@@ -20,7 +20,9 @@ import (
 const MaxUserAgentLen = 256
 
 // DefaultUserAgent for appmessage in the stack
-var DefaultUserAgent = fmt.Sprintf("/kaspad:%s/", version.Version())
+// Rupix (28-oct-2026): antes decia "/kaspad:%s/" (heredado); el saludo real era
+// "/kaspad:0.6.9/rupixd:0.6.9(Nombre)/". Sin efecto en consenso; el explorador lee ambos.
+var DefaultUserAgent = fmt.Sprintf("/rupixd:%s/", version.Version())
 
 // MsgVersion implements the Message interface and represents a kaspa version
 // message. It is used for a peer to advertise itself as soon as an outbound

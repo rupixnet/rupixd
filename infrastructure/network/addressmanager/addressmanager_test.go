@@ -372,3 +372,30 @@ func TestOverfillAddressManager(t *testing.T) {
 		}
 	}
 }
+
+// TestNoGuardaSuPropiaDireccion (Rupix, 28-oct-2026): la direccion propia (--externalip o
+// escuchada) no entra al libro de direcciones, aunque la traiga una semilla DNS o un peer.
+// Antes el seed 1 se pasaba el dia intentando conectarse a si mismo.
+func TestNoGuardaSuPropiaDireccion(t *testing.T) {
+	amgr, teardown := newAddressManagerForTest(t, "TestNoGuardaSuPropiaDireccion")
+	defer teardown()
+
+	propia := appmessage.NetAddress{IP: net.ParseIP("178.104.69.148"), Port: 17211}
+	otra := appmessage.NetAddress{IP: net.ParseIP("203.0.113.7"), Port: 17211}
+	mismaIPotroPuerto := appmessage.NetAddress{IP: net.ParseIP("178.104.69.148"), Port: 17311}
+	if err := amgr.localAddresses.addLocalNetAddress(&propia, ManualPrio); err != nil {
+		t.Fatal(err)
+	}
+	if err := amgr.AddAddresses(&propia, &otra, &mismaIPotroPuerto); err != nil {
+		t.Fatal(err)
+	}
+	guardadas := amgr.Addresses()
+	if len(guardadas) != 2 {
+		t.Fatalf("debia guardar 2 (la ajena y la de otro puerto), guardo %d: %v", len(guardadas), guardadas)
+	}
+	for _, a := range guardadas {
+		if a.IP.Equal(propia.IP) && a.Port == propia.Port {
+			t.Fatalf("guardo su propia direccion: %v", a)
+		}
+	}
+}

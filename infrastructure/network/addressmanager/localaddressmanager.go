@@ -84,6 +84,15 @@ func (lam *localAddressManager) addLocalNetAddress(netAddress *appmessage.NetAdd
 	return nil
 }
 
+// isLocal dice si la direccion (IP y puerto) es una de las nuestras (--externalip o las
+// escuchadas). Rupix (28-oct-2026).
+func (lam *localAddressManager) isLocal(netAddress *appmessage.NetAddress) bool {
+	lam.mutex.Lock()
+	defer lam.mutex.Unlock()
+	_, ok := lam.localAddresses[netAddressKey(netAddress)]
+	return ok
+}
+
 // bestLocalAddress returns the most appropriate local address to use
 // for the given remote address.
 func (lam *localAddressManager) bestLocalAddress(remoteAddress *appmessage.NetAddress) *appmessage.NetAddress {
