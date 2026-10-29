@@ -137,6 +137,18 @@ var textos = map[string][2]string{
 	"verificar.gemas.kings":      {"Kings nacidos (%d) != Kings vivos (%d): las dos fuentes divergen; reportalo", "Kings born (%d) != Kings alive (%d): the two sources diverge; report it"},
 	"verificar.gemas.kingsok":    {"Kings: nacidos y vivos coinciden (%d)", "Kings: born and alive match (%d)"},
 	"verificar.gemas.masvivas":   {"hay mas gemas vivas que nacidas en algun nivel: imposible; reportalo", "more gems alive than born at some level: impossible; report it"},
+	"historial.titulo":           {"== Historial: lo que tu wallet tiene hoy (%d direcciones con saldo) · DAA actual %s", "== History: what your wallet holds today (%d addresses with balance) · current DAA %s"},
+	"historial.vacio":            {"nada todavia: la wallet no tiene Gold ni gemas (o el daemon aun no termina de sincronizar)", "nothing yet: the wallet holds no Gold or gems (or the daemon has not finished syncing)"},
+	"historial.minado":           {"Minado (agrupado por dia, fecha estimada UTC):", "Mined (grouped per day, estimated UTC date):"},
+	"historial.bloques":          {"bloques", "blocks"},
+	"historial.movimientos":      {"Recibido y gemas (fecha estimada, hora local):", "Received and gems (estimated date, local time):"},
+	"historial.recibido":         {"recibido", "received"},
+	"historial.minado.uno":       {"minado", "mined"},
+	"historial.gema":             {"gema", "gem"},
+	"historial.mas":              {"... y %d mas (usa --todo para verlas todas)", "... and %d more (use --todo to see them all)"},
+	"historial.totales":          {"Totales de lo que tienes: Gold %s · Diamante %d · Platino %d · Rodio %d · Kings %d", "Totals of what you hold: Gold %s · Diamond %d · Platinum %d · Rhodium %d · Kings %d"},
+	"historial.nota":             {"Nota: el nodo guarda solo lo que tienes ahora; lo que ya gastaste no aparece (no hay indice de transacciones y la cadena se poda). Las fechas son estimadas a un bloque por segundo desde el DAA; por eso llevan ≈. Para ver una transaccion exacta: explorer.rupix.network.", "Note: the node keeps only what you hold now; what you already spent does not appear (there is no transaction index and the chain is pruned). Dates are estimated at one block per second from the DAA; hence the ≈. To see an exact transaction: explorer.rupix.network."},
+	"historial.nodo.noresponde":  {"el nodo en %s no responde (%s); historial necesita el nodo ademas del daemon", "the node at %s is not responding (%s); historial needs the node as well as the daemon"},
 	"verificar.resumen":          {"Resultado: %d fallo(s). OK = comprobado; AVISO = no se pudo comprobar o conviene mirar; FALLO = algo esta mal.", "Result: %d failure(s). OK = verified; AVISO = could not verify or worth a look; FALLO = something is wrong."},
 }
 

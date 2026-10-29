@@ -23,6 +23,7 @@ const (
 	forgeSubCmd                     = "forge"
 	gemsSubCmd                      = "gems"
 	verificarSubCmd                 = "verificar"
+	historialSubCmd                 = "historial"
 	transferGemSubCmd               = "transfer-gem"
 	dumpUnencryptedDataSubCmd       = "dump-unencrypted-data"
 	startDaemonSubCmd               = "start-daemon"
@@ -151,6 +152,17 @@ type verificarConfig struct {
 	config.NetworkFlags
 }
 
+type historialConfig struct {
+	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
+	RPCServer     string `long:"rpcserver" short:"s" description:"Nodo rupixd (default: 127.0.0.1 con el puerto de la red)"`
+	Desde         string `long:"desde" description:"Solo desde esta fecha (AAAA-MM-DD)"`
+	Hasta         string `long:"hasta" description:"Solo hasta esta fecha (AAAA-MM-DD)"`
+	Buscar        string `long:"buscar" description:"Solo lo que contenga este texto (direccion o id de transaccion)"`
+	Todo          bool   `long:"todo" description:"Mostrar todas las filas (por defecto, las 40 mas recientes de cada seccion)"`
+	SinAgrupar    bool   `long:"sin-agrupar" description:"No agrupar el minado por dia"`
+	config.NetworkFlags
+}
+
 type gemsConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	config.NetworkFlags
@@ -264,6 +276,9 @@ func parseCommandLine() (subCommand string, config interface{}) {
 	parser.AddCommand(verificarSubCmd, "Verifica binario, nodo, checkpoints y escalera (sin contrasena)",
 		"Una pantalla con lo que cualquiera puede comprobar: si este binario es el de la release, si el nodo esta sano y en la red correcta, si tiene los checkpoints, y el estado de la escalera", verificarConf)
 
+	historialConf := &historialConfig{DaemonAddress: defaultListen}
+	parser.AddCommand(historialSubCmd, "Lo que tiene tu wallet y cuando llego (fechas estimadas)",
+		"Lista lo que la wallet tiene hoy: minado agrupado por dia, recibidos y gemas, con el bloque (DAA) y la fecha estimada de cada uno. No puede ver lo ya gastado: el nodo no guarda ese indice", historialConf)
 	gemsConf := &gemsConfig{DaemonAddress: defaultListen}
 	parser.AddCommand(gemsSubCmd, "Lista tus gemas por nivel",
 		"Muestra el inventario de gemas (Diamante, Platino, Rodio, Kings)", gemsConf)
@@ -406,6 +421,13 @@ func parseCommandLine() (subCommand string, config interface{}) {
 			printErrorAndExit(err)
 		}
 		config = verificarConf
+	case historialSubCmd:
+		combineNetworkFlags(&historialConf.NetworkFlags, &cfg.NetworkFlags)
+		err := historialConf.ResolveNetwork(parser)
+		if err != nil {
+			printErrorAndExit(err)
+		}
+		config = historialConf
 	case gemsSubCmd:
 		combineNetworkFlags(&gemsConf.NetworkFlags, &cfg.NetworkFlags)
 		err := gemsConf.ResolveNetwork(parser)

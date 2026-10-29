@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **`rupixwallet historial`**: lo que la wallet tiene hoy y cuándo llegó, en lenguaje llano y bilingüe: minado agrupado por día (bloques y RUPIX), recibidos y gemas uno por uno con bloque (DAA) y fecha estimada (≈, a un bloque por segundo), totales, y filtros `--desde`, `--hasta`, `--buscar`, `--todo`, `--sin-agrupar`. Dice lo que no puede saber: lo ya gastado no aparece (no hay índice de transacciones y la cadena se poda). Lee las direcciones con saldo del daemon y los UTXOs del nodo. `TestHistorial`.
 - **Explorador en lenguaje humano.** El detalle de un bloque ya no es JSON crudo: fecha y hora completas (hora del navegador) con «hace X», blue score, DAA, si está en la cadena seleccionada, hash y padre; y cada transacción dicha como es: recompensa del minero, transferencia, forja de gema (con la quema marcada «🔥 quemado para siempre») o transferencia de gema, con montos en RUPIX y direcciones. El JSON queda plegado abajo para quien lo quiera. La tabla de bloques en vivo muestra «hace X s · fecha». Bilingüe.
 - **Ponle nombre a tu nodo, dicho en la pantalla.** `rupixd` al arrancar sin `--uacomment` avisa que en el mapa saldrá como «nodo» y cómo ponerle nombre (con nombre, lo confirma); `rupixwallet verificar` lo recuerda en la sección del nodo. Motivo: el 24-oct llegó el nodo #3 (alguien desconocido con la v0.6.9, 12 minutos, sin nombre).
 
