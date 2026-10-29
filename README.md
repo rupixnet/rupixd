@@ -10,6 +10,18 @@
 
 ---
 
+## Try Rupix in 2 minutes
+
+A testnet node. Replace `YourName` with how you want to appear on the [node map](https://explorer.rupix.network/mapa.html); only that name travels, never your IP.
+
+- **Linux / Mac**, one command: `curl -sSL https://rupix.network/instalar.sh | sh -s -- --nombre=YourName` (shows the plan and waits for your "si"; verifies every program against the release's list; asks for no passwords; it is [plain text](./tools/instalar-nodo.sh), read it first).
+- **Windows**: download `rupix-vX.Y.Z-win64.zip` from the [latest release](https://github.com/rupixnet/rupixd/releases/latest), unzip, and in PowerShell inside that folder: `.\rupixd --testnet --utxoindex --addpeer=178.104.69.148:17211 --uacomment=YourName`. (A one-command Windows installer exists and is being tested; it will be published when it passes.)
+- To check everything is fine: `rupixwallet --testnet verificar`.
+
+Your node gets an arrival number forever and your light turns on in the map. Full guide: [TESTNET-GUIDE.md](./TESTNET-GUIDE.md).
+
+---
+
 ## Current state (Rupix v0.6.9)
 
 - ✅ **Own mining algorithm — RupixHeavyHash**: a variant of kHeavyHash (Kaspa's algorithm; Rupix is a fork of kaspad under the ISC license, with gratitude). Rupix keeps Kaspa's proven engine (64x64 matrix, HeavyHash) and replaces the generator that fills the matrix (xoshiro256++) with its own, using a structurally different formula (a non-linear multiplication that xoshiro does not have) and a "RUPIX" seal in the seed. Effect: ASICs built for Kaspa cannot mine Rupix — their hardware produces the wrong matrix and the network rejects it. A fair start: minable with GPU/CPU, no inherited hardware advantage. Tested on devnet (22,000+ blocks, 0 rejections, commitment and economy intact) and on the public testnet. The miner (rupixminer, included in every release) uses the same internal function as the node, so it mines with RupixHeavyHash: there are no two algorithms — miner and validator share a single source. Kaspa's engine, Rupix's seed.
@@ -148,6 +160,23 @@ Every block you find pays you Gold. With that Gold you can forge gems (see [FORG
 - **Redundant infrastructure** (multiple seed nodes) and **committed hashrate**
 
 **Mainnet has no date; it will have criteria first.** [MAINNET.md](./MAINNET.md) (draft, not yet in force) lists what has to be true —code, external review, network, economics— each with how a stranger can verify it, and the rule that from the day of the green light there will be two months' public notice before block 1. We would rather launch late and right than early and compromised.
+
+## The rules of Rupix
+
+Twelve rules, written so anyone can hold us to them. If one breaks, it is said here and in the CHANGELOG.
+
+1. **42,000,000 is the ceiling.** Carved into the genesis; no one can create one more.
+2. **Zero premine, zero reserve, zero rounds.** Whoever created Rupix mines from block 1 like anyone else.
+3. **The supply only goes down.** Every gem burns Gold forever; what is burned never comes back.
+4. **Four capped levels**: 2,100,000 Diamonds, 210,000 Platinums, 21,000 Rhodiums, 2,100 Kings. The cap counts those created in all of history, not those alive.
+5. **Every consensus rule is in [ESPECIFICACION.en.md](./ESPECIFICACION.en.md)** with the attack it stops and the test that proves it. What is not there is not a rule.
+6. **Everything can be verified without trusting us**: binaries reproducible against a declared system, per-program sha256 in every release, `rupixwallet verificar`, an open explorer, a map without IPs.
+7. **Mistakes are published**, with date and cause, in the CHANGELOG and in [MEMORIA-RUPIX.md](./MEMORIA-RUPIX.md). Ours included.
+8. **There is no mainnet date**: there are criteria ([MAINNET.md](./MAINNET.md)) and two months of public notice once they are met.
+9. **Nothing is given away or paid for participating.** The only recognition is public and verifiable: your name on the map, your arrival number, your name in the documents.
+10. **We never store or publish your IP.** The map shows the name you choose and an approximate city.
+11. **Consensus changes only with a version, a test and notice**; any of them resets the six-week no-change clock before mainnet.
+12. **Rupix is built with artificial intelligence, and we say so**: all the code, tests and documents are made with Claude, directed by ER. Don't trust, verify.
 
 ## Philosophy
 

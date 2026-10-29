@@ -10,6 +10,18 @@
 
 ---
 
+## Prueba Rupix en 2 minutos
+
+Un nodo de la testnet. Cambia `TuNombre` por como quieres aparecer en el [mapa de nodos](https://explorer.rupix.network/mapa.html); solo viaja ese nombre, nunca tu IP.
+
+- **Linux / Mac**, un comando: `curl -sSL https://rupix.network/instalar.sh | sh -s -- --nombre=TuNombre` (muestra el plan y espera tu "si"; verifica cada programa contra la lista de la release; no pide contraseñas; es [texto plano](./tools/instalar-nodo.sh), léelo antes).
+- **Windows**: baja `rupix-vX.Y.Z-win64.zip` de la [última release](https://github.com/rupixnet/rupixd/releases/latest), descomprime, y en PowerShell dentro de esa carpeta: `.\rupixd --testnet --utxoindex --addpeer=178.104.69.148:17211 --uacomment=TuNombre`. (El instalador de un comando para Windows existe y está en prueba; se publica cuando pase.)
+- Para ver que todo está bien: `rupixwallet --testnet verificar`.
+
+Tu nodo recibe un número de llegada para siempre y tu luz se enciende en el mapa. Guía completa: [GUIA-TESTNET.md](./GUIA-TESTNET.md).
+
+---
+
 ## Estado actual (Rupix v0.6.9)
 
 - ✅ **Algoritmo de minado propio — RupixHeavyHash**: variante de kHeavyHash (el algoritmo de Kaspa; Rupix es un fork de kaspad bajo licencia ISC, con agradecimiento). Rupix conserva el motor probado de Kaspa (matriz 64x64, HeavyHash) y reemplaza el generador que llena la matriz (xoshiro256++) por uno propio, con una fórmula estructuralmente distinta (multiplicación no-lineal que xoshiro no tiene) y un sello "RUPIX" en la semilla. Efecto: los ASIC fabricados para Kaspa no pueden minar Rupix — su hardware produce una matriz incorrecta y la red lo rechaza. Arranque justo: minable con GPU/CPU, sin ventaja de hardware heredado. Probado en devnet (22,000+ bloques, 0 rechazos, commitment y economía intactos) y en la testnet pública. El minero (rupixminer, incluido en cada release) usa la misma función interna que el nodo, por lo que mina con RupixHeavyHash: no hay dos algoritmos, minero y validador comparten una sola fuente. Motor de Kaspa, semilla de Rupix.
@@ -148,6 +160,23 @@ Cada bloque que encuentres te paga Gold. Con ese Gold puedes forjar gemas (ver [
 - ✅ **Checkpoints temporales — HECHO (v0.6.0; el primero publicado en v0.6.1)** — con caducidad dentro del consenso, política pública en [CHECKPOINTS.md](./CHECKPOINTS.md). El checkpoint #1 va sobre el punto de poda que el seed y un nodo de la comunidad ya compartían (blue score 86,400); el #2 (v0.6.4, blue score 691,200) se publicó sin nodo externo encendido y CHECKPOINTS.md lo dice tal cual. Desde v0.6.2 un nodo que sincroniza desde cero también valida la lista de puntos de poda que recibe contra los checkpoints.
 
 **Mainnet no tiene fecha; tendrá criterios antes.** [MAINNET.md](./MAINNET.md) (borrador, aún no vigente) lista lo que tiene que ser verdad —código, revisión externa, red, economía— con cómo lo verifica un desconocido, y la regla de que desde el día de la luz verde habrá dos meses de aviso público antes del bloque 1. Preferimos lanzar tarde y bien que pronto y comprometidos.
+
+## Las reglas de Rupix
+
+Doce reglas, escritas para que cualquiera pueda cobrarlas. Si alguna se rompe, se dice aquí y en el CHANGELOG.
+
+1. **42,000,000 es el techo.** Grabado en el génesis; nadie puede crear uno más.
+2. **Cero premine, cero reserva, cero rondas.** Quien creó Rupix mina desde el bloque 1 como cualquiera.
+3. **La cantidad solo baja.** Cada gema quema Gold para siempre; lo quemado no vuelve.
+4. **Cuatro niveles con tope**: 2,100,000 Diamantes, 210,000 Platinos, 21,000 Rodios, 2,100 Kings. El tope cuenta los creados en toda la historia, no los vivos.
+5. **Cada regla de consenso está en [ESPECIFICACION.md](./ESPECIFICACION.md)** con el ataque que detiene y el test que lo prueba. Lo que no está ahí, no es regla.
+6. **Todo se puede verificar sin confiar en nosotros**: binarios reproducibles contra un sistema declarado, sha256 por programa en cada release, `rupixwallet verificar`, explorador abierto, mapa sin IPs.
+7. **Los errores se publican**, con fecha y causa, en el CHANGELOG y en [MEMORIA-RUPIX.md](./MEMORIA-RUPIX.md). Incluidos los nuestros.
+8. **No hay fecha de mainnet**: hay criterios ([MAINNET.md](./MAINNET.md)) y dos meses de aviso público cuando se cumplan.
+9. **Nada se regala ni se paga por participar.** El único reconocimiento es público y verificable: tu nombre en el mapa, tu número de llegada, tu nombre en los documentos.
+10. **Nunca guardamos ni publicamos tu IP.** El mapa muestra el nombre que tú eliges y una ciudad aproximada.
+11. **Cambios de consenso solo con versión, test y aviso**; cualquiera reinicia el reloj de las seis semanas sin cambios antes de mainnet.
+12. **Rupix se construye con inteligencia artificial, y lo decimos**: todo el código, las pruebas y los documentos están hechos con Claude, dirigido por ER. No confíes, verifica.
 
 ## Filosofía
 
