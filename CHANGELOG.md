@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **Explorador en lenguaje humano.** El detalle de un bloque ya no es JSON crudo: fecha y hora completas (hora del navegador) con «hace X», blue score, DAA, si está en la cadena seleccionada, hash y padre; y cada transacción dicha como es: recompensa del minero, transferencia, forja de gema (con la quema marcada «🔥 quemado para siempre») o transferencia de gema, con montos en RUPIX y direcciones. El JSON queda plegado abajo para quien lo quiera. La tabla de bloques en vivo muestra «hace X s · fecha». Bilingüe.
 - **Ponle nombre a tu nodo, dicho en la pantalla.** `rupixd` al arrancar sin `--uacomment` avisa que en el mapa saldrá como «nodo» y cómo ponerle nombre (con nombre, lo confirma); `rupixwallet verificar` lo recuerda en la sección del nodo. Motivo: el 24-oct llegó el nodo #3 (alguien desconocido con la v0.6.9, 12 minutos, sin nombre).
 
 ## [v0.6.9] — 22-oct-2026 (UTC) — Reproducibilidad contra un sistema declarado

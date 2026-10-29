@@ -47,6 +47,21 @@ footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:v
 footer a{color:var(--violet);text-decoration:none}
 #detail{display:none;margin-top:20px}
 #detail pre{background:#0a0710;border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto;font-size:.78rem;color:var(--text);max-height:500px;overflow-y:auto}
+.ficha{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 20px;margin-bottom:16px}
+.ficha b{display:block;font-size:1.1rem;color:var(--gold);word-break:break-all}
+.ficha span{color:var(--muted);font-size:.8rem}
+.ficha .mono{font-family:ui-monospace,monospace;font-size:.85rem;color:var(--violet)}
+.tx{background:#0a0710;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;font-size:.85rem}
+.tx .cab{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.tx .id{font-family:ui-monospace,monospace;color:var(--violet);word-break:break-all}
+.tx .tipo{color:var(--green);font-weight:700}
+.tx ul{list-style:none;margin:0;padding:0}
+.tx li{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-top:1px solid #1a1226;font-family:ui-monospace,monospace;font-size:.8rem}
+.tx li .dir{color:var(--muted);word-break:break-all}
+.tx li .monto{white-space:nowrap;color:#e8e0f0}
+.gema{color:var(--gold);font-weight:700}
+details.crudo{margin-top:14px}
+details.crudo summary{cursor:pointer;color:var(--muted);font-size:.85rem}
 .back{color:var(--violet);cursor:pointer;margin-bottom:12px;display:inline-block}
 .lang button{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:6px 10px;cursor:pointer}
 .lang button.on{border-color:var(--gold);color:var(--gold)}
@@ -104,7 +119,7 @@ html[data-lang="en"] .es{display:none}
   </div>
   <div class="card full blocks">
     <h2><span class="pulse"></span><span class="es">Bloques en vivo</span><span class="en">Live blocks</span></h2>
-    <table><thead><tr><th>Blue Score</th><th>Hash</th><th>Txs</th><th><span class="es">Hora</span><span class="en">Time</span></th></tr></thead>
+    <table><thead><tr><th>Blue Score</th><th>Hash</th><th>Txs</th><th><span class="es">Cuándo</span><span class="en">When</span></th></tr></thead>
     <tbody id="blockrows"><tr><td colspan="4"><span class="es">cargando…</span><span class="en">loading…</span></td></tr></tbody></table>
   </div>
 </div>
@@ -112,7 +127,7 @@ html[data-lang="en"] .es{display:none}
 
 <div id="detail">
   <span class="back" onclick="volver()">← <span class="es">volver</span><span class="en">back</span></span>
-  <div class="card"><h2 id="detail-title">Bloque</h2><pre id="detail-body"></pre></div>
+  <div class="card"><h2 id="detail-title">Bloque</h2><div id="detail-humano"></div><details class="crudo"><summary><span class="es">Ver los datos crudos (JSON)</span><span class="en">See the raw data (JSON)</span></summary><pre id="detail-body"></pre></details></div>
 </div>
 
 <footer><span class="es">Rupix testnet — el laboratorio público</span><span class="en">Rupix testnet — the public laboratory</span> · <a href="https://github.com/rupixnet/rupixd">github.com/rupixnet/rupixd</a> · <a href="https://rupix.network">rupix.network</a> · <span class="es">No confíes, verifica.</span><span class="en">Don't trust, verify.</span></footer>
@@ -217,20 +232,51 @@ async function refresh(){
       const b=r.Block||r.block||r;
       const v=b.VerboseData||{};
       const txs=(b.Transactions||[]).length;
-      const t=new Date(Number(b.Header?.Timestamp||0)).toLocaleTimeString();
-      rows.push(`<tr onclick="verBloque('${v.Hash}')"><td>${fmt(v.BlueScore||0)}</td><td class="hash">${(v.Hash||"?").slice(0,20)}…</td><td>${txs}</td><td>${t}</td></tr>`);
+      const ms=Number(b.Header?.Timestamp||0);
+      rows.push(`<tr onclick="verBloque('${v.Hash}')"><td>${fmt(v.BlueScore||0)}</td><td class="hash">${(v.Hash||"?").slice(0,20)}…</td><td>${txs}</td><td>${hace(ms)} · ${fechaCorta(ms)}</td></tr>`);
       hash=v.SelectedParentHash;
     }
     document.getElementById("blockrows").innerHTML=rows.join("")||"<tr><td colspan=4>"+T("sin bloques","no blocks")+"</td></tr>";
   }catch(e){console.error(e)}
 }
 
+const NIVEL=[["Gold","Gold"],["💎 Diamante","💎 Diamond"],["⬜ Platino","⬜ Platinum"],["◼ Rodio","◼ Rhodium"],["👑 King","👑 King"]];
+function fechaCorta(ms){if(!ms)return "—";const d=new Date(ms);return d.toLocaleDateString(EN()?"en-US":"es-MX",{day:"2-digit",month:"short"})+" "+d.toLocaleTimeString(EN()?"en-US":"es-MX",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+function fechaLarga(ms){if(!ms)return "—";return new Date(ms).toLocaleString(EN()?"en-US":"es-MX",{dateStyle:"full",timeStyle:"medium"})}
+function hace(ms){if(!ms)return "—";const s=Math.max(0,Math.round((Date.now()-ms)/1000));if(s<60)return T("hace ","")+s+" s"+T(""," ago");if(s<3600)return T("hace ","")+Math.round(s/60)+" min"+T(""," ago");if(s<86400)return T("hace ","")+Math.round(s/3600)+" h"+T(""," ago");return T("hace ","")+Math.round(s/86400)+T(" días"," days")+T(""," ago")}
+const rupix=n=>(Number(n)/1e8).toLocaleString(EN()?"en-US":"es-MX",{minimumFractionDigits:2,maximumFractionDigits:8})+" RUPIX";
+const esc=s=>String(s).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
+// El bloque en lenguaje humano: que, cuando, cuanto; el JSON queda plegado abajo.
 async function verBloque(hash){
-  const b=await j("/api/block?hash="+hash);
+  const r=await j("/api/block?hash="+hash);
+  const b=r.Block||r.block||r; const h=b.Header||{}; const v=b.VerboseData||{}; const txs=b.Transactions||[];
   document.getElementById("home").style.display="none";
   document.getElementById("detail").style.display="block";
-  document.getElementById("detail-title").textContent=T("Bloque ","Block ")+hash.slice(0,24)+"…";
-  document.getElementById("detail-body").textContent=JSON.stringify(b,null,2);
+  document.getElementById("detail-title").textContent=T("Bloque ","Block ")+hash.slice(0,16)+"…";
+  const ms=Number(h.Timestamp||0);
+  let html='<div class="ficha">'
+   +`<div><b>${fechaLarga(ms)}</b><span>${T("cuándo se minó","when it was mined")} · ${hace(ms)} · ${T("hora de tu computadora","your computer's time")}</span></div>`
+   +`<div><b>${fmt(v.BlueScore||h.BlueScore||0)}</b><span>blue score</span></div>`
+   +`<div><b>${fmt(h.DAAScore||0)}</b><span>DAA</span></div>`
+   +`<div><b>${txs.length}</b><span>${T("transacciones","transactions")}</span></div>`
+   +`<div><b>${v.IsChainBlock?T("sí","yes"):T("no","no")}</b><span>${T("en la cadena seleccionada","on the selected chain")}</span></div>`
+   +`<div><b class="mono">${esc(hash)}</b><span>hash</span></div>`
+   +`<div><b class="mono">${esc(v.SelectedParentHash||"—")}</b><span>${T("padre seleccionado","selected parent")}</span></div>`
+   +'</div>';
+  txs.forEach((tx,i)=>{
+    const tv=tx.VerboseData||{}; const coinbase=i===0;
+    const total=(tx.Outputs||[]).reduce((a,o)=>a+Number(o.Amount||0),0);
+    const gemas=(tx.Outputs||[]).filter(o=>Number(o.ScriptPublicKey?.Version||0)>0);
+    const hayQuema=(tx.Outputs||[]).some(o=>String(o.ScriptPublicKey?.Script||"").startsWith("6a"));
+    const tipo=coinbase?T("⛏ Recompensa del minero (coinbase)","⛏ Miner reward (coinbase)"):(gemas.length&&hayQuema?T("🔥 Forja de gema","🔥 Gem forge"):(gemas.length?T("↔ Transferencia de gema","↔ Gem transfer"):T("↔ Transferencia","↔ Transfer")));
+    html+=`<div class="tx"><div class="cab"><span class="tipo">${tipo}${gemas.length?' · <span class="gema">'+gemas.map(o=>NIVEL[Number(o.ScriptPublicKey.Version)][EN()?1:0]).join(", ")+'</span>':""}</span><span>${rupix(total)}</span></div>`
+     +`<div class="id">${esc(tv.TransactionID||"")}</div><ul>`;
+    (tx.Outputs||[]).forEach(o=>{const ov=o.VerboseData||{}; const ver=Number(o.ScriptPublicKey?.Version||0); const quema=String(o.ScriptPublicKey?.Script||"").startsWith("6a");
+      html+=`<li><span class="dir">${quema?'<span class="gema">🔥 '+T("quemado para siempre (OP_RETURN)","burned forever (OP_RETURN)")+'</span>':(ver>0?'<span class="gema">'+NIVEL[ver][EN()?1:0]+'</span> → ':"→ ")+esc(ov.ScriptPublicKeyAddress||T("(script no estándar)","(non-standard script)"))}</span><span class="monto">${rupix(o.Amount)}</span></li>`;});
+    html+='</ul></div>';
+  });
+  document.getElementById("detail-humano").innerHTML=html;
+  document.getElementById("detail-body").textContent=JSON.stringify(r,null,2);
 }
 function volver(){document.getElementById("detail").style.display="none";document.getElementById("home").style.display="block"}
 function buscar(){const q=document.getElementById("q").value.trim();if(q.length===64)verBloque(q)}
