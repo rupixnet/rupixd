@@ -130,7 +130,11 @@ func humanizarError(err error, daemonAddress string, netFlag string) error {
 	default:
 		return traducirErrorNodo(err)
 	}
-	return errors.Errorf(T("err.nodo_dijo"), fmt.Sprintf(T(clave), netFlag), msg)
+	texto := T(clave)
+	if strings.Contains(texto, "%s") {
+		texto = fmt.Sprintf(texto, netFlag)
+	}
+	return errors.Errorf(T("err.nodo_dijo"), texto, msg)
 }
 
 // traducirErrorDaemon (Rupix) reconoce "no me pude conectar al daemon" y dice que hacer.
