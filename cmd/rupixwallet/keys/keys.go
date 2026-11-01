@@ -31,6 +31,10 @@ const LastVersion = 1
 // DefaultAppDir (Rupix) es la carpeta de la wallet; ahi vive tambien la preferencia de idioma.
 func DefaultAppDir() string { return defaultAppDir }
 
+// DefaultKeysFile (Rupix) es la ruta por defecto del archivo de llaves de una red; se
+// muestra en los avisos de respaldo.
+func DefaultKeysFile(netParams *dagconfig.Params) string { return defaultKeysFile(netParams) }
+
 func defaultKeysFile(netParams *dagconfig.Params) string {
 	return filepath.Join(defaultAppDir, netParams.Name, "keys.json")
 }

@@ -79,3 +79,19 @@ func TestHumanizarError(t *testing.T) {
 		t.Errorf("un error desconocido pasa tal cual")
 	}
 }
+
+// TestCoincideFinal (Rupix, 1-nov-2026): la confirmacion del destino acepta los ultimos 4
+// caracteres (o mas) sin distinguir mayusculas ni espacios, y rechaza lo demas.
+func TestCoincideFinal(t *testing.T) {
+	dir := "rupixtest:qq8w9v4k2s9c3m7h6x5j4n2p1l0z9y8x7w6v5u4t3s2r1q0p9o8n7m6l5k4j3h2g1f"
+	for _, ok := range []string{"h2g1f", "H2G1F", " 2g1f ", "3h2g1f", dir} {
+		if !coincideFinal(dir, ok) {
+			t.Errorf("%q debia aceptarse", ok)
+		}
+	}
+	for _, mal := range []string{"2g1", "x2g1f", "2g1fz", "", "qq8w", "h2g1f extra"} {
+		if coincideFinal(dir, mal) {
+			t.Errorf("%q debia rechazarse", mal)
+		}
+	}
+}

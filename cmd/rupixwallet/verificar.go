@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/rupixnet/rupixd/cmd/rupixwallet/keys"
 	"github.com/rupixnet/rupixd/infrastructure/network/rpcclient"
 	"github.com/rupixnet/rupixd/version"
 )
@@ -154,6 +155,16 @@ func verificar(conf *verificarConfig) error {
 
 	// 4) La escalera.
 	fmt.Println()
+	// 3b) Tu respaldo (Rupix, 1-nov-2026): el archivo de llaves existe y donde esta.
+	fmt.Println()
+	fmt.Println(T("verificar.respaldo"))
+	ruta := keys.DefaultKeysFile(params)
+	if _, err := os.Stat(ruta); err == nil {
+		linea(ok, fmt.Sprintf(T("verificar.respaldo.hay"), ruta))
+	} else {
+		linea(aviso, fmt.Sprintf(T("verificar.respaldo.nohay"), ruta))
+	}
+
 	fmt.Println(T("verificar.gemas"))
 	gi, err := c.GetGemsInfo()
 	if err != nil {

@@ -83,6 +83,13 @@ func send(conf *sendConfig) error {
 	if n > 1 {
 		fmt.Printf(T("enviar.lotes")+"\n", n/5+2)
 	}
+	// Rupix (1-nov-2026): la direccion se confirma escribiendo sus ultimos 4 caracteres,
+	// leidos del papel o del mensaje de quien la mando, no de la pantalla. --yes la salta
+	// (scripts), y con ella el envio es responsabilidad de quien puso la bandera.
+	if !conf.Yes && !confirmarDireccion(conf.ToAddress) {
+		fmt.Println(T("enviar.dir_mal"))
+		return nil
+	}
 	if !conf.Yes && !confirmar(T("confirmar")) {
 		fmt.Println(T("cancelado"))
 		return nil

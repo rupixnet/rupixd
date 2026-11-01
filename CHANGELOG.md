@@ -7,6 +7,7 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **Seguridad para el usuario en la wallet**: (1) `send` pide escribir los **últimos 4 caracteres de la dirección destino** leyéndolos del papel o del mensaje, no de la pantalla (defensa contra el malware que cambia el portapapeles); si no coinciden, no se envía nada y lo explica. `--yes` la salta bajo responsabilidad de quien lo pone. (2) **Aviso de respaldo** al crear la wallet (archivo + contraseña + frase en papel = tu dinero, con la ruta del archivo) y sección «Tu respaldo» en `verificar`. `TestCoincideFinal`. El QR de la dirección va en Rupix World (navegador), no en terminal.
 - **Errores de la wallet en lenguaje llano**: una última capa (`humanizarError`) reconoce lo que una persona nueva ve de verdad (daemon apagado, wallet sincronizando, saldo insuficiente, dirección mal escrita o de otra red, contraseña equivocada, wallet sin crear, archivo ocupado por otro comando) y dice qué hacer, con el comando a copiar, ES/EN, dejando el error original debajo. Lo desconocido pasa tal cual: nunca inventa una causa. `TestHumanizarError`.
 - Guías ES/EN: «Tu nombre en el mapa» al principio y la sección de `historial` (con lo que no puede mostrar).
 - **El nodo ya no intenta conectarse a sí mismo.** El libro de direcciones descarta la dirección propia (`--externalip` o las escuchadas) aunque venga de una semilla DNS o de un peer; el seed 1, que es a la vez el seed DNS, llenaba el log con «connected to self» cada 30 s. `TestNoGuardaSuPropiaDireccion`.

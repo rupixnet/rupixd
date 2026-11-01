@@ -113,6 +113,8 @@ func create(conf *createConfig) error {
 		} else {
 			fmt.Println(T("crear.limpia"))
 		}
+		fmt.Println()
+		fmt.Printf(T("crear.respaldo")+"\n", file.Path())
 	}
 	return nil
 }

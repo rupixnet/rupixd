@@ -102,6 +102,34 @@ func verificarFrase(mnemonics []string) bool {
 	return true
 }
 
+// coincideFinal (Rupix, 1-nov-2026) dice si lo que la persona escribio son los ultimos
+// cuatro caracteres de la direccion (sin distinguir mayusculas ni espacios). Es la defensa
+// barata contra el malware que cambia el portapapeles: la persona lee la direccion de SU
+// papel o mensaje, no de la pantalla.
+func coincideFinal(direccion, escrito string) bool {
+	d := strings.ToLower(strings.TrimSpace(direccion))
+	e := strings.ToLower(strings.TrimSpace(escrito))
+	if len(d) < 4 || len(e) < 4 {
+		return false
+	}
+	return strings.HasSuffix(d, e[len(e)-4:]) && len(e) <= len(d) && strings.HasSuffix(d, e)
+}
+
+// confirmarDireccion muestra el destino partido (inicio … final) y pide los ultimos 4.
+func confirmarDireccion(direccion string) bool {
+	inicio, fin := direccion, ""
+	if len(direccion) > 12 {
+		inicio, fin = direccion[:len(direccion)-4], direccion[len(direccion)-4:]
+	}
+	fmt.Printf(T("enviar.destino")+"\n", inicio, strings.ToUpper(fin))
+	fmt.Print(T("enviar.escribe_final"))
+	linea, err := utils.ReadLine(bufio.NewReader(os.Stdin))
+	if err != nil {
+		return false
+	}
+	return coincideFinal(direccion, linea)
+}
+
 // humanizarError (Rupix, 1-nov-2026) es la ultima capa antes de la pantalla: reconoce los
 // errores que una persona nueva ve de verdad y dice que hacer, en su idioma, dejando el error
 // original debajo para quien quiera leerlo. Si no lo reconoce, lo deja pasar tal cual: nunca
