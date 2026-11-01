@@ -8,6 +8,17 @@
 >
 > **Sobre las fechas:** van en hora de la Ciudad de México. Los commits guardan la hora en UTC, así que el trabajo de la noche aparece en git con fecha del día siguiente.
 
+## Lo permanente (ER, 1-nov-2026): el cerebro de Rupix en cuatro líneas
+
+Esto no es una lección de un día; es la forma de trabajar, y se relee antes de cada sesión.
+
+1. **Siempre mejorando en seguridad.** Cada release trae algo que hace a Rupix más difícil de romper o más fácil de verificar; si no, no es release.
+2. **Siempre mejorando para el usuario.** La persona que llega sola, desde Windows, sin leer nada, debe poder encender su luz y entender lo que ve. Lo que la confunde es un bug.
+3. **Siempre guardar todo.** Repo, web, explorador, guías ES/EN, CHANGELOG, CONTEXTO, LOGROS, MEMORIA, MAINNET, X: el mismo día, verificado con el hash en GitHub. Nada se borra; lo viejo va a `retirados/` o aquí.
+4. **Probar antes de decir o hacer.** Ninguna afirmación sin comprobación propia (dos fuentes, un comando con salida, un test en verde); ningún paso en el seed sin plan, sin prueba en frío y sin cadena única que se detenga en rojo. Decir «no lo he verificado» es parte del método.
+
+Compromiso de ER (1-nov-2026): **al publicar v0.7.0 se paga el seed 2 en EE. UU.** y él mismo busca gente que mantenga Rupix encendido.
+
 ## Índice
 
 1. Por qué existe Rupix *(por escribir)*
