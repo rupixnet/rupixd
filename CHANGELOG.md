@@ -7,6 +7,8 @@ Formato: [versión] - fecha - descripción técnica
 ---
 
 ## [Sin publicar]
+- **Errores de la wallet en lenguaje llano**: una última capa (`humanizarError`) reconoce lo que una persona nueva ve de verdad (daemon apagado, wallet sincronizando, saldo insuficiente, dirección mal escrita o de otra red, contraseña equivocada, wallet sin crear, archivo ocupado por otro comando) y dice qué hacer, con el comando a copiar, ES/EN, dejando el error original debajo. Lo desconocido pasa tal cual: nunca inventa una causa. `TestHumanizarError`.
+- Guías ES/EN: «Tu nombre en el mapa» al principio y la sección de `historial` (con lo que no puede mostrar).
 - **El nodo ya no intenta conectarse a sí mismo.** El libro de direcciones descarta la dirección propia (`--externalip` o las escuchadas) aunque venga de una semilla DNS o de un peer; el seed 1, que es a la vez el seed DNS, llenaba el log con «connected to self» cada 30 s. `TestNoGuardaSuPropiaDireccion`.
 - `DefaultUserAgent` dice `rupixd:` en vez del `kaspad:` heredado; el saludo pasa de `/kaspad:X/rupixd:X(Nombre)/` a `/rupixd:X/rupixd:X(Nombre)/`. Sin efecto en consenso; el explorador lee ambos.
 - **`rupixwallet historial`**: lo que la wallet tiene hoy y cuándo llegó, en lenguaje llano y bilingüe: minado agrupado por día (bloques y RUPIX), recibidos y gemas uno por uno con bloque (DAA) y fecha estimada (≈, a un bloque por segundo), totales, y filtros `--desde`, `--hasta`, `--buscar`, `--todo`, `--sin-agrupar`. Dice lo que no puede saber: lo ya gastado no aparece (no hay índice de transacciones y la cadena se poda). Lee las direcciones con saldo del daemon y los UTXOs del nodo. `TestHistorial`.

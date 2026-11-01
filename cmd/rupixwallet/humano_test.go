@@ -47,3 +47,35 @@ func TestTraducirErrorDaemon(t *testing.T) {
 		t.Fatalf("un error distinto pasa sin tocar")
 	}
 }
+
+// TestHumanizarError (Rupix, 1-nov-2026): los errores que ve una persona nueva salen en
+// lenguaje llano, con el comando a copiar, y el error original debajo. Lo desconocido pasa
+// tal cual.
+func TestHumanizarError(t *testing.T) {
+	idiomaActivo = "es"
+	casos := []struct{ entra, contiene string }{
+		{"rpc error: code = Unavailable desc = connection error: connection refused", "daemon"},
+		{"wallet daemon is not synced yet, 3 of 10 addresses", "poniendose al dia"},
+		{"Insufficient funds for send: 10.000000 required, while only 2.000000 available", "No alcanza el saldo"},
+		{"decoded address is of unknown format: checksum failed", "no es valida para esta red"},
+		{"cipher: message authentication failed", "contrasena"},
+		{"open /root/.rupixwallet/rupix-testnet/keys.json: no such file or directory", "No hay wallet creada"},
+		{"/root/.rupixwallet/rupix-testnet/keys.json is locked and cannot be used. Make sure that no other active wallet command is using it.", "Otro comando de la wallet"},
+	}
+	for _, c := range casos {
+		out := humanizarError(errors.New(c.entra), "localhost:8082", "--testnet").Error()
+		if !strings.Contains(out, c.contiene) {
+			t.Errorf("%q: esperaba %q en:\n%s", c.entra, c.contiene, out)
+		}
+		if c.contiene != "daemon" && !strings.Contains(out, c.entra) {
+			t.Errorf("%q: el error original debe quedar debajo", c.entra)
+		}
+		if strings.Contains(out, "%!") {
+			t.Errorf("%q: formato roto: %s", c.entra, out)
+		}
+	}
+	desconocido := errors.New("algo rarisimo")
+	if humanizarError(desconocido, "x", "--testnet") != desconocido {
+		t.Errorf("un error desconocido pasa tal cual")
+	}
+}

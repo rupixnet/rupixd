@@ -102,6 +102,37 @@ func verificarFrase(mnemonics []string) bool {
 	return true
 }
 
+// humanizarError (Rupix, 1-nov-2026) es la ultima capa antes de la pantalla: reconoce los
+// errores que una persona nueva ve de verdad y dice que hacer, en su idioma, dejando el error
+// original debajo para quien quiera leerlo. Si no lo reconoce, lo deja pasar tal cual: nunca
+// inventa una causa.
+func humanizarError(err error, daemonAddress string, netFlag string) error {
+	if err == nil {
+		return nil
+	}
+	msg := err.Error()
+	var clave string
+	switch {
+	case strings.Contains(msg, "daemon is not running") || strings.Contains(msg, "connection refused") || strings.Contains(msg, "Unavailable") || strings.Contains(msg, "connection error"):
+		return traducirErrorDaemon(err, daemonAddress, netFlag)
+	case strings.Contains(msg, "is not synced yet"):
+		clave = "err.daemon_sync"
+	case strings.Contains(msg, "Insufficient funds"):
+		clave = "err.saldo"
+	case strings.Contains(msg, "unknown format") || strings.Contains(msg, "checksum") || strings.Contains(msg, "invalid prefix") || strings.Contains(msg, "decoded address"):
+		clave = "err.direccion"
+	case strings.Contains(msg, "message authentication failed"):
+		clave = "err.clave"
+	case strings.Contains(msg, "no such file or directory") && strings.Contains(msg, "keys"):
+		clave = "err.sin_wallet"
+	case strings.Contains(msg, "is locked and cannot be used") || strings.Contains(msg, "already locked"):
+		clave = "err.wallet_ocupada"
+	default:
+		return traducirErrorNodo(err)
+	}
+	return errors.Errorf(T("err.nodo_dijo"), fmt.Sprintf(T(clave), netFlag), msg)
+}
+
 // traducirErrorDaemon (Rupix) reconoce "no me pude conectar al daemon" y dice que hacer.
 func traducirErrorDaemon(err error, daemonAddress string, netFlag string) error {
 	msg := err.Error()

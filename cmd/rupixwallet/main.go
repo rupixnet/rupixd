@@ -63,7 +63,7 @@ func main() {
 
 	if err != nil {
 		// Rupix: el error mas comun de un principiante es que el daemon no esta corriendo.
-		printErrorAndExit(traducirErrorDaemon(err, defaultListen, banderaRed()))
+		printErrorAndExit(humanizarError(err, defaultListen, banderaRed()))
 	}
 }
 

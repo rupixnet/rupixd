@@ -14,6 +14,10 @@ You don't need to be an expert — just follow the steps.
 > Without `./` or `.\`, the system can't find the program. (Thanks to JC for the tip!)
 ---
 
+## Before you start: your name on the map
+
+Every node that connects shows up as a light on the [network map](https://explorer.rupix.network/mapa.html) and gets an **arrival number forever**. If you start without a name, your light says “node #N”; if you want it to say yours, start the node with `--uacomment=YourName` (the installer asks you). Only that name travels: your IP is neither published nor stored. You can change it later; you keep your number.
+
 ## Step 0 — One command (Linux and Mac)
 
 On Linux or Mac, everything below (download, sha256 check, install, name your node and keep it running) is done by a script in a minute:
@@ -133,6 +137,16 @@ Copy your address (it starts with `rupixtest:...`) and start the miner:
 You'll be mining testnet Gold and helping strengthen the network!
 
 ---
+
+## What I hold and when it arrived: `historial` (since v0.7.0)
+
+```
+./rupixwallet --testnet historial
+```
+
+Shows what your wallet holds today and when each thing arrived: mining grouped per day (blocks and RUPIX), what you received and your gems one by one with the block (DAA) and estimated date, and totals. Filters: `--desde=2026-10-01`, `--hasta=2026-10-31`, `--buscar=text`, `--todo`, `--sin-agrupar`. Needs the daemon and the node running.
+
+What it **cannot** show, said plainly: what you already spent. The node keeps no transaction index and the chain is pruned, so it only knows what you hold now. Dates carry ≈ because they are estimated at one block per second. To see an exact block and its transactions: the [explorer](https://explorer.rupix.network) (search by block hash; searching by transaction id is not possible without an index, and we will not pretend it is).
 
 ## Problems?
 

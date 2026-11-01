@@ -14,6 +14,10 @@ No necesitas ser experto — sigue los pasos.
 > Sin el `./` o `.\`, el sistema no encuentra el programa. (¡Gracias a JC por el aporte!)
 ---
 
+## Antes de empezar: tu nombre en el mapa
+
+Cada nodo que se conecta aparece como una luz en el [mapa de la red](https://explorer.rupix.network/mapa.html) y recibe un **número de llegada para siempre**. Si arrancas sin nombre, tu luz dice «nodo #N»; si quieres que diga el tuyo, el nodo se arranca con `--uacomment=TuNombre` (el instalador te lo pregunta). Solo viaja ese nombre: tu IP no se publica ni se guarda. Puedes cambiarlo después; conservas tu número.
+
 ## Paso 0 — Un solo comando (Linux y Mac)
 
 Si estás en Linux o Mac, todo lo de abajo (descargar, verificar el sha256, instalar, ponerle nombre a tu nodo y dejarlo corriendo) lo hace un script en un minuto:
@@ -133,6 +137,16 @@ Copia tu dirección (empieza con `rupixtest:...`) y arranca el minero:
 ¡Estarás minando Gold de testnet y ayudando a fortalecer la red!
 
 ---
+
+## Qué tengo y cuándo llegó: `historial` (desde v0.7.0)
+
+```
+./rupixwallet --testnet historial
+```
+
+Muestra lo que tu wallet tiene hoy y cuándo llegó cada cosa: el minado agrupado por día (bloques y RUPIX), lo recibido y tus gemas uno por uno con el bloque (DAA) y la fecha estimada, y los totales. Filtros: `--desde=2026-10-01`, `--hasta=2026-10-31`, `--buscar=texto`, `--todo`, `--sin-agrupar`. Necesita el daemon y el nodo corriendo.
+
+Lo que **no** puede mostrar, dicho de frente: lo que ya gastaste. El nodo no guarda un índice de transacciones y la cadena se poda, así que solo sabe lo que tienes ahora. Las fechas llevan ≈ porque se estiman a un bloque por segundo. Para ver un bloque exacto y sus transacciones: el [explorador](https://explorer.rupix.network) (busca por hash de bloque; buscar por id de transacción no es posible sin índice, y no vamos a fingir que sí).
 
 ## ¿Problemas?
 

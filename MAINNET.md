@@ -28,7 +28,7 @@ Cada criterio dice qué tiene que ser verdad, con número, y **cómo lo comprueb
 |---|---|---|---|
 | R1 | **Revisor con nombre**: al menos una persona con identidad pública y reputación verificable que haya leído `ESPECIFICACION.md`, compilado, corrido la suite y publicado su revisión **con su nombre**, sin hallazgos bloqueantes abiertos. | Enlace a su revisión pública desde el README; los hallazgos y su cierre en `CHANGELOG.md`. | Pendiente. El auditor actual es anónimo (su trabajo cuenta, su firma no basta); se le pidió aceptar su nombre o seudónimo firmado (mensaje redactado el 17-oct, envío pendiente de ER). |
 | R2 | **Reporte privado de vulnerabilidades** activo en GitHub y `SECURITY.md` con tiempos de respuesta públicos. | Pestaña Security del repo. | **Cumplido el 7-oct-2026**: Private vulnerability reporting activado por ER (la pestaña Security muestra "Report a vulnerability"); `SECURITY.md` ya existía. |
-| R3 | **Periodo de "rómpelo"**: ≥ 4 semanas con la invitación pública abierta (Reddit, X) a atacar la testnet, con los reportes recibidos y su respuesta publicados. | Hilo público + `LOGROS.md`. | Pendiente: arranca cuando haya seed 2 y varias luces en el mapa. |
+| R3 | **Periodo de "rómpelo"**: ≥ 4 semanas con la invitación pública abierta (Reddit, X) a atacar la testnet, con los reportes recibidos y su respuesta publicados. | Hilo público + `LOGROS.md`. | Pendiente. Nombre público acordado el 1-nov: **«Prueba pública»** (4 semanas), dentro del **Día 0 del camino a mainnet**; se abre cuando la v0.7.0 (mejoras para el usuario) esté publicada. Reportes: pestaña Security (privado) o Issues (público); cada reporte y su respuesta se publicarán en `LOGROS.md`. |
 
 ### Red y operación
 
