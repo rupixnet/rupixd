@@ -158,6 +158,7 @@ if(conMapa){
 const fmtT=s=>{s=Number(s)||0;if(s<90)return s+" s";if(s<5400)return Math.round(s/60)+" min";if(s<172800)return Math.round(s/3600)+" h";return Math.round(s/86400)+" d"};
 const es=()=>document.documentElement.getAttribute("data-lang")!=="en";
 const clave=n=>[n.nombre,n.version,n.pais,n.ciudad,n.lat,n.lon,n.saliente].join("|");
+const nombreDe=n=>n.nombre||((es()?"nodo":"node")+(n.numero?" #"+n.numero:""));
 
 async function refrescar(){
   let r; try{ r=await (await fetch("/api/peers")).json(); }catch(e){ return; }
@@ -172,7 +173,7 @@ async function refrescar(){
   // Lista
   const ul=document.getElementById("lista"); ul.innerHTML="";
   const fila=(n,etq)=>{const li=document.createElement("li");
-    const a=document.createElement("span"); const b=document.createElement("b"); b.textContent=n.nombre||(es()?"nodo":"node"); a.appendChild(b);
+    const a=document.createElement("span"); const b=document.createElement("b"); b.textContent=nombreDe(n); a.appendChild(b);
     if(etq){const t=document.createElement("span"); t.textContent=" · "+etq; t.style.color="var(--violet)"; a.appendChild(t);}
     const m=document.createElement("span"); m.className="m";
     m.textContent=[n.version?"v"+n.version:"", n.ciudad?n.ciudad+", "+n.pais:(n.pais||""), n.segundos?fmtT(n.segundos):""].filter(Boolean).join(" · ");
@@ -223,7 +224,7 @@ async function cargarLibro(){
   (r.hitos||[]).slice(0,12).forEach(x=>h.appendChild(li(`<span class="f">${esc(x.fecha)}</span>${esc(x.texto)}`)));
   if(!(r.hitos||[]).length) h.appendChild(li(es()?"el libro acaba de empezar":"the book just started"));
   // honor
-  const nom=n=>esc(n.nombre||(es()?"nodo":"node"));
+  const nom=n=>esc(nombreDe(n));
   const llena=(id,arr,f)=>{const o=document.getElementById(id);o.innerHTML="";(arr||[]).slice(0,5).forEach(n=>o.appendChild(li(f(n))))};
   llena("h-vet",r.veteranos,n=>`<b>#${n.numero}</b> ${nom(n)}`);
   llena("h-con",r.constantes,n=>`<b>${fmtH(n.segundos)}</b> ${nom(n)}`);

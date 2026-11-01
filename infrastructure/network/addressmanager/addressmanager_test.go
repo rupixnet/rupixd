@@ -381,7 +381,7 @@ func TestNoGuardaSuPropiaDireccion(t *testing.T) {
 	defer teardown()
 
 	propia := appmessage.NetAddress{IP: net.ParseIP("178.104.69.148"), Port: 17211}
-	otra := appmessage.NetAddress{IP: net.ParseIP("203.0.113.7"), Port: 17211}
+	otra := appmessage.NetAddress{IP: net.ParseIP("8.8.4.4"), Port: 17211} // publica y enrutable (203.0.113.x es de documentacion y el nodo la descarta)
 	mismaIPotroPuerto := appmessage.NetAddress{IP: net.ParseIP("178.104.69.148"), Port: 17311}
 	if err := amgr.localAddresses.addLocalNetAddress(&propia, ManualPrio); err != nil {
 		t.Fatal(err)
