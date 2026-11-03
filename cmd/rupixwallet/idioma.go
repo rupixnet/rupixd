@@ -77,9 +77,14 @@ var textos = map[string][2]string{
 	"gemas.titulo": {"La escalera — tus gemas:", "The ladder — your gems:"},
 	"gemas.total":  {"  Total: %d gema(s)", "  Total: %d gem(s)"},
 
-	"saldo.total":     {"Tienes %s RUPIX", "You have %s RUPIX"},
-	"saldo.pendiente": {" (+ %s llegando)", " (+ %s arriving)"},
-	"saldo.cabecera":  {"Direccion                                                                     Disponible            Llegando", "Address                                                                       Available             Arriving"},
+	"tarjeta.llegando":   {"llegando (sin confirmar)", "arriving (unconfirmed)"},
+	"tarjeta.nodo.aldia": {"Nodo al dia", "Node up to date"},
+	"tarjeta.nodo.atras": {"Nodo poniendose al dia: el saldo puede estar atrasado", "Node catching up: the balance may be stale"},
+	"tarjeta.nodo.sin":   {"Nodo: no se pudo comprobar (el daemon si contesto)", "Node: could not be checked (the daemon did answer)"},
+	"tarjeta.gemas.sin":  {"AVISO: no se pudieron leer las gemas: %v", "WARNING: gems could not be read: %v"},
+	"saldo.total":        {"Tienes %s RUPIX", "You have %s RUPIX"},
+	"saldo.pendiente":    {" (+ %s llegando)", " (+ %s arriving)"},
+	"saldo.cabecera":     {"Direccion                                                                     Disponible            Llegando", "Address                                                                       Available             Arriving"},
 
 	"direccion.nueva": {"Direccion nueva:", "New address:"},
 

@@ -65,7 +65,9 @@ type createConfig struct {
 
 type balanceConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
+	RPCServer     string `long:"rpcserver" short:"s" description:"Nodo rupixd para el estado (default: 127.0.0.1 con el puerto de la red)"`
 	Verbose       bool   `long:"verbose" short:"v" description:"Verbose: show addresses with balance"`
+	SinColor      bool   `long:"sin-color" description:"Sin colores (tambien con la variable NO_COLOR)"`
 	config.NetworkFlags
 }
 
