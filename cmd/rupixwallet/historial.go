@@ -159,12 +159,17 @@ func historial(conf *historialConfig) error {
 		return fmt.Errorf(T("historial.nodo.noresponde"), rpcServer, err)
 	}
 	defer c.Close()
+	// Rupix (2-nov-2026): el seed, con ~24,000 bloques minados, tardo mas de 30 s en
+	// contestar GetUTXOsByAddresses y el historial fallaba con "timeout expired". Una
+	// wallet minera tiene muchos UTXOs chicos: se espera hasta 5 min y se avisa.
+	c.SetTimeout(5 * time.Minute)
 	dag, err := c.GetBlockDAGInfo()
 	if err != nil {
 		return fmt.Errorf(T("historial.nodo.noresponde"), rpcServer, err)
 	}
 	var entradas []*appmessage.UTXOsByAddressesEntry
 	if len(direcciones) > 0 {
+		fmt.Println(T("historial.esperando"))
 		resp, err := c.GetUTXOsByAddresses(direcciones)
 		if err != nil {
 			return traducirErrorNodo(err)
