@@ -113,6 +113,15 @@ func verificar(conf *verificarConfig) error {
 			estadoPeers = aviso
 		}
 		linea(estadoPeers, fmt.Sprintf(T("verificar.nodo.peers"), len(peers.Infos)))
+		// Rupix (4-nov-2026): si la mayoria de los pares anuncia una version mayor que la del
+		// nodo, AVISO con la version y la guia. Solo lee saludos ya recibidos; no consulta nada.
+		uas := make([]string, 0, len(peers.Infos))
+		for _, p := range peers.Infos {
+			uas = append(uas, p.UserAgent)
+		}
+		if nueva, hay := version.MasNueva(info.ServerVersion, uas); hay {
+			linea(aviso, fmt.Sprintf(T("verificar.nodo.nueva"), nueva, strings.TrimPrefix(info.ServerVersion, "v")))
+		}
 	}
 	linea(ok, fmt.Sprintf(T("verificar.nodo.poda"), dag.PruningPointHash))
 	fmt.Println("       " + T("verificar.nodo.nombre"))

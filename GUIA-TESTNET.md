@@ -95,6 +95,10 @@ Te dice si tu `rupixwallet` es exactamente el de la release (compara su sha256 c
 
 ---
 
+### Cuando salga una versión nueva (desde v0.7.0)
+
+No tienes que estar pendiente de GitHub: tu nodo lee la versión que anuncian los demás nodos en el saludo de la red y, si **la mayoría** de los que tiene conectados ya usa una más nueva, lo escribe en su log una vez al día («Hay una versión más nueva de Rupix (0.7.x)…») y `rupixwallet verificar` lo marca como AVISO. No consulta a ningún servidor ni manda nada; solo compara números de versión. Actualizar es parar el nodo, reemplazar los ejecutables por los del release nuevo y arrancar: tus datos y tu wallet se quedan.
+
 ## Paso 4 (opcional) — Mina Rupix
 
 > **Sobre el minado:** Rupix usa **RupixHeavyHash**, un algoritmo propio

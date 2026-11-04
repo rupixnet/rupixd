@@ -49,6 +49,7 @@ func (a *ComponentManager) Start() {
 	}
 
 	a.connectionManager.Start()
+	go a.vigilarVersionNueva() // Rupix: aviso de version nueva por el saludo de los pares
 }
 
 // Stop gracefully shuts down all the kaspad services.
