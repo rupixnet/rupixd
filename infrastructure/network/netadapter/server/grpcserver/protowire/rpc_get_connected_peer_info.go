@@ -86,7 +86,7 @@ func (x *GetConnectedPeerInfoMessage) toAppMessage() (*appmessage.GetConnectedPe
 		TimeOffset:                x.TimeOffset,
 		UserAgent:                 x.UserAgent,
 		AdvertisedProtocolVersion: x.AdvertisedProtocolVersion,
-		TimeConnected:             x.TimeOffset,
+		TimeConnected:             x.TimeConnected, // Rupix 4-nov-2026: heredado de kaspad, copiaba TimeOffset
 		IsIBDPeer:                 x.IsIbdPeer,
 	}, nil
 }
