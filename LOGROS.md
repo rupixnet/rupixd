@@ -1,8 +1,14 @@
 # Lo que Rupix logra hoy / What Rupix does today
 
-🇲🇽 Cada punto de esta lista está probado y es verificable contra el código y la cadena. No es una promesa; es lo que funciona hoy. Actualizado: 23 de septiembre de 2026.
+🇲🇽 Cada punto de esta lista está probado y es verificable contra el código y la cadena. No es una promesa; es lo que funciona hoy. Actualizado: 4 de noviembre de 2026.
 
-🇬🇧 Every item here is tested and verifiable against the code and the chain. Not a promise; what works today. Updated: 23 September 2026.
+🇬🇧 Every item here is tested and verifiable against the code and the chain. Not a promise; what works today. Updated: 4 November 2026.
+
+## 31 de octubre – 4 de noviembre de 2026 — Nodo #4: el primer desconocido que se queda
+
+El 31 de octubre apareció un nodo con v0.6.9 desde Marcq-en-Barœul, Francia, sin nombre, y no se fue: al 4 de noviembre el libro del explorador le cuenta **más de 88 horas conectado**, racha de 5 días y una sola conexión de 25 horas seguidas sin un corte. Es el segundo nodo más constante de toda la historia de Rupix, solo detrás del seed, y es de alguien que no conocemos y no vamos a investigar (regla: ni IP ni identidad). Lo que sí es verificable, en el mapa y en `/api/libro`: el instalador funciona en una máquina ajena sin ayuda, y el nodo aguanta días. Vale para N4/R1 del camino a mainnet aunque nunca sepamos quién es.
+
+De paso, mirar su dato destapó un bug heredado de kaspad: el tiempo de conexión se decodificaba desde otro campo (`TimeOffset`), por lo que el mapa decía primero «20761 d» y luego «0 s». Arreglado en la raíz con test de ida y vuelta (`TestTimeConnectedSobreviveIdaYVuelta`); el mapa ya dice las horas reales. Gracias, nodo #4.
 
 ## 24 de octubre de 2026 (13:44 UTC) — La primera luz que no pedimos: nodo #3
 
