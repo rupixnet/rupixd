@@ -32,8 +32,8 @@ func TestMapaDeNodosNoFiltraIPs(t *testing.T) {
 
 	ahora := time.Unix(1_760_000_000, 0)
 	peers := []*appmessage.GetConnectedPeerInfoMessage{
-		{Address: "187.123.45.67:17211", UserAgent: "/kaspad:0.6.6/rupixd:0.6.6(Edu <b>x</b>)/", IsOutbound: false, TimeConnected: (ahora.Unix() - 3600) * 1000},
-		{Address: "8.8.8.8:17211", UserAgent: "/kaspad:0.6.5/", IsOutbound: true, TimeConnected: ahora.Unix() * 1000},
+		{Address: "187.123.45.67:17211", UserAgent: "/kaspad:0.6.6/rupixd:0.6.6(Edu <b>x</b>)/", IsOutbound: false, TimeConnected: 3600 * 1000}, // el nodo manda DURACION en ms (time.Since), no un instante (bug 3-nov: "20761 d" en el mapa)
+		{Address: "8.8.8.8:17211", UserAgent: "/kaspad:0.6.5/", IsOutbound: true, TimeConnected: 5 * 1000},
 		{Address: "[2001:db8::1]:17211", UserAgent: "basura", TimeConnected: 0},
 	}
 	nodos := nodosDesdePeers(peers, g, ahora)

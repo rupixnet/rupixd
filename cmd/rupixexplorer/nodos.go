@@ -215,11 +215,11 @@ func nodosDesdePeers(peers []*appmessage.GetConnectedPeerInfoMessage, g *geoBase
 	for _, p := range peers {
 		version, nombre := partirUserAgent(p.UserAgent)
 		n := Nodo{Nombre: nombre, Version: version, Saliente: p.IsOutbound, ReportaDe: "seed"}
+		// TimeConnected es time.Since(conexion) en milisegundos (app/protocol/peer), es decir
+		// una DURACION, no un instante. Hasta el 3-nov-2026 se restaba de `ahora` como si
+		// fuera un timestamp y el mapa decia "20761 d" (los dias desde 1970).
 		if p.TimeConnected > 0 {
-			n.Segundos = ahora.Unix() - p.TimeConnected/1000
-			if n.Segundos < 0 {
-				n.Segundos = 0
-			}
+			n.Segundos = p.TimeConnected / 1000
 		}
 		if l, ok := g.buscar(hostDe(p.Address)); ok {
 			n.Pais, n.Ciudad, n.Lat, n.Lon, n.Ubicado = l.pais, l.ciudad, redondear(l.lat), redondear(l.lon), true

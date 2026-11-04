@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/rupixnet/rupixd/app/appmessage"
@@ -36,11 +37,30 @@ func main() {
 		fmt.Printf("mapa de nodos: %d rangos IPv4 cargados de %s\n", len(geo.inicio), *geoDB)
 	}
 	propio := nodoPropio(*nodoPropioFlag)
-	if propio != nil {
+	// Rupix (3-nov-2026): la version del nodo propio se refresca en cada pasada, no solo al
+	// arrancar. Si al arrancar el explorador el nodo no contestaba (despliegues a la vez),
+	// el seed quedaba con la version vieja en el mapa (se vio "v0.6.6" con el seed en 0.6.9).
+	var propioMu sync.Mutex
+	refrescarPropio := func() {
+		if propio == nil {
+			return
+		}
 		if info, err := client.GetInfo(); err == nil {
+			propioMu.Lock()
 			propio.Version = strings.TrimPrefix(info.ServerVersion, "v")
+			propioMu.Unlock()
 		}
 	}
+	propioActual := func() *Nodo { // copia para los handlers, sin carreras con el refresco
+		if propio == nil {
+			return nil
+		}
+		propioMu.Lock()
+		defer propioMu.Unlock()
+		c := *propio
+		return &c
+	}
+	refrescarPropio()
 	fmt.Printf("Rupix Explorer proxy: nodo=%s http=%s\n", *rpcAddress, *listenAddress)
 
 	http.HandleFunc("/api/dag", func(w http.ResponseWriter, r *http.Request) {
@@ -62,7 +82,7 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("libro de nodos: %s", err))
 	}
-	libro.registrarPropio(propio, time.Now())
+	libro.registrarPropio(propioActual(), time.Now())
 	go func() {
 		const cada = 30 * time.Second
 		anterior := time.Now()
@@ -73,6 +93,8 @@ func main() {
 				continue
 			}
 			ahora := time.Now()
+			refrescarPropio()
+			libro.registrarPropio(propioActual(), ahora)
 			nodos := make([]Nodo, 0, len(resp.Infos))
 			hosts := make([]string, 0, len(resp.Infos))
 			for _, p := range resp.Infos {
@@ -98,7 +120,8 @@ func main() {
 			return
 		}
 		nodos := nodosDesdePeers(resp.Infos, geo, time.Now())
-		writeJSON(w, &RespuestaNodos{Propio: propio, Nodos: nodos, Total: len(nodos), Paises: contarPaises(nodos, propio), ConGeo: geo != nil,
+		pa := propioActual()
+		writeJSON(w, &RespuestaNodos{Propio: pa, Nodos: nodos, Total: len(nodos), Paises: contarPaises(nodos, pa), ConGeo: geo != nil,
 			Nota: "Solo lo que cada nodo anuncia (nombre con --uacomment, version) y una ubicacion aproximada por pais/ciudad. La IP no se publica ni se guarda."}, nil)
 	})
 	// Rupix (17-oct-2026): /api/estado, la salud de la red para la portada (ver estado.go).
