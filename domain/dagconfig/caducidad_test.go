@@ -28,8 +28,13 @@ func TestEstadoCheckpoints(t *testing.T) {
 	if a, b, m := sin.EstadoCheckpoints(9_999_999); a || b || m != 0 {
 		t.Errorf("sin checkpoints no hay aviso: %v %v %d", a, b, m)
 	}
-	// La testnet real: hoy caducada.
-	if a, _, _ := TestnetParams.EstadoCheckpoints(3_900_000); !a {
-		t.Errorf("TestnetParams debe reportar la lista caducada en su CheckpointsExpireDAAScore")
+	// La testnet real, con la caducidad que diga el codigo (no un numero pegado: el primer
+	// borrador decia 3_900_000 y fallo en cuanto el #4 la movio a 5_600_000).
+	exp := TestnetParams.CheckpointsExpireDAAScore
+	if a, _, _ := TestnetParams.EstadoCheckpoints(exp); !a {
+		t.Errorf("TestnetParams debe reportar la lista caducada en su CheckpointsExpireDAAScore (%d)", exp)
+	}
+	if a, pronto, _ := TestnetParams.EstadoCheckpoints(exp - 1); a || !pronto {
+		t.Errorf("un DAA antes de caducar: vigente y 'pronto'")
 	}
 }
