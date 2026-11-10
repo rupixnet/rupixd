@@ -34,7 +34,7 @@
 
 set -eu
 
-ULTIMA_CONOCIDA="v0.6.9"   # se actualiza en cada release; es el ultimo recurso si GitHub no contesta
+ULTIMA_CONOCIDA="v0.7.0"   # se actualiza en cada release; es el ultimo recurso si GitHub no contesta
 REPO="rupixnet/rupixd"
 SEED1="178.104.69.148:17211"
 PUERTO_P2P=17211

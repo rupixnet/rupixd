@@ -26,7 +26,7 @@ On Linux or Mac, everything below (download, sha256 check, install, name your no
 curl -sSL https://rupix.network/instalar.sh | sh
 ```
 
-It is plain text: read it before running it (`curl -sSL https://rupix.network/instalar.sh | less`). Its sha256 for this version: `d01497f544081c2c7254711fdace91b6b9608d934929492851de2bd150ac0d9a`. It checks the binaries against the list every release publishes and **if one does not match, it installs nothing**. On Linux with systemd it leaves the node as a service (starts on reboot); on Mac it prints the command to start it. Before touching anything it shows the plan and waits for your "si"; if the machine already has a node it **refuses** (to update only the binaries: `--actualizar`). Options: `--nombre=YourName`, `--version=v0.6.9`, `--sin-servicio`, `--si`. On Windows, continue with step 1.
+It is plain text: read it before running it (`curl -sSL https://rupix.network/instalar.sh | less`). Its sha256 for this version: `cae3c938e0c24156bf74f906aec8cc67580c7fc432980afa81a9b78bdeb20bca`. It checks the binaries against the list every release publishes and **if one does not match, it installs nothing**. On Linux with systemd it leaves the node as a service (starts on reboot); on Mac it prints the command to start it. Before touching anything it shows the plan and waits for your "si"; if the machine already has a node it **refuses** (to update only the binaries: `--actualizar`). Options: `--nombre=YourName`, `--version=v0.7.0`, `--sin-servicio`, `--si`. On Windows, continue with step 1.
 
 ## Step 1 — Download Rupix
 
@@ -34,9 +34,9 @@ Go to the official downloads (always the latest version):
 **https://github.com/rupixnet/rupixd/releases/latest**
 
 Download the file for your system:
-- **Windows:** `rupix-v0.6.9-win64.zip`
-- **Mac:** `rupix-v0.6.9-osx.zip`
-- **Linux:** `rupix-v0.6.9-linux.zip`
+- **Windows:** `rupix-v0.7.0-win64.zip`
+- **Mac:** `rupix-v0.7.0-osx.zip`
+- **Linux:** `rupix-v0.7.0-linux.zip`
 
 > **Your light on the map.** The explorer has a [node map](https://explorer.rupix.network/mapa.html). If you want your node to show up with a name, start it with `--uacomment=YourName` (it travels in the network handshake, nothing else). The map shows approximate country and city; never your IP.
 

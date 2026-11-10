@@ -26,7 +26,7 @@ Si estás en Linux o Mac, todo lo de abajo (descargar, verificar el sha256, inst
 curl -sSL https://rupix.network/instalar.sh | sh
 ```
 
-Es texto plano: léelo antes de correrlo (`curl -sSL https://rupix.network/instalar.sh | less`). Su sha256 para esta versión: `d01497f544081c2c7254711fdace91b6b9608d934929492851de2bd150ac0d9a`. Verifica los binarios contra la lista que publica cada release y **si uno no coincide, no instala nada**. En Linux con systemd deja el nodo como servicio (arranca solo al reiniciar); en Mac te da el comando para arrancarlo. Antes de tocar nada muestra el plan y espera tu "si"; si la máquina ya tiene un nodo, **se niega** (para actualizar solo los binarios: `--actualizar`). Opciones: `--nombre=TuNombre`, `--version=v0.6.9`, `--sin-servicio`, `--si`. En Windows, sigue con el paso 1.
+Es texto plano: léelo antes de correrlo (`curl -sSL https://rupix.network/instalar.sh | less`). Su sha256 para esta versión: `cae3c938e0c24156bf74f906aec8cc67580c7fc432980afa81a9b78bdeb20bca`. Verifica los binarios contra la lista que publica cada release y **si uno no coincide, no instala nada**. En Linux con systemd deja el nodo como servicio (arranca solo al reiniciar); en Mac te da el comando para arrancarlo. Antes de tocar nada muestra el plan y espera tu "si"; si la máquina ya tiene un nodo, **se niega** (para actualizar solo los binarios: `--actualizar`). Opciones: `--nombre=TuNombre`, `--version=v0.7.0`, `--sin-servicio`, `--si`. En Windows, sigue con el paso 1.
 
 ## Paso 1 — Descarga Rupix
 
@@ -34,9 +34,9 @@ Ve a las descargas oficiales:
 **https://github.com/rupixnet/rupixd/releases/latest**
 
 Descarga el archivo de tu sistema:
-- **Windows:** `rupix-v0.6.9-win64.zip`
-- **Mac:** `rupix-v0.6.9-osx.zip`
-- **Linux:** `rupix-v0.6.9-linux.zip`
+- **Windows:** `rupix-v0.7.0-win64.zip`
+- **Mac:** `rupix-v0.7.0-osx.zip`
+- **Linux:** `rupix-v0.7.0-linux.zip`
 
 > **Tu luz en el mapa.** El explorador tiene un [mapa de nodos](https://explorer.rupix.network/mapa.html). Si quieres que tu nodo aparezca con nombre, arráncalo con `--uacomment=TuNombre` (viaja en el saludo de la red, nada más). El mapa muestra país y ciudad aproximados; nunca tu IP.
 
