@@ -17,6 +17,8 @@ Esto no es una lección de un día; es la forma de trabajar, y se relee antes de
 3. **Siempre guardar todo.** Repo, web, explorador, guías ES/EN, CHANGELOG, CONTEXTO, LOGROS, MEMORIA, MAINNET, X: el mismo día, verificado con el hash en GitHub. Nada se borra; lo viejo va a `retirados/` o aquí.
 4. **Probar antes de decir o hacer.** Ninguna afirmación sin comprobación propia (dos fuentes, un comando con salida, un test en verde); ningún paso en el seed sin plan, sin prueba en frío y sin cadena única que se detenga en rojo. Decir «no lo he verificado» es parte del método.
 
+5. **Ningún plazo depende de una persona.** (10-nov-2026) La lista de checkpoints caducó con el #4 sin publicar porque el aviso vivía en un chat y pasaron cinco días sin abrirlo. Todo plazo de la red lo vigila el propio nodo (lo escribe en su log) y una tarea automática externa; una persona es el respaldo, nunca el mecanismo. Cuando algo así pasa, lo correcto no es disculparse: es decir el hecho con fecha, arreglar la causa y cerrar el hueco rápido.
+
 Compromiso de ER (1-nov-2026): **al publicar v0.7.0 se paga el seed 2 en EE. UU.** y él mismo busca gente que mantenga Rupix encendido.
 
 ## Índice

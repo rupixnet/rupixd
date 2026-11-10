@@ -135,6 +135,15 @@ func verificar(conf *verificarConfig) error {
 	if len(params.Checkpoints) == 0 {
 		linea(ok, T("verificar.cp.ninguno"))
 	}
+	// Rupix (10-nov-2026): caducidad de la lista. AVISO con poco margen; AVISO (no FALLO)
+	// si ya caduco: el nodo esta bien, la que falta es la version nueva con el siguiente.
+	if caducada, pronto, margen := params.EstadoCheckpoints(dag.VirtualDAAScore); caducada {
+		linea(aviso, fmt.Sprintf(T("verificar.cp.caducada"), params.CheckpointsExpireDAAScore, dag.VirtualDAAScore))
+	} else if pronto {
+		linea(aviso, fmt.Sprintf(T("verificar.cp.pronto"), params.CheckpointsExpireDAAScore, margen, float64(margen)/86400))
+	} else if len(params.Checkpoints) > 0 {
+		linea(ok, fmt.Sprintf(T("verificar.cp.vigente"), params.CheckpointsExpireDAAScore, margen))
+	}
 	// Blue score del punto de poda: los bloques anteriores ya no estan en disco (ni en un
 	// nodo que sincronizo desde cero ni en uno que podo), asi que un checkpoint por debajo
 	// no se puede releer por RPC. Eso NO es un fallo: el nodo lo exigio al importar la
