@@ -1,8 +1,14 @@
 # Lo que Rupix logra hoy / What Rupix does today
 
-🇲🇽 Cada punto de esta lista está probado y es verificable contra el código y la cadena. No es una promesa; es lo que funciona hoy. Actualizado: 4 de noviembre de 2026.
+🇲🇽 Cada punto de esta lista está probado y es verificable contra el código y la cadena. No es una promesa; es lo que funciona hoy. Actualizado: 14 de noviembre de 2026.
 
-🇬🇧 Every item here is tested and verifiable against the code and the chain. Not a promise; what works today. Updated: 4 November 2026.
+🇬🇧 Every item here is tested and verifiable against the code and the chain. Not a promise; what works today. Updated: 14 November 2026.
+
+## 14 de noviembre de 2026 — v0.7.0: el checkpoint #4 después de un hueco, y el nodo que vigila sus plazos
+
+La lista de checkpoints de v0.6.9 caducó el 10 de noviembre (DAA 3,900,000) sin que el #4 estuviera publicado: el plazo dependía de que una persona abriera una sesión a tiempo, y pasaron cinco días sin sesión. Lo decimos tal cual en CHECKPOINTS.md, con lo que significó (nodos sincronizados: nada; un nodo nuevo en ese lapso: sin esa protección). La v0.7.0 trae el #4 (blue score 3,628,800, `86e75db9…`, caducidad 5,600,000), confirmado por un segundo nodo de ER sincronizado desde cero en Windows (nodo #5 «PruebaER»), que recibió ese hash de la red; confirmación de un tercero pendiente. Y la causa arreglada: el propio nodo avisa en su log cuando a su lista le quedan menos de cinco días y lo dice sin rodeos si ya caducó; `verificar` lo muestra. Lección 5 de «Lo permanente»: ningún plazo depende de una persona.
+
+Además: aviso de versión nueva por el saludo de la red, `balance` como tarjeta con los colores de Rupix, `historial`, confirmación de dirección por 4 caracteres, y dos bugs heredados más de kaspad (`TimeConnected` desde otro campo; `GetBlock` llamando «invalid» a lo no validado), ambos encontrados mirando la red real, uno por el nodo de Francia y otro por la laptop de ER.
 
 ## 31 de octubre – 4 de noviembre de 2026 — Nodo #4: el primer desconocido que se queda
 

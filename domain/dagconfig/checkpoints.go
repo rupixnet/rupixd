@@ -33,6 +33,7 @@ var testnetCheckpoints = []Checkpoint{
 	// #4 — 10-nov-2026 (UTC), testnet #4, v0.7.0. Punto de poda del seed (virtual DAA 3,898,050):
 	// blue 3,628,800, DAA 3,629,539 (bloque del 6-nov-2026 15:57 UTC). Publicado DESPUES de que
 	// caducara la lista anterior (DAA 3,900,000): el hueco esta contado en CHECKPOINTS.md.
-	// Confirmacion externa: ver la tabla de CHECKPOINTS.md (se completa antes de publicar).
+	// Confirmacion: segundo nodo de ER (laptop Windows, desde cero, 14-nov) tiene el hash en su cadena de
+	// puntos de poda; confirmacion de un tercero pendiente. Tabla en CHECKPOINTS.md.
 	{BlueScore: 3628800, Hash: mustHash("86e75db9138eb60bf61cb1c6a265270f2b5f95b0cac33cea95bf3fa3858a3738")},
 }
