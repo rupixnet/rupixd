@@ -42,6 +42,12 @@ func HandleGetBlock(context *rpccontext.Context, _ *router.Router, request appme
 			errorMessage.Error = appmessage.RPCErrorf("Block %s is invalid", hash)
 			return errorMessage, nil
 		}
+		if errors.Is(err, rpccontext.ErrBuildBlockVerboseDataSinEstado) {
+			// Rupix: no es invalido; el nodo aun no lo valido (sincronizando). Decirlo tal cual.
+			errorMessage := &appmessage.GetBlockResponseMessage{}
+			errorMessage.Error = appmessage.RPCErrorf("Block %s: header known but not validated yet (node still syncing); retry when synced / encabezado conocido pero aun no validado (nodo sincronizando); reintenta al terminar", hash)
+			return errorMessage, nil
+		}
 		return nil, err
 	}
 

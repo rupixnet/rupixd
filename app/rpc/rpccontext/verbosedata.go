@@ -21,6 +21,13 @@ import (
 // ErrBuildBlockVerboseDataInvalidBlock indicates that a block that was given to BuildBlockVerboseData is invalid.
 var ErrBuildBlockVerboseDataInvalidBlock = errors.New("ErrBuildBlockVerboseDataInvalidBlock")
 
+// ErrBuildBlockVerboseDataSinEstado (Rupix, 14-nov-2026, heredado de kaspad): el nodo conoce el
+// encabezado (por ejemplo, un punto de poda historico recibido en la sincronizacion inicial)
+// pero todavia no le guardo estado. El valor por defecto de BlockStatus es StatusInvalid (0),
+// asi que GetBlock contestaba "Block ... is invalid" a un bloque que simplemente no habia
+// revisado aun. Se vio en vivo confirmando el checkpoint #4 desde una laptop en plena IBD.
+var ErrBuildBlockVerboseDataSinEstado = errors.New("ErrBuildBlockVerboseDataSinEstado")
+
 // GetDifficultyRatio returns the proof-of-work difficulty as a multiple of the
 // minimum difficulty using the passed bits field from the header of a block.
 func (ctx *Context) GetDifficultyRatio(bits uint32, params *dagconfig.Params) float64 {
@@ -51,6 +58,9 @@ func (ctx *Context) PopulateBlockWithVerboseData(block *appmessage.RPCBlock, dom
 		return err
 	}
 
+	if !blockInfo.Exists {
+		return errors.Wrap(ErrBuildBlockVerboseDataSinEstado, "the header is known but the block has no status yet")
+	}
 	if blockInfo.BlockStatus == externalapi.StatusInvalid {
 		return errors.Wrap(ErrBuildBlockVerboseDataInvalidBlock, "cannot build verbose data for "+
 			"invalid block")
