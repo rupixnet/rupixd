@@ -12,7 +12,7 @@ func TestValidarMensaje(t *testing.T) {
 		"día 46 testnet":   "día 46 testnet",
 		"привет мир":       "привет мир",
 		"123456789012345":  "123456789012345",
-		"ñandú y camión 7": "ñandú y camión 7",
+		"ñandú y camión":   "ñandú y camión", // 14 caracteres con acentos (bytes son mas)
 	}
 	for in, want := range ok {
 		got, err := ValidarMensaje(in)
@@ -22,6 +22,7 @@ func TestValidarMensaje(t *testing.T) {
 	}
 	mal := []string{
 		"1234567890123456", // 16
+		"ñandú y camión 7", // 16 (el primer borrador del test lo contaba como 15)
 		"rupix.network",    // punto
 		"hola@rupix",       // arroba
 		"https://x",        // enlace
