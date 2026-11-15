@@ -12,6 +12,7 @@ package main
 import (
 	"bufio"
 	"encoding/binary"
+	"github.com/rupixnet/rupixd/infrastructure/config"
 	"math"
 	"net"
 	"os"
@@ -36,6 +37,7 @@ type Nodo struct {
 	Saliente  bool    `json:"saliente"`  // true: el seed lo llamo; false: el nodo llamo al seed
 	Segundos  int64   `json:"segundos"`  // conectado desde hace tantos segundos
 	ReportaDe string  `json:"reportaDe"` // quien lo ve: "seed" (por ahora, siempre)
+	Mensaje   string  `json:"-"`         // muro de nodos: lo que anuncia ("~texto"); se publica via /api/muro con sus reglas
 }
 
 // RespuestaNodos es /api/peers.
@@ -55,15 +57,35 @@ type RespuestaNodos struct {
 // Devuelve ("", "") si no tiene la forma esperada. El nombre se recorta y se limpia
 // de caracteres de control para que nadie pinte HTML en el mapa con su uacomment.
 func partirUserAgent(ua string) (version, nombre string) {
+	version, nombre, _ = partirUserAgentConMensaje(ua)
+	return version, nombre
+}
+
+// partirUserAgentConMensaje (Rupix, 15-nov-2026, muro de nodos): los comentarios del saludo van
+// separados por "; ". Los que empiezan con "~" son el mensaje del muro (idea de JC, nodo #2) y
+// NO forman parte del nombre; el mensaje se vuelve a validar aqui con las mismas reglas del
+// nodo (15 caracteres, letras/numeros/espacios): lo que no cumple se descarta, no se muestra.
+func partirUserAgentConMensaje(ua string) (version, nombre, mensaje string) {
 	// No se corta por "/" porque un comentario puede traer barras; se buscan los tramos
 	// "nombre:version(comentario)" directamente. El ultimo tramo con comentario manda.
 	for _, m := range reUserAgent.FindAllStringSubmatch(ua, -1) {
 		version = m[1]
-		if m[2] != "" {
-			nombre = limpiarNombre(strings.ReplaceAll(m[2], "; ", " "))
+		if m[2] == "" {
+			continue
 		}
+		var partesNombre []string
+		for _, c := range strings.Split(m[2], "; ") {
+			if strings.HasPrefix(c, config.MarcaMensaje) {
+				if limpio, err := config.ValidarMensaje(strings.TrimPrefix(c, config.MarcaMensaje)); err == nil {
+					mensaje = limpio
+				}
+				continue
+			}
+			partesNombre = append(partesNombre, c)
+		}
+		nombre = limpiarNombre(strings.Join(partesNombre, " "))
 	}
-	return version, nombre
+	return version, nombre, mensaje
 }
 
 var reUserAgent = regexp.MustCompile(`(?:rupixd|kaspad):([0-9][^/()]*)(?:\(([^)]*)\))?`)
@@ -213,8 +235,8 @@ func hostDe(direccion string) string {
 func nodosDesdePeers(peers []*appmessage.GetConnectedPeerInfoMessage, g *geoBase, ahora time.Time) []Nodo {
 	nodos := make([]Nodo, 0, len(peers))
 	for _, p := range peers {
-		version, nombre := partirUserAgent(p.UserAgent)
-		n := Nodo{Nombre: nombre, Version: version, Saliente: p.IsOutbound, ReportaDe: "seed"}
+		version, nombre, mensaje := partirUserAgentConMensaje(p.UserAgent)
+		n := Nodo{Nombre: nombre, Version: version, Saliente: p.IsOutbound, ReportaDe: "seed", Mensaje: mensaje}
 		// TimeConnected es time.Since(conexion) en milisegundos (app/protocol/peer), es decir
 		// una DURACION, no un instante. Hasta el 3-nov-2026 se restaba de `ahora` como si
 		// fuera un timestamp y el mapa decia "20761 d" (los dias desde 1970).

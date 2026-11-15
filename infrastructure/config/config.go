@@ -114,6 +114,7 @@ type Flags struct {
 	MaxOrphanTxs                    uint64        `long:"maxorphantx" description:"Max number of orphan transactions to keep in memory"`
 	BlockMaxMass                    uint64        `long:"blockmaxmass" description:"Maximum transaction mass to be used when creating a block"`
 	UserAgentComments               []string      `long:"uacomment" description:"Comment to add to the user agent -- See BIP 14 for more information."`
+	Mensaje                         string        `long:"mensaje" description:"Rupix: mensaje corto para el muro de nodos del explorador (max 15 caracteres: letras, numeros y espacios; vive 24 h). Viaja en el saludo de la red."`
 	NoPeerBloomFilters              bool          `long:"nopeerbloomfilters" description:"Disable bloom filtering support"`
 	SigCacheMaxSize                 uint          `long:"sigcachemaxsize" description:"The maximum number of entries in the signature verification cache"`
 	BlocksOnly                      bool          `long:"blocksonly" description:"Do not accept transactions from remote peers."`
@@ -488,6 +489,19 @@ func LoadConfig() (*Config, error) {
 		fmt.Fprintln(os.Stderr, err)
 		fmt.Fprintln(os.Stderr, usageMessage)
 		return nil, err
+	}
+
+	// Rupix (15-nov-2026): --mensaje se valida y viaja como comentario "~texto" del saludo.
+	if cfg.Mensaje != "" {
+		limpio, err := ValidarMensaje(cfg.Mensaje)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return nil, err
+		}
+		cfg.Mensaje = limpio
+		if limpio != "" {
+			cfg.UserAgentComments = append(cfg.UserAgentComments, ComentarioMensaje(limpio))
+		}
 	}
 
 	// Look for illegal characters in the user agent comments.

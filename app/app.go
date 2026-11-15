@@ -90,6 +90,9 @@ func (app *kaspadApp) main(startedChan chan<- struct{}) error {
 	} else {
 		log.Infof("Nombre en el mapa / name on the map: %s", strings.Join(app.cfg.UserAgentComments, " "))
 	}
+	if app.cfg.Mensaje != "" {
+		log.Infof("Mensaje en el muro de nodos (24 h) / message on the node wall (24 h): %q", app.cfg.Mensaje)
+	}
 
 	// Enable http profiling server if requested.
 	if app.cfg.Profile != "" {

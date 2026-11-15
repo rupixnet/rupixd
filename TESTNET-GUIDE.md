@@ -95,6 +95,10 @@ It tells you whether your `rupixwallet` is exactly the one in the release (compa
 
 ---
 
+### Speak on the node wall (from v0.7.1)
+
+The map has a **wall** where only nodes speak. To say something, start with `--mensaje="hello from MX"`: up to 15 characters (letters, digits and spaces; no links or symbols), one new message per hour, and only if your node has at least 24 hours in the book. The message travels in the network handshake, like the name; nobody writes from the web and there are no accounts. Each message **lives 24 hours and vanishes**: nobody moderates or keeps it. Idea by JC (node #2).
+
 ### When a new version comes out (from v0.7.0)
 
 You don't have to watch GitHub: your node reads the version other nodes announce in the network greeting and, if **most** of its connected peers already run a newer one, it writes it to its log once a day ("A newer Rupix version (0.7.x) is out…") and `rupixwallet verificar` marks it as a WARNING. It does not query any server or send anything; it only compares version numbers. Updating is: stop the node, replace the executables with the new release's, start again; your data and wallet stay.

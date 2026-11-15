@@ -109,4 +109,20 @@ func TestPartirUserAgent(t *testing.T) {
 			t.Errorf("%q: (%q,%q), esperaba (%q,%q)", c.ua, v, n, c.version, c.nombre)
 		}
 	}
+	// Muro de nodos (15-nov-2026): el comentario "~texto" es mensaje, no nombre; se valida.
+	muro := []struct{ ua, nombre, mensaje string }{
+		{"/kaspad:0.7.1/rupixd:0.7.1(Coroking; ~hola desde MX)/", "Coroking", "hola desde MX"},
+		{"/rupixd:0.7.1(~viva Rupix)/", "", "viva Rupix"},          // sin nombre, con mensaje
+		{"/rupixd:0.7.1(Nodo; ~rupix.network)/", "Nodo", ""},       // enlace: se descarta
+		{"/rupixd:0.7.1(Nodo; ~1234567890123456)/", "Nodo", ""},    // 16 caracteres: se descarta
+		{"/rupixd:0.7.1(Nodo; ~hola; ~adios)/", "Nodo", "adios"},   // el ultimo manda
+		{"/rupixd:0.7.1(Seed1-Nuremberg)/", "Seed1-Nuremberg", ""}, // sin mensaje
+		{"/rupixd:0.6.9(Edu bx/b)/", "Edu bx/b", ""},               // viejo, igual que antes
+	}
+	for _, c := range muro {
+		_, n, m := partirUserAgentConMensaje(c.ua)
+		if n != c.nombre || m != c.mensaje {
+			t.Errorf("%q: nombre %q mensaje %q; esperaba %q %q", c.ua, n, m, c.nombre, c.mensaje)
+		}
+	}
 }

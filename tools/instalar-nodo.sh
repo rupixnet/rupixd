@@ -170,10 +170,21 @@ if [ "$ACTUALIZAR" = 1 ]; then
 fi
 case ":$PATH:" in *":$PREFIX:"*) ;; *) echo "   (agrega $PREFIX a tu PATH, o llama a los programas con la ruta completa)";; esac
 
-# 5) Nombre en el mapa
+# 5) Nombre en el mapa. Rupix (15-nov-2026): si ya habia un servicio con nombre, se propone ese
+# nombre por defecto (Enter lo conserva). Cambiar de nombre y de red a la vez hace que el libro
+# del explorador te cuente como un nodo nuevo (le paso al nodo #2 el 4-nov).
+nombre_previo() { # $1 = archivo de servicio; imprime el --uacomment que tenga, o nada
+	[ -f "$1" ] && sed -n 's/.*--uacomment=\([^ "]*\).*/\1/p' "$1" | head -1
+}
+PREVIO=$(nombre_previo /etc/systemd/system/rupixd-testnet.service)
 if [ -z "$NOMBRE" ] && ( : < /dev/tty ) 2>/dev/null; then
-	printf '\n¿Como quieres que se llame tu nodo en el mapa? (sin espacios; vacio = "nodo"): '
+	if [ -n "$PREVIO" ]; then
+		printf '\n¿Como quieres que se llame tu nodo en el mapa? (Enter = "%s", el nombre que ya tenias; sin espacios): ' "$PREVIO"
+	else
+		printf '\n¿Como quieres que se llame tu nodo en el mapa? (sin espacios; vacio = "nodo"): '
+	fi
 	read -r NOMBRE < /dev/tty || NOMBRE=""
+	[ -z "$NOMBRE" ] && NOMBRE="$PREVIO"
 fi
 NOMBRE=$(printf '%s' "$NOMBRE" | tr -d ' <>&"/' | cut -c1-32)
 UA=""; [ -n "$NOMBRE" ] && UA="--uacomment=$NOMBRE"

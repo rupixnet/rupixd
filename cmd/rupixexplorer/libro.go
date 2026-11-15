@@ -78,6 +78,7 @@ type Libro struct {
 	// cambio de --uacomment y aparecio como dos nodos).
 	Huellas  map[string]string `json:"huellas,omitempty"`
 	cambiado bool
+	muro     *Muro // muro de nodos (15-nov-2026): solo memoria, nunca en el archivo
 }
 
 // RespuestaLibro es /api/libro: todo lo publicable.
@@ -313,6 +314,12 @@ func (l *Libro) pasada(peers []Nodo, hosts []string, ahora time.Time, transcurri
 		if !nuevo && transcurrido > 0 {
 			e.Segundos += int64(transcurrido.Seconds())
 		}
+		if n.Mensaje != "" {
+			if l.muro == nil {
+				l.muro = nuevoMuro()
+			}
+			l.muro.ofrecer(clave, e, n.Mensaje, ahora)
+		}
 		switch e.UltimoDia {
 		case hoy:
 		case ayer:
@@ -418,4 +425,14 @@ func (l *Libro) respuesta() *RespuestaLibro {
 	r.Constante = top(func(a, b *EntradaLibro) bool { return a.Segundos > b.Segundos })
 	r.Racha = top(func(a, b *EntradaLibro) bool { return a.MejorRacha > b.MejorRacha })
 	return r
+}
+
+// muroAhora devuelve los mensajes vivos del muro de nodos (nunca se guarda en el archivo).
+func (l *Libro) muroAhora(ahora time.Time) []MensajeMuro {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	if l.muro == nil {
+		return []MensajeMuro{}
+	}
+	return l.muro.lista(ahora)
 }

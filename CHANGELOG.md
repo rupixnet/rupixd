@@ -6,6 +6,11 @@ Formato: [versión] - fecha - descripción técnica
 
 ---
 
+## [Sin publicar] — hacia v0.7.1
+
+- **Muro de nodos** (15-nov; idea de JC, nodo #2): un chat donde solo hablan los nodos y que se borra solo. El nodo gana `--mensaje="texto"`: hasta 15 caracteres, solo letras (con acentos), números y espacios (sin enlaces ni símbolos; el nodo lo rechaza antes de salir); viaja en el saludo de la red como comentario `~texto`, igual que el nombre. El explorador lo publica en `/api/muro` y en un panel del mapa con estas reglas: solo nodos con ≥ 24 h de historia en el libro, un texto nuevo por hora, cada mensaje vive 24 h desde que se vio y desaparece (repetirlo no lo revive), sin moderador y sin archivo (solo memoria; nunca en `libro.json`). `TestValidarMensaje`, `TestMuro`, casos nuevos en `TestPartirUserAgent`.
+- **El instalador recuerda el nombre** (15-nov): si ya había un servicio (Linux) o una tarea (Windows) con `--uacomment`, propone ese nombre por defecto; Enter lo conserva. Evita aparecer como nodo nuevo al reinstalar (le pasó al nodo #2 el 4-nov). `tools/instalar-nodo_test.sh`.
+
 ## [v0.7.0] — 14-nov-2026 (UTC) — Checkpoint #4, el nodo vigila sus plazos, wallet humana
 - **Seguridad para el usuario en la wallet**: (1) `send` pide escribir los **últimos 4 caracteres de la dirección destino** leyéndolos del papel o del mensaje, no de la pantalla (defensa contra el malware que cambia el portapapeles); si no coinciden, no se envía nada y lo explica. `--yes` la salta bajo responsabilidad de quien lo pone. (2) **Aviso de respaldo** al crear la wallet (archivo + contraseña + frase en papel = tu dinero, con la ruta del archivo) y sección «Tu respaldo» en `verificar`. `TestCoincideFinal`. El QR de la dirección va en Rupix World (navegador), no en terminal.
 - **Errores de la wallet en lenguaje llano**: una última capa (`humanizarError`) reconoce lo que una persona nueva ve de verdad (daemon apagado, wallet sincronizando, saldo insuficiente, dirección mal escrita o de otra red, contraseña equivocada, wallet sin crear, archivo ocupado por otro comando) y dice qué hacer, con el comando a copiar, ES/EN, dejando el error original debajo. Lo desconocido pasa tal cual: nunca inventa una causa. `TestHumanizarError`.

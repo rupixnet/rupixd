@@ -95,6 +95,10 @@ Te dice si tu `rupixwallet` es exactamente el de la release (compara su sha256 c
 
 ---
 
+### Habla en el muro de nodos (desde v0.7.1)
+
+En el mapa hay un **muro** donde solo hablan los nodos. Para decir algo, arranca con `--mensaje="hola desde MX"`: hasta 15 caracteres (letras, números y espacios; sin enlaces ni símbolos), un mensaje nuevo por hora, y solo si tu nodo lleva al menos 24 horas en el libro. El mensaje viaja en el saludo de la red, como el nombre; nadie escribe desde la web y no hay cuentas. Cada mensaje **vive 24 horas y desaparece**: nadie lo modera ni lo guarda. Idea de JC (nodo #2).
+
 ### Cuando salga una versión nueva (desde v0.7.0)
 
 No tienes que estar pendiente de GitHub: tu nodo lee la versión que anuncian los demás nodos en el saludo de la red y, si **la mayoría** de los que tiene conectados ya usa una más nueva, lo escribe en su log una vez al día («Hay una versión más nueva de Rupix (0.7.x)…») y `rupixwallet verificar` lo marca como AVISO. No consulta a ningún servidor ni manda nada; solo compara números de versión. Actualizar es parar el nodo, reemplazar los ejecutables por los del release nuevo y arrancar: tus datos y tu wallet se quedan.

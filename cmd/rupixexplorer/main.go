@@ -108,6 +108,11 @@ func main() {
 			}
 		}
 	}()
+	http.HandleFunc("/api/muro", func(w http.ResponseWriter, r *http.Request) {
+		// Rupix (15-nov-2026): muro de nodos. Solo memoria; vive 24 h; reglas en muro.go.
+		writeJSON(w, map[string]interface{}{"mensajes": libro.muroAhora(time.Now()), "ahora": time.Now().Unix(),
+			"nota": "Solo hablan los nodos (--mensaje, 15 caracteres, uno por hora, tras 24 h de historia). Cada mensaje vive 24 h y desaparece. Sin moderador ni archivo. Idea de JC (nodo #2). / Only nodes speak (--mensaje, 15 chars, one per hour, after 24 h of history). Each message lives 24 h and vanishes. No moderator, no archive. Idea by JC (node #2)."}, nil)
+	})
 	http.HandleFunc("/api/libro", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, libro.respuesta(), nil)
 	})

@@ -58,6 +58,13 @@ footer a{color:var(--violet)}
 .btn-rey .k{font-size:1.25rem;line-height:1}
 .btn-rey:disabled{opacity:.6;cursor:default;animation:none}
 @keyframes latir{0%{box-shadow:0 0 0 0 rgba(232,199,102,.45)}70%{box-shadow:0 0 0 14px rgba(232,199,102,0)}100%{box-shadow:0 0 0 0 rgba(232,199,102,0)}}
+.muro{list-style:none;padding:0;margin:8px 0;border:1px solid rgba(183,148,246,.25);border-radius:12px;background:rgba(255,255,255,.03);max-height:320px;overflow:auto}
+.muro li{padding:9px 12px;border-bottom:1px solid rgba(183,148,246,.12);font-size:15px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.muro li:last-child{border-bottom:0}
+.muro .cuando{color:var(--muted);font-size:12px;min-width:84px}
+.muro .quien{color:var(--gold);font-weight:700}
+.muro .texto{color:var(--text)}
+.muro .vacio{color:var(--muted);font-style:italic}
 .rotulo{font:800 19px system-ui,sans-serif;fill:var(--gold);paint-order:stroke;stroke:#0d0813;stroke-width:4px;stroke-linejoin:round}
 .rotulo.f{font-weight:500;font-size:13px;fill:var(--muted)}
 .luz.apagada{fill:#4a3f66}
@@ -119,6 +126,10 @@ html[data-lang="en"] .es{display:none}
     <div class="sub" style="margin-top:6px"><span class="es">Horas y rachas medidas por el seed mientras el nodo estuvo conectado. El libro lo lleva este explorador; no es consenso, es historia. Un nodo se reconoce por el nombre que anuncia (el primero en llegar con un nombre se queda con el número); sin nombre, por una huella privada de su conexión que nunca se publica.</span><span class="en">Hours and streaks measured by the seed while the node was connected. This explorer keeps the book; it is history, not consensus. A node is recognized by the name it announces (first to arrive with a name keeps the number); without a name, by a private fingerprint of its connection that is never published.</span></div>
     <h2 style="margin-top:18px"><span class="es">Quién sostiene Rupix ahora</span><span class="en">Who holds Rupix up now</span></h2>
     <ul id="lista"><li><span class="es">cargando…</span><span class="en">loading…</span></li></ul>
+    <h2 style="margin-top:18px">💬 <span class="es">Muro de nodos</span><span class="en">Node wall</span></h2>
+    <div class="sub"><span class="es">Aquí solo hablan los nodos. Cada mensaje vive 24 horas y desaparece; nadie lo modera ni lo guarda. Idea de JC (nodo #2).</span><span class="en">Only nodes speak here. Each message lives 24 hours and vanishes; nobody moderates or keeps it. Idea by JC (node #2).</span></div>
+    <ul id="muro" class="muro"><li class="vacio"><span class="es">cargando…</span><span class="en">loading…</span></li></ul>
+    <div class="sub" style="margin-top:6px"><span class="es">Para hablar: <code>rupixd --testnet --uacomment=TuNombre --mensaje="hola desde MX"</code>. Hasta 15 caracteres (letras, números y espacios), uno por hora, y solo nodos con al menos 24 horas en el libro. El mensaje viaja en el saludo de la red, como el nombre.</span><span class="en">To speak: <code>rupixd --testnet --uacomment=YourName --mensaje="hello from MX"</code>. Up to 15 characters (letters, digits, spaces), one per hour, and only nodes with at least 24 hours in the book. The message travels in the network handshake, like the name.</span></div>
     <h2 style="margin-top:18px"><span class="es">Enciende tu luz</span><span class="en">Light yours</span></h2>
     <div class="sub">
       <span class="es">Corre un nodo y ponle nombre: <code>rupixd --testnet --uacomment=TuNombre</code>. El nombre viaja en el saludo de la red; nada más. Guía en <a href="https://rupix.network/guia.html" style="color:var(--violet)">rupix.network/guia</a>.</span>
@@ -250,6 +261,22 @@ async function cargarLibro(){
   }
 }
 cargarLibro(); setInterval(cargarLibro,60000);
+
+// ---- Muro de nodos (15-nov-2026): solo lectura; lo que dice /api/muro, 24 h y se va ----
+const haceTxt=s=>{s=Math.max(0,s);if(s<60)return es()?"ahora":"now";if(s<3600)return (es()?"hace ":"")+Math.round(s/60)+(es()?" min":" min ago");return (es()?"hace ":"")+Math.round(s/3600)+(es()?" h":" h ago")};
+async function cargarMuro(){
+  const ul=document.getElementById("muro"); if(!ul) return;
+  try{
+    const r=await fetch("/api/muro",{cache:"no-store"}); const d=await r.json();
+    const ms=d.mensajes||[]; ul.innerHTML="";
+    if(!ms.length){ul.appendChild(li(`<span class="vacio">${es()?"Nadie ha dicho nada en las últimas 24 horas. Enciende un nodo y habla.":"Nobody has said anything in the last 24 hours. Run a node and speak."}</span>`));return}
+    for(const m of ms){
+      const quien="#"+m.numero+" "+esc(m.nombre||(es()?"nodo":"node"))+(m.pais?" · "+esc(m.pais):"");
+      ul.appendChild(li(`<span class="cuando">${haceTxt(d.ahora-m.desde)}</span><span class="quien">${quien}</span><span class="texto">${esc(m.texto)}</span>`));
+    }
+  }catch(e){ul.innerHTML="";ul.appendChild(li(`<span class="vacio">${es()?"El muro no responde ahora mismo.":"The wall is not responding right now."}</span>`))}
+}
+cargarMuro(); setInterval(cargarMuro,60000);
 // Replay: las luces del libro en su orden real de llegada (primeraVez), con fechas.
 function replay(){
   if(!conMapa||!LIBRO) return;

@@ -136,8 +136,19 @@ if ($Actualizar) {
     return
 }
 
-# 5) Nombre en el mapa
-if (-not $Nombre) { $Nombre = Read-Host "`n¿Como quieres que se llame tu nodo en el mapa? (sin espacios; vacio = 'nodo')" }
+# 5) Nombre en el mapa. Rupix (15-nov-2026): si ya habia una tarea con nombre, se propone ese
+# nombre por defecto (Enter lo conserva), para no aparecer como un nodo nuevo en el mapa.
+$Previo = ""
+$tareaPrevia = Get-ScheduledTask -TaskName $Tarea -ErrorAction SilentlyContinue
+if ($tareaPrevia) {
+    $argPrev = ($tareaPrevia.Actions | Select-Object -First 1).Arguments
+    if ($argPrev -match '--uacomment=([^ "]+)') { $Previo = $Matches[1] }
+}
+if (-not $Nombre) {
+    if ($Previo) { $Nombre = Read-Host "`n¿Como quieres que se llame tu nodo en el mapa? (Enter = '$Previo', el nombre que ya tenias; sin espacios)" }
+    else { $Nombre = Read-Host "`n¿Como quieres que se llame tu nodo en el mapa? (sin espacios; vacio = 'nodo')" }
+    if (-not $Nombre) { $Nombre = $Previo }
+}
 $Nombre = ($Nombre -replace '[ <>&"/]', '')
 if ($Nombre.Length -gt 32) { $Nombre = $Nombre.Substring(0,32) }
 $UA = ""; if ($Nombre) { $UA = " --uacomment=$Nombre" }
