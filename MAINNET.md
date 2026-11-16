@@ -1,10 +1,43 @@
 # Luz verde para mainnet: qué tiene que ser verdad, y cómo lo verifica cualquiera
 
-**BORRADOR (30-sep-2026, v0.6.2, testnet #4 en su día 30). No está en vigor.** Lo escribió Stevenson para discutirlo con ER; los números, la postura sobre checkpoints en mainnet y la dificultad del día 1 están por decidir. Entra en vigor cuando se quite esta línea.
+**Aprobado por ER el 15-nov-2026 (v0.7.0, testnet #4 en su día 51). Entra en vigor el Día 0, con la testnet #5.** Lo escribió Stevenson el 30-sep como borrador; el 15-nov ER fijó los números (20 nodos / 8 personas, consenso binario, checkpoints de mainnet con retiro escrito, la única excepción de los dos meses) y la sección 0 es el texto público. Las tablas de abajo son el detalle verificable de cada regla.
 
 Rupix no tiene fecha de mainnet. Tiene **criterios**. Cuando todos se cumplan, se declara la luz verde en público (este archivo, la web, GitHub, Reddit, X), y **desde ese día corren dos meses** de aviso antes de que exista el primer bloque de mainnet. La fecha sale de los criterios; nunca al revés. Si durante los dos meses algo deja de cumplirse, el reloj se detiene y se dice por qué.
 
 Esto es lo contrario de lo habitual, y a propósito: nadie se entera de Rupix mainnet por un rumor, nadie llega tarde porque no supo, y nadie, incluido el fundador, tiene ventaja de minuto cero.
+
+---
+
+## 0. Las 17 reglas, en llano (aprobadas por ER el 15-nov-2026; en vigor desde el Día 0, con la testnet #5)
+
+**Testnet #5 es la fase final. Rupix saldrá a mainnet cuando se cumpla TODO esto, y no antes.** No hay fecha: la pone la red cuando cumpla las reglas. Donde dice "medido en 4 semanas" no es un plazo, es la vara: para que "sostenido" no se cumpla con una foto de una tarde.
+
+**Lo que nos toca a nosotros (ER y Claude):**
+1. **Cada regla, escrita y probada.** Cada regla de consenso está en `ESPECIFICACION.md` con el ataque que detiene y el test que lo demuestra. Sin huecos abiertos.
+2. **La versión candidata no toca el consenso.** Si se cambia una sola regla de consenso, la Prueba pública vuelve a empezar desde cero. Es binario: cero cambios o se reinicia.
+3. **Pruebas automáticas en verde**, incluidas las nocturnas, durante toda la Prueba pública, sin excepciones escondidas.
+4. **Binarios que cualquiera puede reproducir**: compilas el código en el sistema declarado y obtienes, byte por byte, lo que publicamos. 4 de 4, siempre.
+5. **Búsqueda automática de fallos (fuzzing)** sobre las piezas críticas, con más de 24 horas acumuladas en cada una y los resultados publicados.
+6. **Operación documentada**: cualquiera levanta un seed siguiendo `OPERACIONES.md`, sin preguntarnos; probado por alguien externo.
+7. **Canal privado para reportar vulnerabilidades**, con tiempos de respuesta públicos (`SECURITY.md`).
+
+**Lo que tiene que pasar en la red (no lo podemos fingir):**
+8. **Al menos 3 seeds** de operadores distintos, en proveedores distintos.
+9. **Al menos 20 nodos ajenos, de al menos 8 personas distintas**, en línea de forma sostenida (medido en 4 semanas seguidas, visible en el mapa). Si vamos en 12, se dice "vamos en 12" y se sigue; la cifra no se baja.
+10. **Más de la mitad de los bloques minados por gente que no somos nosotros**, sostenido (medido en 4 semanas seguidas). Mientras el fundador tenga la mayoría del hashrate, no hay mainnet.
+11. **Tres personas distintas sincronizan desde cero** la versión candidata y obtienen el mismo punto de poda que los seeds.
+12. **Revisión con nombre.** Al menos una persona con identidad pública y reputación verificable lee la especificación, compila, corre las pruebas y publica lo que opina, bueno o malo. Valen revisiones parciales: tres personas que revisen un tercio cada una cuentan como una completa. No se paga ni se regala nada por ello; el único reconocimiento es público y verificable.
+13. **Prueba pública**: invitación abierta a romper la testnet, con cada reporte recibido y su respuesta publicados (medido: al menos 4 semanas con la invitación abierta).
+
+**Lo que prometemos para el día que se cumpla todo:**
+14. **Dos meses de aviso**, con fecha y hora UTC fijas, publicadas el mismo día en todos los canales, y **no se detiene**. Única excepción, escrita aquí de antemano: una vulnerabilidad que ponga fondos en riesgo; si aparece, se dice en público, se arregla, y los dos meses empiezan de nuevo. Pocos nodos, mercado o miedo no detienen nada.
+15. **Génesis publicado al menos dos semanas antes**: sin premine, sin direcciones precargadas, subsidio cero en el bloque 0. Cualquiera lo verifica.
+16. **Parámetros congelados y explicados**: 42,000,000 de techo, 0.5 por bloque, halving cada 42,000,000 de bloques, la escalera de gemas.
+17. **Checkpoints de mainnet, con fin escrito antes de nacer.** Mainnet arranca sin ningún checkpoint en el código. Durante el primer año puede haber checkpoints temporales: uno cada ~30 días de bloques (2,592,000), propuesto en público por cualquiera, y solo entra si lo confirman al menos 2 nodos ajenos; cada lista caduca a los 2 meses. Se sueltan del todo cuando pase lo primero de: el bloque 31,536,000 (un año) o tres meses seguidos con más del 80 % del hashrate fuera del fundador. Soltar es una versión sin ese código, anunciada como cualquier release. Después, nunca más, pase lo que pase.
+
+**Lo que no va a pasar:** no hay fecha hasta que se cumplan las 17. No se regala nada por participar. No se pide dinero ni seeds a nadie. Nadie puede congelar ni revertir fondos, ni nosotros. Si algo de esto cambia, se escribe con fecha en este archivo antes que en cualquier otro lado.
+
+*No confíes, verifica. ER y Claude.*
 
 ---
 
@@ -20,13 +53,13 @@ Cada criterio dice qué tiene que ser verdad, con número, y **cómo lo comprueb
 | C2 | **Fuzzing** de `topes.Cabe`, `CalculateGemsCommitment`, RupixHeavyHash/`computeRank` y el parseo de `MsgPruningPoints`, con corpus en el repo y **≥ 24 horas acumuladas por objetivo sin fallo**. | `go test -fuzz=<Objetivo>` con el corpus de `testdata/fuzz/`; el registro de horas en `ESPECIFICACION.md`. | Casi: 28 h en `Cabe`, `CalculateGemsCommitment`, `GenerateMatrix` y `ComputeRank`; 26 en `MsgPruningPoints`; 24 en `CheckLevelRules`; **22 en `KaspadMessage`** (noche #9 terminada el 25-oct, 0 fallos). Falta una corrida de ≥ 2 h de `KaspadMessage`. |
 | C3 | **CI en verde** (`Tests` y `race` nocturno) sobre `main` durante las **4 semanas** previas a la luz verde, sin excepciones silenciadas. | Pestaña Actions del repo; `.github/workflows/`. | Verde desde el 30-sep; el reloj de 4 semanas se cuenta desde el último cambio de consenso (v0.6.2, 30-sep) y se reinicia si hay otro. |
 | C4 | **Binarios reproducibles** en cada release etiquetada: 4 de 4 SHA256 iguales, contra un **sistema declarado y fijo** (Linux: Ubuntu 24.04 + Go 1.26.6 + gcc 13.x; `go-secp256k1` y `go-muhash` son C, así que el enlazador del sistema entra al binario). Pendiente (v0.7.x): contenedor con imagen fijada por digest. | `tools/verificar-binarios.sh vX.Y.Z` en Ubuntu 24.04 con Go 1.26.6 (exige ambos). | v0.6.1–v0.6.6: 4/4 (con `ubuntu-latest`, que entonces era 24.04); **v0.6.7: 4/4 DIFIERE** (runner pasó a GCC 15.2); v0.6.8 no compiló; v0.6.9 fija el sistema; **v0.7.0: 4/4 IGUAL** (14-nov-2026). |
-| C5 | **Sin cambios de consenso** en las **6 semanas** previas a la luz verde. Si hay uno, el reloj de C5 vuelve a cero (y C3 también). | `CHANGELOG.md`: ninguna entrada marcada *cambio de consenso* en ese periodo. | Último: v0.6.2 (30-sep). Reloj corre desde ahí. |
+| C5 | **Cero cambios de consenso en la versión candidata.** Si se cambia una sola regla de consenso, la Prueba pública (R3) vuelve a empezar desde cero. Binario, sin ventanas (ER, 15-nov-2026). | `CHANGELOG.md`: ninguna entrada marcada *cambio de consenso* en ese periodo. | Último: v0.6.2 (30-sep). Reloj corre desde ahí. |
 
 ### Revisión externa
 
 | # | Qué tiene que ser verdad | Cómo se verifica | Estado al 30-sep |
 |---|---|---|---|
-| R1 | **Revisor con nombre**: al menos una persona con identidad pública y reputación verificable que haya leído `ESPECIFICACION.md`, compilado, corrido la suite y publicado su revisión **con su nombre**, sin hallazgos bloqueantes abiertos. | Enlace a su revisión pública desde el README; los hallazgos y su cierre en `CHANGELOG.md`. | Pendiente. El auditor actual es anónimo (su trabajo cuenta, su firma no basta); se le pidió aceptar su nombre o seudónimo firmado (mensaje redactado el 17-oct, envío pendiente de ER). |
+| R1 | **Revisor con nombre**: al menos una persona con identidad pública y reputación verificable que haya leído `ESPECIFICACION.md`, compilado, corrido la suite y publicado su revisión **con su nombre**, sin hallazgos bloqueantes abiertos. Valen revisiones parciales: tres personas que revisen un tercio cada una cuentan como una completa. Nada se paga ni se regala por ello (ER, 15-nov-2026). | Enlace a su revisión pública desde el README; los hallazgos y su cierre en `CHANGELOG.md`. | Pendiente. El auditor actual es anónimo (su trabajo cuenta, su firma no basta); se le pidió aceptar su nombre o seudónimo firmado (mensaje redactado el 17-oct, envío pendiente de ER). |
 | R2 | **Reporte privado de vulnerabilidades** activo en GitHub y `SECURITY.md` con tiempos de respuesta públicos. | Pestaña Security del repo. | **Cumplido el 7-oct-2026**: Private vulnerability reporting activado por ER (la pestaña Security muestra "Report a vulnerability"); `SECURITY.md` ya existía. |
 | R3 | **Periodo de "rómpelo"**: ≥ 4 semanas con la invitación pública abierta (Reddit, X) a atacar la testnet, con los reportes recibidos y su respuesta publicados. | Hilo público + `LOGROS.md`. | Pendiente. Nombre público acordado el 1-nov: **«Prueba pública»** (4 semanas), dentro del **Día 0 del camino a mainnet**; se abre cuando la v0.7.0 (mejoras para el usuario) esté publicada. Reportes: pestaña Security (privado) o Issues (público); cada reporte y su respuesta se publicarán en `LOGROS.md`. |
 
@@ -35,7 +68,7 @@ Cada criterio dice qué tiene que ser verdad, con número, y **cómo lo comprueb
 | # | Qué tiene que ser verdad | Cómo se verifica | Estado al 30-sep |
 |---|---|---|---|
 | N1 | **Al menos 3 seeds** independientes (distinto operador, distinto proveedor), en la lista de `DNSSeeds`/seeds del código. | `domain/dagconfig/params.go`; `rupixctl GetConnectedPeerInfo` desde un nodo nuevo. | 1 seed (Núremberg, Hetzner). El 2.º se pospuso el 28-oct por costo; **compromiso de ER (1-nov): se paga en EE. UU. al publicar v0.7.0** (Contabo, otro proveedor, ~$6.5/mes). El 3.º debe ser de otro operador. |
-| N2 | **≥ 10 nodos externos** sincronizados y en línea de forma sostenida (≥ 4 semanas), de **≥ 5 operadores** distintos. | Conteo de peers desde los seeds, publicado semanalmente en `LOGROS.md`. | 3 externos en el libro de nodos (JC #2 intermitente desde Windows; nodo #3 anónimo, 12 min el 24-oct; JP antes de v0.6.0). Ninguno sostenido 4 semanas. |
+| N2 | **≥ 20 nodos externos**, de **≥ 8 operadores** distintos, sincronizados y en línea de forma sostenida (medido: 4 semanas seguidas, visible en el mapa). La cifra no se baja nunca (ER, 15-nov-2026: antes decía 10/5). | Conteo de peers desde los seeds, publicado semanalmente en `LOGROS.md`. | 3 externos en el libro de nodos (JC #2 intermitente desde Windows; nodo #3 anónimo, 12 min el 24-oct; JP antes de v0.6.0). Ninguno sostenido 4 semanas. |
 | N3 | **Hashrate externo sostenido**: ≥ 50 % de los bloques minados por nodos que no son del fundador durante ≥ 4 semanas. | `tools/` (script de reparto de coinbase por dirección, pendiente de escribir) sobre el nodo de cualquiera. | JC llegó a ~40 % un día; no sostenido. |
 | N4 | **Sincronización desde cero** verificada por ≥ 3 personas distintas en v-final, con el mismo `pruningPointHash` que los seeds. | Sus salidas en `LOGROS.md`. | 2 (JP en v0.5.0; JC en v0.6.6 el 19-oct-2026, mismo `pruningPointHash` que el seed, confirmó el checkpoint #3 antes de publicarse). La sincronización de ER desde Windows (14-nov-2026, nodo #5) no cuenta: misma persona. Falta repetir en la versión final. |
 | N5 | **Operación documentada** para que un tercero levante un seed sin preguntarnos: `OPERACIONES.md` probado por alguien externo. | Testimonio en `LOGROS.md`. | Documento existe; no probado por externo. |
@@ -46,8 +79,8 @@ Cada criterio dice qué tiene que ser verdad, con número, y **cómo lo comprueb
 |---|---|---|---|
 | E1 | **Génesis de mainnet publicado con ≥ 2 semanas de anticipación** a la fecha: hash, subsidio **0**, sin premine, sin direcciones precargadas. | El bloque génesis en el código, byte por byte; `TestGenesis*`. | Pendiente (se hace dentro de los dos meses). |
 | E2 | **Parámetros de mainnet congelados** y explicados en `matematica.html`/`ESPECIFICACION.md`: 42,000,000 de techo, 0.5 por bloque, halving cada 42,000,000 de bloques, escalera por halving, topes 2,100,000/210,000/21,000/2,100. | `domain/dagconfig/params.go` (`MainnetParams`) y `TestTotalSupply`. | Definidos; falta congelarlos con el génesis. |
-| E3 | **Checkpoints de mainnet**: política publicada antes del lanzamiento (si habrá, cuántos, cuándo caducan, quién puede proponerlos). Hoy la postura es: **sin checkpoints en el génesis**; solo si la red los necesita y siempre con caducidad. | `CHECKPOINTS.md`. | Postura escrita aquí; falta la política formal. |
-| E4 | **Dos meses de aviso**, día por día, desde la luz verde hasta el bloque 1, con la fecha y hora UTC fijas publicadas en todos los canales el mismo día. | Este archivo, con la fecha. | — |
+| E3 | **Checkpoints de mainnet, con fin escrito antes de nacer**: mainnet arranca sin ninguno en el código; durante el primer año puede haber temporales, uno cada ~30 días de bloques (2,592,000), propuesto en público por cualquiera y solo si lo confirman ≥ 2 nodos ajenos, cada lista caduca a los 2 meses; se sueltan del todo al bloque 31,536,000 (un año) o tras tres meses seguidos con > 80 % del hashrate fuera del fundador, lo primero; después, nunca más. | `CHECKPOINTS.md` (política) y el código de cada release. | Política fijada por ER el 15-nov-2026 (sección 0, regla 17). |
+| E4 | **Dos meses de aviso**, día por día, desde la luz verde hasta el bloque 1, con la fecha y hora UTC fijas publicadas en todos los canales el mismo día, y **sin detenerse**: única excepción, una vulnerabilidad que ponga fondos en riesgo (se dice en público, se arregla y los dos meses empiezan de nuevo). | Este archivo, con la fecha. | Excepción única fijada por ER el 15-nov-2026. |
 
 ---
 

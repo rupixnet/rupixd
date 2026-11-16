@@ -19,6 +19,8 @@ Esto no es una lección de un día; es la forma de trabajar, y se relee antes de
 
 5. **Ningún plazo depende de una persona.** (10-nov-2026) La lista de checkpoints caducó con el #4 sin publicar porque el aviso vivía en un chat y pasaron cinco días sin abrirlo. Todo plazo de la red lo vigila el propio nodo (lo escribe en su log) y una tarea automática externa; una persona es el respaldo, nunca el mecanismo. Cuando algo así pasa, lo correcto no es disculparse: es decir el hecho con fecha, arreglar la causa y cerrar el hueco rápido.
 
+6. **Sin comparaciones con Bitcoin.** (ER, 15-nov-2026) Rupix no se mide contra Bitcoin en ningún texto; si se nombra, con respeto y como agradecimiento. Compararse con otras redes (Kaspa, de donde venimos, sobre todo) sí vale cuando aporta.
+
 Compromiso de ER (1-nov-2026): **al publicar v0.7.0 se paga el seed 2 en EE. UU.** y él mismo busca gente que mantenga Rupix encendido.
 
 ## Índice
