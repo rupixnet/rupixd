@@ -323,6 +323,9 @@ var TestnetParams = Params{
 	DNSSeeds: []string{
 		// Seed oficial Rupix
 		"seed.rupix.network",
+		// Rupix (23-nov-2026): la IP del seed 1 como respaldo por si el dominio
+		// cae; net.LookupIP la devuelve tal cual. Los seeds 2 y 3 (otras personas) se suman aqui.
+		"178.104.69.148",
 	},
 
 	// DAG parameters

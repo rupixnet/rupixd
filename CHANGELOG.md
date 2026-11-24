@@ -8,6 +8,9 @@ Formato: [versión] - fecha - descripción técnica
 
 ## [Sin publicar] — hacia v0.7.1
 
+- **La IP del seed 1 como respaldo del DNS** en `TestnetParams.DNSSeeds` (23-nov): si `rupix.network` cayera, un nodo nuevo igual encuentra la red. El texto de la skill `rupix-reglas` queda en `tools/rupix-reglas.SKILL.md` para que cualquiera la copie.
+- **Regla 12 bajada** (23-nov, ER): de «revisor con nombre obligatorio» a «revisión abierta: cada hallazgo publicado con su respuesta». Las 17 reglas quedan en una sola lista en `MAINNET.md` §0.
+
 - **Muro de nodos** (15-nov; idea de JC, nodo #2): un chat donde solo hablan los nodos y que se borra solo. El nodo gana `--mensaje="texto"`: hasta 15 caracteres, solo letras (con acentos), números y espacios (sin enlaces ni símbolos; el nodo lo rechaza antes de salir); viaja en el saludo de la red como comentario `~texto`, igual que el nombre. El explorador lo publica en `/api/muro` y en un panel del mapa con estas reglas: solo nodos con ≥ 24 h de historia en el libro, un texto nuevo por hora, cada mensaje vive 24 h desde que se vio y desaparece (repetirlo no lo revive), sin moderador y sin archivo (solo memoria; nunca en `libro.json`). `TestValidarMensaje`, `TestMuro`, casos nuevos en `TestPartirUserAgent`.
 - **El instalador recuerda el nombre** (15-nov): si ya había un servicio (Linux) o una tarea (Windows) con `--uacomment`, propone ese nombre por defecto; Enter lo conserva. Evita aparecer como nodo nuevo al reinstalar (le pasó al nodo #2 el 4-nov). `tools/instalar-nodo_test.sh`.
 

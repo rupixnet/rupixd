@@ -8,11 +8,10 @@ Esto es lo contrario de lo habitual, y a propósito: nadie se entera de Rupix ma
 
 ---
 
-## 0. Las 17 reglas, en llano (aprobadas por ER el 15-nov-2026; en vigor desde el Día 0, con la testnet #5)
+## 0. Las 17 reglas, en llano (aprobadas por ER el 15-nov-2026, regla 12 bajada el 23-nov; en vigor desde el Día 0, con la testnet #5)
 
-**Testnet #5 es la fase final. Rupix saldrá a mainnet cuando se cumpla TODO esto, y no antes.** No hay fecha: la pone la red cuando cumpla las reglas. Donde dice "medido en 4 semanas" no es un plazo, es la vara: para que "sostenido" no se cumpla con una foto de una tarde.
+**Testnet #5 es la fase final. Rupix saldrá a mainnet cuando se cumpla TODO esto, y no antes.** No hay fecha: la pone la red cuando cumpla las reglas. Las 17 van en una sola lista: las primeras siete dependen de nosotros, de la 8 a la 13 de la red, y de la 14 a la 17 son promesas para el día que todo se cumpla. Donde dice "medido en 4 semanas" no es un plazo, es la vara: para que "sostenido" no se cumpla con una foto de una tarde.
 
-**Lo que nos toca a nosotros (ER y Claude):**
 1. **Cada regla, escrita y probada.** Cada regla de consenso está en `ESPECIFICACION.md` con el ataque que detiene y el test que lo demuestra. Sin huecos abiertos.
 2. **La versión candidata no toca el consenso.** Si se cambia una sola regla de consenso, la Prueba pública vuelve a empezar desde cero. Es binario: cero cambios o se reinicia.
 3. **Pruebas automáticas en verde**, incluidas las nocturnas, durante toda la Prueba pública, sin excepciones escondidas.
@@ -21,15 +20,13 @@ Esto es lo contrario de lo habitual, y a propósito: nadie se entera de Rupix ma
 6. **Operación documentada**: cualquiera levanta un seed siguiendo `OPERACIONES.md`, sin preguntarnos; probado por alguien externo.
 7. **Canal privado para reportar vulnerabilidades**, con tiempos de respuesta públicos (`SECURITY.md`).
 
-**Lo que tiene que pasar en la red (no lo podemos fingir):**
 8. **Al menos 3 seeds** de operadores distintos, en proveedores distintos.
 9. **Al menos 20 nodos ajenos, de al menos 8 personas distintas**, en línea de forma sostenida (medido en 4 semanas seguidas, visible en el mapa). Si vamos en 12, se dice "vamos en 12" y se sigue; la cifra no se baja.
 10. **Más de la mitad de los bloques minados por gente que no somos nosotros**, sostenido (medido en 4 semanas seguidas). Mientras el fundador tenga la mayoría del hashrate, no hay mainnet.
 11. **Tres personas distintas sincronizan desde cero** la versión candidata y obtienen el mismo punto de poda que los seeds.
-12. **Revisión con nombre.** Al menos una persona con identidad pública y reputación verificable lee la especificación, compila, corre las pruebas y publica lo que opina, bueno o malo. Valen revisiones parciales: tres personas que revisen un tercio cada una cuentan como una completa. No se paga ni se regala nada por ello; el único reconocimiento es público y verificable.
+12. **Revisión abierta.** La especificación está publicada para que cualquiera la lea, compile y corra las pruebas durante toda la Prueba pública; cada hallazgo recibido, de quien sea, se publica con su respuesta. Si una persona con nombre y reputación pública publica su revisión, se enlaza desde el README. No se paga ni se regala nada por ello; el único reconocimiento es público y verificable. (El 23-nov-2026 ER bajó esta regla de «revisor con nombre obligatorio» a «revisión abierta»: un requisito que no depende de nadie no puede bloquear mainnet para siempre; la puerta sigue abierta.)
 13. **Prueba pública**: invitación abierta a romper la testnet, con cada reporte recibido y su respuesta publicados (medido: al menos 4 semanas con la invitación abierta).
 
-**Lo que prometemos para el día que se cumpla todo:**
 14. **Dos meses de aviso**, con fecha y hora UTC fijas, publicadas el mismo día en todos los canales, y **no se detiene**. Única excepción, escrita aquí de antemano: una vulnerabilidad que ponga fondos en riesgo; si aparece, se dice en público, se arregla, y los dos meses empiezan de nuevo. Pocos nodos, mercado o miedo no detienen nada.
 15. **Génesis publicado al menos dos semanas antes**: sin premine, sin direcciones precargadas, subsidio cero en el bloque 0. Cualquiera lo verifica.
 16. **Parámetros congelados y explicados**: 42,000,000 de techo, 0.5 por bloque, halving cada 42,000,000 de bloques, la escalera de gemas.
@@ -59,7 +56,7 @@ Cada criterio dice qué tiene que ser verdad, con número, y **cómo lo comprueb
 
 | # | Qué tiene que ser verdad | Cómo se verifica | Estado al 30-sep |
 |---|---|---|---|
-| R1 | **Revisor con nombre**: al menos una persona con identidad pública y reputación verificable que haya leído `ESPECIFICACION.md`, compilado, corrido la suite y publicado su revisión **con su nombre**, sin hallazgos bloqueantes abiertos. Valen revisiones parciales: tres personas que revisen un tercio cada una cuentan como una completa. Nada se paga ni se regala por ello (ER, 15-nov-2026). | Enlace a su revisión pública desde el README; los hallazgos y su cierre en `CHANGELOG.md`. | Pendiente. El auditor actual es anónimo (su trabajo cuenta, su firma no basta); se le pidió aceptar su nombre o seudónimo firmado (mensaje redactado el 17-oct, envío pendiente de ER). |
+| R1 | **Revisión abierta** (bajada el 23-nov-2026 de «revisor con nombre obligatorio»): la especificación publicada para que cualquiera la lea, compile y corra la suite durante toda la Prueba pública; cada hallazgo, de quien sea, publicado con su respuesta. Si una persona con nombre y reputación pública publica su revisión, se enlaza desde el README. Nada se paga ni se regala. | Discussions/issues públicos + `CHANGELOG.md` con cada hallazgo y su cierre; enlace a revisiones con nombre desde el README. | Bajada por ER el 23-nov-2026: un requisito que no depende de nadie no puede bloquear mainnet para siempre; la puerta sigue abierta. |
 | R2 | **Reporte privado de vulnerabilidades** activo en GitHub y `SECURITY.md` con tiempos de respuesta públicos. | Pestaña Security del repo. | **Cumplido el 7-oct-2026**: Private vulnerability reporting activado por ER (la pestaña Security muestra "Report a vulnerability"); `SECURITY.md` ya existía. |
 | R3 | **Periodo de "rómpelo"**: ≥ 4 semanas con la invitación pública abierta (Reddit, X) a atacar la testnet, con los reportes recibidos y su respuesta publicados. | Hilo público + `LOGROS.md`. | Pendiente. Nombre público acordado el 1-nov: **«Prueba pública»** (4 semanas), dentro del **Día 0 del camino a mainnet**; se abre cuando la v0.7.0 (mejoras para el usuario) esté publicada. Reportes: pestaña Security (privado) o Issues (público); cada reporte y su respuesta se publicarán en `LOGROS.md`. |
 
