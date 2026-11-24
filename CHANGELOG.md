@@ -9,6 +9,7 @@ Formato: [versión] - fecha - descripción técnica
 ## [Sin publicar] — hacia v0.7.1
 
 - **La IP del seed 1 como respaldo del DNS** en `TestnetParams.DNSSeeds` (23-nov): si `rupix.network` cayera, un nodo nuevo igual encuentra la red. El texto de la skill `rupix-reglas` queda en `tools/rupix-reglas.SKILL.md` para que cualquiera la copie.
+- **«Cómo cambia Rupix»** (23-nov): `MAINNET.md` §3b, la regla para cambiar las reglas: un cambio de consenso solo entra por propuesta pública con el problema que resuelve + test + dos meses de aviso + confirmación de ≥ 2 nodos ajenos + versión reproducible; ninguna persona es excepción, con llaves o sin ellas.
 - **Regla 12 bajada** (23-nov, ER): de «revisor con nombre obligatorio» a «revisión abierta: cada hallazgo publicado con su respuesta». Las 17 reglas quedan en una sola lista en `MAINNET.md` §0.
 
 - **Muro de nodos** (15-nov; idea de JC, nodo #2): un chat donde solo hablan los nodos y que se borra solo. El nodo gana `--mensaje="texto"`: hasta 15 caracteres, solo letras (con acentos), números y espacios (sin enlaces ni símbolos; el nodo lo rechaza antes de salir); viaja en el saludo de la red como comentario `~texto`, igual que el nombre. El explorador lo publica en `/api/muro` y en un panel del mapa con estas reglas: solo nodos con ≥ 24 h de historia en el libro, un texto nuevo por hora, cada mensaje vive 24 h desde que se vio y desaparece (repetirlo no lo revive), sin moderador y sin archivo (solo memoria; nunca en `libro.json`). `TestValidarMensaje`, `TestMuro`, casos nuevos en `TestPartirUserAgent`.

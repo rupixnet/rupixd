@@ -101,6 +101,24 @@ Todo lo que Rupix escribe (la especificación con cada regla y su test, los buil
 3. Durante los dos meses: génesis publicado (E1), versión final etiquetada y reproducible (C4), guías de minado y de nodo para mainnet, al menos un ensayo público de "día 1" en una devnet con la misma versión.
 4. Si algo deja de cumplirse (un hallazgo bloqueante, un cambio de consenso, un seed caído sin reemplazo), el reloj se detiene, se explica en este archivo y se reanuda cuando vuelva a cumplirse. Preferimos un retraso explicado a un lanzamiento con asterisco.
 
+## 3b. Cómo cambia Rupix (la regla para cambiar las reglas; escrita el 23-nov-2026)
+
+Las 17 reglas dicen cómo se abre mainnet. Esta sección dice cómo puede cambiar Rupix **después**, para que la respuesta nunca sea «quien tenga las llaves de GitHub».
+
+Un cambio de **consenso** (reglas de validez de bloques y transacciones, emisión, halvings, techo, escalera de gemas, quema por transacción, checkpoints) solo entra así, y en este orden:
+
+1. **Propuesta pública** (issue en el repo) con el problema o ataque que resuelve, escrito para que lo entienda alguien que no programa.
+2. **Test** que demuestra el problema antes del cambio y su ausencia después, en el repo, en la misma propuesta.
+3. **Dos meses de aviso** desde que la propuesta se declara aceptada hasta que entra en vigor, publicados el mismo día en todos los canales, con la altura de bloque o el DAA de activación.
+4. **Confirmación de al menos 2 nodos ajenos** en testnet con la versión que lo trae, antes de etiquetarla para mainnet.
+5. **Versión etiquetada y reproducible** (4 de 4), con el cambio descrito en `CHANGELOG.md`, `ESPECIFICACION.md` y en las notas del release.
+
+**Ninguna persona es excepción**: ni el fundador, ni quien herede las llaves, ni quien tenga más hashrate o más monedas. Tener las llaves de GitHub da el poder de publicar, no el de saltarse esto. Una versión que cambie consenso sin este camino no es «una actualización de Rupix»: es otra moneda, y cualquiera puede señalarlo contra este documento; los nodos que verifiquen no la seguirán.
+
+Lo que **no** es consenso (explorador, wallet, web, instaladores, mapa) cambia con el procedimiento normal: test, `CHANGELOG.md`, release. Y lo que nunca cambia, pase lo que pase y cambien las manos que cambien: nada se regala ni se paga por participar; nunca se pide dinero ni seeds; nunca se publica ni se guarda la IP de un usuario; nadie puede congelar ni revertir fondos; todo cambio se escribe con fecha antes de hacerse.
+
+---
+
 ## 4. Qué pasa el día 1
 
 - Bloque 1 a la hora anunciada. Nadie mina antes: el génesis fija el tiempo y la dificultad inicial se calibra para que las primeras horas no regalen la emisión a quien tenga más máquinas listas (se documenta en E2).
